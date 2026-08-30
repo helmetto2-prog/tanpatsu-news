@@ -7,7 +7,7 @@ body{background:#2E3A28;color:#EAF0E2;font-family:"Yu Gothic UI","Meiryo",sans-s
 h1{font-size:19px;font-weight:700;color:#C7E0A8;margin-bottom:10px;text-align:center}
 #stage{position:relative;width:min(92vw,430px)}
 .pg{display:none}.pg.on{display:block}
-.pg img{width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:block}
+.pg img{width:100%;cursor:pointer;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:block}
 #bar{display:flex;align-items:center;gap:14px;margin-top:14px}
 button{background:#6FA84B;color:#fff;border:0;border-radius:999px;width:56px;height:56px;
        font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)}
@@ -44,8 +44,13 @@ function go(i){cur=Math.max(0,Math.min(pgs.length-1,i));
 document.getElementById('prev').onclick=()=>go(cur-1);
 document.getElementById('next').onclick=()=>go(cur+1);
 document.onkeydown=e=>{if(e.key==='ArrowLeft')go(cur-1);if(e.key==='ArrowRight')go(cur+1)};
-let sx=0;document.getElementById('stage').addEventListener('touchstart',e=>sx=e.touches[0].clientX);
-document.getElementById('stage').addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;
-  if(d<-40)go(cur+1);if(d>40)go(cur-1)});
+const stage=document.getElementById('stage');
+let sx=0,swipedAt=0;
+stage.addEventListener('touchstart',e=>sx=e.touches[0].clientX);
+stage.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;
+  if(d<-40){swipedAt=Date.now();go(cur+1)}else if(d>40){swipedAt=Date.now();go(cur-1)}});
+stage.addEventListener('click',e=>{if(Date.now()-swipedAt<600)return;
+  const r=stage.getBoundingClientRect();
+  if((e.clientX-r.left)/r.width<0.22)go(cur-1);else go(cur+1)});
 go(0);
 </script></body></html>
