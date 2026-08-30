@@ -281,5 +281,22 @@
   show(0);
 })();
 </script>
+<style>/* PAGENO-SYNC-v2 ページ番号とドットが重ならないように */
+  .pageno{ padding-bottom:14px !important; }
+  #dots{ bottom:3px !important; }
+</style>
+<script>
+/* PAGENO-SYNC-v2 ページ番号を「n / N」に統一（表紙＝1）。ドットの位置と必ず一致する */
+(function(){
+  var ps = document.querySelectorAll('.page'), N = ps.length;
+  for (var i=0; i<N; i++){
+    var e = ps[i].querySelector('.pageno');
+    if(!e){ e = document.createElement('div'); e.className='pageno'; ps[i].appendChild(e); }
+    var t = e.textContent.replace(/^[\s\u2014-]*/,'').replace(/[\s\u2014-]*$/,'')
+                         .replace(/^\d+\s*[\/\uFF0F]?\s*\d*\s*/,'');
+    e.textContent = '\u2014 ' + (i+1) + ' / ' + N + (t ? '\u3000' + t : '') + ' \u2014';
+  }
+})();
+</script>
 </body>
 </html>
