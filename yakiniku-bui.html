@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🍖 焼肉の部位ずかん ─ うしのモーちゃんが案内します</title>
+<meta name="description" content="かわいい牛の絵で焼肉の部位がまるわかり。タン・ミスジ・カルビ・ハラミ・ホルモンまで、食感と味とおすすめの焼き方をやさしく解説。">
+<style>
+  :root{
+    --bg:#fdf5e9; --card:#fffdf8; --ink:#3a2a22; --sub:#8a7566;
+    --accent:#c0492f; --accent2:#e08a3c; --line:#e6d8c3; --hi:#ffd66b;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body{
+    background:
+      radial-gradient(circle at 10% 0%, #fff6e2 0%, transparent 45%),
+      radial-gradient(circle at 90% 10%, #ffeede 0%, transparent 40%),
+      var(--bg);
+    color:var(--ink); min-height:100vh; line-height:1.85;
+    font-family:"Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+    padding:20px 12px 70px;
+  }
+  .wrap{ max-width:820px; margin:0 auto; }
+
+  header{ text-align:center; margin-bottom:14px; }
+  h1{ font-size:clamp(21px,5.6vw,31px); color:var(--accent); letter-spacing:.04em; }
+  h1 small{ display:block; font-size:10.5px; color:var(--sub); letter-spacing:.3em; margin-bottom:6px; font-weight:normal; }
+  .lead{ font-size:12.5px; color:var(--sub); margin-top:8px; }
+
+  /* みどりくんのふきだし */
+  .guide{ display:flex; align-items:flex-end; gap:10px; max-width:640px; margin:14px auto 6px; }
+  .guide svg{ flex:0 0 76px; width:76px; height:76px; }
+  .bubble{
+    position:relative; background:#fff; border:2px solid var(--line); border-radius:16px;
+    padding:11px 14px; font-size:13px; box-shadow:0 3px 10px rgba(120,90,60,.10); flex:1;
+  }
+  .bubble::before{
+    content:""; position:absolute; left:-9px; bottom:16px; width:0; height:0;
+    border:9px solid transparent; border-right-color:var(--line); border-left:0;
+  }
+  .bubble::after{
+    content:""; position:absolute; left:-6px; bottom:16px; width:0; height:0;
+    border:9px solid transparent; border-right-color:#fff; border-left:0;
+  }
+
+  /* 牛の図 */
+  .cowbox{
+    background:var(--card); border:2px solid var(--line); border-radius:20px;
+    padding:8px 6px 4px; box-shadow:0 4px 16px rgba(120,90,60,.10); margin-top:12px;
+  }
+  .cowbox svg{ width:100%; height:auto; display:block; touch-action:manipulation; }
+  .hint{ text-align:center; font-size:11.5px; color:var(--sub); padding:2px 6px 8px; }
+
+  .region{ cursor:pointer; transition:opacity .15s, transform .15s; transform-origin:center; }
+  .region .fill{ stroke:#fff; stroke-width:2.5; opacity:.82; }
+  .region:hover .fill{ opacity:1; }
+  .region.on .fill{ opacity:1; stroke:#5c3b28; stroke-width:4; }
+  .region text{ font-size:16px; font-weight:bold; fill:#4a3226; pointer-events:none;
+                paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
+  .cowline{ fill:none; stroke:#5c3b28; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* 説明パネル */
+  #panel{
+    margin-top:14px; background:var(--card); border:2px solid var(--accent); border-radius:18px;
+    padding:16px 18px; box-shadow:0 4px 16px rgba(192,73,47,.14);
+  }
+  #panel .pname{ font-size:20px; font-weight:bold; color:var(--accent); }
+  #panel .pkana{ font-size:11.5px; color:var(--sub); letter-spacing:.14em; }
+  #panel .prow{ display:flex; gap:8px; margin-top:9px; font-size:13.5px; }
+  #panel .plabel{
+    flex:0 0 4.6em; background:var(--hi); border-radius:8px; text-align:center;
+    font-size:12px; font-weight:bold; color:#6b4b12; height:1.9em; line-height:1.9em;
+  }
+  #panel .ptext{ flex:1; }
+
+  h2{
+    font-size:17px; color:var(--accent); margin:30px 0 10px;
+    border-bottom:2px dotted var(--line); padding-bottom:5px;
+  }
+  h2 span{ font-size:12px; color:var(--sub); font-weight:normal; }
+
+  .cards{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px;
+    box-shadow:0 2px 8px rgba(120,90,60,.07);
+  }
+  .card .cname{ font-size:15.5px; font-weight:bold; color:var(--accent); }
+  .card .ctag{
+    display:inline-block; font-size:10.5px; background:#f2e7d5; color:#7a624a;
+    border-radius:20px; padding:1px 9px; margin-left:6px; vertical-align:2px;
+  }
+  .card .ctxt{ font-size:12.5px; margin-top:4px; }
+  .card .ctxt b{ color:#8a5a2b; }
+
+  ol.tips{ padding-left:1.3em; }
+  ol.tips li{ font-size:13.5px; margin-bottom:7px; }
+  .warn{
+    background:#fff2ef; border:2px solid #f0b3a5; border-radius:14px;
+    padding:12px 15px; font-size:13px; margin-top:10px;
+  }
+  .warn b{ color:var(--accent); }
+
+  .order{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:13px; margin-top:4px; }
+  .order .step{
+    background:#fff; border:2px solid var(--accent2); border-radius:20px;
+    padding:3px 12px; font-weight:bold; color:#a35b1c;
+  }
+  .order .arw{ color:var(--sub); }
+
+  footer{ text-align:center; margin-top:36px; font-size:10.5px; color:#b0a08c; line-height:1.9; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><small>YAKINIKU PARTS GUIDE</small>🍖 焼肉の部位ずかん</h1>
+  <div class="lead">牛のどこがどのお肉か、絵で見てわかる。<br>タップ（クリック）すると、味と焼き方の説明が出ます。</div>
+</header>
+
+<div class="guide">
+  <!-- みどりくん（緑のゾウ） -->
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <ellipse cx="50" cy="88" rx="30" ry="6" fill="#000" opacity=".07"/>
+    <ellipse cx="24" cy="46" rx="15" ry="19" fill="#7ec87e"/>
+    <ellipse cx="76" cy="46" rx="15" ry="19" fill="#7ec87e"/>
+    <ellipse cx="50" cy="48" rx="27" ry="26" fill="#8fd68f"/>
+    <path d="M50 62 q3 16 -3 22 q-2 3 -6 1" fill="none" stroke="#8fd68f" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="40" cy="44" r="4.2" fill="#3a4a33"/><circle cx="61" cy="44" r="4.2" fill="#3a4a33"/>
+    <circle cx="41.4" cy="42.6" r="1.5" fill="#fff"/><circle cx="62.4" cy="42.6" r="1.5" fill="#fff"/>
+    <ellipse cx="31" cy="53" rx="5" ry="3.4" fill="#f6a8a8" opacity=".75"/>
+    <ellipse cx="70" cy="53" rx="5" ry="3.4" fill="#f6a8a8" opacity=".75"/>
+    <path d="M44 55 q6 5 12 0" fill="none" stroke="#3a4a33" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M62 20 q6 -9 13 -5" fill="none" stroke="#5ea85e" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="77" cy="13" rx="7" ry="4.5" fill="#a5e0a5" transform="rotate(-20 77 13)"/>
+  </svg>
+  <div class="bubble">
+    こんにちは、みどりくんです。<br>
+    焼肉って、同じ牛でも<b>場所によって味も焼き方もぜんぜん違う</b>んです。<br>
+    今日は<b>うしのモーちゃん</b>に体を貸してもらって、部位を案内しますね。
+  </div>
+</div>
+
+<div class="cowbox">
+  <svg viewBox="0 0 960 560" role="img" aria-label="牛の部位図">
+    <!-- 背景の草 -->
+    <ellipse cx="480" cy="520" rx="420" ry="26" fill="#e9dcc4"/>
+
+    <!-- しっぽ -->
+    <g class="region" data-key="tail">
+      <path d="M790 200 q52 34 44 106 q-3 24 -18 40" style="fill:none;stroke:#c9a172;stroke-width:13;stroke-linecap:round"/>
+      <ellipse class="fill" cx="810" cy="352" rx="15" ry="22" fill="#a87a48"/>
+    </g>
+
+    <!-- 脚 -->
+    <path class="cowline" d="M300 400 v92 M366 400 v92 M660 400 v92 M726 400 v92"/>
+    <rect x="288" y="484" width="26" height="20" rx="7" fill="#5c3b28"/>
+    <rect x="354" y="484" width="26" height="20" rx="7" fill="#5c3b28"/>
+    <rect x="648" y="484" width="26" height="20" rx="7" fill="#5c3b28"/>
+    <rect x="714" y="484" width="26" height="20" rx="7" fill="#5c3b28"/>
+
+    <!-- 胴体のベース -->
+    <path d="M250 250 q0 -110 120 -112 h300 q140 2 145 118 q5 116 -20 148 q-30 38 -145 38 h-260 q-110 0 -132 -44 q-14 -60 -8 -148 z"
+          fill="#f6ecd8"/>
+
+    <!-- 頭 -->
+    <g>
+      <!-- 角（頭より先に描いて頭のうしろから生やす） -->
+      <path d="M116 234 q-10 -26 4 -38 q10 14 12 36 z" fill="#dcc49c" stroke="#5c3b28" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M188 236 q10 -26 26 -32 q-8 16 -8 34 z" fill="#dcc49c" stroke="#5c3b28" stroke-width="3.5" stroke-linejoin="round"/>
+      <!-- 耳 -->
+      <ellipse cx="66" cy="252" rx="27" ry="14" fill="#e8d5b5" stroke="#5c3b28" stroke-width="3.5" transform="rotate(-28 66 252)"/>
+      <ellipse cx="238" cy="252" rx="27" ry="14" fill="#e8d5b5" stroke="#5c3b28" stroke-width="3.5" transform="rotate(28 238 252)"/>
+      <!-- 顔 -->
+      <ellipse cx="152" cy="292" rx="86" ry="74" fill="#f6ecd8" stroke="#5c3b28" stroke-width="4"/>
+      <!-- 牛らしいまだら模様 -->
+      <ellipse cx="158" cy="250" rx="40" ry="27" fill="#e0cba6" transform="rotate(-8 158 250)"/>
+      <ellipse cx="212" cy="308" rx="18" ry="13" fill="#e0cba6" transform="rotate(20 212 308)"/>
+      <!-- 鼻づら -->
+      <ellipse cx="118" cy="322" rx="52" ry="40" fill="#f7c9c2" stroke="#5c3b28" stroke-width="3.5"/>
+      <ellipse cx="100" cy="314" rx="7" ry="9" fill="#8a5f52"/><ellipse cx="134" cy="316" rx="7" ry="9" fill="#8a5f52"/>
+      <path d="M100 340 q18 12 36 0" fill="none" stroke="#8a5f52" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- 目 -->
+      <circle cx="150" cy="250" r="11" fill="#4a3226"/><circle cx="153.5" cy="246.5" r="3.6" fill="#fff"/>
+      <path d="M136 232 q14 -8 28 -2" fill="none" stroke="#4a3226" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="200" cy="272" rx="10" ry="7" fill="#f2a9a9" opacity=".75"/>
+    </g>
+
+    <!-- ▼ 部位（背側・前から後ろへ） -->
+    <g class="region" data-key="neck">
+      <path class="fill" d="M248 244 q4 -78 62 -96 l16 132 q-46 8 -78 6 z" fill="#e0a3a3"/>
+      <text x="286" y="212" text-anchor="middle">ネック</text>
+    </g>
+    <g class="region" data-key="kata-loin">
+      <path class="fill" d="M310 148 q26 -8 74 -9 v146 h-58 z" fill="#d98686"/>
+      <text x="349" y="196" text-anchor="middle">肩ロース</text>
+    </g>
+    <g class="region" data-key="rib-loin">
+      <path class="fill" d="M384 139 h116 v146 h-116 z" fill="#cf6f6f"/>
+      <text x="442" y="196" text-anchor="middle">リブロース</text>
+    </g>
+    <g class="region" data-key="sirloin">
+      <path class="fill" d="M500 139 h114 v146 h-114 z" fill="#c95f5f"/>
+      <text x="557" y="196" text-anchor="middle">サーロイン</text>
+    </g>
+    <g class="region" data-key="rump">
+      <path class="fill" d="M614 139 h58 q112 4 118 116 q1 16 -2 30 h-174 z" fill="#bd5252"/>
+      <text x="700" y="196" text-anchor="middle">ランプ・イチボ</text>
+    </g>
+
+    <!-- ▼ 部位（腹側） -->
+    <g class="region" data-key="ude">
+      <path class="fill" d="M248 250 h78 l4 32 v100 q-52 2 -76 -10 q-10 -52 -6 -122 z" fill="#e8b784"/>
+      <text x="290" y="316" text-anchor="middle">ウデ</text>
+      <text x="290" y="342" text-anchor="middle" style="font-size:13px">（ミスジ）</text>
+    </g>
+    <g class="region" data-key="kalbi">
+      <path class="fill" d="M330 285 h284 v152 h-244 q-32 0 -40 -14 z" fill="#e0a05e"/>
+      <text x="470" y="332" text-anchor="middle">バラ（カルビ）</text>
+    </g>
+    <g class="region" data-key="harami">
+      <ellipse class="fill" cx="404" cy="386" rx="58" ry="34" fill="#c98b5c"/>
+      <text x="404" y="392" text-anchor="middle" style="font-size:14px">ハラミ</text>
+    </g>
+    <g class="region" data-key="hire">
+      <ellipse class="fill" cx="572" cy="258" rx="50" ry="26" fill="#f0c9c9"/>
+      <text x="572" y="264" text-anchor="middle" style="font-size:14px">ヒレ</text>
+    </g>
+    <g class="region" data-key="momo">
+      <path class="fill" d="M614 285 h176 q-6 100 -60 132 q-40 20 -116 20 z" fill="#d2896a"/>
+      <text x="694" y="352" text-anchor="middle">モモ</text>
+    </g>
+    <g class="region" data-key="sune">
+      <path class="fill" d="M292 400 h34 v92 h-34 z" fill="#b99274"/>
+      <path class="fill" d="M700 400 h34 v92 h-34 z" fill="#b99274"/>
+      <text x="748" y="452" text-anchor="start" style="font-size:14px">スネ</text>
+    </g>
+    <g class="region" data-key="tan">
+      <path class="fill" d="M92 332 q-30 22 -14 44 q16 20 44 4 q18 -12 12 -30 z" fill="#f0a6b4"/>
+      <text x="70" y="404" text-anchor="middle" style="font-size:15px">タン</text>
+    </g>
+    <g class="region" data-key="horumon">
+      <ellipse class="fill" cx="470" cy="470" rx="86" ry="30" fill="#efd08a"/>
+      <text x="470" y="477" text-anchor="middle" style="font-size:15px">ホルモン（内臓）</text>
+    </g>
+
+    <!-- 胴体の輪郭を上からなぞる -->
+    <path class="cowline" d="M250 250 q0 -110 120 -112 h300 q140 2 145 118 q5 116 -20 148 q-30 38 -145 38 h-260 q-110 0 -132 -44 q-14 -60 -8 -148 z"/>
+  </svg>
+  <div class="hint">👆 色のついたところをタップすると、下に説明が出ます</div>
+</div>
+
+<div id="panel">
+  <div class="pname" id="pname">タン（舌）</div>
+  <div class="pkana" id="pkana">TONGUE</div>
+  <div class="prow"><div class="plabel">食感</div><div class="ptext" id="p1"></div></div>
+  <div class="prow"><div class="plabel">味わい</div><div class="ptext" id="p2"></div></div>
+  <div class="prow"><div class="plabel">焼き方</div><div class="ptext" id="p3"></div></div>
+</div>
+
+<h2>🥩 部位いちらん <span>／ 絵の色とおなじ順で並べています</span></h2>
+<div class="cards" id="cards"></div>
+
+<h2>🌀 ホルモン（内臓）のなかま <span>／ 牛の胃は4つあります</span></h2>
+<div class="cards" id="hcards"></div>
+
+<h2>🔥 じょうずに焼くコツ</h2>
+<ol class="tips">
+  <li><b>網には温度の差があります。</b>まん中が強火、ふちが弱火。脂の多いカルビやホルモンは<b>ふちでゆっくり</b>、赤身や希少部位は<b>まん中でさっと</b>。</li>
+  <li><b>ひっくり返すのは1回だけ。</b>表面に肉汁がぷつぷつ浮いてきたら、裏返しの合図です。</li>
+  <li><b>タレの肉は焦げやすい。</b>塩の肉を先に焼いて、タレの肉はあとから。網が汚れたら替えてもらいましょう。</li>
+  <li><b>厚切りは立てて側面から。</b>厚いタンやヒレは、まず側面を焼いて周りを固めると、肉汁が逃げません。</li>
+  <li><b>置きすぎない。</b>網いっぱいに乗せると温度が下がって、焼けずに水分だけ抜けます。</li>
+</ol>
+
+<div class="warn">
+  <b>⚠ ここだけは守ってください</b><br>
+  ・<b>生肉をつかむトングと、食べるお箸は必ず分ける。</b>これが焼肉の食中毒予防でいちばん効きます。<br>
+  ・<b>レバー・ホルモン・ミンチは中まで完全に火を通す。</b>牛レバーの生食（レバ刺し）は法律で提供が禁止されています。<br>
+  ・脂が落ちると炎が上がります。<b>袖口・髪・お子さんの手</b>に注意。煙は上に流れるので、上をのぞきこまないこと。
+</div>
+
+<h2>🍚 たのむ順番のおすすめ</h2>
+<div class="order">
+  <span class="step">① タン塩</span><span class="arw">▶</span>
+  <span class="step">② 赤身・希少（ミスジ／ハラミ）</span><span class="arw">▶</span>
+  <span class="step">③ 霜降り（リブロース／カルビ）</span><span class="arw">▶</span>
+  <span class="step">④ ホルモン</span><span class="arw">▶</span>
+  <span class="step">⑤ 〆（クッパ・冷麺）</span>
+</div>
+<p style="font-size:12.5px;color:var(--sub);margin-top:8px;">
+  あっさり → こってり の順にすると、最後までおいしく食べられます。脂の強いものを先に食べると、そのあとの赤身の味が分からなくなってしまうんです。
+</p>
+
+<footer>
+  つくったひと：まとん（自宅PC・Claude）／みどり造園<br>
+  ※部位の呼び名はお店や地域によって違うことがあります。迷ったらお店の方に聞いてみてください。
+</footer>
+
+</div>
+
+<script>
+const PARTS = [
+  { key:"tan", name:"タン（舌）", kana:"TONGUE", tag:"定番",
+    t1:"コリコリ、サクッ。根元にいくほどやわらかく、サシが入る",
+    t2:"脂は上品であっさり。うまみが強く、レモンと塩がよく合う",
+    t3:"薄切りは片面20秒ずつでじゅうぶん。厚切りは側面も立てて焼き、中心がほんのりピンクで止める" },
+  { key:"neck", name:"ネック（首）", kana:"NECK", tag:"通向き",
+    t1:"よく動く場所なので筋が多く、しっかりした歯ごたえ",
+    t2:"赤身のうまみが濃い。煮込むとよく味が出る",
+    t3:"焼肉ではあまり出ない部位。出てきたら薄切りをさっと。厚いものは煮込みへ" },
+  { key:"kata-loin", name:"肩ロース", kana:"CHUCK LOIN", tag:"定番",
+    t1:"やわらかい赤身に、こまかいサシがほどよく入る",
+    t2:"赤身のうまみと脂の甘みのバランスがいちばん良いところ",
+    t3:"タレでも塩でも。厚みがあるので中火でじっくり、返すのは1回" },
+  { key:"rib-loin", name:"リブロース", kana:"RIB LOIN", tag:"ごちそう",
+    t1:"きめが細かく、口の中でとろけるやわらかさ",
+    t2:"霜降りの王様。焼いたときの香りがとにかく良い",
+    t3:"焼きすぎ厳禁。強火で両面さっと、脂が透けたら上げる" },
+  { key:"sirloin", name:"サーロイン", kana:"SIRLOIN", tag:"ごちそう",
+    t1:"やわらかく、サシがきめこまかい",
+    t2:"あまりのおいしさに「サー」の称号がついたという話が残る最高級部位",
+    t3:"塩とわさびで少しだけ。レアぎみで、脂を落としすぎないうちに" },
+  { key:"hire", name:"ヒレ（テンダーロイン）", kana:"FILLET", tag:"希少",
+    t1:"牛の中でいちばんやわらかい。ほとんど動かない筋肉なので繊維が細い",
+    t2:"脂が少なくあっさり。赤身そのものの上品な味",
+    t3:"1頭から2本しか取れず、全体の約3%。厚切りをレアで、塩でどうぞ" },
+  { key:"kalbi", name:"バラ（カルビ）", kana:"SHORT RIB", tag:"定番",
+    t1:"あばら周り。脂と赤身が層になっていて、ジューシー",
+    t2:"焼肉といえばこれ。甘辛いタレとの相性がばつぐん",
+    t3:"よく焼いて脂をカリッと落とすとおいしい。特上は三角バラ、中落ちカルビは骨のあいだの身" },
+  { key:"harami", name:"ハラミ・サガリ", kana:"SKIRT", tag:"人気",
+    t1:"やわらかくてジューシー。歯切れがよい",
+    t2:"分類は内臓（横隔膜）だけれど、味は赤身そのもの。クセがなく誰でも食べやすい",
+    t3:"厚みがあるので中火で。中心がほんのりピンクくらいがいちばんおいしい。サガリは背中側の部分" },
+  { key:"ude", name:"ウデ／ミスジ", kana:"CHUCK / MISUJI", tag:"希少",
+    t1:"ウデは筋がありしっかり。中のミスジはとろけるようにやわらかい",
+    t2:"ミスジは肩甲骨の内側から少しだけ取れる希少部位。葉っぱのような模様のサシが入る",
+    t3:"ミスジはさっと炙って塩・わさびで。ウデは焼きすぎると硬くなるので注意" },
+  { key:"rump", name:"ランプ・イチボ（お尻）", kana:"RUMP / AITCHBONE", tag:"希少",
+    t1:"赤身なのにやわらかい。イチボは脂と赤身のバランスが良い",
+    t2:"かめばかむほど赤身のうまみが出る。近ごろ人気が高い",
+    t3:"レアぎみに焼いて、塩やおろしポン酢で。焼きすぎるとかたくなる" },
+  { key:"momo", name:"モモ（ウチ／ソト／シンタマ）", kana:"ROUND", tag:"ヘルシー",
+    t1:"きめが細かくしっかりした赤身。脂が少ない",
+    t2:"あっさりしていて、たくさん食べても重くならない",
+    t3:"焼きすぎるとパサつくので短時間で。しゃぶしゃぶ・ローストビーフにも向く" },
+  { key:"sune", name:"スネ", kana:"SHANK", tag:"煮込み",
+    t1:"筋がたくさん。焼くとかたい",
+    t2:"じっくり煮ると筋がゼラチンになって、とろりと甘くなる",
+    t3:"焼肉では出ません。カレー・シチュー・煮込みの主役です" },
+  { key:"tail", name:"テール（尾）", kana:"OXTAIL", tag:"スープ",
+    t1:"骨のまわりに、ゼラチン質の身がついている",
+    t2:"煮出すと濃厚なうまみ。テールスープは焼肉屋の名脇役",
+    t3:"焼くより煮込み。長時間コトコトが正解です" },
+  { key:"horumon", name:"ホルモン（内臓ぜんぶ）", kana:"OFFAL", tag:"要加熱",
+    t1:"部位ごとに食感がまるで違う。コリコリ・ぷりぷり・とろとろ",
+    t2:"脂の甘みと独特のうまみ。下の「ホルモンのなかま」で1つずつ紹介します",
+    t3:"⚠ 中まで完全に火を通すこと。皮目からじっくり焼いて、脂が落ちて炎が上がったら網のふちへ移す" }
+];
+
+const HORUMON = [
+  { n:"ミノ", tag:"第1胃", t:"白くて分厚い。<b>コリコリ</b>した歯ごたえで味は淡白。切れ目を入れて焼くと食べやすい。いちばん厚いところは「上ミノ」" },
+  { n:"ハチノス", tag:"第2胃", t:"表面が<b>ハチの巣</b>のような形。あっさりしていて、イタリアの煮込み（トリッパ）でも使われる" },
+  { n:"センマイ", tag:"第3胃", t:"ひだが千枚重なって見えるので千枚。<b>コリコリ</b>して鉄分が多い。ごま油と塩の「センマイ刺し」が定番（加熱済みのもの）" },
+  { n:"ギアラ（赤センマイ）", tag:"第4胃", t:"胃の中でいちばん脂とうまみがある。<b>とろりと甘い</b>。よく焼いて" },
+  { n:"シマチョウ（テッチャン）", tag:"大腸", t:"脂がたっぷりで、しま模様。<b>皮目からじっくり</b>焼いて、脂を落としながら。噛みごたえあり" },
+  { n:"マルチョウ（コプチャン）", tag:"小腸", t:"筒のまま丸く裏返した形。<b>脂が甘く</b>ぷりぷり。焼くと丸くふくらむ" },
+  { n:"ハツ", tag:"心臓", t:"<b>歯切れがよくあっさり</b>。クセが少なくホルモン初心者にもおすすめ。焼きすぎない" },
+  { n:"レバー", tag:"肝臓", t:"濃厚で鉄分たっぷり。<b>生食（レバ刺し）は法律で禁止</b>。中心部まで色が変わるまでしっかり焼く" },
+  { n:"ミミガー・コブクロなど", tag:"その他", t:"コリコリ食感のなかま。お店ごとに置いているものが違うので、見かけたら聞いてみると楽しい" }
+];
+
+const $ = (id)=>document.getElementById(id);
+const MAP = {}; PARTS.forEach(p=>MAP[p.key]=p);
+
+function show(key){
+  const p = MAP[key]; if(!p) return;
+  $("pname").textContent = p.name;
+  $("pkana").textContent = p.kana;
+  $("p1").innerHTML = p.t1;
+  $("p2").innerHTML = p.t2;
+  $("p3").innerHTML = p.t3;
+  document.querySelectorAll(".region").forEach(g=>g.classList.toggle("on", g.dataset.key===key));
+}
+
+document.querySelectorAll(".region").forEach(g=>{
+  g.addEventListener("click", ()=>show(g.dataset.key));
+});
+
+// 部位カード
+$("cards").innerHTML = PARTS.map(p=>`
+  <div class="card">
+    <div class="cname">${p.name}<span class="ctag">${p.tag}</span></div>
+    <div class="ctxt"><b>食感：</b>${p.t1}</div>
+    <div class="ctxt"><b>味わい：</b>${p.t2}</div>
+    <div class="ctxt"><b>焼き方：</b>${p.t3}</div>
+  </div>`).join("");
+
+// ホルモンカード
+$("hcards").innerHTML = HORUMON.map(h=>`
+  <div class="card">
+    <div class="cname">${h.n}<span class="ctag">${h.tag}</span></div>
+    <div class="ctxt">${h.t}</div>
+  </div>`).join("");
+
+show("tan");
+</script>
+</body>
+</html>
