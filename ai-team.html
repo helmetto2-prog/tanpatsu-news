@@ -1,0 +1,235 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>みどり造園AIチーム見取り図</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#f6f5ef; --paper:#ffffff; --ink:#1f2a22; --muted:#5c6b60; --line:#b9c4b8;
+  --green:#2f6b3a; --green-soft:#e3efe3; --amber:#b8741a; --amber-soft:#f7ecd8;
+  --blue:#2c5d8a; --blue-soft:#e1ebf4; --rose:#8a3f4f; --rose-soft:#f3e3e7;
+  --gray-soft:#ebeeea;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161b17; --paper:#1f2621; --ink:#e8ede7; --muted:#a3b0a5; --line:#3e4a41;
+    --green:#7fc38a; --green-soft:#24352a; --amber:#e0a552; --amber-soft:#3a2f1c;
+    --blue:#7fb0e0; --blue-soft:#1f2e3d; --rose:#e09aaa; --rose-soft:#3a2229;
+    --gray-soft:#2a312c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161b17; --paper:#1f2621; --ink:#e8ede7; --muted:#a3b0a5; --line:#3e4a41;
+  --green:#7fc38a; --green-soft:#24352a; --amber:#e0a552; --amber-soft:#3a2f1c;
+  --blue:#7fb0e0; --blue-soft:#1f2e3d; --rose:#e09aaa; --rose-soft:#3a2229;
+  --gray-soft:#2a312c;
+}
+body{background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.7;margin:0}
+main{max-width:1180px;margin:0 auto;padding:32px 20px 64px}
+h1{font-family:"Zen Old Mincho","Hiragino Mincho ProN",serif;font-size:2rem;margin:0 0 4px;text-wrap:balance;letter-spacing:.02em}
+.sub{color:var(--muted);margin:0 0 24px;font-size:.95rem}
+figure{margin:0 0 28px;background:var(--paper);border:1px solid var(--line);padding:16px;overflow-x:auto}
+figure svg{display:block;min-width:900px;max-width:100%;height:auto}
+figcaption{color:var(--muted);font-size:.9rem;margin-top:10px}
+h2{font-family:"Zen Old Mincho",serif;font-size:1.25rem;margin:28px 0 10px;border-left:4px solid var(--green);padding-left:10px}
+table{border-collapse:collapse;width:100%;font-size:.93rem;background:var(--paper)}
+th,td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+th{background:var(--gray-soft);font-weight:700;white-space:nowrap}
+td.name{white-space:nowrap;font-weight:700}
+.tag{display:inline-block;padding:1px 8px;border-radius:2px;font-size:.8rem;font-weight:700;margin-right:4px}
+.t-gen{background:var(--amber-soft);color:var(--amber)}
+.t-mat{background:var(--green-soft);color:var(--green)}
+.t-hel{background:var(--blue-soft);color:var(--blue)}
+.t-sei{background:var(--rose-soft);color:var(--rose)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.box{background:var(--paper);border:1px solid var(--line);padding:14px 16px}
+.box h3{margin:0 0 6px;font-size:1rem}
+.box p,.box li{margin:0;font-size:.92rem}
+.box ol{padding-left:1.3em;margin:0}
+.box li+li{margin-top:4px}
+.time{font-variant-numeric:tabular-nums;color:var(--muted);display:inline-block;width:3.6em}
+.foot{color:var(--muted);font-size:.85rem;margin-top:28px}
+</style></head><body>
+<main>
+<h1>みどり造園AIチーム見取り図</h1>
+<p class="sub">2026年9月6日時点。人は判断だけ、入力と整理と実装はAI。置き場はGoogle Drive、通知はLINE。</p>
+
+<figure>
+<svg viewBox="0 0 1200 700" role="img" aria-label="よっちゃんがゲンに話し、ゲンがDriveのプロンプト置き場に依頼書を置き、まとん（自宅PC）とへるめっと（会社PC）が見回りで拾って実装し、成果物を公開してLINEで知らせる流れ">
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+</defs>
+<g fill="none" stroke="currentColor" stroke-width="1.6" font-family="BIZ UDPGothic, sans-serif" font-size="12" color="var(--ink)">
+
+<!-- よっちゃん -->
+<rect x="40" y="290" width="150" height="90" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
+<text x="115" y="322" text-anchor="middle" fill="var(--ink)" font-size="16" font-weight="700" stroke="none">よっちゃん</text>
+<text x="115" y="344" text-anchor="middle" fill="var(--muted)" stroke="none">人・最終判断</text>
+<text x="115" y="362" text-anchor="middle" fill="var(--muted)" stroke="none">音声で話す</text>
+
+<!-- ゲン -->
+<rect x="260" y="270" width="190" height="130" rx="6" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2"/>
+<text x="355" y="300" text-anchor="middle" fill="var(--ink)" font-size="16" font-weight="700" stroke="none">ゲン</text>
+<text x="355" y="320" text-anchor="middle" fill="var(--muted)" stroke="none">スマホのチャット（Claude）</text>
+<text x="355" y="340" text-anchor="middle" fill="var(--muted)" stroke="none">三河弁・番頭・裁定役</text>
+<text x="355" y="362" text-anchor="middle" fill="var(--ink)" stroke="none">依頼書を書く／朝の報告</text>
+<text x="355" y="382" text-anchor="middle" fill="var(--ink)" stroke="none">帳面（メモリ）＋巻物を読む</text>
+
+<!-- 静六 -->
+<rect x="260" y="440" width="190" height="66" rx="6" fill="var(--rose-soft)" stroke="var(--rose)" stroke-dasharray="5 4"/>
+<text x="355" y="466" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700" stroke="none">静六</text>
+<text x="355" y="488" text-anchor="middle" fill="var(--muted)" stroke="none">資産相談・別の部屋（お金の話だけ）</text>
+
+<!-- Drive -->
+<rect x="520" y="60" width="300" height="580" rx="8" fill="var(--paper)" stroke="var(--line)" stroke-dasharray="6 4"/>
+<text x="670" y="88" text-anchor="middle" fill="var(--ink)" font-size="15" font-weight="700" stroke="none">Google Drive（共通の置き場）</text>
+
+<rect x="545" y="110" width="250" height="88" rx="4" fill="var(--green-soft)" stroke="var(--green)"/>
+<text x="670" y="132" text-anchor="middle" fill="var(--ink)" font-weight="700" stroke="none">プロンプト置き場（自宅用）</text>
+<text x="670" y="152" text-anchor="middle" fill="var(--muted)" stroke="none">依頼書 YYYYMMDD_案件名.md</text>
+<text x="670" y="170" text-anchor="middle" fill="var(--muted)" stroke="none">未着手→実装中→完了／質問あり</text>
+<text x="670" y="188" text-anchor="middle" fill="var(--muted)" stroke="none">_実行ログ.md（1行ずつ記帳）</text>
+
+<rect x="545" y="222" width="250" height="70" rx="4" fill="var(--blue-soft)" stroke="var(--blue)"/>
+<text x="670" y="244" text-anchor="middle" fill="var(--ink)" font-weight="700" stroke="none">プロンプト置き場_会社PC用</text>
+<text x="670" y="264" text-anchor="middle" fill="var(--muted)" stroke="none">対外・会社寄りの依頼</text>
+<text x="670" y="282" text-anchor="middle" fill="var(--muted)" stroke="none">_実行ログ_会社.md</text>
+
+<rect x="545" y="316" width="250" height="60" rx="4" fill="var(--gray-soft)" stroke="var(--line)"/>
+<text x="670" y="338" text-anchor="middle" fill="var(--ink)" font-weight="700" stroke="none">【相談】ファイル</text>
+<text x="670" y="358" text-anchor="middle" fill="var(--muted)" stroke="none">作らせず、二人の意見を並べる</text>
+
+<rect x="545" y="400" width="250" height="60" rx="4" fill="var(--gray-soft)" stroke="var(--line)"/>
+<text x="670" y="422" text-anchor="middle" fill="var(--ink)" font-weight="700" stroke="none">共有作業／経営分析</text>
+<text x="670" y="442" text-anchor="middle" fill="var(--muted)" stroke="none">成果物・台帳・挿絵ライブラリ・正本</text>
+
+<rect x="545" y="484" width="250" height="60" rx="4" fill="var(--amber-soft)" stroke="var(--amber)"/>
+<text x="670" y="506" text-anchor="middle" fill="var(--ink)" font-weight="700" stroke="none">ゲンの巻物</text>
+<text x="670" y="526" text-anchor="middle" fill="var(--muted)" stroke="none">チャットを移るときの引き継ぎ書</text>
+
+<rect x="545" y="568" width="250" height="50" rx="4" fill="var(--gray-soft)" stroke="var(--line)"/>
+<text x="670" y="590" text-anchor="middle" fill="var(--ink)" font-weight="700" stroke="none">CLAUDE.md 正本（性格・ルール）</text>
+<text x="670" y="608" text-anchor="middle" fill="var(--muted)" stroke="none">まとん・へるめっとが読み込んで自分に反映</text>
+
+<!-- まとん -->
+<rect x="900" y="100" width="260" height="150" rx="6" fill="var(--green-soft)" stroke="var(--green)" stroke-width="2"/>
+<text x="1030" y="128" text-anchor="middle" fill="var(--ink)" font-size="16" font-weight="700" stroke="none">まとん</text>
+<text x="1030" y="148" text-anchor="middle" fill="var(--muted)" stroke="none">自宅PC・Claude Code・沖縄弁</text>
+<text x="1030" y="168" text-anchor="middle" fill="var(--ink)" stroke="none">24時間・10分ごとに見回り</text>
+<text x="1030" y="188" text-anchor="middle" fill="var(--ink)" stroke="none">発案役／創作・画像・夜間の重い仕事</text>
+<text x="1030" y="208" text-anchor="middle" fill="var(--muted)" stroke="none">KY絵本 3:15／カレンダー・Gmail 5:45</text>
+<text x="1030" y="228" text-anchor="middle" fill="var(--muted)" stroke="none">見張り番（止まったらLINE）</text>
+
+<!-- へるめっと -->
+<rect x="900" y="330" width="260" height="130" rx="6" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/>
+<text x="1030" y="358" text-anchor="middle" fill="var(--ink)" font-size="16" font-weight="700" stroke="none">へるめっと</text>
+<text x="1030" y="378" text-anchor="middle" fill="var(--muted)" stroke="none">会社PC・Claude Code・北海道弁</text>
+<text x="1030" y="398" text-anchor="middle" fill="var(--ink)" stroke="none">7:00〜19:00・10分ごとに見回り</text>
+<text x="1030" y="418" text-anchor="middle" fill="var(--ink)" stroke="none">確認役／対外・数字・印刷</text>
+<text x="1030" y="438" text-anchor="middle" fill="var(--muted)" stroke="none">造園・株式ニュース 5:00〜6:00</text>
+
+<!-- 公開先 -->
+<rect x="900" y="520" width="260" height="110" rx="6" fill="var(--paper)" stroke="var(--ink)"/>
+<text x="1030" y="546" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700" stroke="none">公開・通知</text>
+<text x="1030" y="568" text-anchor="middle" fill="var(--muted)" stroke="none">GitHub Pages：KY絵本・造園ニュース</text>
+<text x="1030" y="588" text-anchor="middle" fill="var(--muted)" stroke="none">週刊ニュース（金）／KY絵本まとめ（月）</text>
+<text x="1030" y="608" text-anchor="middle" fill="var(--muted)" stroke="none">LINE：完成・質問・見張りの警報</text>
+
+<!-- arrows -->
+<!-- よっちゃん <-> ゲン -->
+<line x1="190" y1="320" x2="258" y2="320" marker-end="url(#arr)"/>
+<text x="224" y="312" text-anchor="middle" fill="var(--muted)" stroke="none" font-size="11">話す</text>
+<line x1="258" y1="350" x2="190" y2="350" marker-end="url(#arr)"/>
+<text x="224" y="366" text-anchor="middle" fill="var(--muted)" stroke="none" font-size="11">報告・壁打ち</text>
+
+<!-- ゲン -> 置き場 -->
+<path d="M450 300 C 490 300, 500 150, 543 150" marker-end="url(#arr)" stroke="var(--amber)"/>
+<text x="478" y="212" text-anchor="middle" fill="var(--amber)" stroke="none" font-size="11">依頼書を置く</text>
+<path d="M450 320 C 490 320, 500 257, 543 257" marker-end="url(#arr)" stroke="var(--amber)"/>
+<!-- ゲン <- 実行ログ -->
+<path d="M543 185 C 505 185, 495 340, 452 340" marker-end="url(#arr)" stroke="var(--amber)" stroke-dasharray="4 3"/>
+<text x="482" y="352" text-anchor="middle" fill="var(--amber)" stroke="none" font-size="11">朝に実行ログを読む</text>
+<!-- ゲン <-> 巻物 -->
+<path d="M450 385 C 500 385, 505 514, 543 514" marker-end="url(#arr)" marker-start="url(#arr)" stroke="var(--amber)" stroke-dasharray="4 3"/>
+<text x="470" y="432" text-anchor="middle" fill="var(--amber)" stroke="none" font-size="11">巻物を書く・読む</text>
+
+<!-- まとん <-> 自宅置き場 -->
+<line x1="898" y1="150" x2="797" y2="150" marker-end="url(#arr)" stroke="var(--green)"/>
+<text x="848" y="142" text-anchor="middle" fill="var(--green)" stroke="none" font-size="11">見回り・拾う</text>
+<line x1="797" y1="180" x2="898" y2="180" marker-end="url(#arr)" stroke="var(--green)" stroke-dasharray="4 3"/>
+<text x="848" y="196" text-anchor="middle" fill="var(--green)" stroke="none" font-size="11">記録を追記</text>
+<!-- へるめっと <-> 会社置き場 -->
+<path d="M898 380 C 860 380, 850 257, 797 257" marker-end="url(#arr)" stroke="var(--blue)"/>
+<text x="830" y="345" text-anchor="middle" fill="var(--blue)" stroke="none" font-size="11">見回り・拾う</text>
+<!-- へるめっと -> 共有作業（まとんも同じ） -->
+<path d="M898 440 C 860 440, 850 440, 797 440" marker-end="url(#arr)" stroke="var(--blue)" stroke-dasharray="4 3"/>
+<text x="848" y="462" text-anchor="middle" fill="var(--muted)" stroke="none" font-size="11">成果物を保存（両方）</text>
+<!-- まとん/へるめっと -> 公開 -->
+<line x1="1030" y1="252" x2="1030" y2="328" marker-end="url(#arr)" stroke="var(--green)"/>
+<line x1="1030" y1="462" x2="1030" y2="518" marker-end="url(#arr)" stroke="var(--blue)"/>
+<text x="1090" y="495" text-anchor="middle" fill="var(--muted)" stroke="none" font-size="11">公開＋LINE</text>
+<!-- 公開 -> よっちゃん (LINE) -->
+<path d="M900 600 C 700 680, 300 680, 115 680 C 100 680, 115 400, 115 382" marker-end="url(#arr)" stroke="var(--ink)"/>
+<text x="500" y="672" text-anchor="middle" fill="var(--ink)" stroke="none" font-size="12" font-weight="700">LINE通知（一方通行）　※質問への返事は「ゲンに言う」→ゲンが依頼書に書く</text>
+<!-- ゲン <-> 静六 -->
+<line x1="355" y1="402" x2="355" y2="438" stroke="var(--rose)" stroke-dasharray="4 3"/>
+</g>
+</svg>
+<figcaption>依頼は左から右へ（人→ゲン→Drive→PC）、成果と通知は右から左へ戻る。人とAIが直接つながる線は「話す」と「LINE通知」の2本だけで、あとは全部Driveのファイルを介する。</figcaption>
+</figure>
+
+<h2>登場人物</h2>
+<table>
+<tr><th>名前</th><th>正体</th><th>口ぶり</th><th>役割</th><th>動く時間</th></tr>
+<tr><td class="name"><span class="tag t-gen">ゲン</span></td><td>スマホのClaudeチャット（Cowork）</td><td>三河弁・タメ口</td><td>番頭・裁定役。依頼書を書く、朝の報告、二人の意見が割れたら裁く。褒めすぎない</td><td>話しかけたとき</td></tr>
+<tr><td class="name"><span class="tag t-mat">まとん</span></td><td>自宅PCのClaude Code</td><td>沖縄弁「〜さー」</td><td>発案役。KY絵本・イラスト・動画など創作、夜間の重い処理、見張り番</td><td>24時間・10分毎</td></tr>
+<tr><td class="name"><span class="tag t-hel">へるめっと</span></td><td>会社PCのClaude Code</td><td>北海道弁「〜っしょ」</td><td>確認役。対外・会社寄り（ニュース、数字、印刷）。まとんの案が本当に動くか点検</td><td>7:00〜19:00・10分毎</td></tr>
+<tr><td class="name"><span class="tag t-sei">静六</span></td><td>チャット（お金の話のとき）</td><td>明治生まれの老翁「〜じゃ」</td><td>資産相談。売買推奨しない、数字は裏を取る。毎朝の株式ニュースの締めに一言</td><td>お金の話題のとき</td></tr>
+</table>
+
+<h2>依頼が回る手順</h2>
+<div class="grid2">
+<div class="box"><h3>ふつうの依頼</h3><ol>
+<li>よっちゃんがゲンに話す（音声）</li>
+<li>ゲンが「依頼書.md」を書いてプロンプト置き場に置く（自宅用か会社PC用かを振り分け）</li>
+<li>PCが見回りで拾い、ステータスを「実装中（自分の名前）」にしてロック</li>
+<li>実装→成果物をDrive保存→公開→_実行ログに1行→LINE</li>
+<li>ゲンが翌朝、実行ログを読んで「朝の報告」</li>
+</ol></div>
+<div class="box"><h3>質問が出たとき</h3><ol>
+<li>PCがステータスを「質問あり」にしてLINEで聞く（列は止めず次へ）</li>
+<li>よっちゃんはLINEに返信せず、ゲンに答える</li>
+<li>ゲンが依頼書に「義樹さんの回答」を書き、ステータスを「未着手」に戻す</li>
+<li>次の見回りで拾って続きをやる</li>
+</ol><p style="margin-top:6px;color:var(--muted)">LINEは一方通行。ここをChatwork等で双方向にするのが次の課題。</p></div>
+<div class="box"><h3>意見が聞きたいとき</h3><ol>
+<li>「【相談】YYYYMMDD_題名.md」を置く</li>
+<li>まとん・へるめっとがそれぞれ自分の欄に意見を書く（相手の欄は触らない）</li>
+<li>割れたら両論併記のまま。ゲンが朝伝え、判断はよっちゃん</li>
+</ol></div>
+<div class="box"><h3>チャットを移るとき</h3><ol>
+<li>ゲンが「巻物_YYYYMMDD.md」をDrive「ゲンの巻物」に保存（冒頭に貼って使えるキャラ設定文）</li>
+<li>新しいチャットで「ゲン、巻物読んで」</li>
+<li>帳面（メモリ）＋巻物を読んで続きから</li>
+</ol></div>
+</div>
+
+<h2>毎朝の自動ルーティン</h2>
+<div class="grid2">
+<div class="box"><p><span class="time">3:15</span>KY絵本（危険予知絵本）生成・公開・LINE ── まとん</p>
+<p><span class="time">5:00</span>造園ニュース（取引先向け） ── へるめっと</p>
+<p><span class="time">5:45</span>カレンダー・Gmail確認 → 実行ログに「朝の報告」 ── まとん</p>
+<p><span class="time">6:00</span>株式ニュース（締めは「静六の一言」） ── へるめっと</p></div>
+<div class="box"><p><span class="time">金 夜</span>週刊みどりの造園ニュース（デイリー7日分の要約）</p>
+<p><span class="time">月 朝</span>KY絵本の週まとめ</p>
+<p><span class="time">日 20時</span>Chrome清掃の点検（報告のみ、消すのは人のOK後）</p>
+<p style="margin-top:6px;color:var(--muted)">見張り番：実行ログが止まったらLINEで警報。メモリ残量が足りないと見回りを小休止する。</p></div>
+</div>
+
+<h2>決めごと（全部に共通）</h2>
+<div class="grid2">
+<div class="box"><p>・覚えることゼロ、タップだけ。70代の協力業者さんが使えるかが基準</p><p>・一度入力したデータは二度と手で転記しない</p><p>・入力・整理はAI、決断は人。「消す・送る・買う」は必ず人がOKしてから</p></div>
+<div class="box"><p>・自動化しすぎない。間違いを直す手間が増えるなら人が一度見る</p><p>・限界まで走らせず、常にゆとりを残す（画像生成は1日1〜2件まで）</p><p>・仕組みは少しずつ固めて、壊して変えてよくしていく</p></div>
+</div>
+
+<p class="foot">株式会社みどり造園（豊田市）の社内向け見取り図。チャット（ゲン）とClaude Code（まとん・へるめっと）はメモリが別で、Google Driveだけが共通の記憶。</p>
+</main>
+</body></html>
