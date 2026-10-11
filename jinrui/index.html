@@ -223,6 +223,17 @@ summary{cursor:pointer;color:var(--clay-ink);font-weight:700;font-size:.92rem;pa
 .lb button{min-width:46px;height:46px;border-radius:23px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:1rem;padding:0 14px;cursor:pointer;font-family:inherit}
 html.lb-open,html.lb-open body{overflow:hidden}
 :focus-visible{outline:3px solid var(--fire);outline-offset:2px}
+.card.fold{padding-top:4px;padding-bottom:4px}
+@media (min-width:520px){.card.fold{padding-top:6px;padding-bottom:6px}}
+details.sec{margin:0;border-top:0;padding:0}
+details.sec>summary{list-style:none;display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;min-height:48px;padding:8px 0;color:var(--ink);font-size:1rem}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"▶";flex:none;font-size:.78rem;color:var(--muted);transition:transform .2s}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec[open]>summary{margin-bottom:8px;border-bottom:1px dashed var(--line)}
+details.sec>summary h2{display:flex;align-items:center;gap:10px;font-size:1.3rem;margin:0}
+details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 50% 60%,var(--fire) 0 38%,var(--clay) 40% 100%)}
+.kotoshi-mk{font-size:.74rem;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;line-height:1.7;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -312,8 +323,8 @@ html.lb-open,html.lb-open body{overflow:hidden}
 <li>掟：「大きな獣の狩りには足あとを読める者が行く」</li>
 </ul></div>
 </section>
-<section class="card" id="kaiwa">
-<h2>大事な会話と心の中</h2>
+<section class="card fold" id="kaiwa">
+<details class="sec"><summary><h2>大事な会話と心の中</h2> <span class="kotoshi-mk">今年＋5</span></summary>
 <div class="scene">
 <h3>しぶみが逃げた</h3>
 <p class="where">春・オカ（丘）</p>
@@ -346,6 +357,7 @@ html.lb-open,html.lb-open body{overflow:hidden}
 </div>
 <blockquote class="thought"><p class="tn">カシの心の中（けがをした夜）</p><p class="tt">やりが届く所まで近づかなければ、イノシシは倒せん。……だが、近づかずにすむ物があれば。ヨシに言われたのが、くやしい。</p></blockquote>
 <blockquote class="thought"><p class="tn">コナの心の中（三つの芽）</p><p class="tt">ぼくが秋に埋めたクリの実だ。だれにも言ってなかったのに、ちゃんと芽が出た。じいちゃんに見せたら、何て言うかな。</p></blockquote>
+</details>
 </section>
 <section class="card" id="yoriai">
 <h2>寄り合いの記録</h2>
@@ -389,8 +401,8 @@ html.lb-open,html.lb-open body{overflow:hidden}
 <p class="small">願いは、たき火の煙にのせて天に届けました。天の答えは、次の年のはじめに届きます。</p>
 </div>
 </section>
-<section class="card" id="okite">
-<h2>掟（おきて）の一覧</h2>
+<section class="card fold" id="okite">
+<details class="sec"><summary><h2>掟（おきて）の一覧</h2> <span class="kotoshi-mk">今年＋2</span></summary>
 <p class="small">いまの掟 8つ・やめた掟 1つ</p>
 <div class="rule">
 <h3>火を絶やさない</h3>
@@ -434,13 +446,14 @@ html.lb-open,html.lb-open body{overflow:hidden}
 </div>
 <h3>やめた掟</h3>
 <div class="rule ended">
-<h3>大きな獣の狩りは大人の男が行く <span class="badge ended">やめた掟</span></h3>
+<h3>大きな獣の狩りは大人の男が行く <span class="badge ended">やめた掟</span> <span class="badge new">今年</span></h3>
 <p class="rt">イノシシやシカを追う狩りには、大人の男だけが行く。</p>
 <p class="rm">むかしから → 2年目にやめた<br>やめたわけ：ホムラが約束どおり獣の足あとをテノカズ読み分けたので、掟「大きな獣の狩りには足あとを読める者が行く」に変えた。</p>
 </div>
+</details>
 </section>
-<section class="card" id="hatsumei">
-<h2>発明・発見の年表</h2>
+<section class="card fold" id="hatsumei">
+<details class="sec"><summary><h2>発明・発見の年表</h2> <span class="kotoshi-mk">今年＋6</span></summary>
 <ul class="tl">
 <li><span class="yr">2年目</span><br><b>シブニゲ（しぶい実を湧き水にさらす）</b> <span class="badge">工夫</span> <span class="badge new">今年</span><span class="how2">生みだした人：アケビ・ヨシ<br>春のはじめ、湧き水にさらされた割れたカシの実がしぶくないことにアケビが気づいた。くだいた実をヨシの目のこまかいかごに入れ、湧き水の流れに何日もひたすやり方にした。</span></li>
 <li><span class="yr">1年目</span><br><b>オオイシで数える</b> <span class="badge">しくみ</span><span class="how2">生みだした人：ナギ<br>かごが多すぎて小石が足りなくなり、ナギが小石テノカズ分を大きな石一つに置きかえて数えた。</span></li>
@@ -449,11 +462,11 @@ html.lb-open,html.lb-open body{overflow:hidden}
 </ul>
 <h3>村の年表（新しい順）</h3>
 <ul class="tl">
-<li><span class="yr">2年目</span> <span class="badge">願い</span><br>カシの願い「近づかなくても、獣に届く物がほしい」を天に届けた。</li>
-<li><span class="yr">2年目</span> <span class="badge">掟</span><br>寄り合いで掟「大きな獣の狩りは大人の男が行く」をやめ、掟「大きな獣の狩りには足あとを読める者が行く」を決めた。</li>
-<li><span class="yr">2年目</span> <span class="badge">けが</span><br>カシがナツユキの森でイノシシに突き飛ばされて足をくじいた。足あとをたどったホムラが見つけ、みんなで連れ帰った。</li>
-<li><span class="yr">2年目</span> <span class="badge">工夫</span><br>くだいたカシの実を湧き水にひたして、しぶみを抜く「シブニゲ」が始まった。</li>
-<li><span class="yr">2年目</span> <span class="badge">天の答え</span><br>春のはじめ、湧き水にさらされた割れたカシの実がしぶくないことに、アケビが気づいた。</li>
+<li><span class="yr">2年目</span> <span class="badge">願い</span> <span class="badge new">今年</span><br>カシの願い「近づかなくても、獣に届く物がほしい」を天に届けた。</li>
+<li><span class="yr">2年目</span> <span class="badge">掟</span> <span class="badge new">今年</span><br>寄り合いで掟「大きな獣の狩りは大人の男が行く」をやめ、掟「大きな獣の狩りには足あとを読める者が行く」を決めた。</li>
+<li><span class="yr">2年目</span> <span class="badge">けが</span> <span class="badge new">今年</span><br>カシがナツユキの森でイノシシに突き飛ばされて足をくじいた。足あとをたどったホムラが見つけ、みんなで連れ帰った。</li>
+<li><span class="yr">2年目</span> <span class="badge">工夫</span> <span class="badge new">今年</span><br>くだいたカシの実を湧き水にひたして、しぶみを抜く「シブニゲ」が始まった。</li>
+<li><span class="yr">2年目</span> <span class="badge">天の答え</span> <span class="badge new">今年</span><br>春のはじめ、湧き水にさらされた割れたカシの実がしぶくないことに、アケビが気づいた。</li>
 <li><span class="yr">1年目</span> <span class="badge">願い</span><br>はじめての願い「しぶいカシの実を、子どもたちがおいしく食べられますように」を天に届けた。</li>
 <li><span class="yr">1年目</span> <span class="badge">掟</span><br>寄り合いで、掟「秋の蓄えは雪が降るまで開けない」「実をくれる木は切らない」を決めた。</li>
 <li><span class="yr">1年目</span> <span class="badge">誕生</span><br>アケビとヨシの娘、クリが生まれた。村は11人になった。</li>
@@ -462,9 +475,10 @@ html.lb-open,html.lb-open body{overflow:hidden}
 <li><span class="yr">1年目</span> <span class="badge">発見</span><br>ホムラが東の森の奥に、クリの木の集まる「ナツユキの森」を見つけた。</li>
 <li><span class="yr">はじまり</span> <span class="badge">はじまり</span><br>丘と浜を行き来して暮らす10人。石の刃と火、枝と草の小屋がある。その前の冬は食べ物が足りなかった。</li>
 </ul>
+</details>
 </section>
-<section class="card" id="kotoba">
-<h2>ことば帳</h2>
+<section class="card fold" id="kotoba">
+<details class="sec"><summary><h2>ことば帳</h2> <span class="kotoshi-mk">今年＋2</span></summary>
 <p class="small">村で生まれた言葉 10こ（生まれた順）</p>
 <div class="words">
 <div class="word"><p class="wd">ヒモリ</p><p class="wmn">火の番をする人。また、その役目。</p><p class="wm">むかしから。火を守るから「ヒモリ」。</p></div>
@@ -478,9 +492,10 @@ html.lb-open,html.lb-open body{overflow:hidden}
 <div class="word"><p class="wd">シブニゲ <span class="badge new">今年</span></p><p class="wmn">くだいたしぶい実を湧き水にひたして、しぶみを抜くこと。</p><p class="wm">2年目・言いだした人：ツル。湧き水にひたしたカシの実を食べたツルが「しぶいのが、お水に逃げてった」と言ったことから。</p></div>
 <div class="word"><p class="wd">ヨミテ <span class="badge new">今年</span></p><p class="wmn">足あとを読んで、獣の通り道を見つける人。</p><p class="wm">2年目・言いだした人：カシ。けがをしたカシが、足あとをたどって自分を見つけたホムラを、寄り合いでこう呼んだ。</p></div>
 </div>
+</details>
 </section>
-<section class="card" id="hito">
-<h2>人物帳</h2>
+<section class="card fold" id="hito">
+<details class="sec"><summary><h2>人物帳</h2></summary>
 <p class="small">いま村にいる人 11人</p>
 <div class="people">
 <article class="person" id="p-p01">
@@ -840,17 +855,18 @@ html.lb-open,html.lb-open body{overflow:hidden}
 </details>
 </article>
 </div>
+</details>
 </section>
-<section class="card" id="negai">
-<h2>天への願いと答えの記録</h2>
+<section class="card fold" id="negai">
+<details class="sec"><summary><h2>天への願いと答えの記録</h2> <span class="kotoshi-mk">今年＋3</span></summary>
 <div class="wish">
-<p class="wy">2年目の願い</p>
+<p class="wy">2年目の願い <span class="badge new">今年</span></p>
 <p class="wq">「近づかなくても、獣に届く物がほしい」</p>
 <p class="wb">言いだした人：カシ。イノシシに近づいて突き飛ばされ、秋のあいだ狩りに出られなかった。そのぶん冬の蓄えがぎりぎりになったから。</p>
 <p class="small">天の答えは、次の年のはじめに届きます。</p>
 </div>
 <div class="wish">
-<p class="wy">1年目の願い</p>
+<p class="wy">1年目の願い <span class="badge new">今年</span></p>
 <p class="wq">「しぶいカシの実を、子どもたちがおいしく食べられますように」</p>
 <p class="wb">言いだした人：アケビ。ネムリアナの底に残ったのは、しぶくて子どもが吐き出してしまうカシの実ばかりだった。生まれたクリが大きくなるころ、冬の食べ物で困らないようにしたいから。</p>
 <div class="answer">
@@ -863,25 +879,28 @@ html.lb-open,html.lb-open body{overflow:hidden}
 </div>
 </div>
 <h3>天のヒント</h3><ul class="plain">
-<li><span class="small">2年目・アケビへ</span> <span class="badge">村が使った</span><br>湧き水の流れにさらされた割れたカシの実は、しぶくなかった</li>
+<li><span class="small">2年目・アケビへ</span> <span class="badge">村が使った</span> <span class="badge new">今年</span><br>湧き水の流れにさらされた割れたカシの実は、しぶくなかった</li>
 </ul>
+</details>
 </section>
-<section class="card" id="e">
-<h2>絵で見る年表</h2>
+<section class="card fold" id="e">
+<details class="sec"><summary><h2>絵で見る年表</h2> <span class="kotoshi-mk">今年＋1</span></summary>
 <p class="small">1年目から並べています。押すと大きく見られます。</p>
 <div class="gallery">
 <a class="gtile zoom" href="img/y0001.jpg" data-cap="1年目　ナツユキの年"><img src="img/t0001.jpg" width="480" height="268" alt="1年目の村の絵" loading="lazy" decoding="async"><span class="gy">1年目　ナツユキの年</span></a>
-<a class="gtile zoom" href="img/y0002.jpg" data-cap="2年目　シブニゲの年"><img src="img/t0002.jpg" width="480" height="268" alt="2年目の村の絵" loading="lazy" decoding="async"><span class="gy">2年目　シブニゲの年</span></a>
+<a class="gtile zoom" href="img/y0002.jpg" data-cap="2年目　シブニゲの年"><img src="img/t0002.jpg" width="480" height="268" alt="2年目の村の絵" loading="lazy" decoding="async"><span class="gy">2年目　シブニゲの年 <span class="badge new">今年</span></span></a>
 </div>
+</details>
 </section>
-<section class="card" id="annai">
-<h2>案内動画</h2>
+<section class="card fold" id="annai">
+<details class="sec"><summary><h2>案内動画</h2></summary>
 <p class="small">1年目の村を、台の上の模型（ジオラマ）にして案内します。54秒・音なし。</p>
 <video controls playsinline preload="none" poster="annai/poster.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="annai/jinrui_annai_720p.mp4" type="video/mp4"></video>
 <p class="small">場面：はじまり（村の全景）／夏の雪の森を見つける／実りの秋／ネムリアナ／住人の暮らし／天への願い</p>
+</details>
 </section>
-<section class="card more" id="kuwashiku">
-<h2>村のくわしいこと</h2>
+<section class="card fold more" id="kuwashiku">
+<details class="sec"><summary><h2>村のくわしいこと</h2> <span class="kotoshi-mk">今年＋2</span></summary>
 <details><summary>土地（8か所）</summary><ul class="plain">
 <li><span class="nm">オカ（丘）</span> <span class="badge">住む所</span><span class="note">大川が海に出る少し手前の、南向きの小高い台地。日当たりがよい。ふもとに湧き水があり、冬も凍らない。丘のはしの水はけのよい所に、ネムリアナが三つある。<br>とれる物：湧き水、日当たり、小屋の場所、ネムリアナ（木の実をためる穴）<br>村の知り具合：よく知っている</span></li>
 <li><span class="nm">オオカワ（大川）</span> <span class="badge">川</span><span class="note">北の山から流れてくる大きな川。春にはアユがのぼり、ウナギやコイもいる。雨のあとは流れが速く、にごる。川原には色も形もいろいろな石が転がっている。<br>とれる物：魚、川原の石、流木、水<br>村の知り具合：よく知っている</span></li>
@@ -924,14 +943,15 @@ html.lb-open,html.lb-open body{overflow:hidden}
 <li><span class="nm">皮をなめして縫う</span><span class="note">できる人：シイ・アケビ</span></li>
 <li><span class="nm">ネムリアナを掘って木の実をためる</span><span class="note">できる人：ナギ・カシ・ヨシ<br>1年目から<br>水はけのよい所に深く掘り、底に木の葉を敷き、草で編んだふたと重しの石をのせる</span></li>
 <li><span class="nm">オオイシと小石で数える</span><span class="note">できる人：ナギ<br>1年目から<br>小石テノカズ分を、大きな石（オオイシ）一つに置きかえて数える。テノカズより多い物も数えられる</span></li>
-<li><span class="nm">シブニゲ（くだいた実を湧き水にさらす）</span><span class="note">できる人：アケビ・ヨシ・シイ<br>2年目から<br>くだいたカシの実を目のこまかいかごに入れ、湧き水の流れに何日もひたすと、しぶみが抜ける</span></li>
-<li><span class="nm">足あとを読み分ける</span><span class="note">できる人：ホムラ・カシ<br>2年目から<br>ホムラは2年目の夏、獣と鳥の足あとをテノカズ読み分けた</span></li>
+<li><span class="nm">シブニゲ（くだいた実を湧き水にさらす）</span> <span class="badge new">今年</span><span class="note">できる人：アケビ・ヨシ・シイ<br>2年目から<br>くだいたカシの実を目のこまかいかごに入れ、湧き水の流れに何日もひたすと、しぶみが抜ける</span></li>
+<li><span class="nm">足あとを読み分ける</span> <span class="badge new">今年</span><span class="note">できる人：ホムラ・カシ<br>2年目から<br>ホムラは2年目の夏、獣と鳥の足あとをテノカズ読み分けた</span></li>
 </ul></details>
 <details><summary>変えたことの記録（3）</summary><ul class="plain">
 <li><span class="nm">はじまり（2026-10-10）</span>　はじまりの村を作った（土地7か所・10人・むかしからの掟6つ・ことば5つ・道具10・技11）<span class="note">わけ：試作の1年目の準備</span></li>
 <li><span class="nm">1年目（2026-10-10）</span>　絵の決まりを1年目で決めた（水彩と色鉛筆の絵本・紙のにじみ・毎年同じ場所を少し高い南の空から見おろす）<span class="note">わけ：年を並べたとき、同じ村が育っていくように見せるため</span></li>
 <li><span class="nm">1年目（2026-10-10）</span>　その年の蓄えの記録に「秋に集めた量」と計算のしかたを足し、掟の一覧に話し合いの続きを書けるようにした<span class="note">わけ：蓄えの増え減りと、続きになっている話し合いを、読む人に分かるようにするため</span></li>
 </ul></details>
+</details>
 </section>
 </main>
 <footer class="foot">
@@ -975,6 +995,20 @@ html.lb-open,html.lb-open body{overflow:hidden}
   function f(){ b.classList.toggle('show', window.scrollY>700); }
   window.addEventListener('scroll',f,{passive:true}); f();
   b.addEventListener('click',function(){ var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; window.scrollTo({top:0,behavior:rm?'auto':'smooth'}); });
+})();
+(function(){
+  // もくじ・#のリンクで飛ぶときは、たたんだ欄を開いてから飛ぶ（2026-10-11）
+  function openTo(id){
+    var el=id&&document.getElementById(id); if(!el) return null;
+    var d=el.querySelector('details.sec'); if(d&&d.parentElement===el) d.open=true;
+    for(var n=el;n;n=n.parentElement){ if(n.tagName==='DETAILS') n.open=true; }
+    return el;
+  }
+  function hid(h){ try{ return decodeURIComponent((h||'').replace(/^#/,'')); }catch(e){ return ''; } }
+  document.addEventListener('click',function(e){ var a=e.target.closest?e.target.closest('a[href^="#"]'):null; if(a) openTo(hid(a.getAttribute('href'))); });
+  function fromHash(){ var el=openTo(hid(location.hash)); if(el) el.scrollIntoView(); }
+  window.addEventListener('hashchange',fromHash);
+  if(location.hash) fromHash();
 })();
 </script>
 </body>
