@@ -234,6 +234,13 @@ details.sec[open]>summary{margin-bottom:8px;border-bottom:1px dashed var(--line)
 details.sec>summary h2{display:flex;align-items:center;gap:10px;font-size:1.3rem;margin:0}
 details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 50% 60%,var(--fire) 0 38%,var(--clay) 40% 100%)}
 .kotoshi-mk{font-size:.74rem;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;line-height:1.7;white-space:nowrap}
+/* 長押し→すべて選択→読み上げ に入れない物（2026-10-13）：もくじは画像、印やボタンの字は ::before で出す */
+.toc,.totop,.lb-bar,.kotoshi-mk,.season .sn{-webkit-user-select:none;user-select:none}
+.toc a{padding:4px 14px}
+.toc img{display:block;max-width:none;pointer-events:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .toc img{filter:invert(1) hue-rotate(180deg)}}
+:root[data-theme="dark"] .toc img{filter:invert(1) hue-rotate(180deg)}
+.kotoshi-mk::before,.season .sn::before,.totop::before,.lb-bar button::before{content:attr(data-t)}
 </style>
 </head>
 <body>
@@ -254,19 +261,19 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </header>
 <main class="wrap">
 <nav aria-label="もくじ"><ul class="toc">
-<li><a href="#mura">いまの村</a></li>
-<li><a href="#ten">天の答え</a></li>
-<li><a href="#dekigoto">今年の出来事</a></li>
-<li><a href="#kaiwa">会話と心の中</a></li>
-<li><a href="#yoriai">寄り合い</a></li>
-<li><a href="#okite">掟</a></li>
-<li><a href="#hatsumei">発明・年表</a></li>
-<li><a href="#kotoba">ことば帳</a></li>
-<li><a href="#hito">人物帳</a></li>
-<li><a href="#negai">願いの記録</a></li>
-<li><a href="#e">絵の年表</a></li>
-<li><a href="#annai">案内動画</a></li>
-<li><a href="#kuwashiku">くわしいこと</a></li>
+<li><a href="#mura"><img src="img/toc/mura.svg" alt="" width="55" height="15"></a></li>
+<li><a href="#ten"><img src="img/toc/ten.svg" alt="" width="55" height="15"></a></li>
+<li><a href="#dekigoto"><img src="img/toc/dekigoto.svg" alt="" width="84" height="15"></a></li>
+<li><a href="#kaiwa"><img src="img/toc/kaiwa.svg" alt="" width="83" height="15"></a></li>
+<li><a href="#yoriai"><img src="img/toc/yoriai.svg" alt="" width="55" height="15"></a></li>
+<li><a href="#okite"><img src="img/toc/okite.svg" alt="" width="14" height="15"></a></li>
+<li><a href="#hatsumei"><img src="img/toc/hatsumei.svg" alt="" width="70" height="15"></a></li>
+<li><a href="#kotoba"><img src="img/toc/kotoba.svg" alt="" width="54" height="15"></a></li>
+<li><a href="#hito"><img src="img/toc/hito.svg" alt="" width="42" height="15"></a></li>
+<li><a href="#negai"><img src="img/toc/negai.svg" alt="" width="70" height="15"></a></li>
+<li><a href="#e"><img src="img/toc/e.svg" alt="" width="56" height="15"></a></li>
+<li><a href="#annai"><img src="img/toc/annai.svg" alt="" width="56" height="15"></a></li>
+<li><a href="#kuwashiku"><img src="img/toc/kuwashiku.svg" alt="" width="78" height="15"></a></li>
 </ul></nav>
 <section class="card" id="mura">
 <h2>いまの村</h2>
@@ -274,7 +281,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <div class="stat"><span class="k">年</span><span class="v">4年目</span><span class="s">冬の終わり</span></div>
 <div class="stat"><span class="k">人数</span><span class="v">11人</span><span class="s">年寄り2・大人6・若者0・子ども3</span></div>
 <div class="stat wide"><span class="k">時代</span><span class="v">縄文のはじめ（木の実をたくわえる暮らし）</span></div>
-<div class="stat wide"><span class="k">暮らし方</span><span class="v">季節で住む所を変える。春から秋は浜の小屋と丘を行き来し、冬は丘の小屋で火を囲む。3年目からは、夏のあいだイソが浜の小屋に一人で寝起きして浜を守る（ハマモリ）。4年目の冬からは、床を掘り下げた小屋（ホリヤ）にトチとシイが寝る。食べ物は、その日にとった物を分けて食べるのが中心。秋には木の実を集めてネムリアナ（穴）にため、冬を越すようになった。しぶいカシの実は、くだいて湧き水にさらし（シブニゲ）、冬の蓄えにする。</span></div>
+<div class="stat wide"><span class="k">暮らし方</span><span class="v">季節で住む所を変える。春から秋は浜の小屋と丘を行き来し、冬は丘の小屋で火を囲む。4年目の冬からは、床を掘り下げた小屋（ホリヤ）にトチとシイが寝る。食べ物は、その日にとった物を分けて食べるのが中心。秋には木の実を集めてネムリアナ（穴）にため、冬を越すようになった。しぶいカシの実は、くだいて湧き水にさらし（シブニゲ）、冬の蓄えにする。</span></div>
 </div>
 <h3>蓄え（食べ物）</h3>
 <div class="meter" role="img" aria-label="次の冬に要る量の24パーセント"><span style="width:24%"></span></div>
@@ -303,7 +310,6 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <p class="story">春のはじめ、強い風の夜がありました。浜の小屋を案じて丘のはしに出たナギは、風にあおられて、からになったネムリアナにしゃがみこみました。頭の上では風がごうごうと鳴っているのに、穴の中は静かで、冷たい風は少しも入ってきませんでした。</p>
 <ul class="effects">
 <li>地面より低い所には風が来ない、という手がかりがナギに届いた（床を掘り下げて屋根をかけるやり方は村人が考えた）</li>
-<li>秋、試しの小屋「ホリヤ」が一つできた。ただ、柱にする太い木が切れず、みんなが入れる大きさにはできなかった</li>
 </ul>
 </div>
 <details><summary>はじまりの話（もう一度読む）</summary>
@@ -313,10 +319,10 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <section class="card" id="dekigoto">
 <h2>今年の出来事</h2>
 <ul class="chips" aria-label="この年のめぐり"><li><b>天気</b>ふつう</li><li><b>出来事</b>平和な一年</li><li><b>心</b>弟子入り</li></ul>
-<div class="season s-spring"><span class="sn" aria-hidden="true">春</span><h3 class="sr">春</h3><p>春のはじめ、強い風の夜がありました。浜の小屋が気になったナギは丘のはしに出ましたが、風にあおられて、からのネムリアナにしゃがみこみました。頭の上では風が鳴っているのに、穴の中は静かです。朝、ナギはカシとヨシを呼び、穴のふちを指さしました。三人は丘の大きい小屋のとなりに、ひざの深さの丸い穴を掘り始めました。ネムリアナに残っていた蓄えで、今年の春はおなかがすかずにすみました。</p></div>
-<div class="season s-summer"><span class="sn" aria-hidden="true">夏</span><h3 class="sr">夏</h3><p>夏、イソはふたたび浜の小屋で寝起きし、毎朝たき火の煙を上げました。丘では、コナがトチじいの前に座りこみ、石割りを教えてほしいと頼みました。トチじいの手はもうふるえて、強くはたたけません。それでもトチじいは、川原の石の目の読み方を、一つずつ口で教えました。コナの指はすりむけましたが、夏の終わりには、自分で割った小さな刃を一本、首からさげていました。大きな出来事のない、静かな夏でした。</p></div>
-<div class="season s-autumn"><span class="sn" aria-hidden="true">秋</span><h3 class="sr">秋</h3><p>秋、穴の上に屋根をかける番です。カシはナツユキの森の太いクリの木に石のおのを当てようとしましたが、ホムラが止めました。掟では、実をくれる木は切りません。そこで、去年の大風で倒れた木や、実のならない細い木を集めて柱にしました。ヨシが縄でしばり、草と木の皮で屋根をふくと、小さな小屋ができました。木の実はいつもの年と同じくらい集まり、湧き水にはシブニゲのかごが並びました。</p></div>
-<div class="season s-winter"><span class="sn" aria-hidden="true">冬</span><h3 class="sr">冬</h3><p>冬、ツルが「掘った家だから、ホリヤ！」と名づけた小屋には、シイばあの言葉で、トチじいとシイばあが寝ることになりました。外で風が鳴っても、ホリヤの炉の火はゆれません。けれど細い柱は雪の重みできしみ、みんなが入れる大きさにはできません。トチじいは火のそばでコナに石の目の話をしながら、ときどき川原の方を見ていました。</p></div>
+<div class="season s-spring"><span class="sn" data-t="春" aria-hidden="true"></span><h3 class="sr">春</h3><p>（ここは上の「天の答え」のとおり。）朝、ナギはカシとヨシを呼び、穴のふちを指さしました。三人は丘の大きい小屋のとなりに、ひざの深さの丸い穴を掘り始めました。ネムリアナに残っていた蓄えで、今年の春はおなかがすかずにすみました。</p></div>
+<div class="season s-summer"><span class="sn" data-t="夏" aria-hidden="true"></span><h3 class="sr">夏</h3><p>夏、イソはふたたび浜の小屋で寝起きし、毎朝たき火の煙を上げました。丘では、コナがトチじいの前に座りこみ、石割りを教えてほしいと頼みました。トチじいの手はもうふるえて、強くはたたけません。それでもトチじいは、川原の石の目の読み方を、一つずつ口で教えました。コナの指はすりむけましたが、夏の終わりには、自分で割った小さな刃を一本、首からさげていました。大きな出来事のない、静かな夏でした。</p></div>
+<div class="season s-autumn"><span class="sn" data-t="秋" aria-hidden="true"></span><h3 class="sr">秋</h3><p>秋、穴の上に屋根をかける番です。カシはナツユキの森の太いクリの木に石のおのを当てようとしましたが、ホムラが止めました。掟では、実をくれる木は切りません。そこで、去年の大風で倒れた木や、実のならない細い木を集めて柱にしました。ヨシが縄でしばり、草と木の皮で屋根をふくと、小さな小屋ができました。木の実はいつもの年と同じくらい集まり、湧き水にはシブニゲのかごが並びました。</p></div>
+<div class="season s-winter"><span class="sn" data-t="冬" aria-hidden="true"></span><h3 class="sr">冬</h3><p>冬、ツルが「掘った家だから、ホリヤ！」と名づけた小屋には、シイばあの言葉で、トチじいとシイばあが寝ることになりました。外で風が鳴っても、ホリヤの炉の火はゆれません。けれど細い柱は雪の重みできしみ、みんなが入れる大きさにはできません。トチじいは火のそばでコナに石の目の話をしながら、ときどき川原の方を見ていました。</p></div>
 <div class="newbox"><h3>今年あたらしく生まれた物・変わったこと</h3><ul>
 <li>発明・発見：ホリヤ（床を掘り下げた小屋）</li>
 <li>技：床を掘り下げて小屋を建てる</li>
@@ -325,7 +331,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </ul></div>
 </section>
 <section class="card fold" id="kaiwa">
-<details class="sec"><summary><h2>大事な会話と心の中</h2> <span class="kotoshi-mk">今年＋6</span></summary>
+<details class="sec" open><summary><h2>大事な会話と心の中</h2> <span class="kotoshi-mk" data-t="今年＋6" aria-hidden="true"></span></summary>
 <div class="scene">
 <h3>風の来ない穴</h3>
 <p class="where">春・オカ（丘）</p>
@@ -391,9 +397,6 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <li>掟「実をくれる木は切らない」は、そのまま続ける</li>
 <li>天への願いは、カシの願いにする</li>
 </ul>
-<ul class="chips">
-<li><b>あたらしい掟</b>「ホリヤは寒さに弱い者から」</li>
-</ul>
 <div class="wishbox">
 <h3>今年の天への願い</h3>
 <p class="wishtext">「太い木でも切れる、欠けないおのがほしい」</p>
@@ -404,7 +407,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </div>
 </section>
 <section class="card fold" id="okite">
-<details class="sec"><summary><h2>掟（おきて）の一覧</h2> <span class="kotoshi-mk">今年＋1</span></summary>
+<details class="sec"><summary><h2>掟（おきて）の一覧</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
 <p class="small">いまの掟 10つ・やめた掟 1つ</p>
 <div class="rule">
 <h3>火を絶やさない</h3>
@@ -465,7 +468,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </details>
 </section>
 <section class="card fold" id="hatsumei">
-<details class="sec"><summary><h2>発明・発見の年表</h2> <span class="kotoshi-mk">今年＋6</span></summary>
+<details class="sec"><summary><h2>発明・発見の年表</h2> <span class="kotoshi-mk" data-t="今年＋6" aria-hidden="true"></span></summary>
 <ul class="tl">
 <li><span class="yr">4年目</span><br><b>ホリヤ（床を掘り下げた小屋）</b> <span class="badge">住まい</span> <span class="badge new">今年</span><span class="how2">生みだした人：ナギ・カシ・ヨシ<br>春の強い風の夜、からのネムリアナの中には風が来ないことにナギが気づいた。カシがひざの深さに丸く掘り、倒れた木と実のならない細い木で柱を立て、ヨシが縄でしばって草と木の皮の屋根をかけた。</span></li>
 <li><span class="yr">3年目</span><br><b>ハネギ（はね返る木の弓のかたち）</b> <span class="badge">道具</span><span class="how2">生みだした人：ヨシ・カシ・ホムラ<br>春の遅い雪の朝、はね返るイヌガヤの若木をヨシが見た。ヨシの力では曲がらず、秋にカシに力を借りた。ホムラが探したまっすぐな木をカシが曲げ、ヨシが縄を張ると、棒を遠くへ飛ばせるようになった。</span></li>
@@ -503,7 +506,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </details>
 </section>
 <section class="card fold" id="kotoba">
-<details class="sec"><summary><h2>ことば帳</h2> <span class="kotoshi-mk">今年＋1</span></summary>
+<details class="sec"><summary><h2>ことば帳</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
 <p class="small">村で生まれた言葉 13こ（生まれた順）</p>
 <div class="words">
 <div class="word"><p class="wd">ヒモリ</p><p class="wmn">火の番をする人。また、その役目。</p><p class="wm">むかしから。火を守るから「ヒモリ」。</p></div>
@@ -889,11 +892,11 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </details>
 </section>
 <section class="card fold" id="negai">
-<details class="sec"><summary><h2>天への願いと答えの記録</h2> <span class="kotoshi-mk">今年＋3</span></summary>
+<details class="sec"><summary><h2>天への願いと答えの記録</h2> <span class="kotoshi-mk" data-t="今年＋3" aria-hidden="true"></span></summary>
 <div class="wish">
 <p class="wy">4年目の願い <span class="badge new">今年</span></p>
 <p class="wq">「太い木でも切れる、欠けないおのがほしい」</p>
-<p class="wb">言いだした人：カシ。ホリヤをみんなの分建てるには太い柱が要るが、打ち欠いた石のおのでは太い木が切れず、たたくと刃が欠けてしまうから。</p>
+<p class="wb">言いだした人：カシ。わけは上の「寄り合いの記録」のとおり</p>
 <p class="small">天の答えは、次の年のはじめに届きます。</p>
 </div>
 <div class="wish">
@@ -902,11 +905,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <p class="wb">言いだした人：ナギ。イソが一人で浜の小屋に寝起きするようになったが、浜の小屋は夏の終わりの大風で屋根が飛ぶ。季節で住む所を変えずにすむ、丈夫な家があれば安心だから。</p>
 <div class="answer">
 <p>天の答え（4年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
-<p>春のはじめ、強い風の夜がありました。浜の小屋を案じて丘のはしに出たナギは、風にあおられて、からになったネムリアナにしゃがみこみました。頭の上では風がごうごうと鳴っているのに、穴の中は静かで、冷たい風は少しも入ってきませんでした。</p>
-<ul class="effects">
-<li>地面より低い所には風が来ない、という手がかりがナギに届いた（床を掘り下げて屋根をかけるやり方は村人が考えた）</li>
-<li>秋、試しの小屋「ホリヤ」が一つできた。ただ、柱にする太い木が切れず、みんなが入れる大きさにはできなかった</li>
-</ul>
+<p>上の「天の答え」のとおり。</p>
 </div>
 </div>
 <div class="wish">
@@ -944,7 +943,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </details>
 </section>
 <section class="card fold" id="e">
-<details class="sec"><summary><h2>絵で見る年表</h2> <span class="kotoshi-mk">今年＋1</span></summary>
+<details class="sec"><summary><h2>絵で見る年表</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
 <p class="small">1年目から並べています。押すと大きく見られます。</p>
 <div class="gallery">
 <a class="gtile zoom" href="img/y0001.jpg" data-cap="1年目　ナツユキの年"><img src="img/t0001.jpg" width="480" height="268" alt="1年目の村の絵" loading="lazy" decoding="async"><span class="gy">1年目　ナツユキの年</span></a>
@@ -955,7 +954,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </details>
 </section>
 <section class="card fold" id="annai">
-<details class="sec"><summary><h2>案内動画</h2> <span class="kotoshi-mk">今年＋1</span></summary>
+<details class="sec"><summary><h2>案内動画</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
 <p class="small"><a href="douga/">▶ 動画だけを並べたページ（1年目から順に）</a></p>
 <h3>3年目の村のアニメ <span class="badge new">今年</span></h3>
 <p class="small">3年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
@@ -972,7 +971,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </details>
 </section>
 <section class="card fold more" id="kuwashiku">
-<details class="sec"><summary><h2>村のくわしいこと</h2> <span class="kotoshi-mk">今年＋1</span></summary>
+<details class="sec"><summary><h2>村のくわしいこと</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
 <details><summary>土地（8か所）</summary><ul class="plain">
 <li><span class="nm">オカ（丘）</span> <span class="badge">住む所</span><span class="note">大川が海に出る少し手前の、南向きの小高い台地。日当たりがよい。ふもとに湧き水があり、冬も凍らない。丘のはしの水はけのよい所に、ネムリアナが三つある。<br>とれる物：湧き水、日当たり、小屋の場所、ネムリアナ（木の実をためる穴）<br>村の知り具合：よく知っている</span></li>
 <li><span class="nm">オオカワ（大川）</span> <span class="badge">川</span><span class="note">北の山から流れてくる大きな川。春にはアユがのぼり、ウナギやコイもいる。雨のあとは流れが速く、にごる。川原には色も形もいろいろな石が転がっている。<br>とれる物：魚、川原の石、流木、水<br>村の知り具合：よく知っている</span></li>
@@ -1037,9 +1036,9 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="大きい絵">
 <div class="lb-stage"><img alt=""></div>
 <p class="lb-cap"></p>
-<div class="lb-bar"><button type="button" class="lb-prev" aria-label="前の絵">◀ 前</button><button type="button" class="lb-close">とじる</button><button type="button" class="lb-next" aria-label="次の絵">次 ▶</button></div>
+<div class="lb-bar"><button type="button" class="lb-prev" data-t="◀ 前" aria-label="前の絵"></button><button type="button" class="lb-close" data-t="とじる" aria-label="とじる"></button><button type="button" class="lb-next" data-t="次 ▶" aria-label="次の絵"></button></div>
 </div>
-<button type="button" class="totop" id="totop" aria-label="いちばん上へ">▲</button>
+<button type="button" class="totop" id="totop" data-t="▲" aria-label="いちばん上へ"></button>
 <script>
 (function(){
   var lb=document.getElementById('lb'); if(!lb) return;
