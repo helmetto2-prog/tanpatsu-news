@@ -224,8 +224,15 @@ summary{cursor:pointer;color:var(--clay-ink);font-weight:700;font-size:.92rem;pa
 html.lb-open,html.lb-open body{overflow:hidden}
 :focus-visible{outline:3px solid var(--fire);outline-offset:2px}
 </style>
+<style id="yn-style">
+.yn-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:760px;margin:10px auto;padding:0 16px;box-sizing:border-box;font-size:15px;-webkit-user-select:none;user-select:none}
+.yn-bar .yn{color:#8a4220;text-decoration:none;padding:7px 12px;border:1px solid rgba(165,85,45,.4);border-radius:999px;background:rgba(255,255,255,.55);white-space:nowrap}
+.yn-bar .yn::before{content:attr(data-l)}
+.yn-bar .yn.off{visibility:hidden}
+@media (prefers-color-scheme: dark){.yn-bar .yn{color:#f0b48a;border-color:rgba(240,180,138,.4);background:rgba(0,0,0,.25)}}
+</style>
 </head>
-<body>
+<body><nav class="yn-bar" aria-label="年の切りかえ"><a class="yn off" href="../0/" data-l="← 0年目"></a><a class="yn" href="../" data-l="年の一覧"></a><a class="yn yn-next" href="../2/" data-l="2年目 →"></a></nav>
 <header class="top">
 <figure class="hero">
 <a class="zoom" href="img/y0001.jpg" data-cap="1年目　1年目　ナツユキの年"><img src="img/y0001.jpg" srcset="img/t0001.jpg 480w, img/y0001.jpg 1376w" sizes="(max-width: 1072px) 100vw, 1040px" width="1376" height="768" alt="1年目の村のようす（Gemini で描いた絵）" fetchpriority="high"></a>
@@ -929,5 +936,6 @@ html.lb-open,html.lb-open body{overflow:hidden}
   b.addEventListener('click',function(){ var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; window.scrollTo({top:0,behavior:rm?'auto':'smooth'}); });
 })();
 </script>
+<nav class="yn-bar" aria-label="年の切りかえ"><a class="yn off" href="../0/" data-l="← 0年目"></a><a class="yn" href="../" data-l="年の一覧"></a><a class="yn yn-next" href="../2/" data-l="2年目 →"></a></nav><script id="yn-script">(function(){var a=document.querySelectorAll('.yn-bar .yn-next');if(!a.length||!window.fetch)return;fetch(a[0].getAttribute('href'),{method:'HEAD'}).then(function(r){if(!r.ok){for(var i=0;i<a.length;i++)a[i].classList.add('off');}}).catch(function(){for(var i=0;i<a.length;i++)a[i].classList.add('off');});})();</script>
 </body>
 </html>
