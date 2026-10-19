@@ -214,6 +214,11 @@ summary{cursor:pointer;color:var(--clay-ink);font-weight:700;font-size:.92rem;pa
 .foot p{margin:.3em 0}
 .totop{position:fixed;right:14px;bottom:14px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--clay-ink);font-size:1.1rem;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;cursor:pointer}
 .totop.show{opacity:1;pointer-events:auto}
+/* 会話だけを読み上げるボタン（2026-10-20 義樹さん「車で移動中に、会話の内容だけを音声で、ボタンで」）：左下に固定。読んでいる行に印 */
+.yomi{position:fixed;left:14px;bottom:14px;z-index:40;height:46px;border-radius:23px;border:1px solid var(--line);background:var(--surface);color:var(--clay-ink);font-size:1rem;font-weight:700;font-family:inherit;padding:0 18px;box-shadow:var(--shadow);cursor:pointer}
+.yomi[hidden]{display:none}
+.yomi.on{background:var(--clay);border-color:var(--clay);color:#fffaf1}
+.yomi-now{background:var(--surface-2);box-shadow:0 0 0 3px var(--fire);border-radius:8px}
 .lb{position:fixed;inset:0;z-index:50;background:rgba(20,15,10,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
 .lb[hidden],.lb button[hidden]{display:none}
 .lb-stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
@@ -235,12 +240,12 @@ details.sec>summary h2{display:flex;align-items:center;gap:10px;font-size:1.3rem
 details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 50% 60%,var(--fire) 0 38%,var(--clay) 40% 100%)}
 .kotoshi-mk{font-size:.74rem;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;line-height:1.7;white-space:nowrap}
 /* 長押し→すべて選択→読み上げ に入れない物（2026-10-13）：もくじは画像、印やボタンの字は ::before で出す */
-.toc,.totop,.lb-bar,.kotoshi-mk,.season .sn{-webkit-user-select:none;user-select:none}
+.toc,.totop,.yomi,.lb-bar,.kotoshi-mk,.season .sn{-webkit-user-select:none;user-select:none}
 .toc a{padding:4px 14px}
 .toc img{display:block;max-width:none;pointer-events:none}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .toc img{filter:invert(1) hue-rotate(180deg)}}
 :root[data-theme="dark"] .toc img{filter:invert(1) hue-rotate(180deg)}
-.kotoshi-mk::before,.season .sn::before,.totop::before,.lb-bar button::before{content:attr(data-t)}
+.kotoshi-mk::before,.season .sn::before,.totop::before,.yomi::before,.lb-bar button::before{content:attr(data-t)}
 </style>
 <script src="/tanpatsu-news/jinrui/next-video.js" defer></script>
 <style id="yn-style">
@@ -1303,6 +1308,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <div class="lb-bar"><button type="button" class="lb-prev" data-t="◀ 前" aria-label="前の絵"></button><button type="button" class="lb-close" data-t="とじる" aria-label="とじる"></button><button type="button" class="lb-next" data-t="次 ▶" aria-label="次の絵"></button></div>
 </div>
 <button type="button" class="totop" id="totop" data-t="▲" aria-label="いちばん上へ"></button>
+<button type="button" class="yomi" id="yomi" data-t="🔊 会話を聞く" aria-label="会話を読み上げる" hidden></button>
 <script>
 (function(){
   var lb=document.getElementById('lb'); if(!lb) return;
@@ -1347,6 +1353,65 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
   function fromHash(){ var el=openTo(hid(location.hash)); if(el) el.scrollIntoView(); }
   window.addEventListener('hashchange',fromHash);
   if(location.hash) fromHash();
+})();
+(function(){
+  // 会話だけを読み上げる（2026-10-20 義樹さん「車で移動中に、会話の内容だけを音声で、ボタンで」）
+  // 読む物＝「大事な会話と心の中」（#kaiwa：場面の名前→だれが→せりふ→そのあと、心の中）と、寄り合いの「火を囲んで」（#yoriai の p.ln）
+  // 1行ずつ順に読む（長い1本にしない＝途中で止まりにくい）。読んでいる間は画面が消えないようにする（Wake Lock）。止めたら、次はその行から
+  var b=document.getElementById('yomi'); if(!b) return;
+  var ss=window.speechSynthesis; if(!ss||!window.SpeechSynthesisUtterance) return;
+  function txt(el){ return el?(el.textContent||'').replace(/\s+/g,' ').trim():''; }
+  function ln(p){ var who=txt(p.querySelector('.who')); var line=txt(p).slice(who.length).trim(); return {el:p, t:(who?who+'。':'')+line, who:who}; }
+  var q=[];
+  var kw=document.getElementById('kaiwa');
+  if(kw){
+    [].forEach.call(kw.querySelectorAll('.scene, blockquote.thought'),function(sc){
+      if(sc.classList.contains('scene')){
+        var head=txt(sc.querySelector('h3')), w=txt(sc.querySelector('.where')).replace(/（[^）]*）/g,'');   // 「オカ（丘）」→「オカ」（耳では二度読みになるので）
+        if(head||w) q.push({el:sc, t:head+(w?'。'+w:''), who:''});
+        [].forEach.call(sc.querySelectorAll('p.ln'),function(p){ q.push(ln(p)); });
+        var af=sc.querySelector('.after'); if(af) q.push({el:af, t:txt(af), who:''});
+      } else {
+        q.push({el:sc, t:txt(sc.querySelector('.tn'))+'。'+txt(sc.querySelector('.tt')), who:''});
+      }
+    });
+  }
+  var yr=document.getElementById('yoriai');
+  if(yr){
+    var yl=yr.querySelectorAll('p.ln');
+    if(yl.length){ q.push({el:yl[0], t:'寄り合い。火を囲んで。', who:''}); [].forEach.call(yl,function(p){ q.push(ln(p)); }); }
+  }
+  q=q.filter(function(x){ return x.t; });
+  if(!q.length) return;
+  b.hidden=false;
+  var i=0, on=false, voice=null, wl=null, cur=null;
+  function pickVoice(){ var vs=ss.getVoices()||[]; voice=null; for(var k=0;k<vs.length;k++){ if(/^ja/i.test(vs[k].lang)){ if(!voice) voice=vs[k]; if(/Google|Kyoko|O-ren|Nanami|Haruka/.test(vs[k].name)){ voice=vs[k]; break; } } } }
+  pickVoice(); if(ss.addEventListener) ss.addEventListener('voiceschanged',pickVoice);
+  function pitchOf(who){ if(!who) return 1; var h=0; for(var k=0;k<who.length;k++) h=(h*31+who.charCodeAt(k))%997; return 0.85+(h%8)*0.05; }
+  function mark(el){
+    var o=document.querySelector('.yomi-now'); if(o) o.classList.remove('yomi-now');
+    if(!el) return;
+    el.classList.add('yomi-now');
+    for(var n=el;n;n=n.parentElement){ if(n.tagName==='DETAILS') n.open=true; }
+    try{ el.scrollIntoView({block:'center',behavior:'smooth'}); }catch(e){}
+  }
+  function setBtn(){ b.setAttribute('data-t',on?'■ とめる':'🔊 会話を聞く'); b.setAttribute('aria-label',on?'読み上げをとめる':'会話を読み上げる'); b.classList.toggle('on',on); }
+  function lock(){ try{ if(navigator.wakeLock&&!wl){ navigator.wakeLock.request('screen').then(function(x){ wl=x; x.addEventListener('release',function(){ wl=null; }); }).catch(function(){}); } }catch(e){} }
+  function unlock(){ try{ if(wl) wl.release(); }catch(e){} wl=null; }
+  function stop(){ on=false; cur=null; ss.cancel(); mark(null); unlock(); setBtn(); }
+  function say(){
+    if(!on) return;
+    if(i>=q.length){ i=0; stop(); return; }
+    var it=q[i]; mark(it.el);
+    var u=new SpeechSynthesisUtterance(it.t);
+    u.lang='ja-JP'; if(voice) u.voice=voice; u.rate=1; u.pitch=pitchOf(it.who);
+    u.onend=function(){ if(cur!==u) return; i++; setTimeout(say,250); };
+    u.onerror=function(e){ if(cur!==u) return; if(e&&(e.error==='canceled'||e.error==='interrupted')) return; i++; setTimeout(say,250); };
+    cur=u; window.__yomiU=u; ss.speak(u);
+  }
+  b.addEventListener('click',function(){ if(on){ stop(); return; } on=true; setBtn(); lock(); ss.cancel(); say(); });
+  document.addEventListener('visibilitychange',function(){ if(on&&document.visibilityState==='visible') lock(); });
+  setBtn();
 })();
 </script>
 <nav class="yn-bar" aria-label="年の切りかえ"><a class="yn" href="../10/" data-l="← 10年目"></a><a class="yn" href="../" data-l="年の一覧"></a><a class="yn yn-next" href="../12/" data-l="12年目 →"></a></nav><script id="yn-script">(function(){var a=document.querySelectorAll('.yn-bar .yn-next');if(!a.length||!window.fetch)return;fetch(a[0].getAttribute('href'),{method:'HEAD'}).then(function(r){if(!r.ok){for(var i=0;i<a.length;i++)a[i].classList.add('off');}}).catch(function(){for(var i=0;i<a.length;i++)a[i].classList.add('off');});})();</script>
