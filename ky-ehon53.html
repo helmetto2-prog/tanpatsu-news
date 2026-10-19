@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>みどりくんの きけんよち えほん その53 〜みどり造園 あんぜん紙芝居〜</title>
+<style>
+  :root{
+    --paper:#fdf8ec; --ink:#4a3f2e; --accent:#5a8f3c; --danger:#d0541e; --point:#1e6fa8;
+    --shadow:rgba(90,70,40,.18);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:linear-gradient(160deg,#f5e3a8 0%,#cfe3b8 45%,#7fb97f 100%);
+    font-family:"BIZ UDPMincho","Yu Mincho","Hiragino Mincho ProN",serif;
+    color:var(--ink); overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #book{
+    width:min(96vw, 168vh); max-width:1100px; height:min(96vh, 100%);
+    display:flex;flex-direction:column;
+    background:var(--paper);
+    border-radius:18px;
+    box-shadow:0 18px 50px rgba(40,60,30,.35), inset 0 0 0 6px #fff, inset 0 0 0 8px #f0d98a;
+    overflow:hidden; position:relative;
+  }
+  .page{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    opacity:0; pointer-events:none; transition:opacity .55s ease;
+    padding:14px 14px 8px;
+  }
+  .page.show{opacity:1; pointer-events:auto;}
+  .art{
+    flex:1 1 56%; min-height:0; border-radius:12px; overflow:hidden;
+    box-shadow:0 4px 14px var(--shadow); background:#e9e2cf;
+    display:flex;align-items:center;justify-content:center; position:relative;
+  }
+  .art img{width:100%;height:100%;object-fit:cover;display:block;}
+  .txt{ flex:0 0 auto; padding:10px 20px 4px; text-align:center; }
+  .txt p.scene{
+    font-size:clamp(14px, 2.3vmin, 19px); line-height:1.75; text-align:justify;
+    text-align-last:center;
+  }
+  .kv{
+    display:flex; gap:10px; margin-top:8px; text-align:left;
+    flex-wrap:wrap; justify-content:center;
+  }
+  .kv .box{
+    flex:1 1 260px; max-width:480px; border-radius:10px; padding:7px 12px;
+    font-size:clamp(13px, 2.1vmin, 17px); line-height:1.6;
+    background:#fff7ec; box-shadow:0 2px 8px var(--shadow);
+  }
+  .kv .danger{ border-left:6px solid var(--danger); }
+  .kv .danger b{ color:var(--danger); }
+  .kv .yakusoku{ border-left:6px solid var(--point); }
+  .kv .yakusoku b{ color:var(--point); }
+  .kv .sanko{ border-left:6px solid #b08d3a; }
+  .kv .sanko b{ color:#8a6a1c; }
+  .kv .box .src{ display:block; margin-top:3px; font-size:.86em; color:#7d7157; }
+  .coverTitle .coverNote{ margin-top:10px; font-size:clamp(11px,1.9vmin,14px); color:#4a3f2e; letter-spacing:.04em; line-height:1.5; }
+  .pageno{
+    text-align:center; font-size:12px; color:#9b8c6e; padding:4px 0 2px;
+    letter-spacing:.3em;
+  }
+  #p0 .art{flex:1 1 100%;}
+  .coverTitle{
+    position:absolute; left:0; right:0; top:6%; text-align:center;
+    text-shadow:0 2px 10px rgba(255,255,255,.9),0 0 26px rgba(255,255,255,.85);
+  }
+  .coverTitle h1{
+    font-size:clamp(26px,6vmin,50px); letter-spacing:.1em; color:#3c5a24;
+  }
+  .coverTitle h2{
+    margin-top:10px; font-size:clamp(13px,2.6vmin,20px); letter-spacing:.24em; color:#8a5a1c;
+    font-weight:normal;
+  }
+  .coverHint{
+    position:absolute; left:0; right:0; bottom:5%; text-align:center;
+    font-size:clamp(12px,2.2vmin,16px); color:#fff;
+    text-shadow:0 1px 6px rgba(0,0,0,.45); letter-spacing:.2em;
+    animation:blink 2.2s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:.95}50%{opacity:.35}}
+  .fin{
+    margin-top:6px; font-size:clamp(14px,2.5vmin,20px); color:var(--danger);
+    letter-spacing:.4em; text-align:center; font-weight:bold;
+  }
+  .nav{
+    position:absolute; top:0; bottom:0; width:19%; z-index:5; cursor:pointer;
+    display:flex; align-items:center; opacity:.85; transition:opacity .25s;
+  }
+  .nav:hover{opacity:1;}
+  .nav.dis{opacity:.25; pointer-events:none;}
+  #prev{left:0; justify-content:flex-start;}
+  #next{right:0; justify-content:flex-end;}
+  .nav span{
+    font-size:34px; color:#fff; background:rgba(90,120,60,.55);
+    border-radius:50%; width:52px;height:52px; display:flex;align-items:center;justify-content:center;
+    margin:0 8px; user-select:none;
+  }
+  #dots{
+    position:absolute; bottom:6px; left:0; right:0; text-align:center; z-index:6;
+    pointer-events:none;
+  }
+  #dots i{
+    display:inline-block; width:7px;height:7px;border-radius:50%;
+    background:#cbbd97; margin:0 3.5px; transition:all .3s;
+  }
+  #dots i.on{background:var(--accent); transform:scale(1.45);}
+</style>
+<style id="artfix">
+/* 2026-08-31 絵を大きく: 文章が長くても絵は画面の46%以上を確保。あふれた文章はスクロール */
+.page .art{flex:1 1 auto !important; min-height:46% !important;}
+.page .txt{flex:0 1 auto !important; max-height:44% !important; overflow-y:auto !important; -webkit-overflow-scrolling:touch;}
+.kv .box{padding:5px 10px !important; font-size:clamp(12px,1.9vmin,15px) !important; line-height:1.55 !important;}
+.txt p.scene{font-size:clamp(13px,2.1vmin,17px) !important; line-height:1.6 !important;}
+</style>
+<style id="backno-css">
+/* 2026-09-13 バックナンバー導線と短い注意書き */
+  #tomenu{ position:absolute; top:14px; right:16px; z-index:9; text-decoration:none;
+    background:rgba(255,253,246,.92); color:#3a7d44; border:1px solid #e0d8c4;
+    border-radius:999px; padding:5px 12px; font-weight:bold; letter-spacing:.04em;
+    font-family:"Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+    font-size:clamp(11px,1.8vmin,13px); box-shadow:0 2px 8px rgba(60,70,50,.18); }
+  #tomenu:active{ transform:scale(.96); }
+  .backno{ position:relative; z-index:6; display:flex; gap:8px; justify-content:center;
+    flex-wrap:wrap; margin-top:10px; }
+  .backno a{ text-decoration:none; background:#fff7ec; color:#3a7d44; border:1px solid #e0d8c4;
+    border-radius:999px; padding:5px 14px; font-weight:bold;
+    font-family:"Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+    font-size:clamp(11px,1.9vmin,14px); box-shadow:0 2px 6px rgba(60,70,50,.14); }
+  .backno a.mid{ background:#3a7d44; color:#fff; border-color:#3a7d44; }
+  #p0 .backno{ position:absolute; left:0; right:0; bottom:4%; z-index:7; margin:0; }
+  #p0 .coverHint{ bottom:13%; }
+  .kv .box a.chui{ display:inline-block; margin-top:4px; color:#1e6fa8; font-weight:bold; }
+</style>
+</head>
+<body>
+<div id="book">
+  <!-- 表紙 -->
+  <div class="page" id="p0">
+    <div class="art"><img src="ky-img/34_00.jpg" alt="">
+      <div class="coverTitle">
+        <h1>みどりくんの<br>きけんよち えほん その53</h1>
+        <h2>〜 「秋から冬へ、ひと確かめ」の巻 〜</h2>
+        <p class="coverNote">この絵本は「📘 一般の基準（参考・出典つき）」と「☝ やくそく（みどり造園の現場でやること）」を分けて書いています。</p>
+      </div>
+      <div class="coverHint">タップ・クリックで ページをめくる ▶</div>
+      <div class="backno" id="coverBackno">
+        <a href="ky-ehon52.html">&#9664; 前の巻（その52）</a>
+        <a class="mid" href="ky-ehon-matome.html">&#128218; 全巻もくじ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="p1">
+    <div class="art"><img src="ky-img/24_03.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">イチョウ並木の歩道で、落ち葉そうじ。落ち葉にまじって、黄色いぎんなんがたくさん落ちています。若い衆はブロワーを止めて、ぎんなんを素手で拾い集めようと、しゃがみかけました。みどりくんは熊手で落ち葉をかきながら、声をかけました。「ぎんなんの実の外側には、かぶれる汁があるでね。<b>ぎんなんは、素手でさわらない。手袋をして、熊手とちりとりで集める。</b>」若い衆は目を丸くして、手を止めました。</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> ぎんなんの<b>外側のやわらかい皮の汁で、手や顔がかぶれる</b>ことがあります。／つぶれたぎんなんは、<b>すべりやすく</b>、においも強いです。／さわった手で<b>顔や目をこすると、かぶれが広がり</b>ます。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> ぎんなんの外側の皮（外種皮）には<b>かぶれのもとになる成分</b>がふくまれ、素手でさわると皮膚炎を起こすことがある、と一般に知られています（考え方の紹介です）。労働安全衛生規則 第594条は、「皮膚若しくは眼に障害を与える物を取り扱う業務」などで、事業者が<b>保護手袋</b>など適切な保護具を備えることを定めています（考え方の紹介です）。ぎんなんを名指しした条文は<b>見当たりませんでした</b>。<span class="src">出典：植物によるかぶれについての一般的な知識（特定の資料は照合していない）／労働安全衛生規則 第594条（手元のe-Gov法令データ・2026年10月19日取得）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> <b>ぎんなんの落ちている所は、手袋をして、熊手とちりとりで集める。</b>／さわったら、<b>顔をさわる前に手を洗う。</b></div>
+      </div>
+    </div>
+    <div class="pageno">— ぎんなんは、素手でさわらない —</div>
+  </div>
+
+  <div class="page" id="p2">
+    <div class="art"><img src="ky-img/53_02.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">河川敷の土手で、ススキの刈り取り。刈ったススキを集めるとき、若い衆はそで口をまくり上げたまま、素手で束をつかもうとしました。みどりくんは、手袋をはめた両手を見せました。「ススキの葉のふちは、細かいぎざぎざになっとる。<b>ススキは、そでを下ろして、手袋をしてから集める。</b>」若い衆はそでを手首まで下ろし、革の手袋をはめて、根もとのほうから束をかかえました。</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 葉のふちで、<b>手や腕がすっと切れ</b>ます。／葉をにぎって引くと、<b>なおさら切れやすく</b>なります。／小さな切り傷から土が入ると、<b>うんだり、破傷風になったり</b>するおそれがあります。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> ススキの葉のふちには、<b>ガラス質をふくむ細かいぎざぎざ</b>が並んでいて、手を切りやすいことが知られています（一般的な知識の紹介です）。ススキなど草の扱い方を<b>直接定めた条文は見当たりませんでした</b>。<span class="src">出典：植物についての一般的な知識（特定の資料は照合していない）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> <b>ススキや背の高い草を集めるときは、そでを下ろし、手袋をする。</b>／<b>葉をにぎって引かない。束は根もとのほうから持つ。</b>／切れたら、洗ってから<b>責任者に言う。</b></div>
+      </div>
+    </div>
+    <div class="pageno">— ススキは、そでを下ろして手袋で —</div>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="art"><img src="ky-img/53_03.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">キンモクセイの剪定。若い衆が三脚脚立に上ろうとしたとき、みどりくんが鼻の先で上を指しました。枝と枝のあいだに、大きなクモの巣が光っています。「上で顔にかかると、びっくりして手をはなしてまう。<b>脚立に上る前に、下から上を見て、クモの巣を竹の棒で払っておく。</b>」若い衆は地面に立ったまま、竹の棒で、そっと巣をどかしました。</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 顔や首にクモの巣がかかると、<b>思わず手をはなしたり、のけぞったり</b>します。脚立の上でそうなると、<b>落ち</b>ます。／秋は、ジョロウグモなどの<b>大きな巣が多い</b>季節です。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> ジョロウグモの毒は、<b>人にはほとんど害がない</b>とされています。こわいのは、<b>脚立の上で「びっくり」すること</b>のほうです（一般的な知識の紹介です）。脚立の取扱説明書では一般に、<b>脚立の上で無理な姿勢をとらない・身を乗り出さない</b>といった注意が書かれています（お使いの脚立の説明書で確かめてください）。クモの巣の払い方を定めた条文は<b>見当たりませんでした</b>。<span class="src">出典：クモについての一般的な知識／一般的な脚立の取扱説明書（どちらも特定の資料・製品は照合していない）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> <b>脚立に上る前に、上を見て、クモの巣や蜂の巣がないか確かめる。</b>／<b>クモの巣は、地面から棒で払う。</b>／蜂の巣を見つけたら、<b>手を出さずに責任者に言う。</b></div>
+      </div>
+    </div>
+    <div class="pageno">— 脚立に上る前に、クモの巣を払う —</div>
+  </div>
+
+  <div class="page" id="p4">
+    <div class="art"><img src="ky-img/53_04.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">寒い朝。若い衆は、防寒ジャンパーを着こんだ上から、フルハーネスをつけました。きのうの長さのままではきつくて留まらないので、ベルトをゆるめて留めました。みどりくんは、胸のベルトを鼻の先で指しました。「それでいい。けど、昼に暖かくなって上着をぬぐと、そのベルトはぶかぶかになるだら？ <b>着る物を変えたら、そのたびに、フルハーネスのベルトを体に合わせて締め直す。</b>」若い衆は、太もものベルトから順に締め直しました。</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> ベルトがゆるいと、落ちて止まったときに、<b>体がぬけたり、胸や太ももに強い力がかかったり</b>します。／上着をぬいだあとは、<b>ベルトのゆるみに気づきにくい</b>です。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> 厚生労働省「墜落制止用器具の安全な使用に関するガイドライン」（平成30年6月22日 基発0622第2号）は、<b>フルハーネス型を原則とする</b>考え方を示しています（紹介です）。フルハーネスの取扱説明書では一般に、<b>ベルトを体に合わせて、ゆるみがないように締める</b>ことが書かれています（お使いの製品の説明書で確かめてください）。<span class="src">出典：厚生労働省「墜落制止用器具の安全な使用に関するガイドライン」（平成30年6月22日 基発0622第2号）／一般的なフルハーネスの取扱説明書（特定の製品は照合していない）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> <b>フルハーネスは、つけるたびに、ベルトを体に合わせて締める。</b>／<b>上着を着たりぬいだりしたら、締め直す。</b>／締め方がわからないときは、<b>上る前に先輩に見てもらう。</b></div>
+      </div>
+    </div>
+    <div class="pageno">— 着る物を変えたら、ハーネスを締め直す —</div>
+  </div>
+
+  <div class="page" id="p5">
+    <div class="art"><img src="ky-img/45_05.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">冬用のタイヤに替えて、三日目の朝。若い衆はしゃがんで、前のタイヤを見ています。みどりくんが聞きました。「替えたあと、ナットはもう一度締めた？」「あ、まだ締めていません。」「<b>タイヤを替えたら、少し走ったあとに、ナットの締めをもう一度確かめる。</b>」二人でレンチを出して、一本ずつ確かめました。若い衆が笑いました。「秋から冬へ、ひと確かめですね。」「そう。きょうの五つのうち、あしたの現場でひとつ思い出してみりん。」</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 替えたばかりのタイヤは、走るうちに<b>ナットがなじんで、ゆるむ</b>ことがあります。／ゆるんだまま走ると、<b>タイヤが外れる</b>おそれがあります。／ジャッキで上げた車の下には、<b>体を入れない</b>（その37）。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> 自動車の取扱説明書やJAFの案内では一般に、タイヤを交換したあと、<b>しばらく走ってから、ナットの締め付けをもう一度確かめる（増し締め）</b>ことがすすめられています（目安の距離などは、お使いの車の取扱説明書で確かめてください）。道路運送車両法 第47条の2 は、自動車の使用者に<b>日常的な点検</b>を求めています（紹介です）。<span class="src">出典：一般的な自動車の取扱説明書・JAFの案内（特定の資料は照合していない）／道路運送車両法 第47条の2</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> <b>タイヤを替えたら、少し走ったあとに、ナットの締めをもう一度確かめる。</b>／確かめたら、<b>責任者に言う。</b>（その27「出かける前に、タイヤを見る」の、替えたあとの側）</div>
+        <div class="box sanko"><b>&#128216; この絵本の読み方</b> <b>&#128216; 一般の基準（参考）</b>＝法令などの一般的な基準（出典は各ページに記載）。<b>&#9757; やくそく</b>＝みどり造園の現場で実際にやること。／基準どおりにできない現場では、無視せず<b>その場で手を止めて、先輩か責任者に相談</b>してください。／<b>資格・特別教育・事前の取り決めが必要な作業</b>は、見よう見まねで始めないでください。<a class="chui" href="ky-ehon-chui.html">&#9654; 詳しい注意書き</a></div>
+      </div>
+      <div class="fin">きょうの五話は「秋から冬へ、ひと確かめ」でした。きょうも みんなそろって ご安全に！</div>
+      <div class="backno">
+        <a href="ky-ehon52.html">&#9664; 前の巻（その52）</a>
+        <a class="mid" href="ky-ehon-matome.html">&#128218; 全巻もくじ</a>
+      </div>
+    </div>
+    <div class="pageno">— タイヤを替えたら、ナットをもう一度 —</div>
+  </div>
+  </div>
+  <a id="tomenu" href="ky-ehon-matome.html">&#128218; ぜんぶの巻</a>
+  <div class="nav" id="prev"><span>◀</span></div>
+  <div class="nav" id="next"><span>▶</span></div>
+  <div id="dots"></div>
+</div>
+<script>
+(function(){
+  var N = document.querySelectorAll('.page').length, cur = 0;
+  var pages = [];
+  for(var i=0;i<N;i++) pages.push(document.getElementById('p'+i));
+  var dots = document.getElementById('dots');
+  for(var i=0;i<N;i++){ dots.appendChild(document.createElement('i')); }
+  function show(n){
+    if(n<0||n>=N) return;
+    cur = n;
+    for(var i=0;i<N;i++) pages[i].classList.toggle('show', i===n);
+    var ds = dots.children;
+    for(var i=0;i<N;i++) ds[i].classList.toggle('on', i===n);
+    document.getElementById('prev').classList.toggle('dis', n===0);
+    document.getElementById('next').classList.toggle('dis', n===N-1);
+  }
+  document.getElementById('next').addEventListener('click',function(e){e.stopPropagation();show(cur+1);});
+  document.getElementById('prev').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});
+  document.getElementById('book').addEventListener('click',function(e){
+    /* LINKGUARD リンクを押したときはめくらない */ if(e.target && e.target.closest && e.target.closest('a')) return;
+    var r = this.getBoundingClientRect();
+    var x = (e.clientX - r.left)/r.width;
+    if(x < .22) show(cur-1); else show(cur+1);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' ') show(cur+1);
+    else if(e.key==='ArrowLeft') show(cur-1);
+  });
+  var sx=null;
+  document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(sx===null) return;
+    var dx = e.changedTouches[0].clientX - sx; sx=null;
+    if(dx<-40) show(cur+1); else if(dx>40) show(cur-1);
+  },{passive:true});
+  show(0);
+})();
+</script>
+<style>/* PAGENO-SYNC-v2 ページ番号とドットが重ならないように */
+  .pageno{ padding-bottom:14px !important; }
+  #dots{ bottom:3px !important; }
+</style>
+<script>
+/* PAGENO-SYNC-v2 ページ番号を「n / N」に統一（表紙＝1）。ドットの位置と必ず一致する */
+(function(){
+  var ps = document.querySelectorAll('.page'), N = ps.length;
+  for (var i=0; i<N; i++){
+    var e = ps[i].querySelector('.pageno');
+    if(!e){ e = document.createElement('div'); e.className='pageno'; ps[i].appendChild(e); }
+    var t = e.textContent.replace(/^[\s—-]*/,'').replace(/[\s—-]*$/,'')
+                         .replace(/^\d+\s*[\/／]?\s*\d*\s*/,'');
+    e.textContent = '— ' + (i+1) + ' / ' + N + (t ? '　' + t : '') + ' —';
+  }
+})();
+</script>
+</body>
