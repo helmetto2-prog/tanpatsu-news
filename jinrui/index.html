@@ -219,6 +219,7 @@ summary{cursor:pointer;color:var(--clay-ink);font-weight:700;font-size:.92rem;pa
 .yomi[hidden]{display:none}
 .yomi.on{background:var(--clay);border-color:var(--clay);color:#fffaf1}
 .yomi-now{background:var(--surface-2);box-shadow:0 0 0 3px var(--fire);border-radius:8px}
+.koe-link{margin:.2em 0 .9em;font-size:.95rem;font-weight:700}
 .lb{position:fixed;inset:0;z-index:50;background:rgba(20,15,10,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
 .lb[hidden],.lb button[hidden]{display:none}
 .lb-stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
@@ -339,6 +340,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 </section>
 <section class="card fold" id="kaiwa">
 <details class="sec" open><summary><h2>大事な会話と心の中</h2> <span class="kotoshi-mk" data-t="今年＋5" aria-hidden="true"></span></summary>
+<p class="koe-link">🎧 <a href="koe/">1年目からの会話を、ひとりずつちがう声でまとめて聞く</a></p>
 <div class="scene">
 <h3>ツキキザミ</h3>
 <p class="where">春・オカ（丘）</p>
@@ -1425,6 +1427,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <footer class="foot">
 <p>このページは架空の村の物語です（実在の人・場所とは関係ありません）。</p>
 <p>村の絵は Gemini（Google の画像生成AI）で描いています。物語と記録は、まとん改（Claude）が1日に1年ずつ書きすすめます。</p>
+<p>会話の声：VOICEVOX:No.7、VOICEVOX:ずんだもん、VOICEVOX:もち子さん、VOICEVOX:玄野武宏、VOICEVOX:雀松朱司、VOICEVOX:青山龍星、VOICEVOX:東北イタコ、VOICEVOX:東北ずん子、VOICEVOX:波音リツ、VOICEVOX:白上虎太郎</p>
 <p>最終更新：2026-10-23（14年目のおわり）</p>
 </footer>
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="大きい絵">
@@ -1433,7 +1436,8 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <div class="lb-bar"><button type="button" class="lb-prev" data-t="◀ 前" aria-label="前の絵"></button><button type="button" class="lb-close" data-t="とじる" aria-label="とじる"></button><button type="button" class="lb-next" data-t="次 ▶" aria-label="次の絵"></button></div>
 </div>
 <button type="button" class="totop" id="totop" data-t="▲" aria-label="いちばん上へ"></button>
-<button type="button" class="yomi" id="yomi" data-t="🔊 会話を聞く" aria-label="会話を読み上げる" hidden></button>
+<button type="button" class="yomi" id="yomi" data-t="🔊 会話を聞く" aria-label="会話を読み上げる" data-koe="koe/y0014.mp3" data-koe-title="14年目　ツキキザミの年" hidden></button>
+<script type="application/json" id="koe-cue">[["t",-1,-1,0.0],["s",0,-1,4.19],["l",0,0,6.93],["l",0,1,12.63],["l",0,2,16.23],["l",0,3,19.6],["l",0,4,24.32],["s",1,-1,29.41],["l",1,0,32.64],["l",1,1,39.77],["l",1,2,43.22],["l",1,3,48.46],["l",1,4,51.89],["l",1,5,55.39],["s",2,-1,60.21],["l",2,0,63.02],["l",2,1,67.42],["l",2,2,74.48],["l",2,3,80.15],["l",2,4,85.81],["m",-1,-1,89.72],["ml",-1,0,92.97],["ml",-1,1,101.78],["ml",-1,2,108.89],["ml",-1,3,116.81],["ml",-1,4,122.71],["ml",-1,5,127.95],["ml",-1,6,132.9],["ml",-1,7,143.06],["ml",-1,8,151.32],["ml",-1,9,156.1],["ml",-1,10,171.1]]</script>
 <script>
 (function(){
   var lb=document.getElementById('lb'); if(!lb) return;
@@ -1480,39 +1484,18 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
   if(location.hash) fromHash();
 })();
 (function(){
-  // 会話だけを読み上げる（2026-10-20 義樹さん「車で移動中に、会話の内容だけを音声で、ボタンで」）
-  // 読む物＝「大事な会話と心の中」（#kaiwa：場面の名前→だれが→せりふ→そのあと、心の中）と、寄り合いの「火を囲んで」（#yoriai の p.ln）
-  // 1行ずつ順に読む（長い1本にしない＝途中で止まりにくい）。読んでいる間は画面が消えないようにする（Wake Lock）。止めたら、次はその行から
+  // 会話だけを聞くボタン（2026-10-20 義樹さん「車で移動中に、会話の内容だけを音声で、ボタンで」）
+  // 2026-10-23 義樹さん「会話しているところだけを、VOICEVOX で、ひとりずつ担当を割り当てて」：
+  //   koe/yNNNN.mp3（koe_tsukuru.ps1 が作る・人ごとにちがう声）があれば、それを流して、いま読んでいる行に印をつける（画面を消しても止まらない）。
+  //   無いとき・読みこめないときは、前と同じブラウザの声（speechSynthesis・1行ずつ・人ごとに高さを変える）で同じ所を読む。
+  // 読む物＝「大事な会話」の場面（#kaiwa .scene：場面の名前→せりふ）と、寄り合いの「火を囲んで」（#yoriai の p.ln）だけ。「そのあと」と「心の中」は読まない。止めたら、次はその続きから
   var b=document.getElementById('yomi'); if(!b) return;
-  var ss=window.speechSynthesis; if(!ss||!window.SpeechSynthesisUtterance) return;
   function txt(el){ return el?(el.textContent||'').replace(/\s+/g,' ').trim():''; }
-  function ln(p){ var who=txt(p.querySelector('.who')); var line=txt(p).slice(who.length).trim(); return {el:p, t:(who?who+'。':'')+line, who:who}; }
-  var q=[];
-  var kw=document.getElementById('kaiwa');
-  if(kw){
-    [].forEach.call(kw.querySelectorAll('.scene, blockquote.thought'),function(sc){
-      if(sc.classList.contains('scene')){
-        var head=txt(sc.querySelector('h3')), w=txt(sc.querySelector('.where')).replace(/（[^）]*）/g,'');   // 「オカ（丘）」→「オカ」（耳では二度読みになるので）
-        if(head||w) q.push({el:sc, t:head+(w?'。'+w:''), who:''});
-        [].forEach.call(sc.querySelectorAll('p.ln'),function(p){ q.push(ln(p)); });
-        var af=sc.querySelector('.after'); if(af) q.push({el:af, t:txt(af), who:''});
-      } else {
-        q.push({el:sc, t:txt(sc.querySelector('.tn'))+'。'+txt(sc.querySelector('.tt')), who:''});
-      }
-    });
-  }
-  var yr=document.getElementById('yoriai');
-  if(yr){
-    var yl=yr.querySelectorAll('p.ln');
-    if(yl.length){ q.push({el:yl[0], t:'寄り合い。火を囲んで。', who:''}); [].forEach.call(yl,function(p){ q.push(ln(p)); }); }
-  }
-  q=q.filter(function(x){ return x.t; });
-  if(!q.length) return;
-  b.hidden=false;
-  var i=0, on=false, voice=null, wl=null, cur=null;
-  function pickVoice(){ var vs=ss.getVoices()||[]; voice=null; for(var k=0;k<vs.length;k++){ if(/^ja/i.test(vs[k].lang)){ if(!voice) voice=vs[k]; if(/Google|Kyoko|O-ren|Nanami|Haruka/.test(vs[k].name)){ voice=vs[k]; break; } } } }
-  pickVoice(); if(ss.addEventListener) ss.addEventListener('voiceschanged',pickVoice);
-  function pitchOf(who){ if(!who) return 1; var h=0; for(var k=0;k<who.length;k++) h=(h*31+who.charCodeAt(k))%997; return 0.85+(h%8)*0.05; }
+  var kw=document.getElementById('kaiwa'), yr=document.getElementById('yoriai');
+  var scenes=kw?[].slice.call(kw.querySelectorAll('.scene')):[];
+  var ml=yr?[].slice.call(yr.querySelectorAll('p.ln')):[];
+  var mh=null; if(ml.length){ for(var n=ml[0].previousElementSibling;n;n=n.previousElementSibling){ if(n.tagName==='H3'){ mh=n; break; } } }
+  var on=false, wl=null;
   function mark(el){
     var o=document.querySelector('.yomi-now'); if(o) o.classList.remove('yomi-now');
     if(!el) return;
@@ -1523,9 +1506,55 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
   function setBtn(){ b.setAttribute('data-t',on?'■ とめる':'🔊 会話を聞く'); b.setAttribute('aria-label',on?'読み上げをとめる':'会話を読み上げる'); b.classList.toggle('on',on); }
   function lock(){ try{ if(navigator.wakeLock&&!wl){ navigator.wakeLock.request('screen').then(function(x){ wl=x; x.addEventListener('release',function(){ wl=null; }); }).catch(function(){}); } }catch(e){} }
   function unlock(){ try{ if(wl) wl.release(); }catch(e){} wl=null; }
-  function stop(){ on=false; cur=null; ss.cancel(); mark(null); unlock(); setBtn(); }
+  var ss=window.speechSynthesis; if(!ss||!window.SpeechSynthesisUtterance) ss=null;
+  // ---- VOICEVOX の声（koe/yNNNN.mp3 と、行ごとの始まりの秒 #koe-cue＝[種類, 場面, 行, 秒]） ----
+  var cue=null, au=null, ci=-1;
+  try{ var cj=document.getElementById('koe-cue'); if(cj&&b.getAttribute('data-koe')) cue=JSON.parse(cj.textContent); }catch(e){ cue=null; }
+  function cueEl(c){
+    if(c[0]==='s') return scenes[c[1]]||null;
+    if(c[0]==='l'){ var sc=scenes[c[1]]; return sc?(sc.querySelectorAll('p.ln')[c[2]]||null):null; }
+    if(c[0]==='m') return mh||ml[0]||null;
+    if(c[0]==='ml') return ml[c[2]]||null;
+    return null;
+  }
+  if(cue&&cue.length){
+    // ページの会話と声の並びが合っているか（合わなければブラウザの声で読む）
+    var ok=true, cnt={}, mc=0;
+    cue.forEach(function(c){ if(c[0]!=='t'&&!cueEl(c)) ok=false; if(c[0]==='l') cnt[c[1]]=(cnt[c[1]]||0)+1; if(c[0]==='ml') mc++; });
+    scenes.forEach(function(sc,k){ if((cnt[k]||0)!==sc.querySelectorAll('p.ln').length) ok=false; });
+    if(mc!==ml.length) ok=false;
+    if(!ok) cue=null;
+  } else cue=null;
+  function at(t){ var k=0; for(var n=0;n<cue.length;n++){ if(cue[n][3]<=t+0.05) k=n; else break; } return k; }
+  if(cue){
+    au=new Audio(); au.preload='none'; au.src=b.getAttribute('data-koe');
+    au.addEventListener('timeupdate',function(){ if(!on||!cue) return; var k=at(au.currentTime); if(k!==ci){ ci=k; mark(cueEl(cue[k])); } });
+    au.addEventListener('play',function(){ if(!on){ on=true; setBtn(); } });
+    au.addEventListener('pause',function(){ if(on&&cue){ on=false; mark(null); setBtn(); } });
+    au.addEventListener('ended',function(){ on=false; ci=-1; mark(null); try{ au.currentTime=0; }catch(e){} setBtn(); });
+    au.addEventListener('error',function(){ var was=on; cue=null; on=false; mark(null); setBtn(); if(was&&ss){ on=true; setBtn(); lock(); ss.cancel(); say(); } });
+    if('mediaSession' in navigator){ try{ navigator.mediaSession.metadata=new MediaMetadata({title:(b.getAttribute('data-koe-title')||'人類創世ゲーム')+' の会話', artist:'人類創世ゲーム', album:'村の会話（VOICEVOX）'}); }catch(e){} }
+  }
+  if(!cue&&!ss) return;
+  // ---- ブラウザの声（VOICEVOX の声が無いとき） ----
+  function ln(p){ var who=txt(p.querySelector('.who')); var line=txt(p).slice(who.length).trim(); return {el:p, t:(who?who+'。':'')+line, who:who}; }
+  var q=[];
+  scenes.forEach(function(sc){
+    var head=txt(sc.querySelector('h3')), w=txt(sc.querySelector('.where')).replace(/（[^）]*）/g,'');   // 「オカ（丘）」→「オカ」（耳では二度読みになるので）
+    if(head||w) q.push({el:sc, t:head+(w?'。'+w:''), who:''});
+    [].forEach.call(sc.querySelectorAll('p.ln'),function(p){ q.push(ln(p)); });
+  });
+  if(ml.length){ q.push({el:mh||ml[0], t:'寄り合い。火を囲んで。', who:''}); ml.forEach(function(p){ q.push(ln(p)); }); }
+  q=q.filter(function(x){ return x.t; });
+  if(!q.length) return;
+  b.hidden=false;
+  var i=0, voice=null, cur=null;
+  function pickVoice(){ if(!ss) return; var vs=ss.getVoices()||[]; voice=null; for(var k=0;k<vs.length;k++){ if(/^ja/i.test(vs[k].lang)){ if(!voice) voice=vs[k]; if(/Google|Kyoko|O-ren|Nanami|Haruka/.test(vs[k].name)){ voice=vs[k]; break; } } } }
+  pickVoice(); if(ss&&ss.addEventListener) ss.addEventListener('voiceschanged',pickVoice);
+  function pitchOf(who){ if(!who) return 1; var h=0; for(var k=0;k<who.length;k++) h=(h*31+who.charCodeAt(k))%997; return 0.85+(h%8)*0.05; }
+  function stop(){ on=false; cur=null; if(au&&cue) au.pause(); if(ss) ss.cancel(); mark(null); unlock(); setBtn(); }
   function say(){
-    if(!on) return;
+    if(!on||!ss) return;
     if(i>=q.length){ i=0; stop(); return; }
     var it=q[i]; mark(it.el);
     var u=new SpeechSynthesisUtterance(it.t);
@@ -1534,8 +1563,13 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
     u.onerror=function(e){ if(cur!==u) return; if(e&&(e.error==='canceled'||e.error==='interrupted')) return; i++; setTimeout(say,250); };
     cur=u; window.__yomiU=u; ss.speak(u);
   }
-  b.addEventListener('click',function(){ if(on){ stop(); return; } on=true; setBtn(); lock(); ss.cancel(); say(); });
-  document.addEventListener('visibilitychange',function(){ if(on&&document.visibilityState==='visible') lock(); });
+  b.addEventListener('click',function(){
+    if(on){ stop(); return; }
+    if(cue&&au){ on=true; setBtn(); ci=-1; var p=au.play(); if(p&&p.catch) p.catch(function(e){ if(e&&e.name==='NotAllowedError'){ on=false; setBtn(); } }); return; }
+    on=true; setBtn(); lock(); ss.cancel(); say();
+  });
+  document.addEventListener('visibilitychange',function(){ if(on&&!cue&&document.visibilityState==='visible') lock(); });
+  window.__yomi={au:au, koe:!!cue};
   setBtn();
 })();
 </script>

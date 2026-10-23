@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>村の会話を聞く</title>
+<meta name="description" content="人類創世ゲーム：縄文の村の人たちの会話だけを、VOICEVOX の声で1年目から聞けます。">
+<meta property="og:title" content="人類創世ゲーム　村の会話を聞く">
+<meta name="jinrui-koe-year" content="14">
+<style>
+:root{--bg:#f3eadb;--surface:#fffaf1;--surface-2:#f7eddc;--ink:#3a2e24;--muted:#6f5d49;--line:#e2d1b5;--clay:#a5552d;--clay-ink:#8f4622;--clay-soft:#f4dfcf;--fire:#c96f1c;--fire-soft:#fae4c8;--shadow:0 1px 2px rgba(74,52,30,.07),0 8px 24px rgba(74,52,30,.07);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1611;--surface:#262019;--surface-2:#2f281f;--ink:#efe5d3;--muted:#bba98f;--line:#3f352a;--clay:#e09468;--clay-ink:#f0b08a;--clay-soft:#45291b;--fire:#f0a35a;--fire-soft:#41301a;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1611;--surface:#262019;--surface-2:#2f281f;--ink:#efe5d3;--muted:#bba98f;--line:#3f352a;--clay:#e09468;--clay-ink:#f0b08a;--clay-soft:#45291b;--fire:#f0a35a;--fire-soft:#41301a;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","BIZ UDPGothic","Yu Gothic UI","Meiryo",sans-serif;font-size:18px;line-height:1.85;letter-spacing:.02em;overflow-wrap:anywhere;padding-bottom:120px}
+a{color:var(--clay-ink)}
+main{max-width:820px;margin:0 auto;padding:12px 16px 24px}
+h1{font-size:1.6rem;margin:.3em 0 .1em;letter-spacing:.06em}
+.lead{color:var(--muted);margin:.3em 0 1em}
+.small{font-size:.86rem;color:var(--muted)}
+.starts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+button{font:inherit;cursor:pointer}
+.big{min-height:48px;padding:0 18px;border-radius:24px;border:1px solid var(--clay);background:var(--clay);color:var(--surface);font-weight:700}
+.big.sub{background:var(--surface);color:var(--clay-ink)}
+.big[hidden]{display:none}
+.yr{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin:12px 0;box-shadow:var(--shadow)}
+.yr>summary{list-style:none;cursor:pointer;padding:12px 16px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.yr>summary::-webkit-details-marker{display:none}
+.yr>summary::before{content:"▶";font-size:.8em;color:var(--clay);transition:transform .15s}
+.yr[open]>summary::before{transform:rotate(90deg)}
+.yr h2{margin:0;font-size:1.15rem;flex:1 1 auto}
+.yr .dur{font-size:.85rem;color:var(--muted)}
+.yr .body{padding:0 16px 14px}
+.go{min-height:40px;padding:0 14px;border-radius:20px;border:1px solid var(--line);background:var(--surface-2);color:var(--clay-ink);font-weight:700;margin:2px 0 8px}
+.sc{background:var(--surface-2);border-radius:12px;padding:8px 12px;margin:10px 0}
+.sh{margin:.2em 0 .3em;font-weight:700;color:var(--clay-ink);font-size:.95rem}
+.ln{margin:.25em 0;padding:2px 6px;border-radius:8px;cursor:pointer}
+.ln b{color:var(--clay-ink);margin-right:.4em}
+.ln .vv{font-size:.72rem;color:var(--muted);margin-left:.5em;white-space:nowrap}
+.now{background:var(--fire-soft);box-shadow:0 0 0 2px var(--fire)}
+.cast{width:100%;border-collapse:collapse;font-size:.92rem}
+.cast td{padding:4px 6px;border-bottom:1px dashed var(--line)}
+.cast td:first-child{font-weight:700;color:var(--clay-ink);white-space:nowrap}
+details.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 14px;margin:14px 0}
+details.box>summary{cursor:pointer;font-weight:700}
+footer{max-width:820px;margin:0 auto;padding:0 16px 20px;font-size:.82rem;color:var(--muted)}
+.pb{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -4px 18px rgba(0,0,0,.12);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+.pb-in{max-width:820px;margin:0 auto;display:flex;align-items:center;gap:8px}
+.pb button{flex:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-size:1.1rem}
+.pb #pb-play{width:56px;height:56px;background:var(--clay);border-color:var(--clay);color:var(--surface);font-size:1.3rem}
+.pb-txt{flex:1 1 auto;min-width:0;font-size:.88rem;line-height:1.45}
+.pb-now{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.pb-sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.pb-bar{height:4px;border-radius:2px;background:var(--line);margin-top:4px;overflow:hidden}
+.pb-bar span{display:block;height:100%;width:0;background:var(--fire)}
+.pb label{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:4px;white-space:nowrap}
+@media (max-width:480px){.pb label{display:none}}
+</style>
+</head><body><main>
+<p class="small"><a href="../">← 人類創世ゲームのページへ</a></p>
+<h1>村の会話を聞く</h1>
+<p class="lead">縄文の村の人たちの会話だけを、1年目から声で聞けます。ひとりずつ声がちがいます（VOICEVOX）。場面のはじめに、語り手が季節と場面の名前を言います。いまは14年目まで。</p>
+<div class="starts">
+<button type="button" class="big" id="st-first">▶ 1年目から聞く</button>
+<button type="button" class="big sub" id="st-last">▶ いちばん新しい14年目</button>
+<button type="button" class="big sub" id="st-cont" hidden>▶ 続きから</button>
+</div>
+<details class="yr" id="nen1">
+<summary><h2 id="k1-0">1年目　ナツユキの年</h2><span class="dur">約4分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="1">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k1-1">夏・夏の雪</p>
+<p class="ln" id="k1-2" data-y="1" data-i="2"><b>ホムラ</b>「父さん！ 森の奥に、夏なのに雪が積もってる！」</p>
+<p class="ln" id="k1-3" data-y="1" data-i="3"><b>カシ</b>「一人で森の奥まで行ったのか。危ないと言っただろう。」</p>
+<p class="ln" id="k1-4" data-y="1" data-i="4"><b>ホムラ</b>「なんで？ 入り口の木に登って見ただけだよ。それに、わたしの足ならすぐ逃げられる。」</p>
+<p class="ln" id="k1-5" data-y="1" data-i="5"><b>ナギ</b>「雪じゃない。風が甘い。……花のにおいだね。」</p>
+<p class="ln" id="k1-6" data-y="1" data-i="6"><b>トチ</b>「白い花に甘いにおい……クリの花じゃ。秋になれば、実がヤマホド落ちる。」</p>
+<p class="ln" id="k1-7" data-y="1" data-i="7"><b>カシ</b>「よし、行くぞ。ホムラ、道を教えろ。」</p>
+<p class="ln" id="k1-8" data-y="1" data-i="8"><b>ホムラ</b>「うん！ ついてきて。先に行くのは、わたしだからね。」</p>
+</div>
+<div class="sc"><p class="sh" id="k1-9">秋・冷たい穴</p>
+<p class="ln" id="k1-10" data-y="1" data-i="10"><b>ナギ</b>「夏に湧き水のそばの穴へ入れた貝、夕方まで冷たいままだった。木の実も、穴に入れたらどうだろう。」</p>
+<p class="ln" id="k1-11" data-y="1" data-i="11"><b>ヨシ</b>「たとえば、底に木の葉を敷いて、ふたをすれば、ネズミも入れない。まず一かごだけ、小さく試してみよう。」</p>
+<p class="ln" id="k1-12" data-y="1" data-i="12"><b>カシ</b>「一かごずつ試していたら、冬が来てしまう。掘るなら大きく掘るぞ。」</p>
+<p class="ln" id="k1-13" data-y="1" data-i="13"><b>アケビ</b>「まあまあ。兄さんが大きく掘って、ヨシがふたを作ればいいじゃない。二人とも、得意なことをしよう。」</p>
+<p class="ln" id="k1-14" data-y="1" data-i="14"><b>ナギ</b>「穴は三つ。一つに、テノカズのかごが入るくらい。」</p>
+<p class="ln" id="k1-15" data-y="1" data-i="15"><b>ツル</b>「木の実が、ねんねする穴だね。ネムリアナ！」</p>
+</div>
+<div class="sc"><p class="sh" id="k1-16">秋・名前をつけた夜</p>
+<p class="ln" id="k1-17" data-y="1" data-i="17"><b>シイ</b>「よく生まれてきたねえ。アケビ、まずはお乳だよ。体を冷やさないようにね。」</p>
+<p class="ln" id="k1-18" data-y="1" data-i="18"><b>ツル</b>「ちっちゃい！ クリの実みたい！」</p>
+<p class="ln" id="k1-19" data-y="1" data-i="19"><b>アケビ</b>「ふふ、ほんとだ。クリの実が最後に落ちた日に生まれたもんね。」</p>
+<p class="ln" id="k1-20" data-y="1" data-i="20"><b>トチ</b>「わしはトチ、ばあさんはシイ。カシにコナ。木の実の名をもらった子は、よく育つ。」</p>
+<p class="ln" id="k1-21" data-y="1" data-i="21"><b>ヨシ</b>「……クリ。いい名前だね。ツルが見つけてくれた名だ。」</p>
+<p class="ln" id="k1-22" data-y="1" data-i="22"><b>ツル</b>「ツル、お姉ちゃんになった！」</p>
+</div>
+<div class="sc"><p class="sh" id="k1-23">年の終わりの寄り合い</p>
+<p class="ln" id="k1-24" data-y="1" data-i="24"><b>ナギ</b>「数えた。秋にためたかごは、オオイシ四つと小石五つ。冬に食べたのは、オオイシ三つと小石三つ。残りはオオイシ一つと小石二つ。おなかを鳴らした子は、いない。」</p>
+<p class="ln" id="k1-25" data-y="1" data-i="25"><b>ナギ</b>「秋にためた物は、雪が降るまで開けない。来年の秋も、ネムリアナを掘る。そう決めておきたい。早く食べると、去年と同じになる。」</p>
+<p class="ln" id="k1-26" data-y="1" data-i="26"><b>カシ</b>「それがいい。腹がへってから慌てるのは、もうごめんだ。」</p>
+<p class="ln" id="k1-27" data-y="1" data-i="27"><b>ホムラ</b>「ナツユキの森のクリの木は、だれも切らないことにして。あの木が実をくれたんだから。」</p>
+<p class="ln" id="k1-28" data-y="1" data-i="28"><b>ヨシ</b>「たとえば、木を切ってしまえば、次の秋は実が落ちない。木を残すのは筋が通っている。」</p>
+<p class="ln" id="k1-29" data-y="1" data-i="29"><b>ホムラ</b>「それと、もう一つ。なんで大きな獣の狩りは、大人の男だけなの？ あの森を見つけたのは、わたしだよ。」</p>
+<p class="ln" id="k1-30" data-y="1" data-i="30"><b>カシ</b>「イノシシは、やりが届く所まで近づかないと倒せない。牙にかかったら、足が速くても逃げきれん。」</p>
+<p class="ln" id="k1-31" data-y="1" data-i="31"><b>アケビ</b>「まあまあ。……でも、ホムラの目がいいのは、みんな知ってるよ。」</p>
+<p class="ln" id="k1-32" data-y="1" data-i="32"><b>トチ</b>「決める。秋の蓄えは、雪が降るまで開けん。実をくれる木は、切らん。狩りの掟は、むかしのままじゃ。」</p>
+<p class="ln" id="k1-33" data-y="1" data-i="33"><b>トチ</b>「じゃが、ホムラ。来年の秋までに、獣の足あとをテノカズ読み分けてみせい。そうしたら、もう一度ここで話そう。」</p>
+<p class="ln" id="k1-34" data-y="1" data-i="34"><b>ホムラ</b>「……わかった。テノカズでも、ヤマホドでも読んでみせる。」</p>
+<p class="ln" id="k1-35" data-y="1" data-i="35"><b>アケビ</b>「それから、願いのこと。穴の底のしぶいカシの実を、子どもたちがおいしく食べられたらいいなって。」</p>
+<p class="ln" id="k1-36" data-y="1" data-i="36"><b>カシ</b>「おれは、やりより遠くまで届く物がほしい。」</p>
+<p class="ln" id="k1-37" data-y="1" data-i="37"><b>イソ</b>「海の向こうってさ……入り江の向こうへ、いつか行ってみたいなあ。」</p>
+<p class="ln" id="k1-38" data-y="1" data-i="38"><b>トチ</b>「イソの「入り江の向こう」も聞いた。じゃが、冬の命は木の実じゃ。今年の願いは、アケビのにする。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen2">
+<summary><h2 id="k2-0">2年目　シブニゲの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="2">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k2-1">春・しぶみが逃げた</p>
+<p class="ln" id="k2-2" data-y="2" data-i="2"><b>アケビ</b>「ねえ、みんな食べてみて。湧き水に何日もひたしておいたカシの実だよ。」</p>
+<p class="ln" id="k2-3" data-y="2" data-i="3"><b>ツル</b>「……しぶくない！ しぶいのが、お水に逃げてった！」</p>
+<p class="ln" id="k2-4" data-y="2" data-i="4"><b>ヨシ</b>「たとえば、くだいて小さくすれば、しぶみはもっと早く逃げるのかもしれない。かごの目を、もっとこまかく編んでみよう。」</p>
+<p class="ln" id="k2-5" data-y="2" data-i="5"><b>シイ</b>「これなら子どものおなかにもやさしいね。でも冷たい水だよ。手を冷やしすぎないでおくれ。」</p>
+<p class="ln" id="k2-6" data-y="2" data-i="6"><b>アケビ</b>「シブニゲ、か。ツルのつける名前は、いつもぴったりだね。」</p>
+</div>
+<div class="sc"><p class="sh" id="k2-7">秋・足あとをたどって</p>
+<p class="ln" id="k2-8" data-y="2" data-i="8"><b>ホムラ</b>「父さん！ やっぱりここだ。イノシシの足あとと、父さんの足あとが重なってた。」</p>
+<p class="ln" id="k2-9" data-y="2" data-i="9"><b>カシ</b>「……ホムラか。足をくじいた。立てん。」</p>
+<p class="ln" id="k2-10" data-y="2" data-i="10"><b>ホムラ</b>「なんで一人で来たの？ 待ってて。丘まで走って、みんなを呼んでくる。」</p>
+<p class="ln" id="k2-11" data-y="2" data-i="11"><b>カシ</b>「暗くなる前に戻れるか。」</p>
+<p class="ln" id="k2-12" data-y="2" data-i="12"><b>ホムラ</b>「わたしの足なら、すぐだよ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k2-13">秋・枕もとの言い合い</p>
+<p class="ln" id="k2-14" data-y="2" data-i="14"><b>ヨシ</b>「たとえば、獣にあそこまで近づかなくても、とれるやり方があるはずだ。」</p>
+<p class="ln" id="k2-15" data-y="2" data-i="15"><b>カシ</b>「おまえはイノシシの前に立ったことがあるのか。やりは、近づかなければ届かんのだ。」</p>
+<p class="ln" id="k2-16" data-y="2" data-i="16"><b>ヨシ</b>「だから、近づかずにすむ物を考えようと言っている。」</p>
+<p class="ln" id="k2-17" data-y="2" data-i="17"><b>カシ</b>「口で言うのはたやすい。わなでイノシシがとれるか。」</p>
+<p class="ln" id="k2-18" data-y="2" data-i="18"><b>アケビ</b>「まあまあ。兄さんは今は寝てて。ヨシも、続きは足が治ってからにしよう。」</p>
+</div>
+<div class="sc"><p class="sh" id="k2-19">年の終わりの寄り合い</p>
+<p class="ln" id="k2-20" data-y="2" data-i="20"><b>ナギ</b>「数えた。秋にためたかごは、オオイシ三つと小石六つ。冬に食べたのは、オオイシ三つと小石三つ。残りは小石三つ。ぎりぎりだった。」</p>
+<p class="ln" id="k2-21" data-y="2" data-i="21"><b>アケビ</b>「シブニゲしたカシの実がなかったら、足りなかったね。来年の秋も、カシの実をくだいて湧き水にひたそうよ。」</p>
+<p class="ln" id="k2-22" data-y="2" data-i="22"><b>シイ</b>「あれなら子どももおなかをこわさない。わたしも手伝うよ。」</p>
+<p class="ln" id="k2-23" data-y="2" data-i="23"><b>ホムラ</b>「約束どおり、足あとをテノカズ読み分けた。シカ、イノシシ、ウサギ、タヌキ、キツネ、テン、アナグマ、サル、キジ、カモ。」</p>
+<p class="ln" id="k2-24" data-y="2" data-i="24"><b>ホムラ</b>「父さんを見つけたのも、足あとを読んだからだよ。男か女かじゃなくて、足あとが読めるかで、狩りに行く人を決めて。」</p>
+<p class="ln" id="k2-25" data-y="2" data-i="25"><b>カシ</b>「……ホムラがいなければ、おれは森で夜を明かしていた。足あとを読む者、ヨミテは狩りに要る。ただし、獣の前にだれが立つかは、狩りの頭が決める。」</p>
+<p class="ln" id="k2-26" data-y="2" data-i="26"><b>ヨシ</b>「たとえば、近づかずに獣に届く物があれば、前に立つ者もこわくない。」</p>
+<p class="ln" id="k2-27" data-y="2" data-i="27"><b>カシ</b>「それができるなら、見せてみろ。」</p>
+<p class="ln" id="k2-28" data-y="2" data-i="28"><b>トチ</b>「決める。シブニゲしたカシの実は、これからも冬の蓄えにする。」</p>
+<p class="ln" id="k2-29" data-y="2" data-i="29"><b>トチ</b>「狩りの掟は変える。大きな獣の狩りには、足あとを読み分けられる者が行く。男か女かでは決めん。前に立つ者は、狩りの頭が決めよ。」</p>
+<p class="ln" id="k2-30" data-y="2" data-i="30"><b>カシ</b>「願いは、近づかなくても獣に届く物がほしい。もう、牙の前で足をくじくのはごめんだ。」</p>
+<p class="ln" id="k2-31" data-y="2" data-i="31"><b>イソ</b>「入り江の向こうも、まだ見てみたいなあ。」</p>
+<p class="ln" id="k2-32" data-y="2" data-i="32"><b>トチ</b>「今年の願いは、カシのにする。けがをして戻った者の願いじゃ。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen3">
+<summary><h2 id="k3-0">3年目　ハネギの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="3">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k3-1">夏・浮かぶ木</p>
+<p class="ln" id="k3-2" data-y="3" data-i="2"><b>ホムラ</b>「イソ！ 何してるの、そんな木に乗って。」</p>
+<p class="ln" id="k3-3" data-y="3" data-i="3"><b>イソ</b>「見て、沈まないんだ。中がうつろだから、ぼくが座っても浮いてる。」</p>
+<p class="ln" id="k3-4" data-y="3" data-i="4"><b>ナギ</b>「潮が満ちる。上がれ。今だ。」</p>
+<p class="ln" id="k3-5" data-y="3" data-i="5"><b>イソ</b>「……うん。ねえ、母さん。この夏は、浜の小屋で寝てもいいかなあ。この木を見ていたいんだ。」</p>
+<p class="ln" id="k3-6" data-y="3" data-i="6"><b>ナギ</b>「……一人でか。」</p>
+<p class="ln" id="k3-7" data-y="3" data-i="7"><b>イソ</b>「一人で。もう子どもじゃないよ。」</p>
+<p class="ln" id="k3-8" data-y="3" data-i="8"><b>ホムラ</b>「わたしは賛成。浜なら、イソはだれより強いもん。」</p>
+</div>
+<div class="sc"><p class="sh" id="k3-9">秋・ヨシのたのみ</p>
+<p class="ln" id="k3-10" data-y="3" data-i="10"><b>ヨシ</b>「カシ、たのみがある。春に、はね返る木を見つけた。だが、わたしの力では曲がらない。」</p>
+<p class="ln" id="k3-11" data-y="3" data-i="11"><b>カシ</b>「……近づかずに獣に届く物、か。」</p>
+<p class="ln" id="k3-12" data-y="3" data-i="12"><b>ヨシ</b>「たとえば、あの木を曲げて縄を張れば、棒を遠くへ飛ばせるかもしれない。小さく試したいが、一人ではできない。」</p>
+<p class="ln" id="k3-13" data-y="3" data-i="13"><b>カシ</b>「口で言うだけではなかったんだな。行くぞ。ホムラに、まっすぐな木を探させる。」</p>
+<p class="ln" id="k3-14" data-y="3" data-i="14"><b>アケビ</b>「よかった。二人とも、森でけんかしないでよ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k3-15">秋・ハネギが鳴った</p>
+<p class="ln" id="k3-16" data-y="3" data-i="16"><b>ホムラ</b>「この木なら、節がなくてまっすぐだよ。」</p>
+<p class="ln" id="k3-17" data-y="3" data-i="17"><b>カシ</b>「おれが曲げる。ヨシ、縄を張れ。」</p>
+<p class="ln" id="k3-18" data-y="3" data-i="18"><b>ヨシ</b>「張れた。棒をかけて……放す。」</p>
+<p class="ln" id="k3-19" data-y="3" data-i="19"><b>ツル</b>「ビンって鳴った！ 棒が、流れの向こうまで飛んでった！ はね返る木だから、ハネギ！」</p>
+<p class="ln" id="k3-20" data-y="3" data-i="20"><b>カシ</b>「……だが、まだ獣には届かん。棒がまっすぐ飛ばない。」</p>
+<p class="ln" id="k3-21" data-y="3" data-i="21"><b>ヨシ</b>「棒を選べばいい。冬のあいだに試そう。二人で。」</p>
+</div>
+<div class="sc"><p class="sh" id="k3-22">年の終わりの寄り合い</p>
+<p class="ln" id="k3-23" data-y="3" data-i="23"><b>ナギ</b>「数えた。秋にためたかごは、オオイシ四つ。冬に食べたのは、オオイシ三つと小石三つ。残りは小石七つ。去年よりはいい。」</p>
+<p class="ln" id="k3-24" data-y="3" data-i="24"><b>シイ</b>「春のはじめは、みんなやせたね。足りないときは、子どもの分を先に分けておくれ。」</p>
+<p class="ln" id="k3-25" data-y="3" data-i="25"><b>ナギ</b>「イソが浜の小屋に一人でいる。嵐の夜が心配だ。浜の小屋に一人でいるなら、毎朝たき火の煙を上げろ。煙が見えれば、丘から分かる。」</p>
+<p class="ln" id="k3-26" data-y="3" data-i="26"><b>イソ</b>「うん、上げるよ、毎朝。だから、次の夏も浜にいさせて。」</p>
+<p class="ln" id="k3-27" data-y="3" data-i="27"><b>カシ</b>「浜なら、イソはだれより強い。おれは止めん。」</p>
+<p class="ln" id="k3-28" data-y="3" data-i="28"><b>ヨシ</b>「ハネギは、棒がまっすぐ飛べば獣に届く。冬のあいだ、カシと棒を選ぶ。」</p>
+<p class="ln" id="k3-29" data-y="3" data-i="29"><b>カシ</b>「棒の先にとがった石をつければ、もっと深く刺さるかもしれん。」</p>
+<p class="ln" id="k3-30" data-y="3" data-i="30"><b>トチ</b>「とがった石か。……石のことなら、わしにも考えがある。」</p>
+<p class="ln" id="k3-31" data-y="3" data-i="31"><b>トチ</b>「決める。浜の小屋に一人でいる者は、毎朝煙を上げる。イソは夏のあいだ浜を守る者、ハマモリじゃ。」</p>
+<p class="ln" id="k3-32" data-y="3" data-i="32"><b>トチ</b>「ハネギは、カシとヨシが二人で続けよ。」</p>
+<p class="ln" id="k3-33" data-y="3" data-i="33"><b>ナギ</b>「願いは、大風にも飛ばされない、一年じゅう住める家がほしい。」</p>
+<p class="ln" id="k3-34" data-y="3" data-i="34"><b>イソ</b>「ぼくは、あの浮かぶ木で、入り江の向こうまで行ってみたいなあ。」</p>
+<p class="ln" id="k3-35" data-y="3" data-i="35"><b>トチ</b>「今年の願いは、ナギのにする。家は、みんなの物じゃ。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen4">
+<summary><h2 id="k4-0">4年目　ホリヤの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="4">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k4-1">春・風の来ない穴</p>
+<p class="ln" id="k4-2" data-y="4" data-i="2"><b>ナギ</b>「ゆうべ、からのネムリアナにしゃがんだ。風が、頭の上を通っていった。」</p>
+<p class="ln" id="k4-3" data-y="4" data-i="3"><b>カシ</b>「穴の中に、か。」</p>
+<p class="ln" id="k4-4" data-y="4" data-i="4"><b>ナギ</b>「地面より低い所には、風が来ない。家の床を、掘ればいい。」</p>
+<p class="ln" id="k4-5" data-y="4" data-i="5"><b>ヨシ</b>「たとえば、ひざの深さに丸く掘って、その上に屋根をかける。まず小さく試してみよう。」</p>
+<p class="ln" id="k4-6" data-y="4" data-i="6"><b>カシ</b>「掘るのはおれだ。行くぞ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k4-7">夏・石の目</p>
+<p class="ln" id="k4-8" data-y="4" data-i="8"><b>コナ</b>「じいちゃん！ 石割り、教えて。自分の刃がほしいんだ。」</p>
+<p class="ln" id="k4-9" data-y="4" data-i="9"><b>トチ</b>「……わしの手は、もうふるえる。たたいて見せることはできん。」</p>
+<p class="ln" id="k4-10" data-y="4" data-i="10"><b>シイ</b>「口でなら教えられるだろう。この子の手は、もうじっとしていないよ。」</p>
+<p class="ln" id="k4-11" data-y="4" data-i="11"><b>トチ</b>「よかろう。わしの口と、おまえの手じゃ。まず石の目を見よ。目に逆らって割る者は、指を割る。」</p>
+<p class="ln" id="k4-12" data-y="4" data-i="12"><b>コナ</b>「見て見て！ ここに細い線がある！」</p>
+<p class="ln" id="k4-13" data-y="4" data-i="13"><b>トチ</b>「それが目じゃ。そこを、軽く一つ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k4-14">秋・柱の木</p>
+<p class="ln" id="k4-15" data-y="4" data-i="15"><b>カシ</b>「この木なら柱になる。太くて、まっすぐだ。」</p>
+<p class="ln" id="k4-16" data-y="4" data-i="16"><b>ホムラ</b>「待って。それ、クリの木だよ。実をくれる木は切らないって決めたのに、なんで切るの？」</p>
+<p class="ln" id="k4-17" data-y="4" data-i="17"><b>カシ</b>「……みんなの家の柱が要るからだ。」</p>
+<p class="ln" id="k4-18" data-y="4" data-i="18"><b>ヨシ</b>「それに、この石のおのでは、この太さは何日かかっても切れない。刃が欠けてしまう。」</p>
+<p class="ln" id="k4-19" data-y="4" data-i="19"><b>ホムラ</b>「去年の大風で倒れた木なら、森の奥に何本もあるよ。わたし、場所を知ってる。」</p>
+<p class="ln" id="k4-20" data-y="4" data-i="20"><b>カシ</b>「……分かった。案内しろ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k4-21">年の終わりの寄り合い</p>
+<p class="ln" id="k4-22" data-y="4" data-i="22"><b>ナギ</b>「ホリヤは、風が来ない。炉の火もゆれない。だが、小さい。みんなは入れん。」</p>
+<p class="ln" id="k4-23" data-y="4" data-i="23"><b>シイ</b>「年寄りの体には、ありがたかったよ。ホリヤがみんなの分できるまでは、冬のホリヤには寒さに弱い者から寝かせておくれ。」</p>
+<p class="ln" id="k4-24" data-y="4" data-i="24"><b>カシ</b>「みんなの分を建てるなら、太い柱が要る。だが実をくれる木は切れん。倒れた木は、もう少ない。」</p>
+<p class="ln" id="k4-25" data-y="4" data-i="25"><b>ホムラ</b>「掟は変えなくていいと思う。実をくれない木で、太いのを探せばいいよ。」</p>
+<p class="ln" id="k4-26" data-y="4" data-i="26"><b>ヨシ</b>「木はあっても、今の石のおのでは、太い木は切れない。たたくと刃が欠けてしまう。」</p>
+<p class="ln" id="k4-27" data-y="4" data-i="27"><b>コナ</b>「ぼく、じいちゃんに石割り習ってるよ！ もっと切れる刃、作る！」</p>
+<p class="ln" id="k4-28" data-y="4" data-i="28"><b>トチ</b>「割った刃は、欠ける。……川原の石で、なにかできんかと、考えておる。」</p>
+<p class="ln" id="k4-29" data-y="4" data-i="29"><b>トチ</b>「決める。冬のホリヤには、寒さに弱い者から寝る。コナは、わしの石割りの弟子じゃ。」</p>
+<p class="ln" id="k4-30" data-y="4" data-i="30"><b>トチ</b>「実をくれる木の掟は、そのままじゃ。」</p>
+<p class="ln" id="k4-31" data-y="4" data-i="31"><b>カシ</b>「願いは、太い木でも切れる、欠けないおのがほしい。」</p>
+<p class="ln" id="k4-32" data-y="4" data-i="32"><b>イソ</b>「ぼくは、あの浮かぶ木の中を、もっとくり抜けたらいいなあ。」</p>
+<p class="ln" id="k4-33" data-y="4" data-i="33"><b>トチ</b>「今年の願いは、カシのにする。おのが切れれば、柱も、ほかの物もできる。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen5">
+<summary><h2 id="k5-0">5年目　ヒカリオノの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="5">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k5-1">春・トギイシ</p>
+<p class="ln" id="k5-2" data-y="5" data-i="2"><b>コナ</b>「じいちゃん、一日こすっても、ちょっとしか光らないよ。」</p>
+<p class="ln" id="k5-3" data-y="5" data-i="3"><b>トチ</b>「石は、急かしても変わらん。水と砂と、日の数じゃ。」</p>
+<p class="ln" id="k5-4" data-y="5" data-i="4"><b>カシ</b>「そんなことで、太い木が切れるのか。」</p>
+<p class="ln" id="k5-5" data-y="5" data-i="5"><b>トチ</b>「割った刃は欠ける。こすった刃は、欠けん。……わしの手でも、こするだけならできる。」</p>
+<p class="ln" id="k5-6" data-y="5" data-i="6"><b>コナ</b>「じゃあ、ぼくが割って、じいちゃんがこする！」</p>
+<p class="ln" id="k5-7" data-y="5" data-i="7"><b>トチ</b>「この平たい石は、トギイシと呼ぶ。刃をとぐ石じゃ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k5-8">夏・大風の夜</p>
+<p class="ln" id="k5-9" data-y="5" data-i="9"><b>ホムラ</b>「イソ、ゆうべ寝ながら「ウル、ウル」って言ってたよ。なんで？」</p>
+<p class="ln" id="k5-10" data-y="5" data-i="10"><b>イソ</b>「……聞こえちゃったかあ。」</p>
+<p class="ln" id="k5-11" data-y="5" data-i="11"><b>イソ</b>「ときどき夢を見るんだ。大きな水と、浮かぶ木と、だれかが「ウル」って呼ぶ声。」</p>
+<p class="ln" id="k5-12" data-y="5" data-i="12"><b>ナギ</b>「流れ着いた朝も、おまえはその言葉を言っていた。」</p>
+<p class="ln" id="k5-13" data-y="5" data-i="13"><b>ヨシ</b>「たとえば、ウルは浮かぶ木を呼ぶ言葉なのかもしれない。イソが来た所の言葉で。」</p>
+<p class="ln" id="k5-14" data-y="5" data-i="14"><b>イソ</b>「浜の流木も、ゆうべの風に負けずに浮かんでた。あれが、ぼくのウルかなあ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k5-15">秋・ケヤキの柱</p>
+<p class="ln" id="k5-16" data-y="5" data-i="16"><b>カシ</b>「見ろ。刃が木に食いこんだ。欠けてもいない。」</p>
+<p class="ln" id="k5-17" data-y="5" data-i="17"><b>ヨシ</b>「柄は、もっと強くしばろう。たとえば、縄を二重に巻いて、かわかした皮でおさえる。」</p>
+<p class="ln" id="k5-18" data-y="5" data-i="18"><b>ホムラ</b>「このケヤキは実をくれないし、大風で倒れた木だよ。掟にもふれない。」</p>
+<p class="ln" id="k5-19" data-y="5" data-i="19"><b>カシ</b>「ああ。……ヨシ、この柄、いい。」</p>
+<p class="ln" id="k5-20" data-y="5" data-i="20"><b>ヨシ</b>「……カシに言われると、くすぐったいな。」</p>
+</div>
+<div class="sc"><p class="sh" id="k5-21">年の終わりの寄り合い</p>
+<p class="ln" id="k5-22" data-y="5" data-i="22"><b>カシ</b>「ヒカリオノはいい。だが一つでは足りん。みがく者を増やせ。」</p>
+<p class="ln" id="k5-23" data-y="5" data-i="23"><b>コナ</b>「ぼく、割るのも、こするのも、もうできるよ！ もっと早くみがけるようになりたい！」</p>
+<p class="ln" id="k5-24" data-y="5" data-i="24"><b>ヨシ</b>「……わたしにも、石のこすり方を教えてほしい。縄をなう合間に、こすれる。」</p>
+<p class="ln" id="k5-25" data-y="5" data-i="25"><b>トチ</b>「……ヨシの手は確かじゃ。よかろう。コナと二人でこすれ。」</p>
+<p class="ln" id="k5-26" data-y="5" data-i="26"><b>ナギ</b>「大風の夜、ホリヤは揺れなかった。大きいのができれば、みんな入れる。」</p>
+<p class="ln" id="k5-27" data-y="5" data-i="27"><b>シイ</b>「春に大きなホリヤを建てるなら、それまでは、寒さに弱い者からホリヤに寝るのを続けておくれ。」</p>
+<p class="ln" id="k5-28" data-y="5" data-i="28"><b>イソ</b>「ぼくの夢の話、みんな笑わないで聞いてくれた。……願いは、浮かぶ木の中をくり抜いて、乗れるようにしたい。」</p>
+<p class="ln" id="k5-29" data-y="5" data-i="29"><b>カシ</b>「ヒカリオノは一つだ。それより、大きなホリヤが先だ。」</p>
+<p class="ln" id="k5-30" data-y="5" data-i="30"><b>アケビ</b>「まあまあ。おのは家に使って、浮かぶ木のことは天に頼めばいいじゃない。」</p>
+<p class="ln" id="k5-31" data-y="5" data-i="31"><b>トチ</b>「決める。ヨシもトギイシを習え。春にはケヤキの柱で、大きなホリヤを建てる。それまで、ホリヤは寒さに弱い者からじゃ。」</p>
+<p class="ln" id="k5-32" data-y="5" data-i="32"><b>トチ</b>「おのは家に使う。だから、今年の願いはイソのにする。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen6">
+<summary><h2 id="k6-0">6年目　ウルの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="6">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k6-1">春・火を浜へ</p>
+<p class="ln" id="k6-2" data-y="6" data-i="2"><b>イソ</b>「じい、炉の火を少し分けてほしいんだ。浜で、浮かぶ木を焦がしてみたい。」</p>
+<p class="ln" id="k6-3" data-y="6" data-i="3"><b>カシ</b>「炉の火は絶やさんのが掟だ。浜へ持っていって消したらどうする。」</p>
+<p class="ln" id="k6-4" data-y="6" data-i="4"><b>シイ</b>「丘の火を消すわけじゃないよ。燃えさしを分けるだけさ。ただ、イソ、夜はちゃんと眠るんだよ。」</p>
+<p class="ln" id="k6-5" data-y="6" data-i="5"><b>トチ</b>「丘の火は丘で守る。浜の火は、浜の者が守れ。消えたら、また分けに来い。」</p>
+<p class="ln" id="k6-6" data-y="6" data-i="6"><b>イソ</b>「うん。消さないように、焦がしすぎないように、見てるよ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k6-7">夏・大漁の朝</p>
+<p class="ln" id="k6-8" data-y="6" data-i="8"><b>ナギ</b>「潮が満ちる。群れが来る。今だ。」</p>
+<p class="ln" id="k6-9" data-y="6" data-i="9"><b>コナ</b>「見て見て！ 水が魚で光ってる！」</p>
+<p class="ln" id="k6-10" data-y="6" data-i="10"><b>ホムラ</b>「かごの目から、どんどんこぼれてくよ！」</p>
+<p class="ln" id="k6-11" data-y="6" data-i="11"><b>イソ</b>「浜の火で干そう。けむりなら、焦がしてる火がずっと燃えてる。」</p>
+<p class="ln" id="k6-12" data-y="6" data-i="12"><b>ナギ</b>「いい。とれた分は、みんな干す。こぼれた分は……しかたない。」</p>
+</div>
+<div class="sc"><p class="sh" id="k6-13">秋・ウルが浮かぶ</p>
+<p class="ln" id="k6-14" data-y="6" data-i="14"><b>イソ</b>「ホムラ、いっしょに乗ってみない？ 最初は、ホムラがいいんだ。」</p>
+<p class="ln" id="k6-15" data-y="6" data-i="15"><b>ホムラ</b>「なんで、わたし？」</p>
+<p class="ln" id="k6-16" data-y="6" data-i="16"><b>イソ</b>「うーん……なんでかなあ。ホムラなら、ひっくり返っても笑ってくれそうだから。」</p>
+<p class="ln" id="k6-17" data-y="6" data-i="17"><b>ホムラ</b>「笑わないよ。……乗る。」</p>
+<p class="ln" id="k6-18" data-y="6" data-i="18"><b>ナギ</b>「浅瀬だけだ。潮が引く前に、もどれ。」</p>
+<p class="ln" id="k6-19" data-y="6" data-i="19"><b>イソ</b>「浮いた！ 二人でも、沈まない。これが、ぼくのウルだ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k6-20">年の終わりの寄り合い</p>
+<p class="ln" id="k6-21" data-y="6" data-i="21"><b>シイ</b>「大きなホリヤができて、みんな冷えずに眠れるようになったよ。寒さに弱い者から、という決まりは、もういらないね。」</p>
+<p class="ln" id="k6-22" data-y="6" data-i="22"><b>ナギ</b>「浜の火を一人で守ると、眠る。ウルが焦げすぎかけた。番は二人だ。」</p>
+<p class="ln" id="k6-23" data-y="6" data-i="23"><b>シイ</b>「丘の火は丘の番が守る。浜で火を燃やすときは、二人で番をしておくれ。」</p>
+<p class="ln" id="k6-24" data-y="6" data-i="24"><b>イソ</b>「ウルで、入り江の向こうの島まで行ってみたいなあ。」</p>
+<p class="ln" id="k6-25" data-y="6" data-i="25"><b>カシ</b>「まだ早い。浅瀬だけだ。」</p>
+<p class="ln" id="k6-26" data-y="6" data-i="26"><b>ホムラ</b>「なんで？……ううん、分かってる。波の高い所でひっくり返ったら、だれも助けに行けないから。」</p>
+<p class="ln" id="k6-27" data-y="6" data-i="27"><b>ナギ</b>「大漁の日、魚がかごの目からこぼれた。半分は逃げた。群れで来た魚を、一度にたくさんすくえる物がほしい。」</p>
+<p class="ln" id="k6-28" data-y="6" data-i="28"><b>ヨシ</b>「……たとえば、クモの巣のように縄を結んだ物なら。前に一度試して、破れてしまったけれど。」</p>
+<p class="ln" id="k6-29" data-y="6" data-i="29"><b>アケビ</b>「まあまあ、ミルが大きくなるころには、魚もたくさん食べさせたいね。ナギの願いにしようよ。」</p>
+<p class="ln" id="k6-30" data-y="6" data-i="30"><b>トチ</b>「決める。寒さに弱い者からの掟は、やめる。浜で火を燃やすときは、番を二人でせい。ウルは浅瀬までじゃ。」</p>
+<p class="ln" id="k6-31" data-y="6" data-i="31"><b>トチ</b>「願いは、ナギのにする。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen7">
+<summary><h2 id="k7-0">7年目　クモスの年</h2><span class="dur">約4分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="7">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k7-1">春・薬草の弟子</p>
+<p class="ln" id="k7-2" data-y="7" data-i="2"><b>ツル</b>「シイばあ、この葉っぱは？ ギザギザで、においがする。」</p>
+<p class="ln" id="k7-3" data-y="7" data-i="3"><b>シイ</b>「それは、おなかをこわした子にせんじる草だよ。ツル、よく見つけたね。」</p>
+<p class="ln" id="k7-4" data-y="7" data-i="4"><b>ツル</b>「じゃあ、おなかの草！……ねえ、シイばあ、ぜんぶの草の名前、わたしに教えて。」</p>
+<p class="ln" id="k7-5" data-y="7" data-i="5"><b>シイ</b>「いいよ。そのかわり、知らない草は口に入れないって、約束しておくれ。」</p>
+<p class="ln" id="k7-6" data-y="7" data-i="6"><b>ツル</b>「約束する！ わたし、シイばあの弟子になる。」</p>
+</div>
+<div class="sc"><p class="sh" id="k7-7">夏・クモスの初すくい</p>
+<p class="ln" id="k7-8" data-y="7" data-i="8"><b>ナギ</b>「群れが来た。今だ。しずめろ。」</p>
+<p class="ln" id="k7-9" data-y="7" data-i="9"><b>イソ</b>「すくうよ……重い！ 見て、ちっちゃいのも、ぜんぶ残ってる。」</p>
+<p class="ln" id="k7-10" data-y="7" data-i="10"><b>ヨシ</b>「目を小さく結んだからです。この草の縄なら、細くしても破れない。」</p>
+<p class="ln" id="k7-11" data-y="7" data-i="11"><b>ツル</b>「クモの巣みたいに、すくうから……クモス！」</p>
+<p class="ln" id="k7-12" data-y="7" data-i="12"><b>ナギ</b>「クモス、か。ヨシ、よく結んでくれた。」</p>
+<p class="ln" id="k7-13" data-y="7" data-i="13"><b>ヨシ</b>「去年の願いは、ナギのでしたから。」</p>
+</div>
+<div class="sc"><p class="sh" id="k7-14">夏・黒い石</p>
+<p class="ln" id="k7-15" data-y="7" data-i="15"><b>ホムラ</b>「大川の上手に、村のだれのでもない足あとがあった。たき火の跡に、これが落ちてた。」</p>
+<p class="ln" id="k7-16" data-y="7" data-i="16"><b>コナ</b>「見て見て！ 黒くて、つるつるで、ふちがすごくうすい。」</p>
+<p class="ln" id="k7-17" data-y="7" data-i="17"><b>カシ</b>「よその者か。何人だ。どっちへ行った。」</p>
+<p class="ln" id="k7-18" data-y="7" data-i="18"><b>ホムラ</b>「足あとは四つか五つ。川上へもどってた。」</p>
+<p class="ln" id="k7-19" data-y="7" data-i="19"><b>ヨシ</b>「……それは、川上の人の石です。」</p>
+<p class="ln" id="k7-20" data-y="7" data-i="20"><b>カシ</b>「知っているのか、ヨシ。」</p>
+<p class="ln" id="k7-21" data-y="7" data-i="21"><b>ヨシ</b>「首の石と、同じ石だというだけです。」</p>
+</div>
+<div class="sc"><p class="sh" id="k7-22">秋・はじめてのクリの実</p>
+<p class="ln" id="k7-23" data-y="7" data-i="23"><b>コナ</b>「じいちゃん！ ぼくの埋めたクリの木に、実がなったんだ。いちばん大きいの、じいちゃんに。」</p>
+<p class="ln" id="k7-24" data-y="7" data-i="24"><b>トチ</b>「……甘いのう。埋めた実が木になって、また実をつけるか。」</p>
+<p class="ln" id="k7-25" data-y="7" data-i="25"><b>コナ</b>「もっと埋めたら、丘のまわりがクリの木だらけになる？」</p>
+<p class="ln" id="k7-26" data-y="7" data-i="26"><b>トチ</b>「なるじゃろう。わしは見られんが、コナの子らが見る。」</p>
+<p class="ln" id="k7-27" data-y="7" data-i="27"><b>シイ</b>「そんなこと言わずに、温かいうちにお食べ。」</p>
+<p class="ln" id="k7-28" data-y="7" data-i="28"><b>アケビ</b>「とうちゃん、この子を抱いてみてよ。生まれたばかりの男の子。名前をつけてほしいんだ。」</p>
+<p class="ln" id="k7-29" data-y="7" data-i="29"><b>トチ</b>「……小さいが、重い。石のような子じゃ。コイシと呼べ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k7-30">年の終わりの寄り合い</p>
+<p class="ln" id="k7-31" data-y="7" data-i="31"><b>カシ</b>「最後に決めるのは長老だ。父がいない今、いちばん長く生きたのは母だ。」</p>
+<p class="ln" id="k7-32" data-y="7" data-i="32"><b>シイ</b>「わたしでいいのかい。……それなら、みんなの話をよく聞いてから決めるよ。」</p>
+<p class="ln" id="k7-33" data-y="7" data-i="33"><b>ナギ</b>「冬の蓄えが、オオイシ一つに少し足りないほど、足りなかった。実の少ない年は、クモスの魚と冬の貝を増やす。」</p>
+<p class="ln" id="k7-34" data-y="7" data-i="34"><b>ホムラ</b>「よその人に会ってみたい。あの黒い石のこと、聞いてみたい。」</p>
+<p class="ln" id="k7-35" data-y="7" data-i="35"><b>カシ</b>「向こうが何人で、何をしに来たか分からん。こっちから川上へは行くな。」</p>
+<p class="ln" id="k7-36" data-y="7" data-i="36"><b>ヨシ</b>「……川上の人が、みんなこわいわけではありません。会っても、こちらから先に手を出さないでください。」</p>
+<p class="ln" id="k7-37" data-y="7" data-i="37"><b>コナ</b>「ぼくのクリの木みたいに、拾った実を丘のまわりに埋めたい。何年かしたら、木になるから。」</p>
+<p class="ln" id="k7-38" data-y="7" data-i="38"><b>アケビ</b>「まあまあ、おなかのすいた冬に実を埋めるのは惜しいけど、先の冬のためだね。コナの言うとおりにしようよ。」</p>
+<p class="ln" id="k7-39" data-y="7" data-i="39"><b>アケビ</b>「それとね、ネムリアナのしぶいカシの実は、シブニゲに何日もかかって、すぐには食べられなかったでしょう。しぶい実を、もっと早く、たくさん食べられるようにしたいよ。」</p>
+<p class="ln" id="k7-40" data-y="7" data-i="40"><b>シイ</b>「決めるよ。これからは、わたしが最後に決める。川上へは、こちらから行かない。よその人に会っても、先に手を出さない。」</p>
+<p class="ln" id="k7-41" data-y="7" data-i="41"><b>シイ</b>「秋には、拾ったクリの実をテノカズだけ、丘のまわりに埋めておくれ。願いは、アケビのにしよう。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen8">
+<summary><h2 id="k8-0">8年目　グツの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="8">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k8-1">春・土の鳥</p>
+<p class="ln" id="k8-2" data-y="8" data-i="2"><b>アケビ</b>「母さん、見て！ 灰の中から、むかしわたしがこねた土の鳥が出てきたよ。」</p>
+<p class="ln" id="k8-3" data-y="8" data-i="3"><b>シイ</b>「まあ、まだ形が残っていたのかい。灰で手が冷えないように、よく拭いておくれ。」</p>
+<p class="ln" id="k8-4" data-y="8" data-i="4"><b>ツル</b>「湧き水に入れても、溶けないよ。背中に水がたまってる！」</p>
+<p class="ln" id="k8-5" data-y="8" data-i="5"><b>アケビ</b>「ねえ、この土で、鳥じゃなくて大きなくぼみを作ったら……水も実も入れられるんじゃない？」</p>
+<p class="ln" id="k8-6" data-y="8" data-i="6"><b>シイ</b>「火のそばに置いたら固くなったんだね。やってごらん。ただし、やけどだけはしないでおくれ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k8-7">夏・ひとつだけ残った器</p>
+<p class="ln" id="k8-8" data-y="8" data-i="8"><b>ヨシ</b>「割れた物を見ると、厚い所から割れています。たとえば、もっと同じ厚さにしたら……。」</p>
+<p class="ln" id="k8-9" data-y="8" data-i="9"><b>アケビ</b>「まあまあ、一つは残ったんだもの。ほら、ひびもないよ。」</p>
+<p class="ln" id="k8-10" data-y="8" data-i="10"><b>ナギ</b>「数えた。こねたのはテノカズと三つ。残ったのは一つ。」</p>
+<p class="ln" id="k8-11" data-y="8" data-i="11"><b>アケビ</b>「この一つで、カシの実を煮てみよう。」</p>
+<p class="ln" id="k8-12" data-y="8" data-i="12"><b>ツル</b>「ぐつぐつ言ってる！ ぐつぐつ言うから……グツ！」</p>
+<p class="ln" id="k8-13" data-y="8" data-i="13"><b>アケビ</b>「グツ、いい名前。……あ、しぶくない。しぶいのが、お湯に逃げてった！」</p>
+<p class="ln" id="k8-14" data-y="8" data-i="14"><b>ツル</b>「シブニゲと同じだね。でも、ずっと早い！」</p>
+</div>
+<div class="sc"><p class="sh" id="k8-15">冬・雪の降らない冬</p>
+<p class="ln" id="k8-16" data-y="8" data-i="16"><b>カシ</b>「掟だ。雪が降るまで、穴は開けない。」</p>
+<p class="ln" id="k8-17" data-y="8" data-i="17"><b>ナギ</b>「雪は来ない。北の山は、もう白い。待てば子どもが弱る。」</p>
+<p class="ln" id="k8-18" data-y="8" data-i="18"><b>シイ</b>「子どもたちのおなかが、夜ごと鳴っているよ。冷えた体で眠らせたくないね。」</p>
+<p class="ln" id="k8-19" data-y="8" data-i="19"><b>カシ</b>「……母さんが決めるなら、従う。」</p>
+<p class="ln" id="k8-20" data-y="8" data-i="20"><b>シイ</b>「開けよう。ナギ、オオイシで数えて、少しずつ分けておくれ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k8-21">年の終わりの寄り合い</p>
+<p class="ln" id="k8-22" data-y="8" data-i="22"><b>ナギ</b>「雪が降るまで、と決めたのはわたしだ。けれど、この丘には雪の降らない冬もある。決め方を変えたい。」</p>
+<p class="ln" id="k8-23" data-y="8" data-i="23"><b>ナギ</b>「北の山が白くなったら開ける。開けるときは、わたしがオオイシで数える。これでどうだ。」</p>
+<p class="ln" id="k8-24" data-y="8" data-i="24"><b>カシ</b>「山が白いかどうかは、だれが見ても分かる。それならいい。」</p>
+<p class="ln" id="k8-25" data-y="8" data-i="25"><b>アケビ</b>「グツがあれば、しぶい実もその日に食べられるよ。もっと作りたいけど、焼くとほとんど割れちゃうの。」</p>
+<p class="ln" id="k8-26" data-y="8" data-i="26"><b>ヨシ</b>「割れ方を見て、小さく試してみます。厚さを変えたり、乾かし方を変えたり。」</p>
+<p class="ln" id="k8-27" data-y="8" data-i="27"><b>ヨシ</b>「けれど、一人で試していては何年もかかります。焼いても割れない土の器を、たくさん作れるようにしたい。天に頼むなら、それです。」</p>
+<p class="ln" id="k8-28" data-y="8" data-i="28"><b>ホムラ</b>「わたしは、よその人に会いたい。あの人たちなら、割れない器のことも知ってるかもしれない。」</p>
+<p class="ln" id="k8-29" data-y="8" data-i="29"><b>カシ</b>「川上へは、こちらから行かない。去年決めたことだ。」</p>
+<p class="ln" id="k8-30" data-y="8" data-i="30"><b>シイ</b>「決めるよ。掟「秋の蓄えは雪が降るまで開けない」はやめて、ナギの言うとおり、北の山が白くなったら開けることにする。」</p>
+<p class="ln" id="k8-31" data-y="8" data-i="31"><b>シイ</b>「グツは、アケビとヨシで作っておくれ。願いは、ヨシのにしよう。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen9">
+<summary><h2 id="k9-0">9年目　ツバメツチの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="9">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k9-1">春・落ちたツバメの巣</p>
+<p class="ln" id="k9-2" data-y="9" data-i="2"><b>コナ</b>「ヨシおじ、それ、鳥の巣？ 泥なのに、こわれてない！」</p>
+<p class="ln" id="k9-3" data-y="9" data-i="3"><b>ヨシ</b>「落ちても、くずれていません。たとえば、ここの割れ口……細い草が、ぎっしりまざっています。」</p>
+<p class="ln" id="k9-4" data-y="9" data-i="4"><b>コナ</b>「こっちの泥のかたまりは、ひびだらけだよ。」</p>
+<p class="ln" id="k9-5" data-y="9" data-i="5"><b>ヨシ</b>「草のない泥は割れて、草のある泥は割れない。小さく試してみましょう。」</p>
+<p class="ln" id="k9-6" data-y="9" data-i="6"><b>アケビ</b>「まあ、ツバメは器づくりの先生だったんだね。草なら、いくらでもあるよ！」</p>
+</div>
+<div class="sc"><p class="sh" id="k9-7">夏・鳴らない火</p>
+<p class="ln" id="k9-8" data-y="9" data-i="8"><b>アケビ</b>「ねえ、今年は、ぱちんって言わないね。」</p>
+<p class="ln" id="k9-9" data-y="9" data-i="9"><b>ナギ</b>「数えた。焼いたのはテノカズと三つ。割れたのは三つ。」</p>
+<p class="ln" id="k9-10" data-y="9" data-i="10"><b>ヨシ</b>「去年は、残ったのがたった一つでした。ツバメの言うとおりです。」</p>
+<p class="ln" id="k9-11" data-y="9" data-i="11"><b>ツル</b>「ツバメのまねをした土だから……ツバメツチ！」</p>
+<p class="ln" id="k9-12" data-y="9" data-i="12"><b>アケビ</b>「ツバメツチのグツ、いい名前。これで冬も、毎日煮られるよ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k9-13">秋・朝のけむり</p>
+<p class="ln" id="k9-14" data-y="9" data-i="14"><b>ツル</b>「ねえイソ兄、知ってる？ ホムラ姉ね、夏のあいだ毎朝、だれよりも先に丘のはしで、浜のけむりを待ってたんだよ。」</p>
+<p class="ln" id="k9-15" data-y="9" data-i="15"><b>ホムラ</b>「ツル！ ……それは、ハマモリの無事を見るのは、みんなの役目だから。」</p>
+<p class="ln" id="k9-16" data-y="9" data-i="16"><b>ツル</b>「でも、けむりが見えるまで、ずっと動かなかったよ。ケムリマチだね！」</p>
+<p class="ln" id="k9-17" data-y="9" data-i="17"><b>イソ</b>「……ぼくもね、毎朝、火をつける前に、丘のほうを見てたんだ。」</p>
+<p class="ln" id="k9-18" data-y="9" data-i="18"><b>ホムラ</b>「……なんで、それを先に言わないの。」</p>
+<p class="ln" id="k9-19" data-y="9" data-i="19"><b>ナギ</b>「二人とも。火が冷える。もっと寄りな。」</p>
+</div>
+<div class="sc"><p class="sh" id="k9-20">年の終わりの寄り合い</p>
+<p class="ln" id="k9-21" data-y="9" data-i="21"><b>ヨシ</b>「ツバメの巣がなければ、グツは今も一つきりでした。巣は、ツバメが帰ってくる場所です。落ちた巣はもらってよいけれど、かかっている巣は落とさない。そう決めたいのです。」</p>
+<p class="ln" id="k9-22" data-y="9" data-i="22"><b>アケビ</b>「まあ、ツバメへのお礼だね。わたしもそれがいい。」</p>
+<p class="ln" id="k9-23" data-y="9" data-i="23"><b>カシ</b>「ツバメは、とって食う鳥じゃない。それでいい。」</p>
+<p class="ln" id="k9-24" data-y="9" data-i="24"><b>ホムラ</b>「グツがこんなにある。よその人に見せたら、黒い石ととりかえてくれるかもしれない。」</p>
+<p class="ln" id="k9-25" data-y="9" data-i="25"><b>カシ</b>「川上へは、こちらから行かない。決めたことだ。」</p>
+<p class="ln" id="k9-26" data-y="9" data-i="26"><b>ホムラ</b>「なんで？ 先に手を出さなければいいんでしょう。会うだけなら、けんかにならない。」</p>
+<p class="ln" id="k9-27" data-y="9" data-i="27"><b>コナ</b>「ぼくは、黒い石みたいにうすく割れる石がほしい。あれなら、とがった先が作れる。」</p>
+<p class="ln" id="k9-28" data-y="9" data-i="28"><b>ヨシ</b>「……川上の人が、みんなこわいわけではありません。それだけは、言っておきます。」</p>
+<p class="ln" id="k9-29" data-y="9" data-i="29"><b>シイ</b>「決めるよ。ヨシの言うとおり、かかっているツバメの巣は落とさない。川上へこちらから行かないのは、今までどおり。」</p>
+<p class="ln" id="k9-30" data-y="9" data-i="30"><b>シイ</b>「願いは、ホムラのにしよう。けんかをせずに会えますように、とね。それなら、だれもけがをしない。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen10">
+<summary><h2 id="k10-0">10年目　ササリボの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="10">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k10-1">夏・浅瀬の岩</p>
+<p class="ln" id="k10-2" data-y="10" data-i="2"><b>ホムラ</b>「見て。あの子、せきをしてる。……袋の草は、あの子のためだったんだ。」</p>
+<p class="ln" id="k10-3" data-y="10" data-i="3"><b>シイ</b>「せきの子は、冷えるとつらいよ。ツル、のどの草の包みをおくれ。」</p>
+<p class="ln" id="k10-4" data-y="10" data-i="4"><b>ツル</b>「これだね、シイばあ。わたしが岩に置いてくる。」</p>
+<p class="ln" id="k10-5" data-y="10" data-i="5"><b>ホムラ</b>「先に手を出さない。置いて、下がる。それだけ。」</p>
+<p class="ln" id="k10-6" data-y="10" data-i="6"><b>ヨシ</b>「……今、あの人が言いました。『ありがたい』と。川上の言葉です。」</p>
+<p class="ln" id="k10-7" data-y="10" data-i="7"><b>ホムラ</b>「ヨシおじ、分かるの？ なんで？」</p>
+<p class="ln" id="k10-8" data-y="10" data-i="8"><b>ヨシ</b>「……冬になったら、話します。」</p>
+</div>
+<div class="sc"><p class="sh" id="k10-9">秋・黒い石の先</p>
+<p class="ln" id="k10-10" data-y="10" data-i="10"><b>コナ</b>「見て見て！ 黒い石、うすく割れた。とがった先ができた！」</p>
+<p class="ln" id="k10-11" data-y="10" data-i="11"><b>イソ</b>「川原に一人で何日もいたのは、これかあ。」</p>
+<p class="ln" id="k10-12" data-y="10" data-i="12"><b>カシ</b>「貸せ。ハネギで放つぞ。」</p>
+<p class="ln" id="k10-13" data-y="10" data-i="13"><b>ツル</b>「あっ、木にささった！ ささる棒だから……ササリボ！」</p>
+<p class="ln" id="k10-14" data-y="10" data-i="14"><b>カシ</b>「深い。これなら、獣に近づかなくても届く。」</p>
+<p class="ln" id="k10-15" data-y="10" data-i="15"><b>コナ</b>「じいちゃんの割り方で、ぼく一人で作ったんだ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k10-16">冬・炉のそばの話</p>
+<p class="ln" id="k10-17" data-y="10" data-i="17"><b>ヨシ</b>「わたしが川上の群れを出たのは、ひもじい冬でした。食べ物が、みんなの分ありませんでした。」</p>
+<p class="ln" id="k10-18" data-y="10" data-i="18"><b>ヨシ</b>「親のいないわたしが一人いなくなれば、そのぶん小さい子が食べられる。そう考えて、だれにも言わずに川を下りました。」</p>
+<p class="ln" id="k10-19" data-y="10" data-i="19"><b>アケビ</b>「……それで、ずっと言えなかったんだね。」</p>
+<p class="ln" id="k10-20" data-y="10" data-i="20"><b>ヨシ</b>「追い出されたのではありません。でも、逃げた者だと思われるのが、こわかったのです。」</p>
+<p class="ln" id="k10-21" data-y="10" data-i="21"><b>カシ</b>「逃げたやつが、あんな縄をなうか。ヨシはこの丘の者だ。」</p>
+<p class="ln" id="k10-22" data-y="10" data-i="22"><b>シイ</b>「よく話してくれたね。今夜は、あったかくしてお休み。」</p>
+</div>
+<div class="sc"><p class="sh" id="k10-23">年の終わりの寄り合い</p>
+<p class="ln" id="k10-24" data-y="10" data-i="24"><b>ホムラ</b>「川上の人は、こわくなかった。また会いたい。今度は、こっちからもおくり物を置こう。」</p>
+<p class="ln" id="k10-25" data-y="10" data-i="25"><b>カシ</b>「ササリボで、シカが遠くからとれた。黒い石が、もっとほしい。」</p>
+<p class="ln" id="k10-26" data-y="10" data-i="26"><b>ナギ</b>「置くなら、浅瀬の岩だけ。川は渡らない。置いたら下がる。それなら、どちらも近づきすぎない。」</p>
+<p class="ln" id="k10-27" data-y="10" data-i="27"><b>ヨシ</b>「わたしがいたころ、川上の人はグツを持っていませんでした。グツを置いたら、きっと喜ぶと思います。」</p>
+<p class="ln" id="k10-28" data-y="10" data-i="28"><b>アケビ</b>「まあ、グツならいくつでもこねるよ。ツバメツチでね。春になったら、一つ焼こうよ。」</p>
+<p class="ln" id="k10-29" data-y="10" data-i="29"><b>コナ</b>「ぼくも、黒い石がもっとほしい。ササリボの先を、みんなの分作りたい。」</p>
+<p class="ln" id="k10-30" data-y="10" data-i="30"><b>ツル</b>「わたしは、あのせきの子が、よくなってほしい。シイばあの草、ちゃんと効いたかなあ。」</p>
+<p class="ln" id="k10-31" data-y="10" data-i="31"><b>シイ</b>「決めるよ。川上の人へのおくり物は、ナギの言うとおり、浅瀬の岩に置いて下がる。川を渡って会いに行くのは、まだしない。春には、アケビのグツを一つ置こう。」</p>
+<p class="ln" id="k10-32" data-y="10" data-i="32"><b>シイ</b>「願いは、ツルのにしよう。川向こうの子のことは、わたしたちには確かめられないからね。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen11">
+<summary><h2 id="k11-0">11年目　ユゲグサの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="11">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k11-1">春・ユゲグサ</p>
+<p class="ln" id="k11-2" data-y="11" data-i="2"><b>ツル</b>「シイばあ、のどがすうっとする。ゆげに、草のにおいがする！」</p>
+<p class="ln" id="k11-3" data-y="11" data-i="3"><b>シイ</b>「あったかい汁が、冷えたのどにいいんだよ。どの草が落ちたんだい、見せておくれ。」</p>
+<p class="ln" id="k11-4" data-y="11" data-i="4"><b>ツル</b>「これ。道ばたの、広い葉っぱの草。ゆげの出る草だから……ユゲグサ！」</p>
+<p class="ln" id="k11-5" data-y="11" data-i="5"><b>アケビ</b>「まあまあ、グツは実を煮るだけじゃないんだね。歌いたくなっちゃう。」</p>
+<p class="ln" id="k11-6" data-y="11" data-i="6"><b>ツル</b>「川上の子にも、これを飲ませたい。でも、あの人たちはグツを持ってないんだよね。」</p>
+<p class="ln" id="k11-7" data-y="11" data-i="7"><b>アケビ</b>「なら、グツごと置こうよ。約束の一つ、わたしがいちばんいいのを焼くよ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k11-8">夏・ハナの先</p>
+<p class="ln" id="k11-9" data-y="11" data-i="9"><b>イソ</b>「ほら、島が近いだろう。ナツユキの森から見たときより、ずっと。」</p>
+<p class="ln" id="k11-10" data-y="11" data-i="10"><b>ホムラ</b>「鼻みたいにつき出てるから、ここはハナだね。……イソ、行きたいんでしょ。」</p>
+<p class="ln" id="k11-11" data-y="11" data-i="11"><b>イソ</b>「行きたいなあ。でも、今日はここまで。ナギかあさんと、岸の見える所までって約束したから。」</p>
+<p class="ln" id="k11-12" data-y="11" data-i="12"><b>ホムラ</b>「なんで、そんなにがまんできるの？」</p>
+<p class="ln" id="k11-13" data-y="11" data-i="13"><b>イソ</b>「丘で、けむりを待っててくれる人がいるからかなあ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k11-14">秋・小さいホリヤ</p>
+<p class="ln" id="k11-15" data-y="11" data-i="15"><b>イソ</b>「ナギかあさん、カシとうさん。ホムラと、二人のホリヤで暮らしたいんだ。」</p>
+<p class="ln" id="k11-16" data-y="11" data-i="16"><b>ナギ</b>「……浜ではなく、丘にか。」</p>
+<p class="ln" id="k11-17" data-y="11" data-i="17"><b>イソ</b>「うん。丘なら、ホムラの走る音も、みんなのけむりも近い。」</p>
+<p class="ln" id="k11-18" data-y="11" data-i="18"><b>カシ</b>「古いホリヤは柱が細い。雪で鳴る。直すなら、手を貸すぞ。」</p>
+<p class="ln" id="k11-19" data-y="11" data-i="19"><b>ホムラ</b>「とうちゃん、それって、いいってこと？」</p>
+<p class="ln" id="k11-20" data-y="11" data-i="20"><b>カシ</b>「そうだ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k11-21">年の終わりの寄り合い</p>
+<p class="ln" id="k11-22" data-y="11" data-i="22"><b>ツル</b>「せきの子、走ってた！ ユゲグサが川を渡ったんだね。秋にも、グツを置こうよ。」</p>
+<p class="ln" id="k11-23" data-y="11" data-i="23"><b>コナ</b>「黒い石で、ササリボの先がみんなの分そろった。……あの石が、川上のどこで取れるのか見てみたい。」</p>
+<p class="ln" id="k11-24" data-y="11" data-i="24"><b>イソ</b>「ハナの先からなら、島がすぐそこに見える。ウルで、渡ってみたいなあ。」</p>
+<p class="ln" id="k11-25" data-y="11" data-i="25"><b>ナギ</b>「岸の見えない所は、潮も風も読めない。ウルで出るのは、わたしが潮と風を見た日だけ。岸の見える所まで。」</p>
+<p class="ln" id="k11-26" data-y="11" data-i="26"><b>カシ</b>「ウルは一つしかない。島へ行くなら、もっと強いウルがいる。」</p>
+<p class="ln" id="k11-27" data-y="11" data-i="27"><b>ヨシ</b>「たとえば、水をかく板を二人で持てば、もっと速く進めます。小さく試してみましょう。」</p>
+<p class="ln" id="k11-28" data-y="11" data-i="28"><b>シイ</b>「決めるよ。ウルで出るのは、ナギが潮と風を見た日だけ。行くのは岸の見える所まで。秋にも、グツとユゲグサを岩に置こう。」</p>
+<p class="ln" id="k11-29" data-y="11" data-i="29"><b>シイ</b>「願いは、イソのにしよう。わたしたちだけで決めるには、海は大きすぎるからね。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen12">
+<summary><h2 id="k12-0">12年目　ウミカワの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="12">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k12-1">春・ハナの流木</p>
+<p class="ln" id="k12-2" data-y="12" data-i="2"><b>イソ</b>「見て、この長さ。はじめのウルより、ずっと長い。」</p>
+<p class="ln" id="k12-3" data-y="12" data-i="3"><b>ホムラ</b>「これ、どうやって丘の浜まで運ぶの？ 重くて、三人でも持てないよ。」</p>
+<p class="ln" id="k12-4" data-y="12" data-i="4"><b>ヨシ</b>「たとえば、潮の満ちるときに浮かべて、ウルで引けばいい。運ばずに、流すのです。」</p>
+<p class="ln" id="k12-5" data-y="12" data-i="5"><b>イソ</b>「ヨシ、これをくり抜いたら、二人でこげるかなあ。」</p>
+<p class="ln" id="k12-6" data-y="12" data-i="6"><b>ヨシ</b>「前と後ろに一人ずつ。水をかく板も、二枚作りましょう。小さく試してから。」</p>
+</div>
+<div class="sc"><p class="sh" id="k12-7">夏・ウミカワ</p>
+<p class="ln" id="k12-8" data-y="12" data-i="8"><b>ホムラ</b>「イソ、ウルが勝手に東へ行く！ こいでないのに！」</p>
+<p class="ln" id="k12-9" data-y="12" data-i="9"><b>ナギ</b>「あわの筋に入った。戻る。岸ぞいに。」</p>
+<p class="ln" id="k12-10" data-y="12" data-i="10"><b>イソ</b>「海の中に……川がある。ウミカワだ。」</p>
+<p class="ln" id="k12-11" data-y="12" data-i="11"><b>ナギ</b>「この川は、いつも同じではない。強い日も、弱い日もある。」</p>
+<p class="ln" id="k12-12" data-y="12" data-i="12"><b>イソ</b>「ナギかあさん。ぼくに、潮の読み方を教えてほしい。島へ行くなら、自分で読めないと。」</p>
+<p class="ln" id="k12-13" data-y="12" data-i="13"><b>ナギ</b>「……毎日、浜で見る。それができるなら。」</p>
+</div>
+<div class="sc"><p class="sh" id="k12-14">秋・シオネムリ</p>
+<p class="ln" id="k12-15" data-y="12" data-i="15"><b>ナギ</b>「海草を見る。さっきまで東へなびいていた。」</p>
+<p class="ln" id="k12-16" data-y="12" data-i="16"><b>イソ</b>「……止まった。あわの筋も、消えていく。」</p>
+<p class="ln" id="k12-17" data-y="12" data-i="17"><b>クリ</b>「潮がねむってる！ シオネムリだね！」</p>
+<p class="ln" id="k12-18" data-y="12" data-i="18"><b>ナギ</b>「そう。ウミカワがゆるむのは、このときだけ。長くはない。」</p>
+<p class="ln" id="k12-19" data-y="12" data-i="19"><b>イソ</b>「シオネムリのうちに行って、次のシオネムリまでに帰る……そういうことかなあ。」</p>
+</div>
+<div class="sc"><p class="sh" id="k12-20">年の終わりの寄り合い</p>
+<p class="ln" id="k12-21" data-y="12" data-i="21"><b>イソ</b>「二つ目のウルができた。ウミカワがゆるむシオネムリのときなら、島まで行けると思うんだ。」</p>
+<p class="ln" id="k12-22" data-y="12" data-i="22"><b>ナギ</b>「シオネムリは長くない。行って帰ってくるまで、海がもつかどうかは、まだ分からない。」</p>
+<p class="ln" id="k12-23" data-y="12" data-i="23"><b>カシ</b>「ウルが一つで出て、ひっくり返ったら、だれが助ける。島の方へ出すなら、二つ並べてだ。」</p>
+<p class="ln" id="k12-24" data-y="12" data-i="24"><b>ヨシ</b>「二つ目のウルは、二人でこげば速く進みます。はじめのウルと並べても、おくれません。」</p>
+<p class="ln" id="k12-25" data-y="12" data-i="25"><b>コナ</b>「島もいいけど、ぼくは黒い石の取れる所も、いつか見てみたい。」</p>
+<p class="ln" id="k12-26" data-y="12" data-i="26"><b>クリ</b>「わたしも、ミルとコイシと、ウルに乗ってみたい！」</p>
+<p class="ln" id="k12-27" data-y="12" data-i="27"><b>ナギ</b>「イソが島へ渡る日には、潮と風が、帰るまでおだやかであってほしい。それは、わたしにも読みきれない。」</p>
+<p class="ln" id="k12-28" data-y="12" data-i="28"><b>シイ</b>「決めるよ。島の方へ出るときは、ウルを二つ並べて出す。イソは、ナギが『もう読める』と言うまで習う。島へ渡るのは、それからだよ。」</p>
+<p class="ln" id="k12-29" data-y="12" data-i="29"><b>シイ</b>「クリたちは、大人といっしょに浅瀬で乗せてもらおうね。願いは、ナギのにしよう。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen13">
+<summary><h2 id="k13-0">13年目　トリシマの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="13">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k13-1">夏・読める</p>
+<p class="ln" id="k13-2" data-y="13" data-i="2"><b>イソ</b>「海草が、少しずつゆっくりになってきた。あわの筋も細い。……もうすぐシオネムリだ。」</p>
+<p class="ln" id="k13-3" data-y="13" data-i="3"><b>ナギ</b>「なぜ分かる。」</p>
+<p class="ln" id="k13-4" data-y="13" data-i="4"><b>イソ</b>「ゆうべ、海鳥が波の上で眠ってた。それに、月が丸い。」</p>
+<p class="ln" id="k13-5" data-y="13" data-i="5"><b>ナギ</b>「……読める。」</p>
+<p class="ln" id="k13-6" data-y="13" data-i="6"><b>イソ</b>「ナギかあさん、今、なんて？」</p>
+<p class="ln" id="k13-7" data-y="13" data-i="7"><b>ナギ</b>「二度は言わない。カシに知らせておいで。」</p>
+</div>
+<div class="sc"><p class="sh" id="k13-8">夏・島の浜</p>
+<p class="ln" id="k13-9" data-y="13" data-i="9"><b>ホムラ</b>「着いた！ 足の下が、もうゆれない！」</p>
+<p class="ln" id="k13-10" data-y="13" data-i="10"><b>カシ</b>「ウルを浜の上まで引け。潮が来ても流されんようにだ。」</p>
+<p class="ln" id="k13-11" data-y="13" data-i="11"><b>コナ</b>「見て見て！ 岩の上、ぜんぶ鳥だ。」</p>
+<p class="ln" id="k13-12" data-y="13" data-i="12"><b>イソ</b>「……この石。ぼくの首の石と、同じ色だ。」</p>
+<p class="ln" id="k13-13" data-y="13" data-i="13"><b>ホムラ</b>「ほんとだ。イソ、ここから来たの？」</p>
+<p class="ln" id="k13-14" data-y="13" data-i="14"><b>イソ</b>「わからない。でも、なんだか、なつかしいなあ。」</p>
+<p class="ln" id="k13-15" data-y="13" data-i="15"><b>カシ</b>「日が傾く前に戻るぞ。ナギが火をたいて待っている。」</p>
+</div>
+<div class="sc"><p class="sh" id="k13-16">秋・薬草の袋</p>
+<p class="ln" id="k13-17" data-y="13" data-i="17"><b>シイ</b>「ツル、おいで。ひざが痛くてね、もう森まで歩けないんだよ。」</p>
+<p class="ln" id="k13-18" data-y="13" data-i="18"><b>ツル</b>「シイばあ、冷えたんだね。ユゲグサ、煮ようか？」</p>
+<p class="ln" id="k13-19" data-y="13" data-i="19"><b>シイ</b>「ありがとう。それより、この袋を、あんたが持っておくれ。」</p>
+<p class="ln" id="k13-20" data-y="13" data-i="20"><b>ツル</b>「でも……わたし、暗い森はまだこわいよ。」</p>
+<p class="ln" id="k13-21" data-y="13" data-i="21"><b>シイ</b>「暗くなる前に帰ればいいんだよ。草は、明るいうちしか見えないからね。」</p>
+<p class="ln" id="k13-22" data-y="13" data-i="22"><b>ツル</b>「……うん。わたし、今日から薬草の人だね！」</p>
+</div>
+<div class="sc"><p class="sh" id="k13-23">年の終わりの寄り合い</p>
+<p class="ln" id="k13-24" data-y="13" data-i="24"><b>イソ</b>「島には湧き水も鳥もいた。浜には、ぼくの首の石と同じ、青い小石があった。」</p>
+<p class="ln" id="k13-25" data-y="13" data-i="25"><b>ホムラ</b>「帰りにもやが出て、ハナが見えなくなったの。でも、けむりだけは見えた。」</p>
+<p class="ln" id="k13-26" data-y="13" data-i="26"><b>ナギ</b>「島へ渡る日は、ハナで火をたいて、けむりを上げておく。帰りの目印になる。」</p>
+<p class="ln" id="k13-27" data-y="13" data-i="27"><b>カシ</b>「それがいい。火の番は二人だ。掟どおりにな。」</p>
+<p class="ln" id="k13-28" data-y="13" data-i="28"><b>ヨシ</b>「たとえば、湿った草をくべると、けむりが白く太くなります。小さく試しておきましょう。」</p>
+<p class="ln" id="k13-29" data-y="13" data-i="29"><b>ツル</b>「鳥がヤマホドいる島だから、トリシマって呼ぼうよ！」</p>
+<p class="ln" id="k13-30" data-y="13" data-i="30"><b>コナ</b>「トリシマもいいけど、ぼくは、やっぱり黒い石の取れる所が見たいな。」</p>
+<p class="ln" id="k13-31" data-y="13" data-i="31"><b>イソ</b>「静かな海の日を待って、ハナで何日も海を見た。静かな日は、あの一日だけだった。次の静かな日が、前もって分かればいいのになあ。」</p>
+<p class="ln" id="k13-32" data-y="13" data-i="32"><b>シイ</b>「決めるよ。島へ渡る日は、ハナで火をたいて、けむりを上げておくこと。島の名は、ツルのトリシマでいい。」</p>
+<p class="ln" id="k13-33" data-y="13" data-i="33"><b>シイ</b>「薬草の袋は、もうツルが持っているね。今日からツルが薬草の人だよ。願いは、イソのにしよう。」</p>
+</div>
+</div></details>
+<details class="yr" id="nen14">
+<summary><h2 id="k14-0">14年目　ツキキザミの年</h2><span class="dur">約3分</span></summary>
+<div class="body">
+<button type="button" class="go" data-y="14">▶ この年を聞く</button>
+<div class="sc"><p class="sh" id="k14-1">春・ツキキザミ</p>
+<p class="ln" id="k14-2" data-y="14" data-i="2"><b>イソ</b>「ナギかあさん、今夜で刻み目がテノカズ三つになった。月が、また丸いよ。」</p>
+<p class="ln" id="k14-3" data-y="14" data-i="3"><b>ナギ</b>「数えた。テノカズ三つと、少し。」</p>
+<p class="ln" id="k14-4" data-y="14" data-i="4"><b>クリ</b>「月をきざむ棒だから、ツキキザミ！」</p>
+<p class="ln" id="k14-5" data-y="14" data-i="5"><b>イソ</b>「いい名だなあ。これを見れば、次の丸い月が前もって分かる。」</p>
+<p class="ln" id="k14-6" data-y="14" data-i="6"><b>ナギ</b>「分かるのは月だけだ。海は、その日にハナで見る。」</p>
+</div>
+<div class="sc"><p class="sh" id="k14-7">夏・川原のけんか</p>
+<p class="ln" id="k14-8" data-y="14" data-i="8"><b>コナ</b>「見て、また黒い石だ。ぼく、この石の取れる所が見たい。川を渡って行く。」</p>
+<p class="ln" id="k14-9" data-y="14" data-i="9"><b>カシ</b>「だめだ。掟だ。こっちからは渡らん。」</p>
+<p class="ln" id="k14-10" data-y="14" data-i="10"><b>コナ</b>「掟、掟って。じいちゃんだったら、見てこいって言ったよ！」</p>
+<p class="ln" id="k14-11" data-y="14" data-i="11"><b>カシ</b>「トチの名を出すな。お前一人のことじゃないんだ。」</p>
+<p class="ln" id="k14-12" data-y="14" data-i="12"><b>ヨシ</b>「たとえば、岩で言葉をたずねるやり方も……」</p>
+<p class="ln" id="k14-13" data-y="14" data-i="13"><b>コナ</b>「もういい。ぼくがやる。ぼく一人で見つける。」</p>
+</div>
+<div class="sc"><p class="sh" id="k14-14">秋・かぶれた手</p>
+<p class="ln" id="k14-15" data-y="14" data-i="15"><b>ツル</b>「コナ、その手、真っ赤だよ。かゆいでしょ。」</p>
+<p class="ln" id="k14-16" data-y="14" data-i="16"><b>コナ</b>「森の奥の沢で、白い汁の出る木にさわった。……暗かったけど、ぼく、行けたんだ。」</p>
+<p class="ln" id="k14-17" data-y="14" data-i="17"><b>ツル</b>「ユゲグサの汁で冷やそう。さわるとかぶれる木だから、カブレギだね。」</p>
+<p class="ln" id="k14-18" data-y="14" data-i="18"><b>コナ</b>「汁は乾くと黒くなって、石みたいに固いんだ。何かに使えるかも。」</p>
+<p class="ln" id="k14-19" data-y="14" data-i="19"><b>ツル</b>「使う前に、まず手を治すの！」</p>
+</div>
+<div class="sc"><p class="sh" id="k14-20">年の終わりの寄り合い</p>
+<p class="ln" id="k14-21" data-y="14" data-i="21"><b>イソ</b>「ツキキザミで数えると、静かな海の日は、丸い月のころに来ることが多い。次の丸い月まで、あと何夜か分かるんだ。」</p>
+<p class="ln" id="k14-22" data-y="14" data-i="22"><b>ナギ</b>「それでも、出る日はハナで潮と風を見て決める。棒は、支度を始める日を教えるだけだ。」</p>
+<p class="ln" id="k14-23" data-y="14" data-i="23"><b>シイ</b>「コナ、手はもういいかい。一人で森の奥へ行ったと聞いて、夜じゅう眠れなかったよ。」</p>
+<p class="ln" id="k14-24" data-y="14" data-i="24"><b>コナ</b>「……ごめん。でも、沢があった。冷たい水と、白い汁の出る木。」</p>
+<p class="ln" id="k14-25" data-y="14" data-i="25"><b>カシ</b>「森の奥へ一人で黙って行くな。どこへ行くか、火の番に言ってから行け。」</p>
+<p class="ln" id="k14-26" data-y="14" data-i="26"><b>ツル</b>「カブレギの汁には、さわっちゃだめ。手が真っ赤になるよ。」</p>
+<p class="ln" id="k14-27" data-y="14" data-i="27"><b>ヨシ</b>「たとえば、春に岩で川上の人に会えたら、黒い石の取れる所を、わたしが言葉でたずねてみます。渡らなくても、聞くことはできます。」</p>
+<p class="ln" id="k14-28" data-y="14" data-i="28"><b>コナ</b>「……うん。それなら、待つ。ぼくは、黒い石の取れる所を教えてもらえるように、天に頼みたい。」</p>
+<p class="ln" id="k14-29" data-y="14" data-i="29"><b>アケビ</b>「まあまあ。兄さんもコナも、今夜は同じ火にあたろうよ。」</p>
+<p class="ln" id="k14-30" data-y="14" data-i="30"><b>シイ</b>「決めるよ。森の奥へ行く者は、行き先を火の番に言ってから行くこと。ツキキザミは、イソが続けて刻んでおくれ。黒い石のことは、春にヨシが岩でたずねる。」</p>
+<p class="ln" id="k14-31" data-y="14" data-i="31"><b>シイ</b>「願いは、コナのにしよう。」</p>
+</div>
+</div></details>
+<details class="box"><summary>声の割り当て</summary><table class="cast">
+<tr><td>トチ</td><td>ちび式じい</td></tr>
+<tr><td>シイ</td><td>東北イタコ</td></tr>
+<tr><td>カシ</td><td>青山龍星</td></tr>
+<tr><td>ナギ</td><td>波音リツ</td></tr>
+<tr><td>ヨシ</td><td>雀松朱司</td></tr>
+<tr><td>アケビ</td><td>もち子さん</td></tr>
+<tr><td>ホムラ</td><td>春日部つむぎ</td></tr>
+<tr><td>イソ</td><td>玄野武宏</td></tr>
+<tr><td>コナ</td><td>白上虎太郎</td></tr>
+<tr><td>ツル</td><td>東北きりたん → 東北ずん子</td></tr>
+<tr><td>クリ</td><td>ずんだもん</td></tr>
+<tr><td>語り手</td><td>No.7</td></tr>
+</table><p class="small">子どもは大きくなると声が変わります（→ のあとが今の声）。</p></details>
+</main>
+<footer><p>声：VOICEVOX:No.7、VOICEVOX:ずんだもん、VOICEVOX:ちび式じい、VOICEVOX:もち子さん、VOICEVOX:玄野武宏、VOICEVOX:春日部つむぎ、VOICEVOX:雀松朱司、VOICEVOX:青山龍星、VOICEVOX:東北イタコ、VOICEVOX:東北きりたん、VOICEVOX:東北ずん子、VOICEVOX:波音リツ、VOICEVOX:白上虎太郎</p><p>このページは架空の村の物語です（実在の人・場所とは関係ありません）。物語は、まとん改（Claude）が1日に1年ずつ書きすすめます。</p></footer>
+<div class="pb" id="pb"><div class="pb-in">
+<button type="button" id="pb-prev" aria-label="前の場面">⏮</button>
+<button type="button" id="pb-play" aria-label="再生">▶</button>
+<button type="button" id="pb-next" aria-label="次の場面">⏭</button>
+<div class="pb-txt"><div class="pb-now" id="pb-now">▶ を押すと1年目から始まります</div><div class="pb-sub" id="pb-sub"></div><div class="pb-bar"><span id="pb-prog"></span></div></div>
+<label><input type="checkbox" id="pb-cont" checked>次の年へ続ける</label>
+</div></div>
+<script type="application/json" id="koe-data">{"years":[{"y":1,"title":"1年目　ナツユキの年","src":"y0001.mp3","dur":239.96,"it":[["t",0.0],["s",4.01],["l",7.01],["l",11.32],["l",15.27],["l",22.01],["l",25.79],["l",33.77],["l",37.75],["s",43.21],["l",46.23],["l",54.0],["l",62.13],["l",67.22],["l",75.16],["l",79.59],["s",84.07],["l",87.59],["l",95.13],["l",97.53],["l",102.7],["l",111.31],["l",115.3],["m",118.43],["ml",121.68],["ml",135.22],["ml",145.73],["ml",150.06],["ml",156.08],["ml",162.65],["ml",171.59],["ml",179.08],["ml",184.15],["ml",195.89],["ml",208.46],["ml",212.64],["ml",219.98],["ml",223.45],["ml",228.13]]},{"y":2,"title":"2年目　シブニゲの年","src":"y0002.mp3","dur":203.23,"it":[["t",0.0],["s",3.81],["l",6.92],["l",12.86],["l",16.74],["l",24.97],["l",32.85],["s",38.81],["l",42.33],["l",48.8],["l",52.46],["l",58.39],["l",60.44],["s",63.74],["l",67.28],["l",72.71],["l",78.51],["l",82.46],["l",86.27],["m",93.35],["ml",96.61],["ml",108.29],["ml",116.56],["ml",121.62],["ml",134.49],["ml",143.65],["ml",154.83],["ml",160.39],["ml",162.98],["ml",170.16],["ml",185.59],["ml",192.99],["ml",195.85]]},{"y":3,"title":"3年目　ハネギの年","src":"y0003.mp3","dur":186.99,"it":[["t",0.0],["s",3.84],["l",6.55],["l",10.23],["l",15.39],["l",18.6],["l",26.03],["l",27.31],["l",29.71],["s",34.81],["l",37.77],["l",44.9],["l",47.93],["l",56.11],["l",62.23],["s",67.01],["l",70.23],["l",73.26],["l",76.85],["l",79.72],["l",86.41],["l",90.76],["m",95.71],["ml",98.96],["ml",109.9],["ml",117.63],["ml",128.8],["ml",134.23],["ml",138.25],["ml",144.16],["ml",148.68],["ml",154.7],["ml",165.96],["ml",170.41],["ml",175.62],["ml",179.99]]},{"y":4,"title":"4年目　ホリヤの年","src":"y0004.mp3","dur":186.12,"it":[["t",0.0],["s",3.64],["l",6.89],["l",12.81],["l",14.98],["l",20.4],["l",26.89],["s",29.9],["l",32.6],["l",37.54],["l",43.6],["l",49.67],["l",60.47],["l",63.37],["s",68.52],["l",71.4],["l",75.4],["l",82.5],["l",84.89],["l",91.14],["l",97.76],["m",100.83],["ml",104.09],["ml",110.86],["ml",121.87],["ml",129.45],["ml",135.06],["ml",141.0],["ml",146.52],["ml",154.54],["ml",164.36],["ml",168.56],["ml",172.76],["ml",177.02]]},{"y":5,"title":"5年目　ヒカリオノの年","src":"y0005.mp3","dur":178.34,"it":[["t",0.0],["s",3.84],["l",6.5],["l",11.11],["l",17.44],["l",20.33],["l",28.92],["l",32.61],["s",39.06],["l",42.22],["l",48.83],["l",50.32],["l",57.21],["l",61.04],["l",66.88],["s",73.21],["l",76.34],["l",79.81],["l",86.45],["l",91.98],["l",95.95],["m",99.53],["ml",102.79],["ml",107.86],["ml",114.64],["ml",120.43],["ml",126.23],["ml",132.13],["ml",140.58],["ml",148.14],["ml",152.49],["ml",158.23],["ml",171.65]]},{"y":6,"title":"6年目　ウルの年","src":"y0006.mp3","dur":169.92,"it":[["t",0.0],["s",3.68],["l",6.42],["l",11.98],["l",16.44],["l",25.36],["l",34.33],["s",39.63],["l",42.81],["l",46.29],["l",49.35],["l",52.39],["l",56.81],["s",63.23],["l",66.14],["l",70.79],["l",72.96],["l",78.42],["l",80.52],["l",84.12],["m",89.76],["ml",93.02],["ml",103.62],["ml",109.74],["ml",116.85],["ml",120.28],["ml",122.73],["ml",130.9],["ml",139.88],["ml",146.81],["ml",154.03],["ml",166.36]]},{"y":7,"title":"7年目　クモスの年","src":"y0007.mp3","dur":232.42,"it":[["t",0.0],["s",3.8],["l",6.87],["l",11.56],["l",18.41],["l",25.47],["l",32.68],["s",37.44],["l",40.89],["l",44.04],["l",49.2],["l",54.57],["l",58.01],["l",62.16],["s",65.81],["l",68.66],["l",75.38],["l",80.18],["l",83.79],["l",87.53],["l",90.41],["l",92.79],["s",96.73],["l",100.18],["l",107.09],["l",112.75],["l",116.93],["l",122.26],["l",126.62],["l",133.84],["m",140.49],["ml",143.75],["ml",149.58],["ml",155.86],["ml",165.29],["ml",169.99],["ml",175.54],["ml",182.73],["ml",189.8],["ml",197.73],["ml",210.5],["ml",222.47]]},{"y":8,"title":"8年目　グツの年","src":"y0008.mp3","dur":186.84,"it":[["t",0.0],["s",3.66],["l",6.35],["l",12.96],["l",20.61],["l",25.64],["l",33.04],["s",42.17],["l",46.03],["l",52.56],["l",57.54],["l",62.28],["l",65.39],["l",69.48],["l",76.7],["s",81.7],["l",85.13],["l",88.7],["l",94.12],["l",100.91],["l",103.6],["m",110.52],["ml",113.78],["ml",121.82],["ml",128.7],["ml",133.39],["ml",140.71],["ml",146.93],["ml",156.69],["ml",163.37],["ml",167.61],["ml",179.7]]},{"y":9,"title":"9年目　ツバメツチの年","src":"y0009.mp3","dur":172.37,"it":[["t",0.0],["s",4.13],["l",7.35],["l",12.87],["l",20.29],["l",23.71],["l",28.97],["s",36.24],["l",39.15],["l",43.19],["l",47.93],["l",52.73],["l",56.35],["s",63.09],["l",66.04],["l",76.66],["l",82.01],["l",88.09],["l",92.85],["l",95.77],["m",100.04],["ml",103.3],["ml",115.05],["ml",119.18],["ml",123.03],["ml",128.97],["ml",132.88],["ml",139.08],["ml",145.89],["ml",151.82],["ml",162.33]]},{"y":10,"title":"10年目　ササリボの年","src":"y0010.mp3","dur":182.86,"it":[["t",0.0],["s",3.92],["l",6.94],["l",13.09],["l",19.51],["l",23.83],["l",28.39],["l",33.98],["l",37.47],["s",40.67],["l",44.02],["l",49.13],["l",52.36],["l",54.76],["l",59.69],["l",63.72],["s",68.21],["l",71.55],["l",78.43],["l",86.51],["l",89.44],["l",95.83],["l",100.42],["m",106.57],["ml",109.82],["ml",116.95],["ml",122.29],["ml",130.44],["ml",137.73],["ml",144.87],["ml",151.19],["ml",158.53],["ml",173.91]]},{"y":11,"title":"11年目　ユゲグサの年","src":"y0011.mp3","dur":164.87,"it":[["t",0.0],["s",4.25],["l",6.88],["l",12.46],["l",20.02],["l",26.83],["l",31.8],["l",38.78],["s",45.62],["l",48.55],["l",53.71],["l",59.4],["l",66.52],["l",69.53],["s",73.85],["l",76.98],["l",82.2],["l",84.67],["l",89.55],["l",94.94],["l",98.45],["m",100.33],["ml",103.59],["ml",111.11],["ml",118.94],["ml",124.27],["ml",133.05],["ml",137.62],["ml",144.41],["ml",156.47]]},{"y":12,"title":"12年目　ウミカワの年","src":"y0012.mp3","dur":160.19,"it":[["t",0.0],["s",4.1],["l",7.19],["l",11.58],["l",17.76],["l",24.43],["l",28.28],["s",35.53],["l",38.22],["l",42.55],["l",46.34],["l",49.62],["l",54.86],["l",61.68],["s",66.18],["l",69.08],["l",72.77],["l",75.99],["l",79.28],["l",84.36],["m",90.39],["ml",93.65],["ml",99.64],["ml",106.2],["ml",113.57],["ml",120.08],["ml",125.49],["ml",129.63],["ml",137.96],["ml",151.98]]},{"y":13,"title":"13年目　トリシマの年","src":"y0013.mp3","dur":165.8,"it":[["t",0.0],["s",4.21],["l",6.72],["l",12.81],["l",14.12],["l",18.99],["l",20.01],["l",23.06],["s",26.9],["l",29.77],["l",33.13],["l",37.14],["l",40.66],["l",44.33],["l",47.83],["l",51.82],["s",56.62],["l",59.91],["l",66.14],["l",71.04],["l",76.87],["l",81.01],["l",87.75],["m",92.85],["ml",96.11],["ml",102.23],["ml",108.22],["ml",114.68],["ml",118.63],["ml",125.41],["ml",129.61],["ml",135.19],["ml",144.99],["ml",155.41]]},{"y":14,"title":"14年目　ツキキザミの年","src":"y0014.mp3","dur":174.59,"it":[["t",0.0],["s",4.19],["l",6.93],["l",12.63],["l",16.23],["l",19.6],["l",24.32],["s",29.41],["l",32.64],["l",39.77],["l",43.22],["l",48.46],["l",51.89],["l",55.39],["s",60.21],["l",63.02],["l",67.42],["l",74.48],["l",80.15],["l",85.81],["m",89.72],["ml",92.97],["ml",101.78],["ml",108.89],["ml",116.81],["ml",122.71],["ml",127.95],["ml",132.9],["ml",143.06],["ml",151.32],["ml",156.1],["ml",171.1]]}]}</script>
+<script>
+(function(){
+  var D; try{ D=JSON.parse(document.getElementById('koe-data').textContent); }catch(e){ return; }
+  var Y=D.years||[]; if(!Y.length) return;
+  var au=new Audio(); au.preload='none';
+  var bP=document.getElementById('pb-play'), bPrev=document.getElementById('pb-prev'), bNext=document.getElementById('pb-next');
+  var tNow=document.getElementById('pb-now'), tSub=document.getElementById('pb-sub'), prog=document.getElementById('pb-prog'), cont=document.getElementById('pb-cont');
+  var yi=-1, ii=-1, lastUser=0, lastSave=0, KEY='jinrui-koe-pos';
+  function idxOf(n){ for(var k=0;k<Y.length;k++){ if(Y[k].y===n) return k; } return -1; }
+  function el(y,i){ return document.getElementById('k'+Y[y].y+'-'+i); }
+  function txt(e){ return e?(e.textContent||'').replace(/\s+/g,' ').trim():''; }
+  function itemAt(y,t){ var it=Y[y].it, k=0; for(var n=0;n<it.length;n++){ if(it[n][1]<=t+0.05) k=n; else break; } return k; }
+  function headOf(y,i){ var it=Y[y].it; for(var n=i;n>=0;n--){ if(it[n][0]==='s'||it[n][0]==='m') return txt(el(y,n)); } return ''; }
+  function save(){ try{ if(yi>=0) localStorage.setItem(KEY, JSON.stringify({y:Y[yi].y, t:Math.max(0,au.currentTime-2)})); }catch(e){} }
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ return null; } }
+  function setBtn(){ var on=!au.paused; bP.textContent=on?'❚❚':'▶'; bP.setAttribute('aria-label',on?'一時停止':'再生'); try{ if(navigator.mediaSession) navigator.mediaSession.playbackState=on?'playing':'paused'; }catch(e){} }
+  function meta(){
+    if(!('mediaSession' in navigator)||yi<0) return;
+    try{ navigator.mediaSession.metadata=new MediaMetadata({title:Y[yi].title+' の会話', artist:'人類創世ゲーム', album:'村の会話（VOICEVOX）'}); }catch(e){}
+  }
+  function mark(force){
+    if(yi<0) return;
+    var k=itemAt(yi,au.currentTime);
+    if(Y[yi].dur) prog.style.width=Math.min(100,au.currentTime/Y[yi].dur*100)+'%';
+    if(k===ii&&!force) return; ii=k;
+    var o=document.querySelector('.now'); if(o) o.classList.remove('now');
+    var e=el(yi,k); var ln=(Y[yi].it[k][0]==='l'||Y[yi].it[k][0]==='ml');
+    tNow.textContent=Y[yi].title; tSub.textContent=headOf(yi,k)+(ln?'　'+txt(e).slice(0,40):'');
+    if(!e) return;
+    if(ln||Y[yi].it[k][0]!=='t') e.classList.add('now');
+    var d=e.closest('details'); if(d&&!d.open) d.open=true;
+    if(Date.now()-lastUser>6000&&document.visibilityState==='visible'){ try{ e.scrollIntoView({block:'center',behavior:'smooth'}); }catch(x){} }
+  }
+  function seek(t){
+    if(au.readyState>=1){ au.currentTime=t; mark(true); return; }
+    au.addEventListener('loadedmetadata',function f(){ au.removeEventListener('loadedmetadata',f); au.currentTime=t; mark(true); });
+  }
+  function go(y,t){
+    if(y<0||y>=Y.length) return;
+    if(y!==yi){ if(yi>=0){ var pd=document.getElementById('nen'+Y[yi].y); if(pd) pd.open=false; } yi=y; ii=-1; au.src=Y[y].src; meta(); }
+    seek(t||0);
+    var p=au.play(); if(p&&p.catch) p.catch(function(){ setBtn(); });
+  }
+  function jump(dir){
+    if(yi<0){ go(0,0); return; }
+    var it=Y[yi].it, k=itemAt(yi,au.currentTime);
+    if(dir<0){
+      // 場面の頭から2秒以内なら1つ前の場面へ、それより後ならその場面の頭へ
+      var h=-1; for(var n=k;n>=0;n--){ if(it[n][0]!=='l'&&it[n][0]!=='ml'){ h=n; break; } }
+      if(h>=0&&au.currentTime-it[h][1]>2){ seek(it[h][1]); return; }
+      for(var n2=h-1;n2>=0;n2--){ if(it[n2][0]!=='l'&&it[n2][0]!=='ml'){ seek(it[n2][1]); return; } }
+      if(yi>0){ var py=Y[yi-1].it, ph=0; for(var m=py.length-1;m>=0;m--){ if(py[m][0]!=='l'&&py[m][0]!=='ml'){ ph=m; break; } } go(yi-1,py[ph][1]); } else seek(0);
+    } else {
+      for(var n3=k+1;n3<it.length;n3++){ if(it[n3][0]!=='l'&&it[n3][0]!=='ml'){ seek(it[n3][1]); return; } }
+      if(yi<Y.length-1) go(yi+1,0);
+    }
+  }
+  bP.addEventListener('click',function(){ if(yi<0){ var s=load(); var k=s?idxOf(s.y):-1; if(k>=0) go(k,s.t); else go(0,0); return; } if(au.paused){ var p=au.play(); if(p&&p.catch) p.catch(function(){}); } else au.pause(); });
+  bPrev.addEventListener('click',function(){ jump(-1); });
+  bNext.addEventListener('click',function(){ jump(1); });
+  document.getElementById('st-first').addEventListener('click',function(){ go(0,0); });
+  document.getElementById('st-last').addEventListener('click',function(){ go(Y.length-1,0); });
+  var sc=document.getElementById('st-cont'), sv=load();
+  if(sv&&idxOf(sv.y)>=0&&(sv.t>3||idxOf(sv.y)>0)){ sc.hidden=false; sc.textContent='▶ 続きから（'+sv.y+'年目）'; tNow.textContent='▶ を押すと続き（'+sv.y+'年目）から始まります'; sc.addEventListener('click',function(){ var s=load(); if(s) go(idxOf(s.y),s.t); }); }
+  [].forEach.call(document.querySelectorAll('.go'),function(b){ b.addEventListener('click',function(){ go(idxOf(+b.getAttribute('data-y')),0); }); });
+  [].forEach.call(document.querySelectorAll('.ln'),function(p){ p.addEventListener('click',function(){ var y=idxOf(+p.getAttribute('data-y')), i=+p.getAttribute('data-i'); if(y>=0&&Y[y].it[i]) go(y,Y[y].it[i][1]); }); });
+  au.addEventListener('timeupdate',function(){ mark(false); if(Date.now()-lastSave>4000){ lastSave=Date.now(); save(); } });
+  au.addEventListener('play',setBtn); au.addEventListener('pause',function(){ setBtn(); save(); });
+  au.addEventListener('ended',function(){ if(cont.checked&&yi<Y.length-1){ go(yi+1,0); } else { setBtn(); try{ localStorage.removeItem(KEY); }catch(e){} } });
+  au.addEventListener('error',function(){ tSub.textContent='音が読みこめませんでした。電波のよい所で、もう一度 ▶ を押してください。'; setBtn(); });
+  ['wheel','touchmove','keydown'].forEach(function(ev){ window.addEventListener(ev,function(){ lastUser=Date.now(); },{passive:true}); });
+  if('mediaSession' in navigator){
+    try{
+      navigator.mediaSession.setActionHandler('play',function(){ if(yi<0) go(0,0); else au.play(); });
+      navigator.mediaSession.setActionHandler('pause',function(){ au.pause(); });
+      navigator.mediaSession.setActionHandler('previoustrack',function(){ jump(-1); });
+      navigator.mediaSession.setActionHandler('nexttrack',function(){ jump(1); });
+    }catch(e){}
+  }
+  window.__koe={au:au,go:go,jump:jump,state:function(){ return {yi:yi,ii:ii,t:au.currentTime}; }};
+  setBtn();
+})();
+</script>
+</body></html>
