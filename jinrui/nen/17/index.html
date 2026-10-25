@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="jinrui-year" content="17">
+<title>人類創世ゲーム　縄文の10人から</title>
+<meta name="description" content="土をのせた屋根オモヤネの浜の小屋ができ、東の海辺にけむりが見えた">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f3eadb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b1611" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="人類創世ゲーム　17年目　東のけむりの年">
+<meta property="og:description" content="土をのせた屋根オモヤネの浜の小屋ができ、東の海辺にけむりが見えた">
+<meta property="og:url" content="https://helmetto2-prog.github.io/tanpatsu-news/jinrui/nen/17/">
+<meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/jinrui/img/y0017.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Ccircle cx=%2232%22 cy=%2232%22 r=%2230%22 fill=%22%23a5552d%22/%3E%3Cpath d=%22M32 14c6 9 12 14 12 23a12 12 0 0 1-24 0c0-6 4-9 6-14 2 5 4 6 6 6-2-5-2-10 0-15z%22 fill=%22%23f6c46a%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#f3eadb; --bg-deep:#ead9bf; --surface:#fffaf1; --surface-2:#f7eddc; --ink:#3a2e24; --muted:#6f5d49; --line:#e2d1b5;
+  --clay:#a5552d; --clay-ink:#8f4622; --clay-soft:#f4dfcf; --fire:#c96f1c; --fire-ink:#94500f; --fire-soft:#fae4c8;
+  --forest:#4b673f; --forest-soft:#e1ead6; --water:#356677; --water-soft:#d9e8eb; --night:#565071; --night-soft:#e6e2ee;
+  --pos:#c0703a; --neg:#6d8496; --cell:#e9dcc6;
+  --sky:#f6e5c6; --sun:#efb25c; --mount:#cbb898; --hill:#a8b887; --river:#9dc1c6; --hut:#8a6a48; --tree:#6f8a5a; --smoke:#d8cbb6;
+  --shadow:0 1px 2px rgba(74,52,30,.07),0 8px 24px rgba(74,52,30,.07);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1b1611; --bg-deep:#241c15; --surface:#262019; --surface-2:#2f281f; --ink:#efe5d3; --muted:#bba98f; --line:#3f352a;
+    --clay:#e09468; --clay-ink:#f0b08a; --clay-soft:#45291b; --fire:#f0a35a; --fire-ink:#f6bf85; --fire-soft:#41301a;
+    --forest:#a3c191; --forest-soft:#26311f; --water:#93c3d1; --water-soft:#1d3037; --night:#bdb5dd; --night-soft:#2b2840;
+    --pos:#e6a06b; --neg:#8ea6b8; --cell:#3a3128;
+    --sky:#2b3140; --sun:#e6b768; --mount:#4a4a55; --hill:#4c5b3f; --river:#3d6470; --hut:#9a7a58; --tree:#5c7650; --smoke:#5e5648;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1b1611; --bg-deep:#241c15; --surface:#262019; --surface-2:#2f281f; --ink:#efe5d3; --muted:#bba98f; --line:#3f352a;
+  --clay:#e09468; --clay-ink:#f0b08a; --clay-soft:#45291b; --fire:#f0a35a; --fire-ink:#f6bf85; --fire-soft:#41301a;
+  --forest:#a3c191; --forest-soft:#26311f; --water:#93c3d1; --water-soft:#1d3037; --night:#bdb5dd; --night-soft:#2b2840;
+  --pos:#e6a06b; --neg:#8ea6b8; --cell:#3a3128;
+  --sky:#2b3140; --sun:#e6b768; --mount:#4a4a55; --hill:#4c5b3f; --river:#3d6470; --hut:#9a7a58; --tree:#5c7650; --smoke:#5e5648;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);background-image:radial-gradient(ellipse 120% 100% at 50% 0%,var(--bg-deep),transparent 70%);background-repeat:no-repeat;background-size:100% 720px;color:var(--ink);
+  font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","BIZ UDPGothic","Yu Gothic UI","Meiryo",sans-serif;
+  font-size:18px;line-height:1.85;letter-spacing:.02em;overflow-wrap:anywhere;line-break:strict}
+@media (min-width:760px){body{font-size:19px}}
+img{max-width:100%;height:auto}
+a{color:var(--clay-ink)}
+h1,h2,h3{font-family:"Klee One","Zen Maru Gothic","Hiragino Maru Gothic ProN",serif;font-weight:600;line-height:1.4;letter-spacing:.04em}
+p{margin:.5em 0}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px 40px}
+.top{max-width:1072px;margin:0 auto;padding:16px 16px 0}
+.hero{margin:0;border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.hero a{display:block}
+.hero img{display:block;width:100%;height:auto}
+.hero figcaption{font-size:.82rem;color:var(--muted);padding:6px 14px 8px;line-height:1.6}
+.cover{display:block;width:100%;max-width:720px;height:auto;margin:0 auto;border-radius:10px}
+.hero>.cover{width:calc(100% - 28px);margin:14px auto 0}
+.cover .sky{fill:var(--sky)} .cover .sun{fill:var(--sun)} .cover .mount{fill:var(--mount)} .cover .hill{fill:var(--hill)}
+.cover .river{fill:var(--river)} .cover .hut{fill:var(--hut)} .cover .tree{fill:var(--tree)} .cover .fire{fill:var(--fire)}
+.cover .smoke{fill:none;stroke:var(--smoke);stroke-width:3;stroke-linecap:round}
+.noart{display:grid;gap:10px;padding:14px;text-align:center}
+.fuda{display:inline-block;margin:0 auto;padding:6px 18px;border:2px solid var(--clay);border-radius:10px;color:var(--clay-ink);font-weight:700;background:var(--clay-soft)}
+.noart .prev{max-width:360px;margin:0 auto}
+.noart .prev img{border-radius:10px;display:block}
+.noart small{color:var(--muted)}
+.titleblock{text-align:center;padding:22px 4px 4px}
+.kicker{margin:0;color:var(--clay-ink);font-size:.85rem;letter-spacing:.25em;font-weight:700}
+h1{font-size:clamp(2rem,8.4vw,2.9rem);margin:.05em 0 .1em}
+.vname{margin:0;color:var(--muted);font-size:.92rem;line-height:1.7}
+.yearbig{display:inline-block;margin:14px 0 2px;padding:3px 18px;border-radius:999px;background:var(--clay);color:var(--surface);font-weight:700;letter-spacing:.12em}
+.ytitle{font-size:1.5rem;margin:.25em 0 .1em}
+.headline{font-size:1.05rem;margin:.2em auto 0;max-width:30em}
+.ytitle,.headline,.vname{text-wrap:balance;word-break:auto-phrase}
+.rope{height:12px;margin:18px auto 6px;max-width:420px;opacity:.55;
+  background:repeating-linear-gradient(-60deg,var(--clay) 0 2px,transparent 2px 7px),repeating-linear-gradient(60deg,var(--clay) 0 2px,transparent 2px 7px);
+  background-size:100% 6px,100% 6px;background-position:0 0,0 6px;background-repeat:repeat-x;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+.toc{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:12px 0 4px;padding:0;list-style:none}
+.toc a{display:inline-flex;align-items:center;min-height:38px;padding:4px 13px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:.86rem}
+.toc a:hover{border-color:var(--clay)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px 16px 20px;margin:20px 0;box-shadow:var(--shadow);scroll-margin-top:12px}
+@media (min-width:520px){.card{padding:22px 22px 24px}}
+.card>h2{display:flex;align-items:center;gap:10px;font-size:1.42rem;margin:0 0 10px}
+.card>h2::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 50% 60%,var(--fire) 0 38%,var(--clay) 40% 100%)}
+.card h3{font-size:1.12rem;margin:1.1em 0 .35em}
+.lead{color:var(--muted)}
+.small{font-size:.86rem;color:var(--muted)}
+.badge{display:inline-block;font-size:.76rem;line-height:1.6;padding:1px 9px;border-radius:999px;background:var(--clay-soft);color:var(--clay-ink);font-weight:700;vertical-align:.12em;letter-spacing:.04em;white-space:nowrap}
+.badge.new{background:var(--fire-soft);color:var(--fire-ink)}
+.badge.ended{background:var(--cell);color:var(--muted)}
+.t-kanau{background:var(--forest-soft);color:var(--forest)} .t-ichibu{background:var(--fire-soft);color:var(--fire-ink)}
+.t-hint{background:var(--water-soft);color:var(--water)} .t-shiren{background:var(--clay-soft);color:var(--clay-ink)} .t-katachi{background:var(--night-soft);color:var(--night)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:6px 0 4px}
+.stat{background:var(--surface-2);border-radius:12px;padding:9px 12px;min-width:0}
+.stat.wide{grid-column:1/-1}
+.stat .k{display:block;font-size:.8rem;color:var(--muted)}
+.stat .v{display:block;font-size:1.2rem;font-weight:700;line-height:1.5}
+.stat .s{display:block;font-size:.84rem;color:var(--muted);line-height:1.6}
+.stat.wide .v{font-size:1.02rem;font-weight:500}
+.meter{height:14px;border-radius:99px;background:var(--cell);overflow:hidden;margin:8px 0 4px}
+.meter>span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--fire),var(--clay))}
+.meter.ok>span{background:linear-gradient(90deg,var(--forest),var(--fire))}
+.plain{list-style:none;margin:0;padding:0}
+.plain>li{padding:9px 0;border-bottom:1px dashed var(--line)}
+.plain>li:last-child{border-bottom:0}
+.plain .nm{font-weight:700}
+.plain .amt{float:right;margin-left:10px;font-weight:700;color:var(--clay-ink)}
+.plain .note{display:block;font-size:.88rem;color:var(--muted);line-height:1.7;clear:both}
+.nonfood{opacity:.8}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;padding:0;list-style:none}
+.chips li{font-size:.84rem;padding:2px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.chips li b{color:var(--clay-ink);font-weight:700;margin-right:4px}
+.story{margin:6px 0}
+.season{position:relative;margin:12px 0;display:flow-root}
+.season .sn{float:left;margin:2px 10px 0 0;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:"Klee One",serif;font-weight:600;font-size:.95rem;line-height:1;color:#fffaf1}
+.s-spring .sn{background:#7d9a4f} .s-summer .sn{background:#3f7f93} .s-autumn .sn{background:#b8642b} .s-winter .sn{background:#6f6a86}
+.season p{margin:0}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.newbox{background:var(--fire-soft);border-radius:12px;padding:10px 14px;margin:14px 0 4px}
+.newbox h3{margin:.1em 0 .3em;font-size:1rem;color:var(--fire-ink)}
+.newbox ul{margin:0;padding-left:1.2em}
+.scene{background:var(--surface-2);border-radius:14px;padding:12px 14px;margin:12px 0}
+.scene h3{margin:0 0 .2em;font-size:1.06rem}
+.scene .where{font-size:.82rem;color:var(--muted);margin:0 0 6px}
+.ln{margin:8px 0}
+.who{display:inline-block;min-width:3.6em;text-align:center;font-size:.8rem;font-weight:700;padding:1px 8px;border-radius:8px;color:#fffaf1;line-height:1.6;margin-right:6px;vertical-align:.12em;white-space:nowrap;letter-spacing:.02em}
+.a0{background:#9a5b34} .a1{background:#62773c} .a2{background:#3f6f80} .a3{background:#8a5a7a} .a4{background:#8f621c} .a5{background:#5d6688} .a6{background:#3f7352} .a7{background:#a9503a} .a8{background:#6b5646} .a9{background:#6f5f96}
+.after{font-size:.9rem;color:var(--muted);margin:8px 0 0;padding-top:6px;border-top:1px dashed var(--line)}
+.thought{margin:12px 0;padding:10px 14px;border:2px dashed var(--line);border-radius:18px;background:var(--surface)}
+.thought .tn{font-size:.86rem;color:var(--muted);margin:0}
+.thought .tt{margin:.2em 0 0}
+.how{background:var(--surface-2);border-radius:10px;padding:8px 12px}
+.check{list-style:none;margin:0;padding:0}
+.check li{position:relative;padding:4px 0 4px 26px}
+.check li::before{content:"";position:absolute;left:4px;top:.75em;width:12px;height:12px;border-radius:3px;background:var(--forest)}
+.wishbox{margin:14px 0 4px;padding:14px;border-radius:14px;background:linear-gradient(160deg,var(--fire-soft),var(--clay-soft))}
+.wishbox h3{margin:0 0 .2em;font-size:1.05rem}
+.wishtext{font-size:1.15rem;font-weight:700;margin:.2em 0}
+.rule{padding:10px 0;border-bottom:1px dashed var(--line)}
+.rule:last-child{border-bottom:0}
+.rule h3{margin:0;font-size:1.14rem;color:var(--clay-ink)}
+.rule .rt{margin:.15em 0;font-size:.97rem}
+.rule .rm{font-size:.84rem;color:var(--muted);margin:0}
+.rule.ended h3{color:var(--muted)}
+.tl{list-style:none;margin:6px 0 0;padding:0 0 0 18px;border-left:3px solid var(--line)}
+.tl>li{position:relative;padding:4px 0 12px 10px}
+.tl>li::before{content:"";position:absolute;left:-27px;top:.65em;width:13px;height:13px;border-radius:50%;background:var(--surface);border:3px solid var(--clay)}
+.tl .yr{font-size:.82rem;color:var(--clay-ink);font-weight:700}
+.tl .how2{display:block;font-size:.9rem;color:var(--muted);line-height:1.7}
+.words{display:grid;gap:10px}
+@media (min-width:600px){.words{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.word{background:var(--surface-2);border-radius:12px;padding:10px 12px;min-width:0}
+.word .wd{font-family:"Klee One",serif;font-weight:600;font-size:1.25rem;color:var(--clay-ink);margin:0}
+.word .wmn{margin:.1em 0}
+.word .wm{font-size:.82rem;color:var(--muted);margin:0;line-height:1.6}
+.people{display:grid;gap:14px}
+@media (min-width:760px){.people{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.person{background:var(--surface-2);border-radius:14px;padding:12px 14px;min-width:0}
+.ph{display:flex;gap:12px;align-items:center}
+.av{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fffaf1;font-family:"Klee One",serif;font-weight:600;font-size:1.3rem}
+.ph h3{margin:0;font-size:1.2rem}
+.kana{font-size:.8rem;color:var(--muted);font-family:"Zen Maru Gothic",sans-serif;font-weight:500;margin-left:4px}
+.pmeta{margin:0;font-size:.85rem;color:var(--muted)}
+.role{margin:.5em 0 .3em;font-weight:700;font-size:.95rem}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;margin:4px 0;font-size:.93rem;line-height:1.7}
+.kv dt{color:var(--muted);font-size:.8rem;padding-top:.2em;white-space:nowrap}
+.kv dd{margin:0}
+details{margin:8px 0 0;border-top:1px dashed var(--line);padding-top:6px}
+summary{cursor:pointer;color:var(--clay-ink);font-weight:700;font-size:.92rem;padding:4px 0;list-style-position:inside}
+.rels{list-style:none;margin:4px 0 0;padding:0}
+.rels li{padding:6px 0;border-bottom:1px dotted var(--line);font-size:.92rem;line-height:1.65}
+.rels li:last-child{border-bottom:0}
+.rn{font-weight:700}
+.rk{font-size:.8rem;color:var(--muted);margin-left:4px}
+.sc{display:inline-flex;gap:2px;vertical-align:middle;margin:0 6px 0 8px}
+.sc i{display:block;width:9px;height:9px;border-radius:2px;background:var(--cell)}
+.sc i.mid{background:var(--muted);opacity:.45;width:3px}
+.sc i.pos{background:var(--pos)} .sc i.neg{background:var(--neg)}
+.scl{font-size:.78rem;color:var(--muted)}
+.rnote{display:block;color:var(--ink)}
+.mem{margin:4px 0;padding-left:1.1em;font-size:.9rem}
+.ancestors{margin-top:18px}
+.ancestor{font-size:.9rem;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted)}
+.ancestor b{color:var(--ink)}
+.wish{padding:12px 0;border-bottom:1px dashed var(--line)}
+.wish:last-child{border-bottom:0}
+.wish .wy{font-size:.82rem;color:var(--clay-ink);font-weight:700;margin:0}
+.wish .wq{font-size:1.08rem;font-weight:700;margin:.1em 0}
+.wish .wb{font-size:.88rem;color:var(--muted);margin:0}
+.answer{margin:8px 0 0;padding:10px 12px;border-left:4px solid var(--clay);background:var(--surface-2);border-radius:0 12px 12px 0}
+.answer p{margin:.25em 0}
+.effects{margin:.3em 0 0;padding-left:1.2em;font-size:.92rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}
+.gtile{display:block;position:relative;border-radius:10px;overflow:hidden;background:var(--surface-2);border:1px solid var(--line);text-decoration:none;color:var(--ink);min-width:0}
+.gtile img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.gtile .gy{display:block;font-size:.8rem;padding:4px 8px;line-height:1.5}
+.gtile.none .ph0{display:grid;place-items:center;aspect-ratio:16/9;color:var(--muted);font-size:.8rem;background:repeating-linear-gradient(45deg,var(--surface-2) 0 8px,var(--surface) 8px 16px)}
+.more details{border-top:1px dashed var(--line)}
+.more details:first-of-type{border-top:0}
+.foot{max-width:820px;margin:0 auto;font-size:.82rem;color:var(--muted);text-align:center;line-height:1.8;padding:4px 16px 72px}
+.foot p{margin:.3em 0}
+.totop{position:fixed;right:14px;bottom:14px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--clay-ink);font-size:1.1rem;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;cursor:pointer}
+.totop.show{opacity:1;pointer-events:auto}
+/* 会話だけを読み上げるボタン（2026-10-20 義樹さん「車で移動中に、会話の内容だけを音声で、ボタンで」）：左下に固定。読んでいる行に印 */
+.yomi{position:fixed;left:14px;bottom:14px;z-index:40;height:46px;border-radius:23px;border:1px solid var(--line);background:var(--surface);color:var(--clay-ink);font-size:1rem;font-weight:700;font-family:inherit;padding:0 18px;box-shadow:var(--shadow);cursor:pointer}
+.yomi[hidden]{display:none}
+.yomi.on{background:var(--clay);border-color:var(--clay);color:#fffaf1}
+.yomi-now{background:var(--surface-2);box-shadow:0 0 0 3px var(--fire);border-radius:8px}
+.koe-link{margin:.2em 0 .9em;font-size:.95rem;font-weight:700}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(20,15,10,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
+.lb[hidden],.lb button[hidden]{display:none}
+.lb-stage{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.lb-cap{color:#f3eadb;font-size:.92rem;text-align:center;margin:8px 0 2px;min-height:1.5em}
+.lb-bar{display:flex;gap:10px;justify-content:center;padding:6px 0 4px}
+.lb button{min-width:46px;height:46px;border-radius:23px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;font-size:1rem;padding:0 14px;cursor:pointer;font-family:inherit}
+html.lb-open,html.lb-open body{overflow:hidden}
+:focus-visible{outline:3px solid var(--fire);outline-offset:2px}
+.card.fold{padding-top:4px;padding-bottom:4px}
+@media (min-width:520px){.card.fold{padding-top:6px;padding-bottom:6px}}
+details.sec{margin:0;border-top:0;padding:0}
+details.sec>summary{list-style:none;display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;min-height:48px;padding:8px 0;color:var(--ink);font-size:1rem}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"▶";flex:none;font-size:.78rem;color:var(--muted);transition:transform .2s}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec[open]>summary{margin-bottom:8px;border-bottom:1px dashed var(--line)}
+details.sec>summary h2{display:flex;align-items:center;gap:10px;font-size:1.3rem;margin:0}
+details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 50% 60%,var(--fire) 0 38%,var(--clay) 40% 100%)}
+.kotoshi-mk{font-size:.74rem;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px;line-height:1.7;white-space:nowrap}
+/* 長押し→すべて選択→読み上げ に入れない物（2026-10-13）：もくじは画像、印やボタンの字は ::before で出す */
+.toc,.totop,.yomi,.lb-bar,.kotoshi-mk,.season .sn{-webkit-user-select:none;user-select:none}
+.toc a{padding:4px 14px}
+.toc img{display:block;max-width:none;pointer-events:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .toc img{filter:invert(1) hue-rotate(180deg)}}
+:root[data-theme="dark"] .toc img{filter:invert(1) hue-rotate(180deg)}
+.kotoshi-mk::before,.season .sn::before,.totop::before,.yomi::before,.lb-bar button::before{content:attr(data-t)}
+</style>
+<script src="/tanpatsu-news/jinrui/next-video.js" defer></script>
+<style id="yn-style">
+.yn-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:760px;margin:10px auto;padding:0 16px;box-sizing:border-box;font-size:15px;-webkit-user-select:none;user-select:none}
+.yn-bar .yn{color:#8a4220;text-decoration:none;padding:7px 12px;border:1px solid rgba(165,85,45,.4);border-radius:999px;background:rgba(255,255,255,.55);white-space:nowrap}
+.yn-bar .yn::before{content:attr(data-l)}
+.yn-bar .yn.off{visibility:hidden}
+@media (prefers-color-scheme: dark){.yn-bar .yn{color:#f0b48a;border-color:rgba(240,180,138,.4);background:rgba(0,0,0,.25)}}
+</style>
+</head>
+<body><nav class="yn-bar" aria-label="年の切りかえ"><a class="yn" href="../16/" data-l="← 16年目"></a><a class="yn" href="../" data-l="年の一覧"></a><a class="yn yn-next" href="../18/" data-l="18年目 →"></a></nav>
+<header class="top">
+<figure class="hero">
+<a class="zoom" href="../../img/y0017.jpg" data-cap="17年目　17年目　東のけむりの年"><img src="../../img/y0017.jpg" srcset="../../img/t0017.jpg 480w, ../../img/y0017.jpg 1376w" sizes="(max-width: 1072px) 100vw, 1040px" width="1376" height="768" alt="17年目の村のようす（Gemini で描いた絵）" fetchpriority="high"></a>
+<figcaption>17年目の村のようす（押すと大きく見られます）</figcaption>
+</figure>
+<div class="titleblock">
+<p class="kicker">縄文の10人から文明をつくる</p>
+<h1>人類創世ゲーム</h1>
+<p class="vname">村にはまだ名前がない。みんなは住んでいる所を「オカ（丘）」と呼んでいる。</p>
+<p class="yearbig">17年目</p>
+<h2 class="ytitle">17年目　東のけむりの年</h2>
+<p class="headline">土をのせた屋根オモヤネの浜の小屋ができ、東の海辺にけむりが見えた</p>
+<div class="rope" aria-hidden="true"></div>
+</div>
+</header>
+<main class="wrap">
+<nav aria-label="もくじ"><ul class="toc">
+<li><a href="#mura"><img src="../../img/toc/mura.svg" alt="" width="55" height="15"></a></li>
+<li><a href="#ten"><img src="../../img/toc/ten.svg" alt="" width="55" height="15"></a></li>
+<li><a href="#dekigoto"><img src="../../img/toc/dekigoto.svg" alt="" width="84" height="15"></a></li>
+<li><a href="#kaiwa"><img src="../../img/toc/kaiwa.svg" alt="" width="83" height="15"></a></li>
+<li><a href="#yoriai"><img src="../../img/toc/yoriai.svg" alt="" width="55" height="15"></a></li>
+<li><a href="#okite"><img src="../../img/toc/okite.svg" alt="" width="14" height="15"></a></li>
+<li><a href="#hatsumei"><img src="../../img/toc/hatsumei.svg" alt="" width="70" height="15"></a></li>
+<li><a href="#kotoba"><img src="../../img/toc/kotoba.svg" alt="" width="54" height="15"></a></li>
+<li><a href="#hito"><img src="../../img/toc/hito.svg" alt="" width="42" height="15"></a></li>
+<li><a href="#negai"><img src="../../img/toc/negai.svg" alt="" width="70" height="15"></a></li>
+<li><a href="#e"><img src="../../img/toc/e.svg" alt="" width="56" height="15"></a></li>
+<li><a href="#annai"><img src="../../img/toc/annai.svg" alt="" width="56" height="15"></a></li>
+<li><a href="#kuwashiku"><img src="../../img/toc/kuwashiku.svg" alt="" width="78" height="15"></a></li>
+</ul></nav>
+<section class="card" id="mura">
+<h2>いまの村</h2>
+<div class="stats">
+<div class="stat"><span class="k">年</span><span class="v">17年目</span><span class="s">冬の終わり</span></div>
+<div class="stat"><span class="k">人数</span><span class="v">14人</span><span class="s">年寄り1・大人8・若者1・子ども4</span></div>
+<div class="stat wide"><span class="k">時代</span><span class="v">縄文のはじめ（木の実をたくわえ、土の器で煮る暮らし）</span></div>
+<div class="stat wide"><span class="k">暮らし方</span><span class="v">季節で住む所を変える。春から秋は浜の小屋と丘を行き来し、冬は丘で火を囲む。6年目からは、冬はみんな床を掘り下げた小屋（ホリヤ）で寝る。食べ物は、その日にとった物を分けて食べるのが中心。秋には木の実を集めてネムリアナ（穴）にため、冬を越すようになった。しぶいカシの実は、くだいて湧き水にさらし（シブニゲ）、冬の蓄えにする。8年目からは、焼いた土の器グツで、しぶい実を煮てその日に食べる。9年目からは、草をまぜた土（ツバメツチ）で焼いたグツがいくつもあり、ネムリアナに入りきらない実もグツに入れてためる。10年目からは、大川の浅瀬の岩を通して、川上の人々とおくり物をやりとりしはじめた。11年目からは、せきや冷えには、薬草をグツで煮て飲む（ユゲグサ）。12年目からは、ウルが二そうになり、晴れた日にはハナの先で潮を見る。14年目からは、炉のそばの流木に毎晩刻み目をつけて、月を数える（ツキキザミ）。15年目からは、ササリボの先をカブレギの汁で固める（シルヅケ）。16年目からは、夏に貝を煮て、けむりで干し（カチガイ）、春のはじめのために残す。</span></div>
+</div>
+<h3>蓄え（食べ物）</h3>
+<div class="meter" role="img" aria-label="次の冬に要る量の0パーセント"><span style="width:0%"></span></div>
+<p>いまの食べ物の蓄え <b>0かご</b>／次の冬に要る量 <b>42かご</b>（14人×3かご）</p>
+<p class="small">この年の蓄え：年のはじめ 9かご → 秋に集めた量 38かご → 冬に食べた量 42かご → 残り 0かご。不作の年で、九年ぶりのおなかのすく冬になった。だれも亡くならず、大人は根と干潟の貝でしのぎ、子どもと乳をやる母に先に分けた。食べ物の蓄えは0かご。たきぎは10たば。</p>
+<ul class="plain">
+<li><span class="amt">0かご</span><span class="nm">シブニゲしたカシの実</span><span class="note">不作の年で、冬のなかばに食べきった</span></li>
+<li><span class="amt">0かご</span><span class="nm">カチガイ（干した貝の身）</span><span class="note">ネムリアナがからになってから開け、冬のうちに食べきった</span></li>
+<li class="nonfood"><span class="amt">10たば</span><span class="nm">たきぎ</span><span class="note">枯れ枝と倒れた木から集めた</span></li>
+</ul>
+<p class="small">1かご＝1人がおよそ1か月食べられる量（食べ物だけ数える。たきぎは別）。冬（3か月）を越すには「人数×3かご」がいる。</p>
+<h3>住まい（5）</h3>
+<ul class="plain">
+<li><span class="nm">丘の大きい小屋</span><span class="note">木の枝を組み、草と木の皮をかぶせた小屋。床は地面のまま<br>住む人：いまはだれも住んでいない<br>まん中に炉がある。6年目に大きなホリヤができてからは、かごや道具を置く物置と、夏の寝床にしている。16年目の冬からは、梁にカチガイのかごを高くつるしている</span></li>
+<li><span class="nm">丘の小さい小屋</span><span class="note">大きい小屋と同じ作り。少し小さい<br>住む人：いまはだれも住んでいない<br>ヨシが建てた。6年目に大きなホリヤができてからは、ヨシが縄をなう仕事場にしている。中にかごや縄がつるしてある</span></li>
+<li><span class="nm">浜の小屋</span><span class="note">浜の高い所に柱をひざより深く埋め、草の屋根の上に土と草の根をのせた（オモヤネ）小屋。夏だけ使う<br>住む人：いまはだれも住んでいない<br>3年目の夏から、イソが一人で寝起きして浜を守る（ハマモリ）。毎朝たき火の煙を上げて、丘に無事を知らせる。16年目からは、梁にカチガイのかごをつるして干す。16年目までは大風のたびに屋根が飛んだが、17年目の夏に建て直してオモヤネをのせ、秋の強い風にも飛ばなくなった</span></li>
+<li><span class="nm">ホリヤ（丘の掘った小屋）</span><span class="note">ひざの深さに丸く掘った床に、倒れた木と細い木の柱を立て、草と木の皮の屋根をかけた小屋。まん中に炉<br>住む人：ホムラ・イソ・ソヨ・オキ<br>4年目の秋に建てた試しの小屋。風が入らず、炉の火がゆれない。11年目の秋、カシが倒れた木から柱を一本足し、屋根をふき直して、ホムラとイソが二人で暮らしはじめた。16年目の大風の夜にソヨが、17年目の秋の終わりにオキが、ここで生まれた。薬草は丘の大きい小屋で干す</span></li>
+<li><span class="nm">大きなホリヤ</span><span class="note">ひざより深く丸く掘った床に、ケヤキの太い柱を四本立て、草と木の皮の屋根をかけた小屋。まん中に炉<br>住む人：シイ・カシ・ナギ・ヨシ・アケビ・コナ・ツル・クリ・ミル・コイシ<br>6年目の春、大風で倒れたケヤキをヒカリオノで切った柱で建てた。みんなが入れる。冬もすきま風が入らない</span></li>
+</ul>
+</section>
+<section class="card" id="ten">
+<h2>天の答え</h2>
+<div class="answer">
+<p><b>16年目の願い</b>「大風でも屋根の飛ばない浜の小屋が、建てられますように」</p>
+<p>天の答え：<span class="badge t-ichibu">一部</span></p>
+<p class="story">春のはじめの強い風の日、イソは浜へ下りて、屋根の飛んだ小屋を見ました。残った屋根の片側には、冬のあいだに砂と泥がかぶり、草が根をはっていました。風がうなっても、その片側だけは、草の一本も動きませんでした。</p>
+<ul class="effects">
+<li>土と草の根がのった屋根は風に飛ばされにくい、という手がかりがイソに届いた（屋根に土をのせて建て直したのは村人）</li>
+</ul>
+</div>
+<details><summary>はじまりの話（もう一度読む）</summary>
+<p class="story">大きな川が海に出るあたり、南向きの小高い丘に、十人の人が暮らしていました。春から秋は浜と丘を行き来して、貝を掘り、魚をとり、木の実を拾います。冬は丘の小屋で火を囲み、長老トチじいの昔話を聞きます。持っている物は、石を割って作った刃と石のおの、木のやり、つるのかご、毛皮、そして何より大切な火。去年の冬はドングリが足りなくて、春が来るまでおなかがすきました。年の終わりには、たき火の煙に願いを一つだけのせて天に届けるのが、むかしからの習わしです。雪の残る北の山を見ながら、十人は新しい春を待っています。</p>
+</details>
+</section>
+<section class="card" id="dekigoto">
+<h2>今年の出来事</h2>
+<ul class="chips" aria-label="この年のめぐり"><li><b>天気</b>不作</li><li><b>出来事</b>よその人の気配</li><li><b>心</b>仲直り</li></ul>
+<div class="season s-spring"><span class="sn" data-t="春" aria-hidden="true"></span><h3 class="sr">春</h3><p>イソがそのことを丘で話すと、ヨシは柱を深く埋める案を思い出し、アケビは西の湿地のねばる土を運ぼうと言いました。そのころ、ネムリアナの底が見えました。ナギがオオイシで数えて、からになったのを確かめ、掟のとおり、はじめてカチガイのかごを開けました。湧き水でもどした貝の身を、子どもたちは指までなめて食べました。</p></div>
+<div class="season s-summer"><span class="sn" data-t="夏" aria-hidden="true"></span><h3 class="sr">夏</h3><p>夏のはじめ、ヨシとイソとカシは、浜の高い所に柱をひざより深く埋め、細い木を縄でしばって草をふきました。その上にアケビとクリが土をのせ、草の根のついた土をかぶせました。クリが春に名づけたとおりの、重たい屋根、オモヤネです。凪の日、ハナの先で潮を見ていたナギとイソは、東の海辺のずっと遠くに、細いけむりが上がっているのを見つけました。けむりは三日のあいだ見え、四日目には消えました。</p></div>
+<div class="season s-autumn"><span class="sn" data-t="秋" aria-hidden="true"></span><h3 class="sr">秋</h3><p>夏の長雨のせいか、秋はクリの実もカシの実も少ししか落ちませんでした。それでもイソとナギは、オモヤネの小屋でカチガイを干しつづけ、去年より多く作りました。小屋の屋根は、秋の強い風にも飛ばされませんでした。ソヨがせきをしたとき、コナは手を葉と皮で包んでオクノサワへ行き、薬草を取ってきてツルにわたしました。秋の終わり、ホムラが男の子を生みました。</p></div>
+<div class="season s-winter"><span class="sn" data-t="冬" aria-hidden="true"></span><h3 class="sr">冬</h3><p>北の山が白くなると、ナギがネムリアナを開けました。冬のなかばには底が見え、掟のとおりカチガイのかごも開けましたが、春までは足りません。九年ぶりの、おなかのすく冬になりました。大人たちは根を掘り、干潟で貝を掘って、子どもたちと乳をやるホムラに先に分けました。だれも倒れずに、冬の終わりの寄り合いの日を迎えました。</p></div>
+<div class="newbox"><h3>今年あたらしく生まれた物・変わったこと</h3><ul>
+<li>発明・発見：オモヤネ（土をのせた浜の小屋の屋根）</li>
+<li>ことば：オモヤネ</li>
+<li>掟：「おなかのすく冬は、子どもと乳をやる母から先に食べる」</li>
+<li>生まれた子：オキ</li>
+</ul></div>
+</section>
+<section class="card fold" id="kaiwa">
+<details class="sec" open><summary><h2>大事な会話と心の中</h2> <span class="kotoshi-mk" data-t="今年＋6" aria-hidden="true"></span></summary>
+<p class="koe-link">🎧 <a href="../../koe/">1年目からの会話を、ひとりずつちがう声でまとめて聞く</a></p>
+<div class="scene">
+<h3>片側だけの屋根</h3>
+<p class="where">春・オカ（丘）</p>
+<p class="ln"><span class="who a8">イソ</span>「浜の小屋の屋根、片っぽだけ残ってたんだ。土と草がのってた方だけ、風でもびくともしなかったよ。」</p>
+<p class="ln"><span class="who a5">ヨシ</span>「たとえば、柱をもっと深く埋めて、屋根の上に土を重ねれば、風に押さえがききます。小さく試してみよう。」</p>
+<p class="ln"><span class="who a6">アケビ</span>「土なら、まかせてよ。西の湿地のねばる土を、かごで運ぼう。」</p>
+<p class="ln"><span class="who a1">クリ</span>「土をのせた屋根？ 重たそうだね！」</p>
+<p class="ln"><span class="who a8">イソ</span>「重たいくらいがいいんだ。風に負けないからさ。」</p>
+<p class="ln"><span class="who a1">クリ</span>「重たい屋根だから、オモヤネだね！」</p>
+<p class="after">その日から、ヨシは縄を、アケビはかごを用意して、夏のはじめに浜へ下りる支度を始めました。</p>
+</div>
+<div class="scene">
+<h3>東のけむり</h3>
+<p class="where">夏・ハナ（東の岬）</p>
+<p class="ln"><span class="who a8">イソ</span>「ナギかあさん、あれ見て。東の海辺のずっと先、けむりだよね。」</p>
+<p class="ln"><span class="who a4">ナギ</span>「……けむりだ。たき火のけむり。」</p>
+<p class="ln"><span class="who a7">ホムラ</span>「川上の人たちとは方角がちがうね。だれだろう。」</p>
+<p class="ln"><span class="who a4">ナギ</span>「わたしの生まれた群れは、東の海辺へ移っていった。」</p>
+<p class="ln"><span class="who a8">イソ</span>「じゃあ、あれはナギかあさんの……。」</p>
+<p class="ln"><span class="who a4">ナギ</span>「分からない。けむりは、だれのけむりか言わない。」</p>
+<p class="ln"><span class="who a7">ホムラ</span>「ねえ、ウルで行ってみる？」</p>
+<p class="ln"><span class="who a4">ナギ</span>「岸の見えない所へは出さない。それが掟だ。……今日は、見るだけ。」</p>
+<p class="after">三日のあいだ、ナギは毎朝ハナの先に立ち、東のけむりを見つめました。</p>
+</div>
+<div class="scene">
+<h3>オクノサワの薬草</h3>
+<p class="where">秋・オカ（丘）</p>
+<p class="ln"><span class="who a0">ツル</span>「ソヨのせき、ユゲグサの葉が足りない。オクノサワの薬草があればいいのに。」</p>
+<p class="ln"><span class="who a9">コナ</span>「ぼくが取ってくる。ヒモリには、もう言ってある。」</p>
+<p class="ln"><span class="who a0">ツル</span>「また手を真っ赤にして帰ってくるんでしょ。」</p>
+<p class="ln"><span class="who a9">コナ</span>「見て。手を葉と皮で包んでいく。ツルが言いだした掟のとおりにさ。」</p>
+<p class="ln"><span class="who a0">ツル</span>「……帰ってきた。ほんとうに、どこもかぶれてない。」</p>
+<p class="ln"><span class="who a9">コナ</span>「汁を取るより、薬草を取るほうが、ずっとやさしかったよ。」</p>
+<p class="ln"><span class="who a0">ツル</span>「ありがとう、コナ。前は、言いすぎたね。」</p>
+<p class="ln"><span class="who a9">コナ</span>「ぼくも。ツルの掟がなかったら、また真っ赤だった。」</p>
+<p class="after">その夜、ツルは薬草をグツで煮て、ソヨにゆげを吸わせました。ソヨのせきは、三日で止まりました。</p>
+</div>
+<div class="scene">
+<h3>オキ</h3>
+<p class="where">秋・オカ（丘）</p>
+<p class="ln"><span class="who a2">シイ</span>「ツル、今日は、わたしは声を出さないよ。そばで見ているだけだ。」</p>
+<p class="ln"><span class="who a0">ツル</span>「うん。湯はわいてる。ホムラねえ、息に合わせてね。」</p>
+<p class="ln"><span class="who a7">ホムラ</span>「……だいじょうぶ。ソヨのときより、こわくない。」</p>
+<p class="ln"><span class="who a0">ツル</span>「出てきた……男の子だよ！ 泣いた！」</p>
+<p class="ln"><span class="who a8">イソ</span>「ぼくらの子が、二人になった。……ぼくは、ずっと遠くの海のことを、オキって呼んでるんだ。この子も、オキにしようよ。」</p>
+<p class="ln"><span class="who a7">ホムラ</span>「オキ。ソヨとオキ。いい名前だね。」</p>
+<p class="after">シイは何も言わずに、ツルの手を両手で包みました。</p>
+</div>
+<blockquote class="thought"><p class="tn">ナギの心の中（東のけむり）</p><p class="tt">あのけむりのそばに、母さんの声を覚えている人がいるかもしれない。海の向こうより、岸づたいの東のほうが、わたしには遠い。</p></blockquote>
+<blockquote class="thought"><p class="tn">コナの心の中（オクノサワの薬草）</p><p class="tt">ツルに、ありがとうと言われた。石を割るより、言葉のほうがずっとむずかしい。</p></blockquote>
+</details>
+</section>
+<section class="card" id="yoriai">
+<h2>寄り合いの記録</h2>
+<h3>話し合ったこと</h3><ul>
+<li>九年ぶりの、おなかのすく冬</li>
+<li>オモヤネの浜の小屋は、秋の強い風にも飛ばなかった</li>
+<li>東の海辺のけむり</li>
+<li>天への願い</li>
+</ul>
+<h3>火を囲んで</h3>
+<p class="ln"><span class="who a4">ナギ</span>「ネムリアナも、カチガイのかごも、からになった。春まで、まだひと月ある。」</p>
+<p class="ln"><span class="who a3">カシ</span>「根を掘る。干潟の貝も掘る。おれたち大人は、食べるのをあとにする。」</p>
+<p class="ln"><span class="who a6">アケビ</span>「まあまあ、それなら決まりにしようよ。おなかのすく冬は、子どもと乳をやる母から先に食べる。」</p>
+<p class="ln"><span class="who a5">ヨシ</span>「夏にカチガイをもっと干せば、冬にも足せます。オモヤネの小屋なら、秋の風でもかごが飛ばされません。」</p>
+<p class="ln"><span class="who a6">アケビ</span>「天には、次の冬は子どもたちがおなかをすかせませんように、と願いたいな。」</p>
+<p class="ln"><span class="who a4">ナギ</span>「わたしは、東の浜のけむりの人たちに、もう一度会いたい。わたしの生まれた群れかもしれない。」</p>
+<p class="ln"><span class="who a2">シイ</span>「決めるよ。おなかのすく冬は、子どもと乳をやる母から先に食べること。カチガイは、夏にもっと干すこと。食べ物のことは、わたしたちの手でできる。会いたい気持ちは、天にしか届けられないからね。天に届けるのは、ナギの、東のけむりの人々に会いたいという願いにしよう。」</p>
+<p class="how">どう決めたか：一人ずつ話し、最後は長老シイが決めた（掟「寄り合いの決め方」のとおり）。</p>
+<h3>決まったこと</h3><ul class="check">
+<li>掟「おなかのすく冬は、子どもと乳をやる母から先に食べる」を決める</li>
+<li>夏にカチガイをもっと干して、冬にも足す</li>
+<li>天への願いは、ナギの、東のけむりの人々に会いたいという願いにする</li>
+</ul>
+<div class="wishbox">
+<h3>今年の天への願い</h3>
+<p class="wishtext">「東の浜のけむりの人々に、もう一度会えますように」</p>
+<p class="small">言いだした人：ナギ</p>
+<p>夏にハナの先から、東の海辺に三日のあいだけむりが見えた。ナギの生まれた群れが移っていった方角だから。</p>
+<p class="small">ほかに出た願い：「次の冬は、子どもたちがおなかをすかせませんように（アケビ）」</p>
+<p class="small">願いは、たき火の煙にのせて天に届けました。天の答えは、次の年のはじめに届きます。</p>
+</div>
+</section>
+<section class="card fold" id="okite">
+<details class="sec"><summary><h2>掟（おきて）の一覧</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
+<p class="small">いまの掟 20つ・やめた掟 3つ</p>
+<div class="rule">
+<h3>火を絶やさない</h3>
+<p class="rt">炉の火は消さない。火の番（ヒモリ）は交代でする。</p>
+<p class="rm">むかしから<br>わけ：火を起こすのはとても大変で、火が消えると冬に凍えるから。</p>
+</div>
+<div class="rule">
+<h3>とった物はみんなで分ける</h3>
+<p class="rt">狩りや漁や拾った物は、丘に持ち帰ってみんなで分ける。</p>
+<p class="rm">むかしから<br>わけ：とれる日もとれない日もあるから。</p>
+</div>
+<div class="rule">
+<h3>子どもだけで川と海に入らない</h3>
+<p class="rt">子どもは、大人といっしょでなければ川と海に入らない。</p>
+<p class="rm">むかしから<br>わけ：大川は雨のあと流れが速く、浜は潮が満ちると深くなるから。</p>
+</div>
+<div class="rule">
+<h3>寄り合いの決め方</h3>
+<p class="rt">寄り合いでは一人ずつ話し、最後は長老が決める。</p>
+<p class="rm">むかしから<br>わけ：いちばん長く生きた人が、いちばん多くのことを知っているから。</p>
+</div>
+<div class="rule">
+<h3>願いは一年に一つ</h3>
+<p class="rt">年の終わりの寄り合いで願いを一つだけ決め、たき火の煙にのせて天に届ける。</p>
+<p class="rm">むかしから<br>わけ：たくさん願うと天がこまるから、と言い伝えられている。</p>
+</div>
+<div class="rule">
+<h3>実をくれる木は切らない</h3>
+<p class="rt">ナツユキの森のクリの木のように、実をくれる木は切らない。たきぎは枯れ枝や倒れた木から取る。</p>
+<p class="rm">1年目に決めた・発案：ホムラ<br>わけ：木を切ってしまうと、次の秋に実が落ちなくなるから。</p>
+</div>
+<div class="rule">
+<h3>大きな獣の狩りには足あとを読める者が行く</h3>
+<p class="rt">大きな獣の狩りには、足あとを読み分けられる者が行く。男か女かでは決めない。獣の前にだれが立つかは、狩りの頭が決める。</p>
+<p class="rm">2年目に決めた・発案：ホムラ<br>わけ：ホムラが約束どおり足あとをテノカズ読み分け、けがをしたカシを森で見つけたから。足あとを読める者は狩りに要る。</p>
+</div>
+<div class="rule">
+<h3>浜の小屋に一人でいる者は煙で知らせる</h3>
+<p class="rt">夏のあいだ浜の小屋に一人で寝起きする者は、毎朝たき火の煙を上げて、丘に無事を知らせる。</p>
+<p class="rm">3年目に決めた・発案：ナギ<br>わけ：イソが一人で浜の小屋に寝起きするようになり、大風や嵐のあとも、丘から無事が分かるようにするため。</p>
+</div>
+<div class="rule">
+<h3>浜の火は二人で守る</h3>
+<p class="rt">浜で火を燃やすときは、火の番を二人でする。丘の火は、丘の火の番が守る。</p>
+<p class="rm">6年目に決めた・発案：ナギ<br>わけ：ウルを焦がす火を浜で何日も燃やしたとき、一人で番をしていて眠ってしまい、焦げすぎて底がうすくなりかけたから。</p>
+</div>
+<div class="rule">
+<h3>よその人に先に手を出さない</h3>
+<p class="rt">よその人に会っても、こちらから先に手を出さない。</p>
+<p class="rm">7年目に決めた・発案：ヨシ<br>わけ：大川の上手で、よその人の足あとと黒い石のかけらが見つかったから。川上から来たヨシが、川上の人がみんなこわいわけではないと話した。</p>
+</div>
+<div class="rule">
+<h3>秋の蓄えは北の山が白くなるまで開けない</h3>
+<p class="rt">秋にネムリアナにためた物は、北の山が白くなるまで開けない。開けるときは、ナギがオオイシと小石で数える。</p>
+<p class="rm">8年目に決めた・発案：ナギ<br>わけ：8年目の冬は丘に雪が降らず、雪が降るまで待っていては子どもたちが弱るから。北の山が白いかどうかは、だれが見ても分かる。</p>
+</div>
+<div class="rule">
+<h3>かかっているツバメの巣は落とさない</h3>
+<p class="rt">がけや木にかかっているツバメの巣は落とさない。落ちた巣は拾ってよい。</p>
+<p class="rm">9年目に決めた・発案：ヨシ<br>わけ：ツバメの巣に、割れにくい土の器の作り方を教わったから。巣は、ツバメが帰ってくる場所だから。</p>
+</div>
+<div class="rule">
+<h3>おくり物は浅瀬の岩に置く</h3>
+<p class="rt">川上の人々へのおくり物は、大川の浅瀬の岩に置き、置いたら下がる。こちらから川を渡らない。</p>
+<p class="rm">10年目に決めた・発案：ナギ<br>わけ：浅瀬の岩に袋と薬草を置いて下がったら、けんかをせずに会え、岩に黒い石が返ってきたから。岩を通せば、どちらも近づきすぎずにすむ。</p>
+</div>
+<div class="rule">
+<h3>ウルは潮と風を見てから出す</h3>
+<p class="rt">ウルで出る日は、ナギが潮と風を見てから決める。行くのは、岸の見える所まで。</p>
+<p class="rm">11年目に決めた・発案：ナギ<br>わけ：ウルでハナまで行けるようになり、島へ渡りたい者が出てきたから。岸の見えない所では、潮も風も読めない。</p>
+</div>
+<div class="rule">
+<h3>島の方へはウルを二つ並べて出す</h3>
+<p class="rt">ハナの先から島の方へ出るときは、ウルを二つ並べて出す。一つだけでは出さない。</p>
+<p class="rm">12年目に決めた・発案：カシ<br>わけ：ハナと島のあいだには速い潮の流れ（ウミカワ）があり、ウルが一つだけでは、もしものときに助ける者がいないから。二つ目のウルができた。</p>
+</div>
+<div class="rule">
+<h3>島へ渡る日はハナでけむりを上げる</h3>
+<p class="rt">島へウルを出す日は、ハナで火をたいて、けむりを上げておく。帰りの目印にする。</p>
+<p class="rm">13年目に決めた・発案：ナギ<br>わけ：はじめて島へ渡った帰り、海にもやが出てハナが見えなくなったが、ハナのけむりだけは見えて、それを目印に帰れたから。</p>
+</div>
+<div class="rule">
+<h3>森の奥へは火の番に告げてから行く</h3>
+<p class="rt">森の奥へ行く者は、行き先を火の番（ヒモリ）に言ってから行く。</p>
+<p class="rm">14年目に決めた・発案：カシ<br>わけ：コナが一人で黙って東の森の奥へ入り、だれも行き先を知らなかったから。奥の沢には、さわるとかぶれる木もあった。</p>
+</div>
+<div class="rule">
+<h3>カブレギの汁は手を包んで取る</h3>
+<p class="rt">カブレギの汁を取るときは、手を大きな葉と皮で包む。取ったら、すぐ沢の水で手を洗う。</p>
+<p class="rm">15年目に決めた・発案：ツル<br>わけ：コナが二度、カブレギの汁で手を真っ赤にかぶれさせたから。汁は、ササリボの先をとめるのに要る。</p>
+</div>
+<div class="rule">
+<h3>カチガイはネムリアナがからになってから開ける</h3>
+<p class="rt">カチガイのかごは、ネムリアナがからになってから開ける。</p>
+<p class="rm">16年目に決めた・発案：ナギ<br>わけ：蓄えの少ない春のはじめがいちばん苦しく、カチガイは長くもつので、春のはじめのために残しておくため。</p>
+</div>
+<div class="rule">
+<h3>おなかのすく冬は、子どもと乳をやる母から先に食べる <span class="badge new">今年</span></h3>
+<p class="rt">おなかのすく冬は、子どもと乳をやる母から先に食べる。</p>
+<p class="rm">17年目に決めた・発案：アケビ<br>わけ：不作の年に蓄えが足りず、九年ぶりのおなかのすく冬になった。小さい子と乳をやる母が弱らないようにするため。</p>
+</div>
+<h3>やめた掟</h3>
+<div class="rule ended">
+<h3>大きな獣の狩りは大人の男が行く <span class="badge ended">やめた掟</span></h3>
+<p class="rt">イノシシやシカを追う狩りには、大人の男だけが行く。</p>
+<p class="rm">むかしから → 2年目にやめた<br>やめたわけ：ホムラが約束どおり獣の足あとをテノカズ読み分けたので、掟「大きな獣の狩りには足あとを読める者が行く」に変えた。</p>
+</div>
+<div class="rule ended">
+<h3>秋の蓄えは雪が降るまで開けない <span class="badge ended">やめた掟</span></h3>
+<p class="rt">秋にネムリアナ（木の実をためる穴）にためた物は、雪が降るまで開けない。開けるときは、ナギがオオイシと小石で数える。</p>
+<p class="rm">1年目に決めた → 8年目にやめた<br>やめたわけ：8年目の冬に丘に雪が降らず、開けられないまま子どもたちのおなかが鳴ったので、掟「秋の蓄えは北の山が白くなるまで開けない」に変えた。</p>
+</div>
+<div class="rule ended">
+<h3>ホリヤは寒さに弱い者から <span class="badge ended">やめた掟</span></h3>
+<p class="rt">ホリヤがみんなの分できるまでは、冬のホリヤには寒さに弱い者から寝る。</p>
+<p class="rm">4年目に決めた → 6年目にやめた<br>やめたわけ：ケヤキの柱で、みんなが入れる大きなホリヤができたから。</p>
+</div>
+</details>
+</section>
+<section class="card fold" id="hatsumei">
+<details class="sec"><summary><h2>発明・発見の年表</h2> <span class="kotoshi-mk" data-t="今年＋10" aria-hidden="true"></span></summary>
+<ul class="tl">
+<li><span class="yr">17年目</span><br><b>オモヤネ（土をのせた浜の小屋の屋根）</b> <span class="badge">工夫</span> <span class="badge new">今年</span><span class="how2">生みだした人：ヨシ・イソ・アケビ<br>春、屋根の飛んだ浜の小屋で、砂と泥がかぶって草が根をはった片側だけが風に動かなかったのをイソが見た。夏、浜の高い所に柱をひざより深く埋め（ヨシの案）、細い木を縄でしばって草をふき、その上に西の湿地のねばる土と、草の根のついた土をのせた。秋の強い風にも飛ばされなかった。</span></li>
+<li><span class="yr">16年目</span><br><b>カチガイ（煮て干した貝の身）</b> <span class="badge">工夫</span><span class="how2">生みだした人：ナギ・イソ<br>春、浜の小屋に置き忘れたグツの中で、煮た貝の身がけむりで干からびているのをナギが見つけた。干潟の貝をグツで煮て身を取り出し、カラムシの縄に通して浜の火のけむりの上につるし、二人で火の番をしながら三日干すと、小さく茶色く固まった。湧き水にひたすと、もとのようにふっくらもどる。</span></li>
+<li><span class="yr">15年目</span><br><b>シルヅケ（カブレギの汁で先をとめる）</b> <span class="badge">工夫</span><span class="how2">生みだした人：コナ<br>夏、コナがオクノサワのカブレギから白い汁を小さなグツに取ってきた。秋、ササリボの先をしばった縄の上に汁をうすく塗って乾かすと、黒く石のように固まり、シカに当たっても先が抜けなくなった。</span></li>
+<li><span class="yr">14年目</span><br><b>ツキキザミ（月を数える刻み棒）</b> <span class="badge">工夫</span><span class="how2">生みだした人：イソ・ナギ<br>春、夢のあとに浜で拾った白い流木を炉のそばに立て、イソが毎晩、石の刃で刻み目を一つずつつけた。ナギとともに月を見上げ、丸い月から次の丸い月までに刻み目がテノカズ三つほど並ぶと確かめた。刻み目を見れば、次の丸い月まであと何夜かが前もって分かる。</span></li>
+<li><span class="yr">12年目</span><br><b>二つ目のウル（二人でこぐ長いウル）</b> <span class="badge">工夫</span><span class="how2">生みだした人：イソ・ヨシ・カシ<br>春、ハナの浜に流れ着いた長い流木を、満ち潮に浮かべてウルで浜まで引いた。イソとヨシが夏から秋までヤキホリでくり抜き、カシがヒカリオノで内側をならした。はじめのウルよりひとまわり長く、前と後ろに二人が座り、ヨシの作った二枚の水をかく板でいっしょにこぐ。</span></li>
+<li><span class="yr">11年目</span><br><b>ユゲグサ（薬草をグツで煮る）</b> <span class="badge">工夫</span><span class="how2">生みだした人：ツル・シイ・アケビ<br>春、せきをしていたツルの袋から、乾いた広い葉の草がグツの湯にこぼれ、その汁とゆげでせきが止まった。シイとツルがいろいろな薬草を煮くらべ、せきには道ばたの広い葉の草がよいと確かめた。グツを持たない川上の人々には、グツごと浅瀬の岩に置いた。</span></li>
+<li><span class="yr">10年目</span><br><b>ササリボ（黒い石の先をつけた棒＝矢）</b> <span class="badge">道具</span><span class="how2">生みだした人：コナ・カシ<br>秋、川上の人々が浅瀬の岩に置いていった黒く光る石を、コナがトチに習った割り方でうすく割り、木の葉の形の小さな先にととのえた。まっすぐな棒の先にカラムシの縄でしばり、カシがハネギで放つと、木の幹に深く立った。冬、はじめて遠くからシカがとれた。</span></li>
+<li><span class="yr">9年目</span><br><b>ツバメツチ（草をまぜた土の器）</b> <span class="badge">工夫</span><span class="how2">生みだした人：ヨシ・アケビ・ツル<br>春、川原のがけの下でヨシが落ちたイワツバメの巣を拾い、泥に細かい枯れ草がまざっていると気づいた。刈った草を石の刃できざんでねばる土にもみこみ、日かげでゆっくり乾かしてから焼くと、テノカズと三つのうちテノカズが割れずに残った。</span></li>
+<li><span class="yr">8年目</span><br><b>グツ（焼いた土の煮る器）</b> <span class="badge">道具</span><span class="how2">生みだした人：アケビ・ヨシ・ツル<br>春、古い炉の灰の中から、むかし火のそばで固くなった土の鳥をアケビが見つけた。湿地の土手のねばる土で、両手にのるほどの器をいくつもこね、日なたで乾かして浜の火で焼いた。ほとんどは割れたが、ひびのない一つが残った。くだいたカシの実と水を入れて炉にかけ、湯を替えて煮ると、しぶみがその日のうちに抜けた。</span></li>
+<li><span class="yr">7年目</span><br><b>クモス（草の縄を結んだ手網）</b> <span class="badge">道具</span><span class="how2">生みだした人：ヨシ・ナギ<br>春、湧き水にひたしたカラムシの筋が、細くても強いことにヨシが気づいた。筋をより合わせた縄を、クモの巣をまねて小さな目に結び、曲げた枝の輪にしばった。夏、ナギとイソが大川の浅瀬で使うと、小さな魚も目からこぼれなかった。</span></li>
+<li><span class="yr">6年目</span><br><b>ウル（くり抜いた浮かぶ木の舟）</b> <span class="badge">道具</span><span class="how2">生みだした人：イソ・ヨシ・カシ<br>春、雷で焦げた流木を貝がらでこすると、焦げた所だけが崩れることにイソが気づいた。うつろな流木に燃えさしをのせて焦がしては、貝がらと石の刃でかき出すのを、イソとヨシが交代で秋までくり返した。仕上げにカシがヒカリオノで内側をならした。平たい板で水をかいて、入り江の浅瀬を進める。</span></li>
+<li><span class="yr">5年目</span><br><b>ヒカリオノ（みがいた石のおの）</b> <span class="badge">道具</span><span class="how2">生みだした人：トチ・コナ・ヨシ<br>春、夢のとおりの目のこまかい平たい石（トギイシ）を、トチとコナが川原で見つけた。コナが打ち欠いたおのの頭を、水と砂をかけて夏じゅうこすり、ヨシが太い柄に縄でしばった。たたいても欠けず、太い木に食いこむ。</span></li>
+<li><span class="yr">4年目</span><br><b>ホリヤ（床を掘り下げた小屋）</b> <span class="badge">住まい</span><span class="how2">生みだした人：ナギ・カシ・ヨシ<br>春の強い風の夜、からのネムリアナの中には風が来ないことにナギが気づいた。カシがひざの深さに丸く掘り、倒れた木と実のならない細い木で柱を立て、ヨシが縄でしばって草と木の皮の屋根をかけた。</span></li>
+<li><span class="yr">3年目</span><br><b>ハネギ（はね返る木の弓のかたち）</b> <span class="badge">道具</span><span class="how2">生みだした人：ヨシ・カシ・ホムラ<br>春の遅い雪の朝、はね返るイヌガヤの若木をヨシが見た。ヨシの力では曲がらず、秋にカシに力を借りた。ホムラが探したまっすぐな木をカシが曲げ、ヨシが縄を張ると、棒を遠くへ飛ばせるようになった。</span></li>
+<li><span class="yr">2年目</span><br><b>シブニゲ（しぶい実を湧き水にさらす）</b> <span class="badge">工夫</span><span class="how2">生みだした人：アケビ・ヨシ<br>春のはじめ、湧き水にさらされた割れたカシの実がしぶくないことにアケビが気づいた。くだいた実をヨシの目のこまかいかごに入れ、湧き水の流れに何日もひたすやり方にした。</span></li>
+<li><span class="yr">1年目</span><br><b>オオイシで数える</b> <span class="badge">しくみ</span><span class="how2">生みだした人：ナギ<br>かごが多すぎて小石が足りなくなり、ナギが小石テノカズ分を大きな石一つに置きかえて数えた。</span></li>
+<li><span class="yr">1年目</span><br><b>ネムリアナ（木の実をためる穴）</b> <span class="badge">道具</span><span class="how2">生みだした人：ナギ・カシ・ヨシ<br>夏、湧き水のそばの穴に入れた貝が夕方まで傷まないことにナギが気づいた。実りの秋、カシが丘のはしに深い穴を掘り、ヨシが草で編んだふたをかぶせた。</span></li>
+<li><span class="yr">1年目</span><br><b>ナツユキの森（クリの森）</b> <span class="badge">場所</span><span class="how2">生みだした人：ホムラ<br>わなを見回っていたホムラが東の森の入り口の高い木に登り、奥の斜面がクリの花で白くなっているのを見つけた。秋には実が雨のように落ちた。</span></li>
+</ul>
+<h3>村の年表（新しい順）</h3>
+<ul class="tl">
+<li><span class="yr">17年目</span> <span class="badge">願い</span> <span class="badge new">今年</span><br>ナギの願い「東の浜のけむりの人々に、もう一度会えますように」を天に届けた。</li>
+<li><span class="yr">17年目</span> <span class="badge">掟</span> <span class="badge new">今年</span><br>寄り合いで掟「おなかのすく冬は、子どもと乳をやる母から先に食べる」を決めた。</li>
+<li><span class="yr">17年目</span> <span class="badge">冬</span> <span class="badge new">今年</span><br>不作の年で、九年ぶりのおなかのすく冬になった。だれも倒れずに春を待った。</li>
+<li><span class="yr">17年目</span> <span class="badge">誕生</span> <span class="badge new">今年</span><br>秋の終わり、ホムラとイソの息子、オキが生まれた。ツルが取り上げた。村は14人になった。</li>
+<li><span class="yr">17年目</span> <span class="badge">仲直り</span> <span class="badge new">今年</span><br>コナが手を包んでオクノサワの薬草を取ってきて、言い合っていたツルと仲直りした。</li>
+<li><span class="yr">17年目</span> <span class="badge">よその人</span> <span class="badge new">今年</span><br>夏、ハナの先から、東の海辺のずっと遠くに、三日のあいだけむりが見えた。</li>
+<li><span class="yr">17年目</span> <span class="badge">工夫</span> <span class="badge new">今年</span><br>柱を深く埋め、屋根に土と草の根をのせた浜の小屋「オモヤネ」を建てた。秋の強い風にも飛ばなかった。</li>
+<li><span class="yr">17年目</span> <span class="badge">掟</span> <span class="badge new">今年</span><br>春のはじめ、ネムリアナがからになり、掟のとおり、はじめてカチガイのかごを開けた。</li>
+<li><span class="yr">17年目</span> <span class="badge">天の答え</span> <span class="badge new">今年</span><br>春のはじめの強い風の日、浜の小屋の屋根のうち、土と草の根がのった片側だけが飛ばずに残っていた。</li>
+<li><span class="yr">16年目</span> <span class="badge">願い</span><br>イソの願い「大風でも屋根の飛ばない浜の小屋が、建てられますように」を天に届けた。</li>
+<li><span class="yr">16年目</span> <span class="badge">掟</span><br>寄り合いで掟「カチガイはネムリアナがからになってから開ける」を決めた。</li>
+<li><span class="yr">16年目</span> <span class="badge">冬</span><br>冬の蓄えは足り、八年続けておなかの鳴る夜のない冬を越した。カチガイは春のはじめのために残した。</li>
+<li><span class="yr">16年目</span> <span class="badge">誕生</span><br>大風の夜、ホムラとイソの娘、ソヨが生まれた。ツルが取り上げた。村は13人になった。</li>
+<li><span class="yr">16年目</span> <span class="badge">大風</span><br>夏の終わりの大風で、浜の小屋の屋根が飛んだ。二そうのウルとカチガイのかごは丘へ運んで守った。</li>
+<li><span class="yr">16年目</span> <span class="badge">弟子入り</span><br>ツルが、ひざの痛むシイに、赤ちゃんの取り上げを習いはじめた。</li>
+<li><span class="yr">16年目</span> <span class="badge">工夫</span><br>煮た貝の身を浜の火のけむりで干す「カチガイ」を、ナギとイソが始めた。</li>
+<li><span class="yr">16年目</span> <span class="badge">天の答え</span><br>春のはじめ、ナギが浜の小屋に置き忘れたグツの中で、煮た貝の身がけむりで干からびているのを見つけた。</li>
+<li><span class="yr">15年目</span> <span class="badge">願い</span><br>ナギの願い「蓄えの少ない春のはじめにも、食べる物がありますように」を天に届けた。</li>
+<li><span class="yr">15年目</span> <span class="badge">掟</span><br>寄り合いで掟「カブレギの汁は手を包んで取る」を決めた。</li>
+<li><span class="yr">15年目</span> <span class="badge">冬</span><br>春のはじめは蓄えが少なかったが、冬は足り、七年続けておなかの鳴る夜のない冬を越した。</li>
+<li><span class="yr">15年目</span> <span class="badge">工夫</span><br>コナがササリボの先をカブレギの汁で固める「シルヅケ」を始めた。シカに当たっても先が抜けなくなった。</li>
+<li><span class="yr">15年目</span> <span class="badge">けんか</span><br>夏、カブレギの汁で手をまたかぶれさせたコナと、手当てをするツルが言い合った。</li>
+<li><span class="yr">15年目</span> <span class="badge">よその人</span><br>ヨシが浅瀬の岩でたずねると、川上の人がその峰を指さし、黒い石はあそこで取れると教えてくれた。クリが峰を「クロミネ」と名づけた。</li>
+<li><span class="yr">15年目</span> <span class="badge">天の答え</span><br>春のはじめ、雨のあがった朝、北の山なみの一つの峰の肩が、朝日に黒い石のように光った。</li>
+<li><span class="yr">14年目</span> <span class="badge">願い</span><br>コナの願い「川上の人々に、黒い石の取れる所を教えてもらえますように」を天に届けた。</li>
+<li><span class="yr">14年目</span> <span class="badge">掟</span><br>寄り合いで掟「森の奥へは火の番に告げてから行く」を決めた。</li>
+<li><span class="yr">14年目</span> <span class="badge">不作</span><br>実の少ない秋だったが、去年残したカシの実があり、おなかの鳴る夜のない冬を越した。</li>
+<li><span class="yr">14年目</span> <span class="badge">発見</span><br>コナが一人で東の森の奥へ入り、冷たい沢「オクノサワ」と、白い汁の出るかぶれる木「カブレギ」を見つけた。</li>
+<li><span class="yr">14年目</span> <span class="badge">けんか</span><br>夏、黒い石の取れる所へ川を渡りたいコナと、掟で止めるカシが、川原で言い合った。</li>
+<li><span class="yr">14年目</span> <span class="badge">成長</span><br>クリが13歳になり、若者になった。</li>
+<li><span class="yr">14年目</span> <span class="badge">工夫</span><br>イソが流木に毎晩刻み目をつけて月を数える「ツキキザミ」を始めた。丸い月から次の丸い月まで、テノカズ三つほどの夜と分かった。</li>
+<li><span class="yr">14年目</span> <span class="badge">天の答え</span><br>春のはじめ、イソが、海鳥が流木に月の夜ごとの傷をつける夢を見た。朝、浜に白い流木が打ち上げられていた。</li>
+<li><span class="yr">13年目</span> <span class="badge">願い</span><br>イソの願い「ウルを出せる静かな海の日が、前もって分かりますように」を天に届けた。</li>
+<li><span class="yr">13年目</span> <span class="badge">掟</span><br>寄り合いで掟「島へ渡る日はハナでけむりを上げる」を決め、島を「トリシマ」と呼ぶことにした。</li>
+<li><span class="yr">13年目</span> <span class="badge">豊作</span><br>ひさしぶりの豊作で、ネムリアナからあふれるほど実が集まった。</li>
+<li><span class="yr">13年目</span> <span class="badge">ひとり立ち</span><br>ツルが18歳で大人になり、ひざの痛むシイから薬草の袋を受けついだ。</li>
+<li><span class="yr">13年目</span> <span class="badge">発見</span><br>夏、二そうのウルを並べて、イソとホムラ、カシとコナが、はじめて島へ渡った。島には砂の浜と湧き水があり、浜にはイソの首飾りと同じ青い小石がまじっていた。</li>
+<li><span class="yr">13年目</span> <span class="badge">弟子入り</span><br>ナギが、潮を読むイソに「読める」と言った。</li>
+<li><span class="yr">13年目</span> <span class="badge">天の答え</span><br>春の終わり、月の丸い夜、ハナと島のあいだの海で、海鳥が波の上に浮かんで眠っていた。</li>
+<li><span class="yr">12年目</span> <span class="badge">願い</span><br>ナギの願い「島へ渡る日、潮と風が、帰るまでおだやかでありますように」を天に届けた。</li>
+<li><span class="yr">12年目</span> <span class="badge">掟</span><br>寄り合いで掟「島の方へはウルを二つ並べて出す」を決めた。</li>
+<li><span class="yr">12年目</span> <span class="badge">発見</span><br>秋、ハナの先で潮の流れがゆるむときを見つけ、クリが「シオネムリ」と名づけた。</li>
+<li><span class="yr">12年目</span> <span class="badge">工夫</span><br>流れ着いた流木から、二人でこぐ長い「二つ目のウル」ができた。</li>
+<li><span class="yr">12年目</span> <span class="badge">弟子入り</span><br>イソがナギに、潮の読み方を習いはじめた。</li>
+<li><span class="yr">12年目</span> <span class="badge">発見</span><br>夏、ウルでハナの先へ出ると、速い潮の流れに東へ押された。イソはそれを「ウミカワ」と呼んだ。</li>
+<li><span class="yr">12年目</span> <span class="badge">天の答え</span><br>春、ハナの浜に長い流木が流れ着いた。ハナの先から、島とのあいだを流れる白いあわの筋が見えた。</li>
+<li><span class="yr">11年目</span> <span class="badge">願い</span><br>イソの願い「ウルで、ハナの先から島へ渡れますように」を天に届けた。</li>
+<li><span class="yr">11年目</span> <span class="badge">掟</span><br>寄り合いで掟「ウルは潮と風を見てから出す」を決めた。</li>
+<li><span class="yr">11年目</span> <span class="badge">ひとり立ち</span><br>ホムラとイソが連れ合いになり、古いホリヤを直して二人で暮らしはじめた。</li>
+<li><span class="yr">11年目</span> <span class="badge">発見</span><br>イソとホムラがウルで岸ぞいに東へ行き、島が近くに見える岬「ハナ」を見つけた。</li>
+<li><span class="yr">11年目</span> <span class="badge">よその人</span><br>夏、浅瀬の岩に黒い石がいくつも返ってきた。川向こうで、せきの止まった子が走っていた。</li>
+<li><span class="yr">11年目</span> <span class="badge">工夫</span><br>薬草をグツで煮る「ユゲグサ」が始まった。グツごと浅瀬の岩に置いた。</li>
+<li><span class="yr">11年目</span> <span class="badge">天の答え</span><br>春、ツルの袋からこぼれた乾いた薬草がグツの湯で煮え、その汁とゆげで、ツルのせきが止まった。</li>
+<li><span class="yr">10年目</span> <span class="badge">願い</span><br>ツルの願い「川上のせきの子が、よくなりますように」を天に届けた。</li>
+<li><span class="yr">10年目</span> <span class="badge">掟</span><br>寄り合いで掟「おくり物は浅瀬の岩に置く」を決めた。</li>
+<li><span class="yr">10年目</span> <span class="badge">打ち明け</span><br>冬の炉のそばで、ヨシが川上の群れを出たわけを、はじめてみんなに話した。</li>
+<li><span class="yr">10年目</span> <span class="badge">豊作</span><br>二年続けての豊作で、おなかの鳴る夜のない冬を越した。</li>
+<li><span class="yr">10年目</span> <span class="badge">発明</span><br>浅瀬の岩に返ってきた黒い石を、コナが一人でうすく割り、先につけた棒「ササリボ」を作った。冬、はじめて遠くからシカがとれた。</li>
+<li><span class="yr">10年目</span> <span class="badge">成長</span><br>コナが18歳になり、大人になった。</li>
+<li><span class="yr">10年目</span> <span class="badge">よその人</span><br>夏、大川の浅瀬で、川上の人々三人と会った。袋と薬草を岩に置いて下がり、けんかをせずに会えた。</li>
+<li><span class="yr">10年目</span> <span class="badge">天の答え</span><br>春、ホムラが大川の川原で、川上の人々が落とした皮の袋を拾った。中には黒い石のかけらと、せきの薬の草が入っていた。</li>
+<li><span class="yr">9年目</span> <span class="badge">願い</span><br>ホムラの願い「よその人と、けんかをせずに会えますように」を天に届けた。</li>
+<li><span class="yr">9年目</span> <span class="badge">掟</span><br>寄り合いで掟「かかっているツバメの巣は落とさない」を決めた。</li>
+<li><span class="yr">9年目</span> <span class="badge">打ち明け</span><br>ツルの言葉から、ホムラとイソがたがいを思っていることが、みんなに知れた。</li>
+<li><span class="yr">9年目</span> <span class="badge">豊作</span><br>ひさしぶりの豊作で、ネムリアナはいっぱいになり、おなかの鳴る夜のない冬を越した。</li>
+<li><span class="yr">9年目</span> <span class="badge">工夫</span><br>細かくきざんだ草を土にまぜた「ツバメツチ」で焼くと、器がほとんど割れず、グツがテノカズふえた。</li>
+<li><span class="yr">9年目</span> <span class="badge">天の答え</span><br>春、ヨシが川原のがけの下で、落ちてもくずれないイワツバメの巣を拾った。泥に細かい草がまざっていた。</li>
+<li><span class="yr">8年目</span> <span class="badge">願い</span><br>ヨシの願い「焼いても割れない土の器を、たくさん作れるようにしたい」を天に届けた。</li>
+<li><span class="yr">8年目</span> <span class="badge">掟</span><br>寄り合いで掟「秋の蓄えは雪が降るまで開けない」をやめ、掟「秋の蓄えは北の山が白くなるまで開けない」を決めた。</li>
+<li><span class="yr">8年目</span> <span class="badge">冬</span><br>丘に雪の降らない冬になり、北の山が白いのを見て、シイがネムリアナを開けると決めた。</li>
+<li><span class="yr">8年目</span> <span class="badge">不作</span><br>二年続けての不作で、ふたたびおなかのすく冬になった。だれも倒れなかった。</li>
+<li><span class="yr">8年目</span> <span class="badge">成長</span><br>ツルが13歳になり、若者になった。</li>
+<li><span class="yr">8年目</span> <span class="badge">工夫</span><br>コナが寄り合いの約束どおり、拾ったクリの実をテノカズだけ丘のまわりに埋めた。</li>
+<li><span class="yr">8年目</span> <span class="badge">発明</span><br>湿地の土で器をこねて焼き、割れずに残った一つで、しぶい実を煮る「グツ」ができた。</li>
+<li><span class="yr">8年目</span> <span class="badge">天の答え</span><br>春、アケビが古い炉の灰の中から、むかし火のそばで固くなった土の鳥を見つけた。</li>
+<li><span class="yr">7年目</span> <span class="badge">願い</span><br>アケビの願い「しぶい実を、シブニゲより早く、たくさん食べられるようにしたい」を天に届けた。</li>
+<li><span class="yr">7年目</span> <span class="badge">掟</span><br>寄り合いでシイを長老にし、掟「よその人に先に手を出さない」を決めた。</li>
+<li><span class="yr">7年目</span> <span class="badge">不作</span><br>不作で冬の蓄えが足りず、おなかのすく冬になった。だれも倒れなかった。</li>
+<li><span class="yr">7年目</span> <span class="badge">別れ</span><br>初霜の朝、長老トチが静かに眠った。みんなで、ナツユキの森の見える丘のはしに見送った。</li>
+<li><span class="yr">7年目</span> <span class="badge">誕生</span><br>秋の終わり、アケビとヨシの息子、コイシが生まれた。トチが名をつけた。</li>
+<li><span class="yr">7年目</span> <span class="badge">発見</span><br>コナが1年目に埋めたクリの実から育った木が、はじめて実をつけた。</li>
+<li><span class="yr">7年目</span> <span class="badge">よその人</span><br>ホムラが大川の上手で、よその人の足あとと、たき火の跡、黒く光る石のかけらを見つけた。</li>
+<li><span class="yr">7年目</span> <span class="badge">発明</span><br>ヨシがカラムシの縄を小さな目に結び、魚をすくう「クモス」を作った。</li>
+<li><span class="yr">7年目</span> <span class="badge">弟子入り</span><br>ツルがシイの薬草の弟子になった。</li>
+<li><span class="yr">7年目</span> <span class="badge">天の答え</span><br>春、ヨシが湿地のふちで、冬の雨にひたされたカラムシの、白く強い筋を見つけた。</li>
+<li><span class="yr">6年目</span> <span class="badge">願い</span><br>ナギの願い「群れで来た魚を、一度にたくさんすくえる物がほしい」を天に届けた。</li>
+<li><span class="yr">6年目</span> <span class="badge">掟</span><br>寄り合いで掟「ホリヤは寒さに弱い者から」をやめ、掟「浜の火は二人で守る」を決めた。</li>
+<li><span class="yr">6年目</span> <span class="badge">発明</span><br>流木を焦がしてはかき出し、くり抜いた浮かぶ木の舟「ウル」を作った。イソが入り江の浅瀬を進んだ。</li>
+<li><span class="yr">6年目</span> <span class="badge">誕生</span><br>大漁の日、アケビとヨシの娘、ミルが生まれた。村は12人になった。</li>
+<li><span class="yr">6年目</span> <span class="badge">大漁</span><br>初夏、入り江に小さな魚の群れが押し寄せた。浜の火のけむりで干して、冬の蓄えにした。</li>
+<li><span class="yr">6年目</span> <span class="badge">住まい</span><br>ケヤキの四本の柱で、みんなが入れる大きなホリヤを建てた。</li>
+<li><span class="yr">6年目</span> <span class="badge">天の答え</span><br>春、雷に打たれて焦げた浜の流木を、イソが貝がらでこすると、焦げた所だけが崩れた。</li>
+<li><span class="yr">5年目</span> <span class="badge">願い</span><br>イソの願い「浮かぶ木の中をくり抜いて、乗れるようにしたい」を天に届けた。</li>
+<li><span class="yr">5年目</span> <span class="badge">発明</span><br>トチとコナがトギイシで夏じゅうこすり、欠けない「ヒカリオノ」を一つ作った。倒れたケヤキを四本の柱に切り分けた。</li>
+<li><span class="yr">5年目</span> <span class="badge">打ち明け</span><br>大風の夜の寝言から、イソが流れ着く前の夢と「ウル」という声のことを、みんなに話した。</li>
+<li><span class="yr">5年目</span> <span class="badge">大風</span><br>夏の終わりの大風で浜の小屋の屋根が飛んだ。ホリヤは揺れず、つないだ流木も無事だった。東の森でケヤキの大木が倒れた。</li>
+<li><span class="yr">5年目</span> <span class="badge">天の答え</span><br>春、トチが夢に見たとおりの目のこまかい平たい石（トギイシ）が、大川の川原で見つかった。</li>
+<li><span class="yr">4年目</span> <span class="badge">願い</span><br>カシの願い「太い木でも切れる、欠けないおのがほしい」を天に届けた。</li>
+<li><span class="yr">4年目</span> <span class="badge">掟</span><br>寄り合いで掟「ホリヤは寒さに弱い者から」を決め、コナをトチの石割りの弟子とした。</li>
+<li><span class="yr">4年目</span> <span class="badge">発明</span><br>床を掘り下げた試しの小屋「ホリヤ」を建てた。柱は倒れた木と細い木で、みんなが入れる大きさにはできなかった。</li>
+<li><span class="yr">4年目</span> <span class="badge">弟子入り</span><br>コナがトチに石割りを習い始めた。手のふるえるトチが口で教え、コナが自分の刃を割った。</li>
+<li><span class="yr">4年目</span> <span class="badge">天の答え</span><br>春の強い風の夜、からのネムリアナにしゃがんだナギは、穴の中に風が来ないことに気づいた。</li>
+<li><span class="yr">3年目</span> <span class="badge">願い</span><br>ナギの願い「大風にも飛ばされない、一年じゅう住める家がほしい」を天に届けた。</li>
+<li><span class="yr">3年目</span> <span class="badge">掟</span><br>寄り合いで掟「浜の小屋に一人でいる者は煙で知らせる」を決め、イソを浜を守る者「ハマモリ」とした。</li>
+<li><span class="yr">3年目</span> <span class="badge">発明</span><br>カシとヨシが力を合わせ、はね返る木に縄を張った「ハネギ」を作った。棒を遠くへ飛ばせるが、まだ獣には届かない。</li>
+<li><span class="yr">3年目</span> <span class="badge">ひとり立ち</span><br>イソが夏のあいだ、一人で浜の小屋に寝起きするようになった。</li>
+<li><span class="yr">3年目</span> <span class="badge">発見</span><br>大雨の翌朝、中がうつろな大きな流木が入り江に流れ着いた。イソが座っても沈まなかった。</li>
+<li><span class="yr">3年目</span> <span class="badge">天の答え</span><br>春の遅い雪の朝、はね返るイヌガヤの若木をヨシが見た。けれどヨシ一人の力では曲がらなかった。</li>
+<li><span class="yr">2年目</span> <span class="badge">願い</span><br>カシの願い「近づかなくても、獣に届く物がほしい」を天に届けた。</li>
+<li><span class="yr">2年目</span> <span class="badge">掟</span><br>寄り合いで掟「大きな獣の狩りは大人の男が行く」をやめ、掟「大きな獣の狩りには足あとを読める者が行く」を決めた。</li>
+<li><span class="yr">2年目</span> <span class="badge">けが</span><br>カシがナツユキの森でイノシシに突き飛ばされて足をくじいた。足あとをたどったホムラが見つけ、みんなで連れ帰った。</li>
+<li><span class="yr">2年目</span> <span class="badge">工夫</span><br>くだいたカシの実を湧き水にひたして、しぶみを抜く「シブニゲ」が始まった。</li>
+<li><span class="yr">2年目</span> <span class="badge">天の答え</span><br>春のはじめ、湧き水にさらされた割れたカシの実がしぶくないことに、アケビが気づいた。</li>
+<li><span class="yr">1年目</span> <span class="badge">願い</span><br>はじめての願い「しぶいカシの実を、子どもたちがおいしく食べられますように」を天に届けた。</li>
+<li><span class="yr">1年目</span> <span class="badge">掟</span><br>寄り合いで、掟「秋の蓄えは雪が降るまで開けない」「実をくれる木は切らない」を決めた。</li>
+<li><span class="yr">1年目</span> <span class="badge">誕生</span><br>アケビとヨシの娘、クリが生まれた。村は11人になった。</li>
+<li><span class="yr">1年目</span> <span class="badge">工夫</span><br>ナギが、小石十を大きな石一つに置きかえて数える「オオイシ」を使い始めた。</li>
+<li><span class="yr">1年目</span> <span class="badge">発明</span><br>ナギの気づきから、木の実を冬まで守る穴「ネムリアナ」を三つ掘った。</li>
+<li><span class="yr">1年目</span> <span class="badge">発見</span><br>ホムラが東の森の奥に、クリの木の集まる「ナツユキの森」を見つけた。</li>
+<li><span class="yr">はじまり</span> <span class="badge">はじまり</span><br>丘と浜を行き来して暮らす10人。石の刃と火、枝と草の小屋がある。その前の冬は食べ物が足りなかった。</li>
+</ul>
+</details>
+</section>
+<section class="card fold" id="kotoba">
+<details class="sec"><summary><h2>ことば帳</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
+<p class="small">村で生まれた言葉 32こ（生まれた順）</p>
+<div class="words">
+<div class="word"><p class="wd">ヒモリ</p><p class="wmn">火の番をする人。また、その役目。</p><p class="wm">むかしから。火を守るから「ヒモリ」。</p></div>
+<div class="word"><p class="wd">テノカズ</p><p class="wmn">両手の指の数（十）。物を数えるときは指を折る。</p><p class="wm">むかしから</p></div>
+<div class="word"><p class="wd">ヤマホド</p><p class="wmn">テノカズより多いこと。「たくさん」。</p><p class="wm">むかしから。山ほどある、から。</p></div>
+<div class="word"><p class="wd">ウル</p><p class="wmn">くり抜いた浮かぶ木の舟（ウル）。もとは、イソが流れ着いたとき口にしていた、意味の分からない言葉。</p><p class="wm">むかしから・言いだした人：イソ。はじまりの10年前、イソが浜に流れ着いたとき何度も口にしていた言葉。5年目の大風の夜、イソは流れ着く前の夢（大きな水・浮かぶ木・「ウル」と呼ぶ声）をみんなに話した。6年目、くり抜いた流木の舟ができると、イソはそれを「ウル」と呼び、みんなもそう呼ぶようになった。</p></div>
+<div class="word"><p class="wd">ピピ</p><p class="wmn">小鳥。</p><p class="wm">むかしから・言いだした人：ツル。ツルが言いだし、今では子どもはみんな小鳥をこう呼ぶ。</p></div>
+<div class="word"><p class="wd">ナツユキ</p><p class="wmn">初夏、クリの花で雪が積もったように白くなる森（ナツユキの森）。また、クリの花のこと。</p><p class="wm">1年目・言いだした人：ホムラ。高い木の上から白い斜面を見たホムラが「夏なのに雪が積もってる」と言ったことから。</p></div>
+<div class="word"><p class="wd">ネムリアナ</p><p class="wmn">木の実をためておく穴（貯蔵穴）。</p><p class="wm">1年目・言いだした人：ツル。「木の実がねんねする穴」とツルが呼んだのが、そのまま村の言葉になった。</p></div>
+<div class="word"><p class="wd">オオイシ</p><p class="wmn">小石テノカズ分（十）の代わりに置く、大きな石。数が多いときに使う。</p><p class="wm">1年目・言いだした人：ナギ。かごが多すぎて小石が足りなくなったナギが、小石十を大きな石一つに置きかえて数えた。</p></div>
+<div class="word"><p class="wd">シブニゲ</p><p class="wmn">くだいたしぶい実を湧き水にひたして、しぶみを抜くこと。</p><p class="wm">2年目・言いだした人：ツル。湧き水にひたしたカシの実を食べたツルが「しぶいのが、お水に逃げてった」と言ったことから。</p></div>
+<div class="word"><p class="wd">ヨミテ</p><p class="wmn">足あとを読んで、獣の通り道を見つける人。</p><p class="wm">2年目・言いだした人：カシ。けがをしたカシが、足あとをたどって自分を見つけたホムラを、寄り合いでこう呼んだ。</p></div>
+<div class="word"><p class="wd">ハネギ</p><p class="wmn">はね返る木に縄を張って、棒を飛ばす物（弓のかたち）。また、はね返る木のこと。</p><p class="wm">3年目・言いだした人：ツル。縄に棒をかけて放したとき、ツルが「はね返る木だから、ハネギ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">ハマモリ</p><p class="wmn">夏のあいだ浜の小屋に寝起きして、浜を守る人。また、その役目。</p><p class="wm">3年目・言いだした人：トチ。火を守る人をヒモリと呼ぶように、浜を守るイソを、寄り合いでトチがこう呼んだ。</p></div>
+<div class="word"><p class="wd">ホリヤ</p><p class="wmn">床を地面より掘り下げた小屋。</p><p class="wm">4年目・言いだした人：ツル。できた小屋を見たツルが「掘った家だから、ホリヤ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">トギイシ</p><p class="wmn">刃をこすってなめらかにする、目のこまかい平たい石。</p><p class="wm">5年目・言いだした人：トチ。「刃をとぐ石じゃ」と、トチが呼んだことから。</p></div>
+<div class="word"><p class="wd">ヒカリオノ</p><p class="wmn">トギイシでみがいた石のおの。</p><p class="wm">5年目・言いだした人：ツル。なめらかな刃に炉の火が映るのを見たツルが「ヒカリオノ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">ヤキホリ</p><p class="wmn">木を火で焦がしては、かき出して掘ること。</p><p class="wm">6年目・言いだした人：ツル。ウルを作るやり方を見たツルが「焼いて掘るから、ヤキホリ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">クモス</p><p class="wmn">草の縄をクモの巣のように結んだ、魚をすくう物（手網）。</p><p class="wm">7年目・言いだした人：ツル。初めて魚をすくったとき、ツルが「クモの巣みたいに、すくうから、クモス！」と言ったことから。</p></div>
+<div class="word"><p class="wd">グツ</p><p class="wmn">焼いた土の器で、火にかけて煮る物（土器）。</p><p class="wm">8年目・言いだした人：ツル。はじめてカシの実を煮たとき、湯の音を聞いたツルが「ぐつぐつ言うから、グツ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">ツバメツチ</p><p class="wmn">細かくきざんだ草をまぜた、ねばる土。焼いても割れにくい。</p><p class="wm">9年目・言いだした人：ツル。ツバメの巣のまねをした土だから、とツルが名づけた。</p></div>
+<div class="word"><p class="wd">ケムリマチ</p><p class="wmn">大事な人の無事のしるし（けむり）を待つこと。また、だれかを思って待つこと。</p><p class="wm">9年目・言いだした人：ツル。夏のあいだ毎朝、浜のけむりを待っていたホムラを、ツルがこう呼んだ。</p></div>
+<div class="word"><p class="wd">ササリボ</p><p class="wmn">黒い石の先をつけ、ハネギで放つ棒（矢）。</p><p class="wm">10年目・言いだした人：ツル。放った棒が木にささったのを見たツルが「ささる棒だから、ササリボ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">ユゲグサ</p><p class="wmn">グツで煮て、汁を飲み、ゆげを吸う薬草。また、薬草を煮た汁。</p><p class="wm">11年目・言いだした人：ツル。グツの湯に落ちた草のゆげでせきが止まったツルが「ゆげの出る草だから、ユゲグサ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">ハナ</p><p class="wmn">海につき出た細い陸（岬）。とくに、入り江の東の岬。</p><p class="wm">11年目・言いだした人：ホムラ。ウルで見つけた岬を、ホムラが「鼻みたいにつき出てる」と言ったことから。</p></div>
+<div class="word"><p class="wd">ウミカワ</p><p class="wmn">海の中を川のように流れる、速い潮の流れ。とくに、ハナと島のあいだの流れ。</p><p class="wm">12年目・言いだした人：イソ。ハナの先でウルが東へ押されたとき、イソが「海の中に、川がある」と言ったことから。</p></div>
+<div class="word"><p class="wd">シオネムリ</p><p class="wmn">潮の流れがゆるんで止まるとき（潮どまり）。</p><p class="wm">12年目・言いだした人：クリ。ハナの先で海草が動かなくなったのを見たクリが「潮がねむってる！ シオネムリだね！」と言ったことから。</p></div>
+<div class="word"><p class="wd">トリシマ</p><p class="wmn">入り江の向こうの島。海鳥がたくさんいる。</p><p class="wm">13年目・言いだした人：ツル。島から帰った四人の話を聞いたツルが「鳥がヤマホドいる島だから、トリシマ」と言ったことから。</p></div>
+<div class="word"><p class="wd">ツキキザミ</p><p class="wmn">月が丸くなってから次に丸くなるまでの夜を、刻み目で数える棒。また、そうして月を数えること。</p><p class="wm">14年目・言いだした人：クリ。イソが毎晩刻み目をつける流木を見たクリが「月をきざむから、ツキキザミ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">カブレギ</p><p class="wmn">幹の傷から白い汁を出す木。汁にさわると手がかぶれる。汁は乾くと黒く固まる。</p><p class="wm">14年目・言いだした人：ツル。汁にさわって手の赤くなったコナを手当てしたツルが「さわるとかぶれる木だから、カブレギ」と言ったことから。</p></div>
+<div class="word"><p class="wd">クロミネ</p><p class="wmn">北の山なみの中の、黒い石の取れる峰。</p><p class="wm">15年目・言いだした人：クリ。川上の人が岩の上に積んだ小さな山と黒い石を見たクリが「黒い石の峰だから、クロミネ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">シルヅケ</p><p class="wmn">カブレギの汁を塗って乾かし、物を固めてとめること。</p><p class="wm">15年目・言いだした人：ツル。汁で先をとめたササリボの話を聞いたツルが、コナの手当てをしながら「汁でつけるから、シルヅケ」と言ったことから。</p></div>
+<div class="word"><p class="wd">カチガイ</p><p class="wmn">煮た貝の身を、火のけむりで干して固くした物。長くもつ。</p><p class="wm">16年目・言いだした人：クリ。置き忘れたグツの中で固くなった貝の身を見たクリが「カチカチの貝だから、カチガイ！」と言ったことから。</p></div>
+<div class="word"><p class="wd">オモヤネ <span class="badge new">今年</span></p><p class="wmn">草の上に土と草の根をのせた、重たい屋根。大風でも飛ばされにくい。</p><p class="wm">17年目・言いだした人：クリ。土をのせた屋根の話を聞いたクリが「重たい屋根だから、オモヤネ！」と言ったことから。</p></div>
+</div>
+</details>
+</section>
+<section class="card fold" id="hito">
+<details class="sec"><summary><h2>人物帳</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
+<p class="small">いま村にいる人 14人・ご先祖 1人</p>
+<div class="people">
+<article class="person" id="p-p02">
+<div class="ph"><span class="av a2" aria-hidden="true">シ</span><div><h3>シイ<span class="kana">しい</span></h3><p class="pmeta">女・78歳・年寄り</p></div></div>
+<p class="role">長老。寄り合いの最後に決める人。火の番の長・語り部。赤ちゃんを取り上げる人。13年目に薬草の袋をツルにわたした</p>
+<dl class="kv">
+<dt>得意</dt><dd>薬草を見分ける、肉と魚を干す、皮をなめして縫う、子守り歌、赤ちゃんを取り上げる</dd>
+<dt>性格</dt><dd>おだやかで話し上手。よく笑う。</dd>
+<dt>考えの癖</dt><dd>何でも「体」から考える（食べたか・冷えていないか・眠れたか）。人の気持ちを先に読む。</dd>
+<dt>望み</dt><dd>孫たちが、寒くもひもじくもない冬を過ごすこと</dd>
+</dl>
+<details><summary>関係（10人）</summary><ul class="rels">
+<li><span class="rn">トチ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">頑固なところも含めて、よく分かっている</span></li>
+<li><span class="rn">アケビ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">何でも話せる。料理と縫い物を教えてきた</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">娘の連れ合い（よそ者）</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">はじまりの7年前、やせて川を下ってきたヨシを最初に迎え入れた。息子のように思っている</span></li>
+<li><span class="rn">ツル</span><span class="rk">孫</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">今日は声を出さずに見ていた。もうわたしの手はいらない</span></li>
+<li><span class="rn">イソ</span><span class="rk">孫同然</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">海の子。体が冷えていないか、いつも心配している</span></li>
+<li><span class="rn">クリ</span><span class="rk">孫</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">自分が取り上げた子。生まれた日からよく乳を飲む、体の強い子</span></li>
+<li><span class="rn">ミル</span><span class="rk">孫</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">大漁の日に取り上げた子</span></li>
+<li><span class="rn">コイシ</span><span class="rk">孫</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">トチが最後に名をつけた子</span></li>
+<li><span class="rn">ソヨ</span><span class="rk">ひ孫</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">わたしの声で、ツルが取り上げた子</span></li>
+<li><span class="rn">オキ</span><span class="rk">ひ孫</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ツルが一人で取り上げた子</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>やわらかい。「〜だよ」「〜おくれ」。まず相手の体を気づかう言葉から入る。</dd>
+<dt>こわいこと</dt><dd>子どもが熱を出すこと</dd>
+<dt>名前の由来</dt><dd>シイの木の実から</dd>
+<dt>見た目</dt><dd>白髪をうしろで一つに束ねる。小柄でふっくら。ウサギの毛皮のえり巻きと、シカの皮の服。杖にする、すべすべのカシの棒。ほおにえくぼ</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>2年目：カシのすねの傷に薬草をあて、秋のあいだ看た</li>
+<li>6年目：大漁の日にミルを取り上げた</li>
+<li>7年目：トチを見送り、寄り合いで長老を引きうけた</li>
+<li>8年目：雪の降らない冬、ネムリアナを開けると決めた</li>
+<li>13年目：ひざが痛み、薬草の袋をツルにわたした</li>
+</ul>
+<p class="small">この丘の生まれ。はじまりの四十年あまり前からトチと連れ添う。火と薬草と子守りで、みんなの暮らしを支えてきた。はじまりの7年前、やせて川を下ってきたヨシを迎え入れた。はじまりの前の年、熱を出したツルを薬草で治した。1年目、クリを取り上げた。</p>
+</details>
+</article>
+<article class="person" id="p-p03">
+<div class="ph"><span class="av a3" aria-hidden="true">カ</span><div><h3>カシ<span class="kana">かし</span></h3><p class="pmeta">男・54歳・大人</p></div></div>
+<p class="role">狩りの頭（かしら）</p>
+<dl class="kv">
+<dt>得意</dt><dd>やりで大きい獣を追う、わなで小さい獣をとる、石を割って刃を作る（父ほどではない）、足あとを読む、穴を掘る</dd>
+<dt>性格</dt><dd>たくましく、まっすぐ。面倒見はいいが、せっかち。</dd>
+<dt>考えの癖</dt><dd>考えるより先に体を動かす。「力の強い者が先頭に立つ」と思っている。</dd>
+<dt>望み</dt><dd>近づかなくても獣に届く物がほしい。みんなに腹いっぱい食べさせたい</dd>
+</dl>
+<details><summary>関係（6人）</summary><ul class="rels">
+<li><span class="rn">ナギ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">雪の降らない冬、掟より子どもを先にした。ナギは正しかった</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">妹の連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">川上を出たわけを聞いた。逃げたやつが、あんな縄をなうものか</span></li>
+<li><span class="rn">ホムラ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">掟の理由を問われ、木を切るのをやめた。この子の言うことは筋が通る</span></li>
+<li><span class="rn">トチ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +1（まあまあ）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="off"></i><i class="off"></i></span><span class="scl">まあまあ</span><span class="rnote">昔のやり方にこだわるのがもどかしい</span></li>
+<li><span class="rn">イソ</span><span class="rk">育てた子</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ホムラをまかせられる。古いホリヤの柱を、いっしょに立てた</span></li>
+<li><span class="rn">コナ</span><span class="rk">息子</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">シルヅケの先は抜けない。いい先だと、やっと言えた</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>短くて強い。「行くぞ」「〜だ」。言い切りと呼びかけが多い。</dd>
+<dt>こわいこと</dt><dd>みんなに食べ物を分けられないこと</dd>
+<dt>名前の由来</dt><dd>かたいカシの木のように強く、という願いから</dd>
+<dt>見た目</dt><dd>短い黒髪と黒いひげ。大柄で肩幅が広い。イノシシの毛皮を肩にかけ、腰に皮の帯。木のやり。左のうでに古い引っかき傷のあと</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>1年目：ネムリアナを三つ掘った。冬、みんなに食べ物を分けられた</li>
+<li>2年目：イノシシに突き飛ばされ足をくじき、ホムラに見つけられた</li>
+<li>3年目：ヨシと二人で、はね返る木を曲げてハネギを作った</li>
+<li>5年目：ヒカリオノで、大風に倒れたケヤキを柱に切った</li>
+<li>14年目：川原でコナと言い合い、言いすぎたと思った</li>
+</ul>
+<p class="small">トチとシイの息子。十代から狩りに出て、今は狩りの頭。ナギと連れ合いになり、ホムラとコナ、浜で見つかったイソを育ててきた。やりの届かないイノシシに何度も逃げられた。1年目、ホムラの見つけたナツユキの森へ行き、ネムリアナを三つ掘った。</p>
+</details>
+</article>
+<article class="person" id="p-p04">
+<div class="ph"><span class="av a4" aria-hidden="true">ナ</span><div><h3>ナギ<span class="kana">なぎ</span></h3><p class="pmeta">女・51歳・大人</p></div></div>
+<p class="role">浜の名人（貝・魚）。天気と潮を読む人。蓄えを数える人。イソに潮の読み方を教える人</p>
+<dl class="kv">
+<dt>得意</dt><dd>貝を掘る、魚を突く、泳ぐ・もぐる、天気と潮を読む、肉と魚を干す、オオイシと小石で数える、ネムリアナに蓄える、貝を煮て、けむりで干す（カチガイ）</dd>
+<dt>性格</dt><dd>さっぱりしていて口数は少ない。肝がすわっている。</dd>
+<dt>考えの癖</dt><dd>天気と潮をよく見てから決める。何でも小石や指で数えてくらべる。</dd>
+<dt>望み</dt><dd>浜の近くに、一年じゅう住める家がほしい</dd>
+</dl>
+<details><summary>関係（7人）</summary><ul class="rels">
+<li><span class="rn">カシ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">せっかちなところを、天気読みでうまく止めている</span></li>
+<li><span class="rn">イソ</span><span class="rk">育ての子</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">「読める」と言った。この子は、もうわたしの見てきた海を持っている</span></li>
+<li><span class="rn">ホムラ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">自分に似て負けずぎらい。父とぶつかるのを見守っている</span></li>
+<li><span class="rn">アケビ</span><span class="rk">義理の妹</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">仲がいい。木の実と貝を分け合う</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">義理の弟</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">願いのクモスを、ほんとうに結んでくれた</span></li>
+<li><span class="rn">シイ</span><span class="rk">義理の母</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">雪の降らない冬、わたしの言葉を聞いて穴を開けてくれた</span></li>
+<li><span class="rn">クリ</span><span class="rk">めい</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">シオネムリ、ツキキザミ、カチガイと名づけた。よく見る子だ</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>言葉は少なく要点だけ。「潮が引く。今だ」。</dd>
+<dt>こわいこと</dt><dd>イソたちが、島から帰ってこられないこと</dd>
+<dt>名前の由来</dt><dd>風のない、おだやかな海（凪）から</dd>
+<dt>見た目</dt><dd>長い黒髪を一本の三つ編みにして背中にたらす。日焼けして引きしまった体。シカの皮の短い服。腰に貝を入れるかご。先のとがった掘り棒。首に白い貝がらの首飾り</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>11年目：イソが浜ではなく丘のホリヤを選び、うなずいた</li>
+<li>12年目：ハナの先でウミカワを見て、イソに潮を教えはじめた</li>
+<li>13年目：イソに「読める」と言い、ハナで火をたいて帰りを待った</li>
+<li>16年目：置き忘れたグツの貝から、イソとカチガイを作った</li>
+<li>17年目：ハナの先で東のけむりを見て、生まれた群れを思った</li>
+</ul>
+<p class="small">浜の小さな群れの生まれ。16でカシの連れ合いとして丘に来た。はじまりの10年前、嵐の翌朝の浜でイソを見つけて育てた。干潟と潮にくわしい。1年目、オオイシで数えはじめた。4年目、からのネムリアナに風が来ないと気づいた。8年目、蓄えの掟を北の山が白くなるまでに変えた。</p>
+</details>
+</article>
+<article class="person" id="p-p05">
+<div class="ph"><span class="av a5" aria-hidden="true">ヨ</span><div><h3>ヨシ<span class="kana">よし</span></h3><p class="pmeta">男・46歳・大人・はじまりの7年前に村へ</p></div></div>
+<p class="role">工夫する人。縄とかごとわなの名人</p>
+<dl class="kv">
+<dt>得意</dt><dd>つるで縄をなう、かごを編む、わなを作る、小屋を建てる、草でふたを編む、おのの柄をしばる、石をみがく（トチに習った）、ヤキホリ（焦がしてかき出す）、カラムシの細い縄をなう・クモスを結ぶ、ねばる土で器をこね、火で焼く</dd>
+<dt>性格</dt><dd>物静かで、理屈っぽい。新しいもの好き。</dd>
+<dt>考えの癖</dt><dd>「もっとうまいやり方があるはず」と考え、まず小さく試す。鳥の巣やクモの巣など、生き物のまねをする。</dd>
+<dt>望み</dt><dd>村のみんなに、本当の仲間だと認められたい</dd>
+</dl>
+<details><summary>関係（9人）</summary><ul class="rels">
+<li><span class="rn">アケビ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">土の器を最初に思いついた。いっしょに割れない器を作りたい</span></li>
+<li><span class="rn">カシ</span><span class="rk">連れ合いの兄</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">「ヨシはこの丘の者だ」と言ってくれた</span></li>
+<li><span class="rn">イソ</span><span class="rk">仲間</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">よそから来た者どうし。いっしょに工夫をする</span></li>
+<li><span class="rn">トチ</span><span class="rk">連れ合いの父</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">石のこすり方を教えてもらえることになった</span></li>
+<li><span class="rn">ツル</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ツルの言葉遊びがおもしろくてしかたない</span></li>
+<li><span class="rn">クリ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">小さな手で縄の端をにぎって離さない</span></li>
+<li><span class="rn">ミル</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ゆりかごをもう一つ編んだ</span></li>
+<li><span class="rn">コイシ</span><span class="rk">息子</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">はじめての男の子。指をにぎる力が強い</span></li>
+<li><span class="rn">コナ</span><span class="rk">おい</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">クロミネを見る目が、むかしの自分に似ている</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>ていねいで理屈っぽい。「たとえば〜」「小さく試してみよう」。</dd>
+<dt>こわいこと</dt><dd>川上の人々に、逃げた者だと思われること</dd>
+<dt>名前の由来</dt><dd>西の湿地のヨシ原で見つかったので、シイがつけた呼び名（もとの名は話さない）</dd>
+<dt>見た目</dt><dd>肩までの髪を、縄の鉢巻きでまとめる。細身で背が高い。ヨシで編んだ肩かけと、シカの皮の服。肩にかけた縄の束。首に黒く光る小さな石のかけら</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>7年目：カラムシの縄を小さな目に結び、クモスを作った</li>
+<li>8年目：割れた器の厚さを見くらべ、割れない器を天に願った</li>
+<li>9年目：落ちたツバメの巣の草に気づき、割れないグツを作った</li>
+<li>10年目：冬の炉のそばで、川上の群れを出たわけを話した</li>
+<li>15年目：浅瀬の岩で言葉でたずね、黒い石の峰を教わった</li>
+</ul>
+<p class="small">はじまりの7年前に川上から一人で来た、よそ者。シイに迎えられ、アケビと連れ合いになった。村のかごと縄はほとんどヨシが作る。2年目にカシと言い合ったが、3年目には力を借りてハネギに縄を張った。5年目、トチに石のこすり方を習いたいと言えた。</p>
+</details>
+</article>
+<article class="person" id="p-p06">
+<div class="ph"><span class="av a6" aria-hidden="true">ア</span><div><h3>アケビ<span class="kana">あけび</span></h3><p class="pmeta">女・47歳・大人</p></div></div>
+<p class="role">木の実とりと料理の人。みんなの仲をとりもつ人。土の器グツを作った人</p>
+<dl class="kv">
+<dt>得意</dt><dd>木の実を拾う・干す、料理、皮を縫う、歌、ねばる土で器をこね、火で焼く</dd>
+<dt>性格</dt><dd>明るく世話好き。歌がうまい。</dd>
+<dt>考えの癖</dt><dd>「みんなが笑っていればそれでいい」と考え、もめごとを丸く収めようとする。手で土をこねながら考える。</dd>
+<dt>望み</dt><dd>グツをたくさん作って、しぶい実を子どもたちがその日に食べられるようにしたい</dd>
+</dl>
+<details><summary>関係（8人）</summary><ul class="rels">
+<li><span class="rn">ヨシ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">口べたなヨシの言いたいことを、みんなに伝える役</span></li>
+<li><span class="rn">カシ</span><span class="rk">兄</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">兄とヨシのけんかを止める役。1年目に二人で穴を作ってくれて、ほっとした</span></li>
+<li><span class="rn">シイ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">何でも話せる</span></li>
+<li><span class="rn">ツル</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ぐつぐつ鳴る器に、グツと名をつけてくれた</span></li>
+<li><span class="rn">コナ</span><span class="rk">おい</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">泥遊びの仲間</span></li>
+<li><span class="rn">クリ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">クリの実が最後に落ちた日に生まれた子。子守り歌を毎晩うたう</span></li>
+<li><span class="rn">ミル</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">大漁の日に生まれた子。よく見る目をしている</span></li>
+<li><span class="rn">コイシ</span><span class="rk">息子</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">秋の終わりに生まれた子。とうちゃんが名をつけてくれた</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>明るく、笑いを入れる。「まあまあ」「〜しようよ」。よく歌いながら話す。</dd>
+<dt>こわいこと</dt><dd>兄とヨシが本気でけんかすること</dd>
+<dt>名前の由来</dt><dd>秋に実るアケビの実から</dd>
+<dt>見た目</dt><dd>長い髪を頭の上で丸くまとめ、赤い木の実の飾りをさす。まるい顔で、がっしりした体。シカの皮の服に、編んだ前かけ。木の実を入れるかご。うでに乾いた灰色の泥がついている</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>1年目：穴の底のしぶいカシの実を見て、寄り合いで天に願った</li>
+<li>2年目：湧き水にさらされたカシの実が、しぶくないと気づいた</li>
+<li>6年目：大漁の日の夕方、二人目の娘ミルを生んだ</li>
+<li>7年目：秋の終わりに男の子を生み、とうちゃんに名をもらった</li>
+<li>8年目：古い炉の灰から土の鳥を見つけ、グツを作った</li>
+</ul>
+<p class="small">トチとシイの娘、カシの妹。ヨシと連れ合いになり、ツル・クリ・ミル・コイシが生まれた。歌と料理で、みんなを笑わせる。はじまりの前の年、湿地の土をこねて作った小さな鳥を火のそばに置いたら、石のように固くなった。しぶいカシの実をツルが吐き出したこともある。</p>
+</details>
+</article>
+<article class="person" id="p-p07">
+<div class="ph"><span class="av a7" aria-hidden="true">ホ</span><div><h3>ホムラ<span class="kana">ほむら</span></h3><p class="pmeta">女・33歳・大人</p></div></div>
+<p class="role">走り役。足あとを読む人（ヨミテ）。ナツユキの森とハナを見つけた人。イソの連れ合い。ソヨとオキの母</p>
+<dl class="kv">
+<dt>得意</dt><dd>走る、目がいい（遠くの獣を見つける）、木登り、わなを見回る</dd>
+<dt>性格</dt><dd>負けずぎらいで元気。思ったことをはっきり言う。</dd>
+<dt>考えの癖</dt><dd>「なんで？」と理由を聞く。納得しないと動かない。決まりの理由を確かめたがる。</dd>
+<dt>望み</dt><dd>ヨミテとして大きな獣の狩りに行き、いつかは獣の前にも立ちたい</dd>
+</dl>
+<details><summary>関係（8人）</summary><ul class="rels">
+<li><span class="rn">カシ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">島へ、同じウルの並びで渡ってくれた</span></li>
+<li><span class="rn">イソ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ハナの先で島を見ても、丘のけむりを選んでくれた</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">おじ</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">川上の言葉が分かった。冬に、川上を出たわけを話してくれた</span></li>
+<li><span class="rn">ナギ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">母のように肝のすわった人になりたい</span></li>
+<li><span class="rn">トチ</span><span class="rk">祖父</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">約束を守って、掟を変えてくれた</span></li>
+<li><span class="rn">ツル</span><span class="rk">いとこ</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">大風の夜、ソヨを取り上げてくれた。胸の内を言われたことは、もう気にしていない</span></li>
+<li><span class="rn">ソヨ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">大風の夜に生まれた子。風がやむと泣きやむ</span></li>
+<li><span class="rn">オキ</span><span class="rk">息子</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ソヨのときより、こわくなかった。火の明かりをじっと見る子</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>はっきり。「なんで？」「わたしも行く！」。</dd>
+<dt>こわいこと</dt><dd>父に、いつまでもうしろに置かれること</dd>
+<dt>名前の由来</dt><dd>生まれた夜、たき火の炎（ほむら）が高く上がったから</dd>
+<dt>見た目</dt><dd>肩の上で短く切った黒髪。すらりと背が高く、足が長い。大人になった。シカの皮の短い服と、皮のすね当て。腰に石の刃。左のほおに赤い土で一本の線</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>9年目：毎朝けむりを待っていたとツルに言われ、イソの胸の内も知った</li>
+<li>10年目：浅瀬の岩に袋を置いて下がり、川上の人と会えた</li>
+<li>11年目：ハナを見つけ、イソと二人のホリヤで暮らしはじめた</li>
+<li>16年目：大風の夜、小さいホリヤで娘ソヨを生んだ</li>
+<li>17年目：秋の終わり、二人目の子オキを生んだ</li>
+</ul>
+<p class="small">カシとナギの娘。村でいちばん足が速い。イソとはきょうだいのように育った。2年目、足あとをテノカズ読み分け、けがをした父を見つけた。6年目、イソとウルに乗った。7年目、大川の上手でよその人の足あとと黒い石を見つけた。</p>
+</details>
+</article>
+<article class="person" id="p-p08">
+<div class="ph"><span class="av a8" aria-hidden="true">イ</span><div><h3>イソ<span class="kana">いそ</span></h3><p class="pmeta">男・31歳・大人・はじまりの10年前に村へ</p></div></div>
+<p class="role">泳ぎともぐりの名人。夏のあいだ浜の小屋を守る人（ハマモリ）。舟ウルを作った人。ホムラの連れ合い。ソヨとオキの父。ナギの潮読みの弟子。ツキキザミで月を数える人。カチガイを干す人。浜の小屋にオモヤネをのせた人</p>
+<dl class="kv">
+<dt>得意</dt><dd>泳ぐ・もぐる（息が長い）、貝を掘る、魚を突く、わなで鳥をとる、ヤキホリ（焦がしてかき出す）、ウルをこぐ</dd>
+<dt>性格</dt><dd>のんびりしていて、やさしい。空想が好き。</dd>
+<dt>考えの癖</dt><dd>「海の向こうには何がある？」と、遠くのことを考える。浮かぶ物・流れる物をよく見ている。</dd>
+<dt>望み</dt><dd>トリシマの浜の青い小石が、どこから来たのか知りたい</dd>
+</dl>
+<details><summary>関係（8人）</summary><ul class="rels">
+<li><span class="rn">ナギ</span><span class="rk">育ての母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">「読める」と言ってくれた。帰りのもやの中で、ナギかあさんのけむりが見えた</span></li>
+<li><span class="rn">ホムラ</span><span class="rk">連れ合い</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">毎朝、けむりを待っていてくれた人。二人のホリヤで暮らしはじめた</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">仲間</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">柱を深く埋める案で、飛ばない屋根ができた</span></li>
+<li><span class="rn">コナ</span><span class="rk">弟分</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">どこへでもついてくる</span></li>
+<li><span class="rn">カシ</span><span class="rk">育ての父</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">強くてこわいけど、ホリヤの柱をいっしょに立ててくれた</span></li>
+<li><span class="rn">ツル</span><span class="rk">いとこ同然</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">ずぶぬれで帰ったら、ソヨがもう生まれていた。ツルの手が受けてくれた</span></li>
+<li><span class="rn">ソヨ</span><span class="rk">娘</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">海の向こうより、ずっとふしぎな子</span></li>
+<li><span class="rn">オキ</span><span class="rk">息子</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">遠くの海の名をつけた子</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>のんびり。「〜かなあ」「海の向こうってさ…」。</dd>
+<dt>こわいこと</dt><dd>自分だけ、みんなとちがう所から来たこと</dd>
+<dt>名前の由来</dt><dd>磯（浜）で見つかったから、ナギがつけた名</dd>
+<dt>見た目</dt><dd>日に焼けた、ぼさぼさの茶色っぽい髪。細身で日焼けした若者。背がのびた。腰に皮を巻いただけのことが多い。寒い日はウサギの毛皮。魚を突く細い木のやり。首に青い小石の飾り（流れ着いたとき持っていた）</dd>
+<dt>年のこと</dt><dd>流れ着いたとき4つくらいに見えたので、そこから数えた年</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>12年目：ウミカワに押されて戻り、ナギに潮の読み方を習いはじめた</li>
+<li>13年目：二そうのウルで島へ渡り、浜で青い小石を見つけた</li>
+<li>14年目：夢のあとの流木に毎晩刻み目をつけ、月を数えはじめた</li>
+<li>16年目：大風の夜、カチガイを丘へ運び、娘ソヨに会えた</li>
+<li>17年目：片側だけ残った屋根から、浜の小屋にオモヤネをのせた</li>
+</ul>
+<p class="small">はじまりの10年前の嵐の翌朝、浜の流木にしがみついていたところをナギに見つけられ、カシとナギの家で育った。流れ着く前の「ウル」と呼ぶ声を今も夢に見る。6年目、作ったウルにホムラと乗った。9年目に思いを打ち明け合い、11年目、ホムラと二人のホリヤに移った。</p>
+</details>
+</article>
+<article class="person" id="p-p09">
+<div class="ph"><span class="av a9" aria-hidden="true">コ</span><div><h3>コナ<span class="kana">こな</span></h3><p class="pmeta">男・25歳・大人</p></div></div>
+<p class="role">大人。トチじいの石割りを継いだ人。黒い石でササリボの先を作った人。丘のクリの木を育てた人。東の森の奥の沢（オクノサワ）を見つけた人。ササリボの先をカブレギの汁で固める人（シルヅケ）</p>
+<dl class="kv">
+<dt>得意</dt><dd>虫と鳥を見つける、木の実拾い、種を集める、石を割る（トチじいに習っている）、石をみがく（トギイシ）</dd>
+<dt>性格</dt><dd>好奇心が強い。じっとしていられない。泣き虫だったが、このごろは泣かない。</dd>
+<dt>考えの癖</dt><dd>見て・さわって・まねをする。気になった物は何でも拾って持ち帰る。</dd>
+<dt>望み</dt><dd>トチじいのような石割りの名人になりたい</dd>
+</dl>
+<details><summary>関係（5人）</summary><ul class="rels">
+<li><span class="rn">トチ</span><span class="rk">祖父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">ぼくのクリの実を、甘いと言ってくれた。じいちゃんの技は、ぼくの手に残っている</span></li>
+<li><span class="rn">イソ</span><span class="rk">兄分</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">あこがれ。どこへでもついていく</span></li>
+<li><span class="rn">ツル</span><span class="rk">いとこ</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">ありがとうと言われた。ツルの掟のおかげで、かぶれずにすんだ</span></li>
+<li><span class="rn">ホムラ</span><span class="rk">姉</span><span class="sc" role="img" aria-label="きずな +1（まあまあ）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="off"></i><i class="off"></i></span><span class="scl">まあまあ</span><span class="rnote">こわいけど好き</span></li>
+<li><span class="rn">カシ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +1（まあまあ）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="off"></i><i class="off"></i></span><span class="scl">まあまあ</span><span class="rnote">「いい先だ」と言って、自分のササリボの束をわたしてくれた</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>元気で、少し大人ぶる。「見て見て！」「じいちゃん！」「ぼくがやる」。</dd>
+<dt>こわいこと</dt><dd>暗い森の奥</dd>
+<dt>名前の由来</dt><dd>木の実（コナラ）から</dd>
+<dt>見た目</dt><dd>耳の下で切りそろえた黒髪。背がのびて肩のしっかりしてきた、やせた若い男。ウサギの毛皮の短い服。首に、トチじいからもらったイノシシの牙の飾りと、自分で割った小さな石の刃。手に小さな袋（拾った種）。ひざにいつも泥</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>7年目：はじめてなったクリの実を、トチじいに届けた</li>
+<li>10年目：黒い石をうすく割り、一人でササリボの先を作った</li>
+<li>14年目：カシと川原で言い合い、一人で森の奥の沢を見つけた</li>
+<li>15年目：クロミネを知り、カブレギの汁でササリボの先を固めた</li>
+<li>17年目：手を包んでオクノサワの薬草を取り、ツルと仲直りした</li>
+</ul>
+<p class="small">カシとナギの末っ子。拾った種やきれいな石を袋に集める。1年目に埋めたクリの実が2年目に芽を出した。4年目にトチじいに弟子入りし、5年目に二人でヒカリオノをみがいた。7年目にトチじいが亡くなってから、石割りの技を継いだ。</p>
+</details>
+</article>
+<article class="person" id="p-p10">
+<div class="ph"><span class="av a0" aria-hidden="true">ツ</span><div><h3>ツル<span class="kana">つる</span></h3><p class="pmeta">女・22歳・大人</p></div></div>
+<p class="role">大人。名前をつける係（自分で決めた）。薬草の人（13年目にシイばあから袋を受けついだ）。赤ちゃんを取り上げる人（16年目からシイばあに習い、17年目にオキを一人で取り上げた）。クリ・ミル・コイシのお姉ちゃん</p>
+<dl class="kv">
+<dt>得意</dt><dd>歌、まね、物に名前をつける、薬草を見分ける（シイばあから袋を受けついだ）、赤ちゃんを取り上げる</dd>
+<dt>性格</dt><dd>人なつこく、怖がり。よく歌う。</dd>
+<dt>考えの癖</dt><dd>見た物に、何でも自分で名前をつける。音や形から言葉を作る。</dd>
+<dt>望み</dt><dd>シイばあのように、みんなの体を守れる人になりたい</dd>
+</dl>
+<details><summary>関係（9人）</summary><ul class="rels">
+<li><span class="rn">シイ</span><span class="rk">祖母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">薬草の袋に続いて、取り上げの声を習っている</span></li>
+<li><span class="rn">コナ</span><span class="rk">いとこ</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">手を包んで、オクノサワの薬草を取ってきてくれた。前は言いすぎた</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">言葉遊びにいつも笑ってくれる</span></li>
+<li><span class="rn">アケビ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">歌を教わっている</span></li>
+<li><span class="rn">イソ</span><span class="rk">いとこ同然</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">海の話をしてくれる</span></li>
+<li><span class="rn">クリ</span><span class="rk">妹</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">わたしがお姉ちゃん。毎日、歌を聞かせてあげる</span></li>
+<li><span class="rn">ミル</span><span class="rk">妹</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">わたしが名前をつけた妹</span></li>
+<li><span class="rn">コイシ</span><span class="rk">弟</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">はじめての弟。名前はじいちゃんにゆずった</span></li>
+<li><span class="rn">ホムラ</span><span class="rk">いとこ</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">ソヨを取り上げた。ホムラねえの手が、ずっとわたしの腕をにぎっていた</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>はずむような言葉。自分で作った呼び名を使う。「〜だね！」「ピピがいる！」。</dd>
+<dt>こわいこと</dt><dd>夜の暗さと雷</dd>
+<dt>名前の由来</dt><dd>生まれた日に、つる草の花が咲いていたから</dd>
+<dt>見た目</dt><dd>頭のてっぺんで一つに結んだ髪。すらりとした、若い大人の女の人。ウサギの毛皮の袖なしの上着。草で編んだ冠と、腰にシイばあから受けついだ使いこんだ皮の薬草袋。ほおが赤い</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>11年目：こぼれた草の煮汁でせきが止まり、ユゲグサと名づけた</li>
+<li>13年目：シイばあの薬草の袋を受けつぎ、一人でミルのせきを治した</li>
+<li>15年目：またかぶれたコナと言い合い、汁の掟を言いだした</li>
+<li>16年目：大風の夜、シイばあの声どおりにソヨを取り上げた</li>
+<li>17年目：シイばあに見守られ、一人でオキを取り上げた</li>
+</ul>
+<p class="small">ヨシとアケビの娘。歌と言葉遊びが好きで、村の呼び名の多くはツルから生まれる。1年目、生まれた妹の名をつけた。7年目、シイばあの薬草の弟子になった。8年目、グツと名づけた。10年目、浅瀬の岩に、せきの子への薬草の包みを置いた。</p>
+</details>
+</article>
+<article class="person" id="p-p11">
+<div class="ph"><span class="av a1" aria-hidden="true">ク</span><div><h3>クリ<span class="kana">くり</span></h3><p class="pmeta">女・16歳・若者</p></div></div>
+<p class="role">若者。ミルとコイシのお姉ちゃん（ツルの次）。シオネムリとツキキザミに名をつけた。浜で貝を掘る手伝いをする</p>
+<dl class="kv">
+<dt>得意</dt><dd>よく歩く、貝を掘る（手伝い）、物に名前をつける、よく見る</dd>
+<dt>性格</dt><dd>よく笑い、よくしゃべる。声が大きい。</dd>
+<dt>考えの癖</dt><dd>音のする方や、ゆれる物を、じっと見つめる。ツルのまねをして、何にでも名前をつけたがる。</dd>
+<dt>望み</dt><dd>ツルねえのように、みんなの呼ぶ名前をたくさん作りたい</dd>
+</dl>
+<details><summary>関係（6人）</summary><ul class="rels">
+<li><span class="rn">アケビ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">いちばん安心する</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">縄のにおいがする</span></li>
+<li><span class="rn">ツル</span><span class="rk">姉</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">歌が聞こえると泣きやむ</span></li>
+<li><span class="rn">シイ</span><span class="rk">祖母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">毛皮のぬくもり</span></li>
+<li><span class="rn">ミル</span><span class="rk">妹</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">小さい妹。そっとさわる</span></li>
+<li><span class="rn">ナギ</span><span class="rk">おば</span><span class="sc" role="img" aria-label="きずな +1（まあまあ）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="off"></i><i class="off"></i></span><span class="scl">まあまあ</span><span class="rnote">海草がねむるのを教えてくれた</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>元気ではずむ。「〜だね！」「見て、〜！」。ツルのように呼び名を作る。</dd>
+<dt>こわいこと</dt><dd>大きな音</dd>
+<dt>名前の由来</dt><dd>クリの実が最後に落ちた日に生まれ、姉ツルの「クリの実みたい！」がそのまま名になった。トチとシイも「木の実の名の子はよく育つ」と喜んだ</dd>
+<dt>見た目</dt><dd>肩までの黒髪を、うしろで一つに結ぶ。背ののびてきた、元気な少女。ウサギの毛皮の短い服。姉ツルが編んだ小さな草の輪。左の耳のうしろに小さなほくろ</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>1年目：クリの実が最後に落ちた日に生まれた</li>
+<li>6年目：妹ミルが生まれ、お姉ちゃんになった</li>
+<li>7年目：弟コイシが生まれた</li>
+<li>12年目：ハナの先で海草が止まるのを見て、シオネムリと名づけた</li>
+<li>14年目：13歳になり、刻み棒を「ツキキザミ」と名づけた</li>
+</ul>
+</details>
+</article>
+<article class="person" id="p-p12">
+<div class="ph"><span class="av a2" aria-hidden="true">ミ</span><div><h3>ミル<span class="kana">みる</span></h3><p class="pmeta">女・11歳・子ども</p></div></div>
+<p class="role">子ども。浜で光る貝がらを集めるのが好き</p>
+<dl class="kv">
+<dt>得意</dt><dd>よく見る、よく乳を飲む</dd>
+<dt>性格</dt><dd>おとなしく、泣くより先にじっと見る。</dd>
+<dt>考えの癖</dt><dd>光る物、ゆれる物、動く物を目で追いかけ、拾って持ち帰る。</dd>
+<dt>望み</dt><dd>浜で、光る貝がらをたくさん見つけたい</dd>
+</dl>
+<details><summary>関係（4人）</summary><ul class="rels">
+<li><span class="rn">アケビ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">いちばん安心する</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">縄のにおいがする</span></li>
+<li><span class="rn">ツル</span><span class="rk">姉</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">名前をくれた。歌が聞こえると目をあける</span></li>
+<li><span class="rn">シイ</span><span class="rk">祖母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">取り上げてくれた手</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>短く、はずむ。「ねえね、見て」「これ、きれい」。</dd>
+<dt>こわいこと</dt><dd>暗くて何も見えないこと</dd>
+<dt>名前の由来</dt><dd>大漁の日の夕方に生まれ、目をぱっちりあけてまわりをよく見ていたので、姉のツルが「ミル！」と名づけた</dd>
+<dt>見た目</dt><dd>肩までの黒髪を、まっすぐ切りそろえている。よく走る、細い女の子。ウサギの毛皮の短い服。父ヨシが編んだ小さなかご（拾った貝がらを入れる）。大きく見ひらいた黒い目</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>6年目：大漁の日の夕方に生まれた</li>
+</ul>
+</details>
+</article>
+<article class="person" id="p-p13">
+<div class="ph"><span class="av a3" aria-hidden="true">コ</span><div><h3>コイシ<span class="kana">こいし</span></h3><p class="pmeta">男・10歳・子ども</p></div></div>
+<p class="role">子ども。父ヨシの縄なうのを手伝う</p>
+<dl class="kv">
+<dt>得意</dt><dd>よく乳を飲む、にぎる力が強い</dd>
+<dt>性格</dt><dd>どっしりしていて、あまり泣かない。</dd>
+<dt>考えの癖</dt><dd>にぎった物を、なかなか離さない。だまって人の手もとを見ている。</dd>
+<dt>望み</dt><dd>とうちゃんのように、強い縄をなえるようになりたい</dd>
+</dl>
+<details><summary>関係（3人）</summary><ul class="rels">
+<li><span class="rn">アケビ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">いちばん安心する</span></li>
+<li><span class="rn">ヨシ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">縄のにおいがする</span></li>
+<li><span class="rn">シイ</span><span class="rk">祖母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">取り上げてくれた手</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>口数が少なく、短い。「これ、ぼくの」「やる」。</dd>
+<dt>こわいこと</dt><dd>おなかがすくこと</dd>
+<dt>名前の由来</dt><dd>秋の終わりに生まれ、抱いたトチじいが「小さいが、重い。石のような子じゃ」と言って名づけた。トチじいが最後に名をつけた子</dd>
+<dt>見た目</dt><dd>短い黒髪。ずっしりした、力の強い男の子。ウサギの毛皮の短い服。手にいつも、丸い小石を一つにぎっている。太くて黒いまゆげ</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>7年目：秋の終わりに生まれ、トチじいに名をつけてもらった</li>
+</ul>
+</details>
+</article>
+<article class="person" id="p-p14">
+<div class="ph"><span class="av a4" aria-hidden="true">ソ</span><div><h3>ソヨ<span class="kana">そよ</span></h3><p class="pmeta">女・1歳・子ども</p></div></div>
+<p class="role">生まれたばかりの赤ちゃん</p>
+<dl class="kv">
+<dt>得意</dt><dd>よく乳を飲む、よく泣く</dd>
+<dt>性格</dt><dd>声が大きく、よく泣くが、風の音を聞くと泣きやむ。</dd>
+<dt>考えの癖</dt><dd>（まだ赤ちゃん）風や波の音のする方へ、顔を向ける。</dd>
+<dt>望み</dt><dd>お乳と、あたたかい寝床</dd>
+</dl>
+<details><summary>関係（3人）</summary><ul class="rels">
+<li><span class="rn">ホムラ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">いちばん安心する</span></li>
+<li><span class="rn">イソ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">潮のにおいがする</span></li>
+<li><span class="rn">ツル</span><span class="rk">取り上げてくれた人</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">最初にふれた、あたたかい手</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>（まだ話さない）大きな声で泣く。</dd>
+<dt>こわいこと</dt><dd>おなかがすくこと</dd>
+<dt>名前の由来</dt><dd>大風の夜に生まれ、明け方に風がそよそよとやわらいだので、取り上げたツルが「ソヨ」と名づけた</dd>
+<dt>見た目</dt><dd>やわらかい黒い髪が少し。生まれたばかりの、小さな赤ちゃん。ウサギの毛皮にくるまれている。ツルが用意した、やわらかいウサギの毛皮。頭のてっぺんで、くるりと巻いた髪</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>16年目：大風の明けた朝に生まれた</li>
+</ul>
+</details>
+</article>
+<article class="person" id="p-p15">
+<div class="ph"><span class="av a5" aria-hidden="true">オ</span><div><h3>オキ<span class="kana">おき</span> <span class="badge new">今年から</span></h3><p class="pmeta">男・0歳・子ども</p></div></div>
+<p class="role">生まれたばかりの赤ちゃん。ソヨの弟</p>
+<dl class="kv">
+<dt>得意</dt><dd>よく乳を飲む</dd>
+<dt>性格</dt><dd>あまり泣かず、目をあけて火の明かりをじっと見ている。</dd>
+<dt>考えの癖</dt><dd>（まだ赤ちゃん）明るい方、ゆれる火の方へ、顔を向ける。</dd>
+<dt>望み</dt><dd>お乳と、あたたかい寝床</dd>
+</dl>
+<details><summary>関係（4人）</summary><ul class="rels">
+<li><span class="rn">ホムラ</span><span class="rk">母</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">いちばん安心する</span></li>
+<li><span class="rn">イソ</span><span class="rk">父</span><span class="sc" role="img" aria-label="きずな +3（とても強い絆）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="pos"></i></span><span class="scl">とても強い絆</span><span class="rnote">潮のにおいがする</span></li>
+<li><span class="rn">ツル</span><span class="rk">取り上げてくれた人</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">最初にふれた、あたたかい手</span></li>
+<li><span class="rn">ソヨ</span><span class="rk">姉</span><span class="sc" role="img" aria-label="きずな +2（仲よし）"><i class="off"></i><i class="off"></i><i class="off"></i><i class="mid"></i><i class="pos"></i><i class="pos"></i><i class="off"></i></span><span class="scl">仲よし</span><span class="rnote">よく泣く声が、そばにある</span></li>
+</ul></details>
+<details><summary>もっと知る（話し方・見た目・覚えていること）</summary>
+<dl class="kv">
+<dt>話し方</dt><dd>（まだ話さない）小さな声でぐずる。</dd>
+<dt>こわいこと</dt><dd>寒いこと</dd>
+<dt>名前の由来</dt><dd>父のイソが、ずっと遠くの海のことを「オキ」と呼んでいたので、生まれた男の子にその名をつけた</dd>
+<dt>見た目</dt><dd>うすい黒い髪。生まれたばかりの、小さな赤ちゃん。ウサギの毛皮にくるまれている。姉ソヨのおさがりの、やわらかいウサギの毛皮。右の手のひらに小さなあざ</dd>
+</dl>
+<p class="small" style="margin-bottom:0">覚えていること</p><ul class="mem">
+<li>17年目：おなかのすく冬の前、秋の終わりに生まれた</li>
+</ul>
+</details>
+</article>
+</div>
+<div class="ancestors"><h3>ご先祖（みんなに見送られた人）</h3>
+<p class="ancestor"><b>トチ</b>（とち）7年目に71歳で眠りにつきました。この丘で生まれ育った長老。若いころは石割りの名人。手がふるえてからも口でコナに石の目を教え、夢のとおりのトギイシでヒカリオノをみがいた。ホムラの「なんで」に答えて狩りの掟を変えた。7年目の秋、コナのクリの木の初めての実を食べ、コイシに名をつけ、初霜の朝に静かに眠った。</p>
+</div>
+</details>
+</section>
+<section class="card fold" id="negai">
+<details class="sec"><summary><h2>天への願いと答えの記録</h2> <span class="kotoshi-mk" data-t="今年＋3" aria-hidden="true"></span></summary>
+<div class="wish">
+<p class="wy">17年目の願い <span class="badge new">今年</span></p>
+<p class="wq">「東の浜のけむりの人々に、もう一度会えますように」</p>
+<p class="wb">言いだした人：ナギ。わけは上の「寄り合いの記録」のとおり</p>
+<p class="small">天の答えは、次の年のはじめに届きます。</p>
+</div>
+<div class="wish">
+<p class="wy">16年目の願い <span class="badge new">今年</span></p>
+<p class="wq">「大風でも屋根の飛ばない浜の小屋が、建てられますように」</p>
+<p class="wb">言いだした人：イソ。夏の終わりの大風で、浜の小屋の屋根がまた飛んだ。ソヨを連れて、浜で夏を過ごしたいから。</p>
+<div class="answer">
+<p>天の答え（17年目のはじめに）：<span class="badge t-ichibu">一部</span></p>
+<p>上の「天の答え」のとおり。</p>
+</div>
+</div>
+<div class="wish">
+<p class="wy">15年目の願い</p>
+<p class="wq">「蓄えの少ない春のはじめにも、食べる物がありますように」</p>
+<p class="wb">言いだした人：ナギ。15年目の春のはじめは蓄えが五かごしかなく、根と貝でしのいだ。冬の蓄えは足りても、春のはじめがいちばん苦しいから。</p>
+<div class="answer">
+<p>天の答え（16年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
+<p>春のはじめ、ネムリアナの底が見えてきたころ、ナギは浜の小屋の梁の上に、去年の夏に置き忘れた小さなグツを見つけました。中には、煮たまま取り出し忘れたアサリの身が、浜の火のけむりで茶色く小さく固まっていました。湧き水にひたすと、身はふっくらともどり、海のにおいがしました。</p>
+<ul class="effects">
+<li>煮た貝の身を火のけむりで干すと長くもつ、という手がかりがナギに届いた（干して春まで残すのは村人が考えた）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">14年目の願い</p>
+<p class="wq">「川上の人々に、黒い石の取れる所を教えてもらえますように」</p>
+<p class="wb">言いだした人：コナ。黒い石の取れる所を見たいと、三年続けて口にしてきた。掟で川は渡らないと決めたので、川上の人々が教えてくれることを天に頼むことにした。</p>
+<div class="answer">
+<p>天の答え（15年目のはじめに）：<span class="badge t-kanau">叶える</span></p>
+<p>春のはじめ、長い雨のあがった朝、北の山なみが、いつになくくっきりと見えました。朝日がさすと、山なみの中の一つの峰の肩が、黒い石のように、きらりと光りました。その光は、日が高くなるまで消えませんでした。</p>
+<ul class="effects">
+<li>黒い石の取れる所が、北の山なみの一つの峰（クロミネ）だと分かった（願いを叶えた。教えたのは川上の人々）</li>
+<li>峰は川上の人々の土地をこえた先で、行くのはまだ先</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">13年目の願い</p>
+<p class="wq">「ウルを出せる静かな海の日が、前もって分かりますように」</p>
+<p class="wb">言いだした人：イソ。島へ渡る日を待って、ハナで何日も海を見たが、静かな日は一日だけだった。次の静かな日が前もって分かれば、待たずに支度ができるから。</p>
+<div class="answer">
+<p>天の答え（14年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
+<p>春のはじめ、細い月の夜に、イソは夢を見ました。ハナの浜で、一羽の海鳥が、白い流木にくちばしで小さな傷を一つずつつけていきます。月が太って丸くなり、細くなって、もう一度丸くなったとき、海鳥は傷の列のおわりで波の上に降り、静かに眠りました。目をさますと、浜の白い流木が一本、波うちぎわに打ち上げられていました。</p>
+<ul class="effects">
+<li>月が丸くなってから次に丸くなるまでの夜を、木に刻み目をつけて数える、という手がかりがイソに届いた（数えて静かな日の目安にするのは村人が考えた）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">12年目の願い</p>
+<p class="wq">「島へ渡る日、潮と風が、帰るまでおだやかでありますように」</p>
+<p class="wb">言いだした人：ナギ。イソが島へ渡るのを、もう止めないと決めた。けれどシオネムリは長くなく、行って帰るまで海がおだやかかどうかは、人には読みきれないから。</p>
+<div class="answer">
+<p>天の答え（13年目のはじめに）：<span class="badge t-ichibu">一部</span></p>
+<p>春の終わり、月の丸い夜に、ナギは一人でハナの先に立っていました。ハナと島のあいだの海に、白い海鳥がたくさん舞いおりて、羽をたたみ、波の上で眠りはじめました。明け方まで、鳥は一羽も流されず、同じ所に浮かんでいました。</p>
+<ul class="effects">
+<li>海鳥が波の上で眠る夜のあとは、海がおだやかになる、という手がかりがナギに届いた</li>
+<li>海がおだやかだったのは、夏のその一日だけ。島にいられたのは、昼のあいだだけだった（一部）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">11年目の願い</p>
+<p class="wq">「ウルで、ハナの先から島へ渡れますように」</p>
+<p class="wb">言いだした人：イソ。ハナの先から、入り江の向こうの島がすぐそこに見えた。けれど掟で岸の見える所までしか行けず、今のウルでは島まで渡れないから。</p>
+<div class="answer">
+<p>天の答え（12年目のはじめに）：<span class="badge t-shiren">試練</span></p>
+<p>春のはじめ、南の風がひと晩じゅうやまずに吹きました。朝、イソとホムラがハナへ行くと、岬の浜に、ウルよりひとまわり長い、まっすぐな流木が打ち上げられていました。その日、ハナの先から沖を見ると、島とのあいだを、白いあわの筋が、川のように東へ流れていました。</p>
+<ul class="effects">
+<li>ウルをもう一つ作れる、長い流木が届いた</li>
+<li>ハナと島のあいだに速い潮の流れがあることが見えた（試練）。渡るには、その流れがゆるむときを読むことが要る</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">10年目の願い</p>
+<p class="wq">「川上のせきの子が、よくなりますように」</p>
+<p class="wb">言いだした人：ツル。浅瀬で見た小さな子が、こんこんとせきをしていた。シイばあの薬草が効いたかどうか、川を渡れないので確かめられないから、天に頼むことにした。</p>
+<div class="answer">
+<p>天の答え（11年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
+<p>春のはじめ、冷たい雨の続いたあと、ツルがこんこんとせきをしはじめました。ある夕方、アケビがグツでカシの実を煮ていると、ツルの腰の袋から、乾いた広い葉の草がこぼれて湯に落ちました。その湯を少し飲み、ゆげを吸ったツルは、その夜、せきをせずに朝まで眠りました。</p>
+<ul class="effects">
+<li>乾いた薬草をグツで煮ると、汁とゆげがせきに効く、という手がかりがツルに届いた（グツごと浅瀬の岩に置くのは村人が考えた）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">9年目の願い</p>
+<p class="wq">「よその人と、けんかをせずに会えますように」</p>
+<p class="wb">言いだした人：ホムラ。よその人に会いたいと何年も口にしてきた。グツがたくさんでき、見せたい物もできたが、川上へはこちらから行かないと決めているから、天に頼むことにした。</p>
+<div class="answer">
+<p>天の答え（10年目のはじめに）：<span class="badge t-shiren">試練</span></p>
+<p>春のはじめ、雪どけの水が引いた大川の川原で、ホムラは見たことのない小さな皮の袋を拾いました。袋の口は、ヨシのとはちがう結び方の縄でしばられ、中には黒く光る石のかけらと、しおれた草の葉が入っていました。その朝から、北の山すそに上がる細い煙が、いつもより川の近くに見えるようになりました。</p>
+<ul class="effects">
+<li>川上の人々が落とした袋がホムラに届き、よその人がすぐ近くまで来ていることが分かった</li>
+<li>会えるかどうかは村しだい。掟「よその人に先に手を出さない」を守り、こちらから川上へは行かずに、袋を返す日を待たねばならなかった（試練）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">8年目の願い</p>
+<p class="wq">「焼いても割れない土の器を、たくさん作れるようにしたい」</p>
+<p class="wb">言いだした人：ヨシ。こねた器のほとんどが火の中で割れ、残ったグツは一つだけだったから。グツが増えれば、しぶい実をその日に食べられ、おなかのすく冬が少なくなる。</p>
+<div class="answer">
+<p>天の答え（9年目のはじめに）：<span class="badge t-kanau">叶える</span></p>
+<p>春のはじめ、大川の川原のがけの下で、ヨシは冬の雨で落ちたイワツバメの巣を拾いました。泥でできた巣は、落ちてもくずれず、割れ口からは細かい枯れ草がぎっしりのぞいていました。そばに落ちていた、草のまざらない泥のかたまりは、乾いてひびだらけでした。</p>
+<ul class="effects">
+<li>土に細かくきざんだ草をまぜると、乾かしても焼いても割れにくくなる、という手がかりがヨシに届いた（草をきざんでもみこみ、日かげで乾かすやり方は村人が考えた）</li>
+<li>グツをいくつも作れるようになった（願いをそのまま叶えた）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">7年目の願い</p>
+<p class="wq">「しぶい実を、シブニゲより早く、たくさん食べられるようにしたい」</p>
+<p class="wb">言いだした人：アケビ。おなかのすく冬、ネムリアナに残ったしぶいカシの実は、湧き水にさらすのに何日もかかり、すぐには食べられなかったから。</p>
+<div class="answer">
+<p>天の答え（8年目のはじめに）：<span class="badge t-ichibu">一部</span></p>
+<p>春のはじめ、丘の大きい小屋の古い炉の灰をかき出していたアケビは、灰の底に、小さな土の鳥を見つけました。はじまりの前の年に、湿地の土をこねて火のそばに置いた、あの鳥です。湧き水で洗っても溶けず、背中のくぼみには、すくった水がこぼれずにたまっていました。</p>
+<ul class="effects">
+<li>ねばる土は、火で焼くと水に溶けない固い物になる、という手がかりがアケビに届いた（器の形にこねて焼くのは村人が考えた）</li>
+<li>焼いた器のほとんどは火の中で割れ、割れずに残ったのは一つだけだった</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">6年目の願い</p>
+<p class="wq">「群れで来た魚を、一度にたくさんすくえる物がほしい」</p>
+<p class="wb">言いだした人：ナギ。大漁の日、かごですくった魚の半分ほどが、かごの目からこぼれて逃げた。また群れが来たとき、冬の蓄えをもっと増やしたいから。</p>
+<div class="answer">
+<p>天の答え（7年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
+<p>春のはじめ、西の湿地のふちで、ヨシは冬の雨にひたされて倒れたカラムシの茎を見つけました。くさった表の皮の下から、白く長い筋がのぞいています。朝露にぬれたクモの巣が、その筋にかかってゆれていました。ヨシが筋を引っぱると、細いのに、少しもちぎれませんでした。</p>
+<ul class="effects">
+<li>水にひたした草の筋（カラムシ）は、細くても強い縄になる、という手がかりがヨシに届いた（縄を小さな目に結んで、すくう物にするのは村人が考えた）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">5年目の願い</p>
+<p class="wq">「浮かぶ木の中をくり抜いて、乗れるようにしたい」</p>
+<p class="wb">言いだした人：イソ。大風にも負けずに浮かんでいたうつろな流木は、イソの夢の「浮かぶ木」と同じに見えた。ヒカリオノは家の柱に使うので、浮かぶ木のことは天に頼むことにしたから。</p>
+<div class="answer">
+<p>天の答え（6年目のはじめに）：<span class="badge t-shiren">試練</span></p>
+<p>春のはじめ、雷の鳴る夜がありました。朝、イソが浜へ下りると、波うちぎわの枯れた流木が雷に打たれ、黒くくすぶっていました。焦げた所を貝がらでこすると、かたい木がぽろぽろと崩れ、焦げていない生の木のところで止まりました。</p>
+<ul class="effects">
+<li>焦がした木は、貝がらや石の刃でたやすくかき出せる、という手がかりがイソに届いた</li>
+<li>そのためには火を浜で何日も燃やし続け、焦がしすぎて穴をあけないよう、夜も見張らねばならなかった（試練）</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">4年目の願い</p>
+<p class="wq">「太い木でも切れる、欠けないおのがほしい」</p>
+<p class="wb">言いだした人：カシ。ホリヤをみんなの分建てるには太い柱が要るが、打ち欠いた石のおのでは太い木が切れず、たたくと刃が欠けてしまうから。</p>
+<div class="answer">
+<p>天の答え（5年目のはじめに）：<span class="badge t-ichibu">一部</span></p>
+<p>春のはじめ、トチじいは夢を見ました。若いころの自分が、大川の川原で、水にぬれた平たい石の上に石のおのをのせ、何日も何日もこすっている夢です。目をさましたトチじいがコナの手を借りて川原へ下りると、流れのそばに、夢と同じ目のこまかい灰色の平たい石が横たわっていました。</p>
+<ul class="effects">
+<li>目のこまかい平たい石（トギイシ）に水と砂をかけてこすると、石のおのがなめらかになる、という手がかりがトチに届いた</li>
+<li>みがくのには何日もかかり、この年にできたのは、みがいたおの一つだけだった</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">3年目の願い</p>
+<p class="wq">「大風にも飛ばされない、一年じゅう住める家がほしい」</p>
+<p class="wb">言いだした人：ナギ。イソが一人で浜の小屋に寝起きするようになったが、浜の小屋は夏の終わりの大風で屋根が飛ぶ。季節で住む所を変えずにすむ、丈夫な家があれば安心だから。</p>
+<div class="answer">
+<p>天の答え（4年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
+<p>春のはじめ、強い風の夜がありました。浜の小屋を案じて丘のはしに出たナギは、風にあおられて、からになったネムリアナにしゃがみこみました。頭の上では風がごうごうと鳴っているのに、穴の中は静かで、冷たい風は少しも入ってきませんでした。</p>
+<ul class="effects">
+<li>地面より低い所には風が来ない、という手がかりがナギに届いた（床を掘り下げて屋根をかけるやり方は村人が考えた）</li>
+<li>秋、試しの小屋「ホリヤ」が一つできた。ただ、柱にする太い木が切れず、みんなが入れる大きさにはできなかった</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">2年目の願い</p>
+<p class="wq">「近づかなくても、獣に届く物がほしい」</p>
+<p class="wb">言いだした人：カシ。イノシシに近づいて突き飛ばされ、秋のあいだ狩りに出られなかった。そのぶん冬の蓄えがぎりぎりになったから。</p>
+<div class="answer">
+<p>天の答え（3年目のはじめに）：<span class="badge t-shiren">試練</span></p>
+<p>春のはじめ、遅い雪が東の森に降りました。雪の重みで弓なりに曲がっていたイヌガヤの若木が、通りかかったヨシの目の前でぴんとはね返り、枝の雪を遠くの岩まで飛ばしました。けれど、ヨシが持ち帰った細い枝はすぐに折れ、太い枝はヨシ一人の力では少しも曲がりませんでした。</p>
+<ul class="effects">
+<li>曲げても折れずにはね返る木（イヌガヤ）があることが、ヨシに届いた</li>
+<li>太い木を曲げるにはヨシ一人の力では足りず、言い合ったカシの力と、まっすぐな木を見つけるホムラの目が要った（試練）</li>
+<li>秋、はね返る木に縄を張った「ハネギ」ができ、棒を遠くへ飛ばせるようになった。まだ獣には届かない</li>
+</ul>
+</div>
+</div>
+<div class="wish">
+<p class="wy">1年目の願い</p>
+<p class="wq">「しぶいカシの実を、子どもたちがおいしく食べられますように」</p>
+<p class="wb">言いだした人：アケビ。ネムリアナの底に残ったのは、しぶくて子どもが吐き出してしまうカシの実ばかりだった。生まれたクリが大きくなるころ、冬の食べ物で困らないようにしたいから。</p>
+<div class="answer">
+<p>天の答え（2年目のはじめに）：<span class="badge t-hint">ヒント</span></p>
+<p>春のはじめ、湧き水の流れの石のすきまに、冬のあいだにリスが落とした割れたカシの実がたまっていました。何日も冷たい水にさらされたその実は、かじってもほとんどしぶくありませんでした。それを最初に見つけたのは、土をこねながら考えるアケビでした。</p>
+<ul class="effects">
+<li>湧き水にさらすと、しぶみが抜けるという手がかりがアケビに届いた（くだいてかごに入れ、湧き水にひたすやり方は村人が考えた）</li>
+<li>しぶいカシの実も、冬の蓄えに数えられるようになった</li>
+</ul>
+</div>
+</div>
+<h3>天のヒント</h3><ul class="plain">
+<li><span class="small">17年目・イソへ</span> <span class="badge">村が使った</span> <span class="badge new">今年</span><br>屋根の飛んだ浜の小屋で、砂と泥がかぶって草が根をはった片側だけが、強い風にも動かなかった</li>
+<li><span class="small">16年目・ナギへ</span> <span class="badge">村が使った</span><br>浜の小屋の梁に置き忘れたグツの中で、煮た貝の身がけむりで干からび、湧き水にひたすとふっくらもどった</li>
+<li><span class="small">14年目・イソへ</span> <span class="badge">村が使った</span><br>夢の中で、海鳥が白い流木に月の夜ごとに傷をつけ、丸い月から次の丸い月まで数えたところで、波の上に降りて眠った</li>
+<li><span class="small">13年目・ナギへ</span> <span class="badge">村が使った</span><br>月の丸い夜、ハナと島のあいだの海で、海鳥が羽をたたんで波の上に眠り、明け方まで一羽も流されなかった</li>
+<li><span class="small">12年目・イソへ</span> <span class="badge">村が使った</span><br>南の風の夜のあと、ハナの浜に長い流木が流れ着き、岬と島のあいだを白いあわの筋が川のように流れていた</li>
+<li><span class="small">11年目・ツルへ</span> <span class="badge">村が使った</span><br>ツルの袋からこぼれた乾いた広い葉の草が、グツの湯で煮え、その汁とゆげで、ツルのせきが止まった</li>
+<li><span class="small">10年目・ホムラへ</span> <span class="badge">村が使った</span><br>雪どけの川原に、川上の人々の皮の袋が落ちていた。中には黒く光る石のかけらと、せきの薬の草が入っていた</li>
+<li><span class="small">9年目・ヨシへ</span> <span class="badge">村が使った</span><br>冬の雨で落ちたイワツバメの巣はくずれず、割れ口に細かい枯れ草がまざっていた。草のない泥はひびだらけだった</li>
+<li><span class="small">8年目・アケビへ</span> <span class="badge">村が使った</span><br>古い炉の灰の底から出てきた土の鳥は、湧き水で洗っても溶けず、背中のくぼみに水がたまった</li>
+<li><span class="small">7年目・ヨシへ</span> <span class="badge">村が使った</span><br>冬の雨にひたされたカラムシの茎の皮の下から白く長い筋がのぞき、引っぱってもちぎれなかった</li>
+<li><span class="small">6年目・イソへ</span> <span class="badge">村が使った</span><br>雷に打たれた浜の流木の焦げた所は、貝がらでこするとぽろぽろ崩れ、生の木のところで止まった</li>
+<li><span class="small">5年目・トチへ</span> <span class="badge">村が使った</span><br>夢の中で、若いころのトチが、川原の平たい石の上で、水をかけながら石のおのを何日もこすっていた</li>
+<li><span class="small">4年目・ナギへ</span> <span class="badge">村が使った</span><br>強い風の夜、からのネムリアナの中は、風が頭の上を通りすぎて静かだった</li>
+<li><span class="small">3年目・ヨシへ</span> <span class="badge">村が使った</span><br>雪の重みで曲がったイヌガヤの若木が、はね返って雪を遠くまで飛ばした</li>
+<li><span class="small">2年目・アケビへ</span> <span class="badge">村が使った</span><br>湧き水の流れにさらされた割れたカシの実は、しぶくなかった</li>
+</ul>
+</details>
+</section>
+<section class="card fold" id="e">
+<details class="sec"><summary><h2>絵で見る年表</h2> <span class="kotoshi-mk" data-t="今年＋1" aria-hidden="true"></span></summary>
+<p class="small">1年目から並べています。押すと大きく見られます。</p>
+<div class="gallery">
+<a class="gtile zoom" href="../../img/y0001.jpg" data-cap="1年目　ナツユキの年"><img src="../../img/t0001.jpg" width="480" height="268" alt="1年目の村の絵" loading="lazy" decoding="async"><span class="gy">1年目　ナツユキの年</span></a>
+<a class="gtile zoom" href="../../img/y0002.jpg" data-cap="2年目　シブニゲの年"><img src="../../img/t0002.jpg" width="480" height="268" alt="2年目の村の絵" loading="lazy" decoding="async"><span class="gy">2年目　シブニゲの年</span></a>
+<a class="gtile zoom" href="../../img/y0003.jpg" data-cap="3年目　ハネギの年"><img src="../../img/t0003.jpg" width="480" height="268" alt="3年目の村の絵" loading="lazy" decoding="async"><span class="gy">3年目　ハネギの年</span></a>
+<a class="gtile zoom" href="../../img/y0004.jpg" data-cap="4年目　ホリヤの年"><img src="../../img/t0004.jpg" width="480" height="268" alt="4年目の村の絵" loading="lazy" decoding="async"><span class="gy">4年目　ホリヤの年</span></a>
+<a class="gtile zoom" href="../../img/y0005.jpg" data-cap="5年目　ヒカリオノの年"><img src="../../img/t0005.jpg" width="480" height="268" alt="5年目の村の絵" loading="lazy" decoding="async"><span class="gy">5年目　ヒカリオノの年</span></a>
+<a class="gtile zoom" href="../../img/y0006.jpg" data-cap="6年目　ウルの年"><img src="../../img/t0006.jpg" width="480" height="268" alt="6年目の村の絵" loading="lazy" decoding="async"><span class="gy">6年目　ウルの年</span></a>
+<a class="gtile zoom" href="../../img/y0007.jpg" data-cap="7年目　クモスの年"><img src="../../img/t0007.jpg" width="480" height="268" alt="7年目の村の絵" loading="lazy" decoding="async"><span class="gy">7年目　クモスの年</span></a>
+<a class="gtile zoom" href="../../img/y0008.jpg" data-cap="8年目　グツの年"><img src="../../img/t0008.jpg" width="480" height="268" alt="8年目の村の絵" loading="lazy" decoding="async"><span class="gy">8年目　グツの年</span></a>
+<a class="gtile zoom" href="../../img/y0009.jpg" data-cap="9年目　ツバメツチの年"><img src="../../img/t0009.jpg" width="480" height="268" alt="9年目の村の絵" loading="lazy" decoding="async"><span class="gy">9年目　ツバメツチの年</span></a>
+<a class="gtile zoom" href="../../img/y0010.jpg" data-cap="10年目　ササリボの年"><img src="../../img/t0010.jpg" width="480" height="268" alt="10年目の村の絵" loading="lazy" decoding="async"><span class="gy">10年目　ササリボの年</span></a>
+<a class="gtile zoom" href="../../img/y0011.jpg" data-cap="11年目　ユゲグサの年"><img src="../../img/t0011.jpg" width="480" height="268" alt="11年目の村の絵" loading="lazy" decoding="async"><span class="gy">11年目　ユゲグサの年</span></a>
+<a class="gtile zoom" href="../../img/y0012.jpg" data-cap="12年目　ウミカワの年"><img src="../../img/t0012.jpg" width="480" height="268" alt="12年目の村の絵" loading="lazy" decoding="async"><span class="gy">12年目　ウミカワの年</span></a>
+<a class="gtile zoom" href="../../img/y0013.jpg" data-cap="13年目　トリシマの年"><img src="../../img/t0013.jpg" width="480" height="268" alt="13年目の村の絵" loading="lazy" decoding="async"><span class="gy">13年目　トリシマの年</span></a>
+<a class="gtile zoom" href="../../img/y0014.jpg" data-cap="14年目　ツキキザミの年"><img src="../../img/t0014.jpg" width="480" height="268" alt="14年目の村の絵" loading="lazy" decoding="async"><span class="gy">14年目　ツキキザミの年</span></a>
+<a class="gtile zoom" href="../../img/y0015.jpg" data-cap="15年目　クロミネの年"><img src="../../img/t0015.jpg" width="480" height="268" alt="15年目の村の絵" loading="lazy" decoding="async"><span class="gy">15年目　クロミネの年</span></a>
+<a class="gtile zoom" href="../../img/y0016.jpg" data-cap="16年目　ソヨの年"><img src="../../img/t0016.jpg" width="480" height="268" alt="16年目の村の絵" loading="lazy" decoding="async"><span class="gy">16年目　ソヨの年</span></a>
+<a class="gtile zoom" href="../../img/y0017.jpg" data-cap="17年目　東のけむりの年"><img src="../../img/t0017.jpg" width="480" height="268" alt="17年目の村の絵" loading="lazy" decoding="async"><span class="gy">17年目　東のけむりの年 <span class="badge new">今年</span></span></a>
+</div>
+</details>
+</section>
+<section class="card fold" id="annai">
+<details class="sec"><summary><h2>案内動画</h2></summary>
+<p class="small"><a href="../../douga/">▶ 動画だけを並べたページ（1年目から順に）</a></p>
+<h3>14年目の村のアニメ</h3>
+<p class="small">14年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0014.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0014_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：夢の浜で白い流木に傷をつける海鳥／イソが刻み目をつける「ツキキザミ！」／川原で黒い石と「渡らん」／夜の森の奥の沢と白い汁の木／かぶれたコナの手をユゲグサで冷やすツル／天への願い</p>
+<h3>13年目の村のアニメ</h3>
+<p class="small">13年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0013.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0013_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：明け方、ハナと島の間の波の上で眠る白い海鳥／「もうすぐシオネムリだ」と言い当てるイソ／ハナで火をたくナギとツル、島へ出る二そうのウル／島の浜と海鳥で白い岩、青い小石を拾うイソ／シイばあからツルへ薬草の袋／天への願い</p>
+<h3>12年目の村のアニメ</h3>
+<p class="small">12年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0012.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0012_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：ハナの浜に打ち上げられた長い流木／島との間を流れる白いあわの筋／流木を焦がしてかき出すヤキホリ／ウミカワに押されるウルと「戻る」／海草が止まった「シオネムリ！」／天への願い</p>
+<h3>11年目の村のアニメ</h3>
+<p class="small">11年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0011.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0011_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：グツの湯に落ちた乾いた葉／ゆげを吸って「ユゲグサ！」／浅瀬の岩にグツを置いて下がる／岩の黒い石と、走るせきの子／東の岬ハナから見た島／天への願い</p>
+<h3>10年目の村のアニメ</h3>
+<p class="small">10年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0010.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0010_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：川原で拾った見たことのない皮の袋／シイが葉をかぐ「せきの薬だよ」／川向こうの浅瀬に三人の人かげ／岩に置いて下がる、胸に抱く女の人／黒い石の先のササリボ／天への願い</p>
+<h3>9年目の村のアニメ</h3>
+<p class="small">9年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0009.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0009_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：がけの下で拾ったツバメの巣／草をきざんで土にもみこむ／鳴らない火、テノカズのグツ／炉のまわりにグツが並ぶ／豊作の秋、いっぱいのネムリアナ／天への願い</p>
+<h3>8年目の村のアニメ</h3>
+<p class="small">8年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0008.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0008_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：灰から出た土の鳥／湿地の土で器をこねる／浜の火で焼くと一つだけ残る／グツでカシの実を煮る／雪の降らない冬、北の山が白い／天への願い</p>
+<h3>7年目の村のアニメ</h3>
+<p class="small">7年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0007.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0007_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：湿地の草の白い筋／筋の縄とクモス／浅瀬の小魚をすくう／コイシが生まれた秋／初霜の朝、トチじいの眠り／天への願い</p>
+<h3>6年目の村のアニメ</h3>
+<p class="small">6年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0006.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0006_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：雷に焦げた浜の流木／ヤキホリと大きなホリヤ／大漁の群れと干し棚／ミルが生まれた夕方／舟ウルが浅瀬に浮かぶ／天への願い</p>
+<h3>5年目の村のアニメ</h3>
+<p class="small">5年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0005.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0005_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：夢のトギイシ／大風の夜と静かなホリヤ／屋根の飛んだ浜と流木／みがいたおのとケヤキ／ヒカリオノの名づけ／天への願い</p>
+<h3>4年目の村のアニメ</h3>
+<p class="small">4年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0004.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0004_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：風の来ない穴／コナの弟子入り（石の目）／浜の小屋の煙／実をくれる木は切らない・小さな屋根／ホリヤの名づけと静かな炉／天への願い</p>
+<h3>3年目の村のアニメ</h3>
+<p class="small">3年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0003.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0003_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：雪をはね返す木／流れ着いたうつろな流木／浜の小屋のハマモリ／ハネギが鳴る／冬の蓄えと棒えらび／天への願い</p>
+<h3>2年目の村のアニメ</h3>
+<p class="small">2年目に村で起きたことを、台の上の模型（ジオラマ）のアニメにしました。54秒・縄文の音の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster_y0002.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_y0002_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：湧き水のシブニゲ／クリの芽が三つ／足あとを読む／父カシを見つけて背負う／オオイシで数える／天への願い</p>
+<h3>1年目の村の案内動画</h3>
+<p class="small">1年目の村を、台の上の模型（ジオラマ）にして案内します。54秒・縄文の音（土の笛・土の鈴・皮の太鼓）の曲つき。</p>
+<video controls playsinline preload="none" poster="../../annai/poster.jpg" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px;background:#000"><source src="../../annai/jinrui_annai_720p.mp4" type="video/mp4"></video>
+<p class="small">場面：はじまり（村の全景）／夏の雪の森を見つける／実りの秋／ネムリアナ／住人の暮らし／天への願い</p>
+</details>
+</section>
+<section class="card fold more" id="kuwashiku">
+<details class="sec"><summary><h2>村のくわしいこと</h2></summary>
+<details><summary>土地（12か所）</summary><ul class="plain">
+<li><span class="nm">オカ（丘）</span> <span class="badge">住む所</span><span class="note">大川が海に出る少し手前の、南向きの小高い台地。日当たりがよい。ふもとに湧き水があり、冬も凍らない。丘のはしの水はけのよい所に、ネムリアナが三つある。<br>とれる物：湧き水、日当たり、小屋の場所、ネムリアナ（木の実をためる穴）<br>村の知り具合：よく知っている</span></li>
+<li><span class="nm">オオカワ（大川）</span> <span class="badge">川</span><span class="note">北の山から流れてくる大きな川。春にはアユがのぼり、ウナギやコイもいる。雨のあとは流れが速く、にごる。川原には色も形もいろいろな石が転がっている。<br>とれる物：魚、川原の石、流木、水<br>村の知り具合：よく知っている</span></li>
+<li><span class="nm">ハマ（浜と干潟）</span> <span class="badge">海</span><span class="note">南の入り江。遠浅で、潮が引くと広い干潟になり、アサリ・ハマグリ・カキがとれる。夏の小屋がある。夏の終わりには大風が来る。<br>とれる物：貝、魚、海草、流れ着く物<br>村の知り具合：よく知っている</span></li>
+<li><span class="nm">ヒガシのモリ（東の森）</span> <span class="badge">森</span><span class="note">シイ・カシ・クヌギ・クリ・トチの木の森。秋は木の実がたくさん落ちる。イノシシ・シカ・ウサギ・タヌキがいる。奥は暗く、まだだれも行ったことがない所がある。<br>とれる物：木の実、獣、木、つる、薬草<br>村の知り具合：入り口あたりと、ナツユキの森までの道。14年目からは、奥の沢（オクノサワ）まで</span></li>
+<li><span class="nm">ニシのヌマ（西の湿地）</span> <span class="badge">湿地</span><span class="note">ヨシとガマの原。冬にはカモが来る。土手から、ねばる灰色の土が出る。アケビと子どもたちの泥遊びの場所。<br>とれる物：鳥、ヨシ・ガマ、ねばる土<br>村の知り具合：よく知っている</span></li>
+<li><span class="nm">キタのヤマ（北の山なみ）</span> <span class="badge">山</span><span class="note">遠くに見える山なみ。冬は頂が白い。ヨシが来た方（川上）。冬の晴れた日に、山すそに細い煙が見えることがある。<br>村の知り具合：遠くから見るだけ</span></li>
+<li><span class="nm">イリエのムコウ（入り江の向こう）</span> <span class="badge">海の向こう</span><span class="note">晴れた日に、入り江の向こうにうっすら陸と小さな島が見える。泳いでは行けない。<br>村の知り具合：見えるだけ。13年目の夏、手前の小さな島（トリシマ）には渡った。その向こうの陸は、まだ見えるだけ</span></li>
+<li><span class="nm">ナツユキのモリ（クリの森）</span> <span class="badge">森</span><span class="note">東の森の奥、日当たりのよい南向きの斜面に、大きなクリの木が集まっている。初夏は花で雪が積もったように白くなり、甘く強いにおいがする。秋はイガが割れて実が雨のように落ちる。斜面の上からは、入り江の向こうの島が浜より近く見える。<br>とれる物：クリの実、木、たきぎ（枯れ枝）<br>村の知り具合：1年目の夏にホムラが見つけた。夏と秋に何度も通った</span></li>
+<li><span class="nm">ハナ（東の岬）</span> <span class="badge">岬</span><span class="note">入り江の東のはしをまわった所にある、海につき出た細い岬。先に立つと、入り江の向こうの島が、ナツユキの森の上から見るよりずっと近く見える。浜には大きな貝がらと流木がたくさん寄る。岬と島のあいだには、速い潮の流れ（ウミカワ）が東へ流れていて、潮がゆるむとき（シオネムリ）だけ静かになる。<br>とれる物：流れ着く物、大きな貝がら、見晴らし<br>村の知り具合：11年目の夏、イソとホムラがウルで岸ぞいに見つけた</span></li>
+<li><span class="nm">トリシマ（入り江の向こうの島）</span> <span class="badge">島</span><span class="note">ハナの先から、ウミカワをこえた所にある小さな島。小さな砂の浜があり、岩は海鳥で白い。松の根元から細い湧き水が出ている。浜の小石には、イソの首飾りと同じ青い小石がまじっている。<br>とれる物：海鳥、湧き水、青い小石、見晴らし<br>村の知り具合：13年目の夏、二そうのウルで、イソ・ホムラ・カシ・コナが渡った。いたのは昼のあいだだけ</span></li>
+<li><span class="nm">オクノサワ（東の森の奥の沢）</span> <span class="badge">沢</span><span class="note">東の森の奥、暗い木の間をぬけた先にある、冷たく澄んだ細い沢。沢のふちには、幹の傷から白い汁を出す木（カブレギ）が並んでいる。汁にさわると手がかぶれ、乾くと黒く固まる。<br>とれる物：沢の水、カブレギの白い汁、木<br>村の知り具合：14年目の夏、コナが一人で見つけた</span></li>
+<li><span class="nm">クロミネ（黒い石の峰）</span> <span class="badge">山</span><span class="note">北の山なみの中の一つの峰。晴れた朝、朝日がさすと峰の肩が黒い石のように光る。川上の人々の土地をずっと上がった先にあり、歩くと、いくつもの夜がかかる。黒い石はここで取れる。<br>とれる物：黒く光る石<br>村の知り具合：見えるだけ。15年目の春、川上の人が指さして教えてくれた</span></li>
+</ul></details>
+<details><summary>よその人々（3）</summary><ul class="plain">
+<li><span class="nm">川上の人々</span> <span class="badge">会った</span><span class="note">ヨシが来た方。冬の晴れた日に北の山すそに煙が見える。7年目の夏、ホムラが大川の上手で、足あととたき火の跡、黒く光る石のかけらを見つけた。10年目の夏、大川の浅瀬で三人（大人の男と女、せきをする小さな子）と会い、平たい岩に袋と薬草を置いて下がった。秋、岩に黒く光る石が一つ返ってきた。11年目の春、岩にグツと乾かした薬草を置くと、夏、黒い石がいくつも返ってきた。川向こうでは、せきの止まった子が走っていた。12年目の春も、秋に置いたグツのお返しの黒い石が岩に並んでいた。15年目の春、ヨシが言葉でたずねると、男の人が北の峰（クロミネ）を指さし、岩に小石を山の形に積んで黒い石をのせた。言葉は、ヨシが少し分かる。グツは持っていなかった</span></li>
+<li><span class="nm">海の向こうの人々</span> <span class="badge">なぞ</span><span class="note">イソが流れてきた方かもしれない。だれも会ったことはない</span></li>
+<li><span class="nm">東へ移った浜の人々</span> <span class="badge">けむりを見た</span><span class="note">ナギが生まれた小さな群れ。はじまりの18年ほど前に東の海辺へ移っていった。17年目の夏、ハナの先から、東の海辺のずっと遠くに、三日のあいだけむりが見えた。だれのけむりかは、まだ分からない</span></li>
+</ul></details>
+<details><summary>道具（14）</summary><ul class="plain">
+<li><span class="nm">打ち欠いた石の刃</span><span class="note">むかしから<br>使い道：肉を切る・皮をはぐ・木を削る<br>川原の固い石を、石でたたいて割って作る</span></li>
+<li><span class="nm">打ち欠いた石のおの</span><span class="note">むかしから<br>使い道：細い木を切る・枝を払う<br>重い石を木の柄につるでしばった物。太い木は切れない。5年目から、トギイシでみがいたおの（ヒカリオノ）が一つだけある</span></li>
+<li><span class="nm">木のやり</span><span class="note">むかしから<br>使い道：獣を追う・魚を突く<br>先を火であぶって固くした。遠くまでは届かない</span></li>
+<li><span class="nm">掘り棒</span><span class="note">むかしから<br>使い道：根や芋を掘る・干潟の貝を掘る<br>1年目はネムリアナを掘るのにも使った</span></li>
+<li><span class="nm">つるのかご</span><span class="note">むかしから<br>使い道：木の実・貝を運ぶ<br>ヨシが来てから、目がこまかく丈夫になった</span></li>
+<li><span class="nm">毛皮の服と敷き物</span><span class="note">むかしから<br>使い道：寒さをしのぐ・寝る<br>シカ・イノシシ・ウサギの皮</span></li>
+<li><span class="nm">火きり棒と火口（ほくち）</span><span class="note">むかしから<br>使い道：火を起こす<br>板に棒をこすって火を起こす。とても時間がかかるので、ふだんは火を消さずに守る</span></li>
+<li><span class="nm">くくりわな</span><span class="note">むかしから<br>使い道：ウサギや鳥をとる<br>つるの輪で作る</span></li>
+<li><span class="nm">骨のきりと骨の針</span><span class="note">むかしから<br>使い道：皮に穴をあけて縫う<br>シカの骨をみがいて作る</span></li>
+<li><span class="nm">石の台とたたき石</span><span class="note">むかしから<br>使い道：木の実を割る・すりつぶす</span></li>
+<li><span class="nm">ネムリアナ（木の実をためる穴）</span><span class="note">1年目・生みだした人：ナギ<br>使い道：秋に集めた木の実を、冬まで冷たく乾いたまま守る<br>丘のはしの水はけのよい所に三つ。一つにかごテノカズほど入る。底に木の葉を敷き、ヨシが草で編んだふたをかぶせて重しの石をのせる。掘ったのはカシ。1年目の秋は穴に入りきらず、干し魚・干し肉・干したクリの実は小屋の梁に高くつるして、ネズミから守った</span></li>
+<li><span class="nm">ハネギ（はね返る木の弓のかたち）</span><span class="note">3年目・生みだした人：ヨシ<br>使い道：縄に細い棒をかけて放し、遠くへ飛ばす<br>イヌガヤの、まっすぐで節の少ない木を曲げ、ヨシの細くて強い縄を両はしに張った物。3年目は棒がまっすぐ飛ばなかったが、10年目に黒い石の先をつけたササリボを放つと、木の幹に深く立ち、遠くの獣に届くようになった</span></li>
+<li><span class="nm">トギイシ（刃をとぐ平たい石）</span><span class="note">5年目・生みだした人：トチ<br>使い道：水と砂をかけて石のおのの刃をこすり、なめらかにする<br>大川の川原で見つけた、目のこまかい灰色の平たい石。湧き水のそばに置いてある。一つのおのをみがくのに、夏まるごとかかる</span></li>
+<li><span class="nm">ササリボ（黒い石の先をつけた棒）</span><span class="note">10年目・生みだした人：コナ<br>使い道：ハネギで放って、遠くの獣に届かせる<br>先は、川上の人々からもらった黒く光る石。11年目に黒い石がいくつも返ってきて、狩りに出る者の分がそろった</span></li>
+</ul></details>
+<details><summary>技（24）</summary><ul class="plain">
+<li><span class="nm">火を起こす・守る</span><span class="note">できる人：トチ・シイ・カシ・ナギ・ヨシ・アケビ<br>火の番は交代でする</span></li>
+<li><span class="nm">石を割って刃を作る</span><span class="note">できる人：カシ・コナ<br>トチがいちばん上手だった。4年目からコナがトチに習い、7年目にトチが亡くなってからは、コナが技を継ぐ</span></li>
+<li><span class="nm">わなで小さい獣と鳥をとる</span><span class="note">できる人：カシ・ヨシ・イソ</span></li>
+<li><span class="nm">やりで大きい獣を追う</span><span class="note">できる人：カシ<br>近くまで寄らないと届かないので、よく逃げられる</span></li>
+<li><span class="nm">貝を掘る・魚を突く</span><span class="note">できる人：ナギ・イソ・アケビ</span></li>
+<li><span class="nm">木の実を拾う・干す</span><span class="note">できる人：アケビ・シイ・コナ・ツル</span></li>
+<li><span class="nm">肉と魚を干す（日なたと火のけむり）</span><span class="note">できる人：シイ・ナギ・イソ<br>16年目から、グツで煮た貝の身も、浜の火のけむりで干す（カチガイ）</span></li>
+<li><span class="nm">つるで縄をなう・かごを編む</span><span class="note">できる人：ヨシ<br>ヨシの縄は細くて強い</span></li>
+<li><span class="nm">薬草を見分ける（少しだけ）</span><span class="note">できる人：シイ・ツル<br>熱さまし・傷の手当て・おなかをこわしたときの草を知っている。7年目からツルがシイに習う。13年目、ひざの痛むシイが薬草の袋をツルにわたした</span></li>
+<li><span class="nm">泳ぐ・もぐる</span><span class="note">できる人：イソ・ナギ<br>イソは息が長い</span></li>
+<li><span class="nm">皮をなめして縫う</span><span class="note">できる人：シイ・アケビ</span></li>
+<li><span class="nm">ネムリアナを掘って木の実をためる</span><span class="note">できる人：ナギ・カシ・ヨシ<br>1年目から<br>水はけのよい所に深く掘り、底に木の葉を敷き、草で編んだふたと重しの石をのせる</span></li>
+<li><span class="nm">オオイシと小石で数える</span><span class="note">できる人：ナギ<br>1年目から<br>小石テノカズ分を、大きな石（オオイシ）一つに置きかえて数える。テノカズより多い物も数えられる</span></li>
+<li><span class="nm">シブニゲ（くだいた実を湧き水にさらす）</span><span class="note">できる人：アケビ・ヨシ・シイ<br>2年目から<br>くだいたカシの実を目のこまかいかごに入れ、湧き水の流れに何日もひたすと、しぶみが抜ける</span></li>
+<li><span class="nm">足あとを読み分ける</span><span class="note">できる人：ホムラ・カシ<br>2年目から<br>ホムラは2年目の夏、獣と鳥の足あとをテノカズ読み分けた</span></li>
+<li><span class="nm">はね返る木を曲げて縄を張る</span><span class="note">できる人：カシ・ヨシ<br>3年目から<br>カシが木を曲げ、ヨシが縄を張る。二人でないとできない</span></li>
+<li><span class="nm">床を掘り下げて小屋を建てる</span><span class="note">できる人：カシ・ナギ・ヨシ<br>4年目から<br>ひざの深さに丸く掘り、柱を立てて縄でしばり、草と木の皮で屋根をふく。太い柱はまだ立てられない</span></li>
+<li><span class="nm">石をみがく（トギイシでこする）</span><span class="note">できる人：コナ・ヨシ<br>5年目から<br>打ち欠いた石の頭を、平たい石の上で水と砂をかけてこする。たたかないので、手のふるえるトチにもできる。5年目の冬からヨシも習う</span></li>
+<li><span class="nm">ヤキホリ（焦がしてかき出す）</span><span class="note">できる人：イソ・ヨシ<br>6年目から<br>木に燃えさしをのせて焦がし、黒くなった所を貝がらや石の刃でかき出す。焦がしすぎると穴があくので、火の番が要る</span></li>
+<li><span class="nm">カラムシの細い縄をなう・クモスを結ぶ</span><span class="note">できる人：ヨシ<br>7年目から<br>カラムシの茎を湧き水にひたして表の皮をくさらせ、白い筋を取り出してより合わせる。クモの巣をまねて、目を小さく結ぶ。すくうのはナギとイソが上手</span></li>
+<li><span class="nm">ねばる土で器をこね、火で焼く</span><span class="note">できる人：アケビ・ヨシ・ツル<br>8年目から<br>西の湿地の土手の土をこねて器にし、火で焼く。8年目はほとんど割れたが、9年目からは細かくきざんだ草をまぜ（ツバメツチ）、日かげでゆっくり乾かすので、ほとんど割れない</span></li>
+<li><span class="nm">黒い石をうすく割って、とがった先を作る</span><span class="note">できる人：コナ<br>10年目から<br>角のある石でそっとたたき、うすいかけらを、何日もかけて木の葉の形にととのえる。トチの割り方を、コナが黒い石に使った</span></li>
+<li><span class="nm">薬草をグツで煮て、汁を飲ませ、ゆげを吸わせる</span><span class="note">できる人：シイ・ツル<br>11年目から<br>乾かした薬草をグツの湯で煮る。せきには道ばたの広い葉の草。熱い汁は冷ましてから飲ませる</span></li>
+<li><span class="nm">潮の流れを読み、潮の止まるときを見る</span><span class="note">できる人：ナギ・イソ<br>12年目から<br>ハナの先で、白いあわの筋と海草のなびき方を見る。筋が消えて海草が動かなくなるとき（シオネムリ）は、ウミカワがゆるむ。海鳥が波の上で眠る夜のあとは、海がおだやか。13年目、ナギがイソに「読める」と言った</span></li>
+</ul></details>
+<details><summary>村のしくみ（1）</summary><ul class="plain">
+<li><span class="nm">月の数え方（ツキキザミ）</span><span class="note">14年目から。丸い月から次の丸い月までの夜を、棒の刻み目で数える。静かな海の日の目安と、支度を始める日を決めるのに使う。</span></li>
+</ul></details>
+<details><summary>変えたことの記録（4）</summary><ul class="plain">
+<li><span class="nm">はじまり（2026-10-10）</span>　はじまりの村を作った（土地7か所・10人・むかしからの掟6つ・ことば5つ・道具10・技11）<span class="note">わけ：試作の1年目の準備</span></li>
+<li><span class="nm">1年目（2026-10-10）</span>　絵の決まりを1年目で決めた（水彩と色鉛筆の絵本・紙のにじみ・毎年同じ場所を少し高い南の空から見おろす）<span class="note">わけ：年を並べたとき、同じ村が育っていくように見せるため</span></li>
+<li><span class="nm">1年目（2026-10-10）</span>　その年の蓄えの記録に「秋に集めた量」と計算のしかたを足し、掟の一覧に話し合いの続きを書けるようにした<span class="note">わけ：蓄えの増え減りと、続きになっている話し合いを、読む人に分かるようにするため</span></li>
+<li><span class="nm">14年目（2026-10-23）</span>　月の数え方「ツキキザミ」が始まりました。丸い月から次の丸い月までの夜を、棒の刻み目で数えます。<span class="note">わけ：イソの願い（静かな海の日を前もって知りたい）への天の答えから。</span></li>
+</ul></details>
+</details>
+</section>
+</main>
+<footer class="foot">
+<p>このページは架空の村の物語です（実在の人・場所とは関係ありません）。</p>
+<p>村の絵は Gemini（Google の画像生成AI）で描いています。物語と記録は、まとん改（Claude）が1日に1年ずつ書きすすめます。</p>
+<p>会話の声：VOICEVOX:No.7、VOICEVOX:ずんだもん、VOICEVOX:もち子さん、VOICEVOX:玄野武宏、VOICEVOX:春日部つむぎ、VOICEVOX:雀松朱司、VOICEVOX:青山龍星、VOICEVOX:東北イタコ、VOICEVOX:東北ずん子、VOICEVOX:波音リツ、VOICEVOX:白上虎太郎</p>
+<p>最終更新：2026-10-26（17年目のおわり）</p>
+</footer>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="大きい絵">
+<div class="lb-stage"><img alt=""></div>
+<p class="lb-cap"></p>
+<div class="lb-bar"><button type="button" class="lb-prev" data-t="◀ 前" aria-label="前の絵"></button><button type="button" class="lb-close" data-t="とじる" aria-label="とじる"></button><button type="button" class="lb-next" data-t="次 ▶" aria-label="次の絵"></button></div>
+</div>
+<button type="button" class="totop" id="totop" data-t="▲" aria-label="いちばん上へ"></button>
+<button type="button" class="yomi" id="yomi" data-t="🔊 会話を聞く" aria-label="会話を読み上げる" data-koe="../../koe/y0017.mp3" data-koe-title="17年目　東のけむりの年" hidden></button>
+<script type="application/json" id="koe-cue">[["t",-1,-1,0.0],["s",0,-1,4.67],["l",0,0,8.04],["l",0,1,15.17],["l",0,2,23.48],["l",0,3,29.36],["l",0,4,32.68],["l",0,5,36.11],["s",1,-1,40.0],["l",1,0,43.11],["l",1,1,48.22],["l",1,2,50.66],["l",1,3,54.83],["l",1,4,58.89],["l",1,5,61.44],["l",1,6,65.38],["l",1,7,68.15],["s",2,-1,74.5],["l",2,0,78.09],["l",2,1,84.5],["l",2,2,88.5],["l",2,3,91.55],["l",2,4,96.92],["l",2,5,101.13],["l",2,6,106.11],["l",2,7,110.7],["s",3,-1,115.79],["l",3,0,118.17],["l",3,1,124.45],["l",3,2,129.69],["l",3,3,133.43],["l",3,4,137.1],["l",3,5,145.79],["m",-1,-1,150.06],["ml",-1,0,153.31],["ml",-1,1,159.53],["ml",-1,2,165.11],["ml",-1,3,172.48],["ml",-1,4,179.9],["ml",-1,5,186.01],["ml",-1,6,193.23]]</script>
+<script>
+(function(){
+  var lb=document.getElementById('lb'); if(!lb) return;
+  var im=lb.querySelector('img'), cap=lb.querySelector('.lb-cap'), prev=lb.querySelector('.lb-prev'), next=lb.querySelector('.lb-next'), shutBtn=lb.querySelector('.lb-close');
+  var gal=[].slice.call(document.querySelectorAll('.gallery a.zoom'));
+  var cur=-1, last=null, sx=null;
+  function show(a){ im.src=a.getAttribute('href'); im.alt=a.getAttribute('data-cap')||''; cap.textContent=a.getAttribute('data-cap')||''; }
+  function openA(a){
+    last=a; cur=-1;
+    for(var i=0;i<gal.length;i++){ if(gal[i].getAttribute('href')===a.getAttribute('href')){ cur=i; break; } }
+    show(a);
+    var nav=(gal.length>1 && cur>=0); prev.hidden=!nav; next.hidden=!nav;
+    lb.hidden=false; document.documentElement.classList.add('lb-open'); shutBtn.focus();
+  }
+  function step(d){ if(cur<0||gal.length<2) return; cur=(cur+d+gal.length)%gal.length; show(gal[cur]); }
+  function shut(){ lb.hidden=true; im.removeAttribute('src'); document.documentElement.classList.remove('lb-open'); if(last) last.focus(); }
+  document.addEventListener('click',function(e){ var a=e.target.closest?e.target.closest('a.zoom'):null; if(a){ e.preventDefault(); openA(a); } });
+  shutBtn.addEventListener('click',shut);
+  prev.addEventListener('click',function(){ step(-1); });
+  next.addEventListener('click',function(){ step(1); });
+  lb.addEventListener('click',function(e){ if(e.target===lb||e.target.classList.contains('lb-stage')) shut(); });
+  document.addEventListener('keydown',function(e){ if(lb.hidden) return; if(e.key==='Escape') shut(); else if(e.key==='ArrowLeft') step(-1); else if(e.key==='ArrowRight') step(1); });
+  lb.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; },{passive:true});
+  lb.addEventListener('touchend',function(e){ if(sx===null) return; var dx=e.changedTouches[0].clientX-sx; sx=null; if(Math.abs(dx)>50) step(dx<0?1:-1); });
+})();
+(function(){
+  var b=document.getElementById('totop'); if(!b) return;
+  function f(){ b.classList.toggle('show', window.scrollY>700); }
+  window.addEventListener('scroll',f,{passive:true}); f();
+  b.addEventListener('click',function(){ var rm=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; window.scrollTo({top:0,behavior:rm?'auto':'smooth'}); });
+})();
+(function(){
+  // もくじ・#のリンクで飛ぶときは、たたんだ欄を開いてから飛ぶ（2026-10-11）
+  function openTo(id){
+    var el=id&&document.getElementById(id); if(!el) return null;
+    var d=el.querySelector('details.sec'); if(d&&d.parentElement===el) d.open=true;
+    for(var n=el;n;n=n.parentElement){ if(n.tagName==='DETAILS') n.open=true; }
+    return el;
+  }
+  function hid(h){ try{ return decodeURIComponent((h||'').replace(/^#/,'')); }catch(e){ return ''; } }
+  document.addEventListener('click',function(e){ var a=e.target.closest?e.target.closest('a[href^="#"]'):null; if(a) openTo(hid(a.getAttribute('href'))); });
+  function fromHash(){ var el=openTo(hid(location.hash)); if(el) el.scrollIntoView(); }
+  window.addEventListener('hashchange',fromHash);
+  if(location.hash) fromHash();
+})();
+(function(){
+  // 会話だけを聞くボタン（2026-10-20 義樹さん「車で移動中に、会話の内容だけを音声で、ボタンで」）
+  // 2026-10-23 義樹さん「会話しているところだけを、VOICEVOX で、ひとりずつ担当を割り当てて」：
+  //   koe/yNNNN.mp3（koe_tsukuru.ps1 が作る・人ごとにちがう声）があれば、それを流して、いま読んでいる行に印をつける（画面を消しても止まらない）。
+  //   無いとき・読みこめないときは、前と同じブラウザの声（speechSynthesis・1行ずつ・人ごとに高さを変える）で同じ所を読む。
+  // 読む物＝「大事な会話」の場面（#kaiwa .scene：場面の名前→せりふ）と、寄り合いの「火を囲んで」（#yoriai の p.ln）だけ。「そのあと」と「心の中」は読まない。止めたら、次はその続きから
+  var b=document.getElementById('yomi'); if(!b) return;
+  function txt(el){ return el?(el.textContent||'').replace(/\s+/g,' ').trim():''; }
+  var kw=document.getElementById('kaiwa'), yr=document.getElementById('yoriai');
+  var scenes=kw?[].slice.call(kw.querySelectorAll('.scene')):[];
+  var ml=yr?[].slice.call(yr.querySelectorAll('p.ln')):[];
+  var mh=null; if(ml.length){ for(var n=ml[0].previousElementSibling;n;n=n.previousElementSibling){ if(n.tagName==='H3'){ mh=n; break; } } }
+  var on=false, wl=null;
+  function mark(el){
+    var o=document.querySelector('.yomi-now'); if(o) o.classList.remove('yomi-now');
+    if(!el) return;
+    el.classList.add('yomi-now');
+    for(var n=el;n;n=n.parentElement){ if(n.tagName==='DETAILS') n.open=true; }
+    try{ el.scrollIntoView({block:'center',behavior:'smooth'}); }catch(e){}
+  }
+  function setBtn(){ b.setAttribute('data-t',on?'■ とめる':'🔊 会話を聞く'); b.setAttribute('aria-label',on?'読み上げをとめる':'会話を読み上げる'); b.classList.toggle('on',on); }
+  function lock(){ try{ if(navigator.wakeLock&&!wl){ navigator.wakeLock.request('screen').then(function(x){ wl=x; x.addEventListener('release',function(){ wl=null; }); }).catch(function(){}); } }catch(e){} }
+  function unlock(){ try{ if(wl) wl.release(); }catch(e){} wl=null; }
+  var ss=window.speechSynthesis; if(!ss||!window.SpeechSynthesisUtterance) ss=null;
+  // ---- VOICEVOX の声（koe/yNNNN.mp3 と、行ごとの始まりの秒 #koe-cue＝[種類, 場面, 行, 秒]） ----
+  var cue=null, au=null, ci=-1;
+  try{ var cj=document.getElementById('koe-cue'); if(cj&&b.getAttribute('data-koe')) cue=JSON.parse(cj.textContent); }catch(e){ cue=null; }
+  function cueEl(c){
+    if(c[0]==='s') return scenes[c[1]]||null;
+    if(c[0]==='l'){ var sc=scenes[c[1]]; return sc?(sc.querySelectorAll('p.ln')[c[2]]||null):null; }
+    if(c[0]==='m') return mh||ml[0]||null;
+    if(c[0]==='ml') return ml[c[2]]||null;
+    return null;
+  }
+  if(cue&&cue.length){
+    // ページの会話と声の並びが合っているか（合わなければブラウザの声で読む）
+    var ok=true, cnt={}, mc=0;
+    cue.forEach(function(c){ if(c[0]!=='t'&&!cueEl(c)) ok=false; if(c[0]==='l') cnt[c[1]]=(cnt[c[1]]||0)+1; if(c[0]==='ml') mc++; });
+    scenes.forEach(function(sc,k){ if((cnt[k]||0)!==sc.querySelectorAll('p.ln').length) ok=false; });
+    if(mc!==ml.length) ok=false;
+    if(!ok) cue=null;
+  } else cue=null;
+  function at(t){ var k=0; for(var n=0;n<cue.length;n++){ if(cue[n][3]<=t+0.05) k=n; else break; } return k; }
+  if(cue){
+    au=new Audio(); au.preload='none'; au.src=b.getAttribute('data-koe');
+    au.addEventListener('timeupdate',function(){ if(!on||!cue) return; var k=at(au.currentTime); if(k!==ci){ ci=k; mark(cueEl(cue[k])); } });
+    au.addEventListener('play',function(){ if(!on){ on=true; setBtn(); } });
+    au.addEventListener('pause',function(){ if(on&&cue){ on=false; mark(null); setBtn(); } });
+    au.addEventListener('ended',function(){ on=false; ci=-1; mark(null); try{ au.currentTime=0; }catch(e){} setBtn(); });
+    au.addEventListener('error',function(){ var was=on; cue=null; on=false; mark(null); setBtn(); if(was&&ss){ on=true; setBtn(); lock(); ss.cancel(); say(); } });
+    if('mediaSession' in navigator){ try{ navigator.mediaSession.metadata=new MediaMetadata({title:(b.getAttribute('data-koe-title')||'人類創世ゲーム')+' の会話', artist:'人類創世ゲーム', album:'村の会話（VOICEVOX）'}); }catch(e){} }
+  }
+  if(!cue&&!ss) return;
+  // ---- ブラウザの声（VOICEVOX の声が無いとき） ----
+  function ln(p){ var who=txt(p.querySelector('.who')); var line=txt(p).slice(who.length).trim(); return {el:p, t:(who?who+'。':'')+line, who:who}; }
+  var q=[];
+  scenes.forEach(function(sc){
+    var head=txt(sc.querySelector('h3')), w=txt(sc.querySelector('.where')).replace(/（[^）]*）/g,'');   // 「オカ（丘）」→「オカ」（耳では二度読みになるので）
+    if(head||w) q.push({el:sc, t:head+(w?'。'+w:''), who:''});
+    [].forEach.call(sc.querySelectorAll('p.ln'),function(p){ q.push(ln(p)); });
+  });
+  if(ml.length){ q.push({el:mh||ml[0], t:'寄り合い。火を囲んで。', who:''}); ml.forEach(function(p){ q.push(ln(p)); }); }
+  q=q.filter(function(x){ return x.t; });
+  if(!q.length) return;
+  b.hidden=false;
+  var i=0, voice=null, cur=null;
+  function pickVoice(){ if(!ss) return; var vs=ss.getVoices()||[]; voice=null; for(var k=0;k<vs.length;k++){ if(/^ja/i.test(vs[k].lang)){ if(!voice) voice=vs[k]; if(/Google|Kyoko|O-ren|Nanami|Haruka/.test(vs[k].name)){ voice=vs[k]; break; } } } }
+  pickVoice(); if(ss&&ss.addEventListener) ss.addEventListener('voiceschanged',pickVoice);
+  function pitchOf(who){ if(!who) return 1; var h=0; for(var k=0;k<who.length;k++) h=(h*31+who.charCodeAt(k))%997; return 0.85+(h%8)*0.05; }
+  function stop(){ on=false; cur=null; if(au&&cue) au.pause(); if(ss) ss.cancel(); mark(null); unlock(); setBtn(); }
+  function say(){
+    if(!on||!ss) return;
+    if(i>=q.length){ i=0; stop(); return; }
+    var it=q[i]; mark(it.el);
+    var u=new SpeechSynthesisUtterance(it.t);
+    u.lang='ja-JP'; if(voice) u.voice=voice; u.rate=1; u.pitch=pitchOf(it.who);
+    u.onend=function(){ if(cur!==u) return; i++; setTimeout(say,250); };
+    u.onerror=function(e){ if(cur!==u) return; if(e&&(e.error==='canceled'||e.error==='interrupted')) return; i++; setTimeout(say,250); };
+    cur=u; window.__yomiU=u; ss.speak(u);
+  }
+  b.addEventListener('click',function(){
+    if(on){ stop(); return; }
+    if(cue&&au){ on=true; setBtn(); ci=-1; var p=au.play(); if(p&&p.catch) p.catch(function(e){ if(e&&e.name==='NotAllowedError'){ on=false; setBtn(); } }); return; }
+    on=true; setBtn(); lock(); ss.cancel(); say();
+  });
+  document.addEventListener('visibilitychange',function(){ if(on&&!cue&&document.visibilityState==='visible') lock(); });
+  window.__yomi={au:au, koe:!!cue};
+  setBtn();
+})();
+</script>
+<nav class="yn-bar" aria-label="年の切りかえ"><a class="yn" href="../16/" data-l="← 16年目"></a><a class="yn" href="../" data-l="年の一覧"></a><a class="yn yn-next" href="../18/" data-l="18年目 →"></a></nav><script id="yn-script">(function(){var a=document.querySelectorAll('.yn-bar .yn-next');if(!a.length||!window.fetch)return;fetch(a[0].getAttribute('href'),{method:'HEAD'}).then(function(r){if(!r.ok){for(var i=0;i<a.length;i++)a[i].classList.add('off');}}).catch(function(){for(var i=0;i<a.length;i++)a[i].classList.add('off');});})();</script>
+</body>
+</html>
