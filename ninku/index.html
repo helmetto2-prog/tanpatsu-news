@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>人工計算｜みどり造園</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2e5d34">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="人工計算">
+<style>
+:root{
+  --accent:#2e5d34;
+  --accent-soft:#e3ece2;
+  --base:#ffffff;
+  --cream:#f4f1e8;
+  --ink:#243324;
+  --gold:#c8a24a;
+  --hair:#d9d5c7;
+  --muted:#5f735f;
+  --error:#b3402a;
+  --btn:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --accent:#7fb685;
+    --accent-soft:#1f3322;
+    --base:#121812;
+    --cream:#1b231b;
+    --ink:#e6eee5;
+    --gold:#d9b85f;
+    --hair:#334233;
+    --muted:#a3b5a2;
+    --error:#ff8f78;
+    --btn:#223022;
+  }
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; }
+body{ color:var(--ink); background:var(--base); font-family:"Yu Gothic UI","Hiragino Sans","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+  padding:calc(12px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); max-width:520px; margin:0 auto; }
+header{ display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+h1{ font-size:24px; font-weight:800; }
+.badge{ font-size:12px; font-weight:700; color:#fff; background:var(--accent); padding:3px 9px; border-radius:5px 5px 5px 0; white-space:nowrap; }
+@media (prefers-color-scheme: dark){ .badge{ color:#102010; } }
+
+.card{ background:var(--cream); border:1px solid var(--hair); border-radius:12px; padding:12px; margin-bottom:10px; }
+.card h2{ font-size:15px; font-weight:800; margin-bottom:8px; display:flex; justify-content:space-between; align-items:baseline; }
+.card h2 small{ font-size:12px; font-weight:600; color:var(--muted); }
+
+.stepper{ display:grid; grid-template-columns:72px 1fr 72px; gap:8px; align-items:center; }
+.stepper button, .chips button{ font:inherit; color:var(--ink); background:var(--btn); border:1.5px solid var(--hair); border-radius:10px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.stepper button{ height:56px; font-size:17px; font-weight:800; }
+.stepper button:active, .chips button:active{ transform:scale(.97); }
+.timebox{ position:relative; text-align:center; font-size:40px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:.02em; line-height:56px;
+  background:var(--base); border:2px solid var(--accent); border-radius:10px; }
+.timebox input{ position:absolute; inset:0; opacity:0; width:100%; height:100%; cursor:pointer; }
+.chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.chips button{ flex:1 1 0; min-width:50px; height:42px; font-size:16px; font-weight:700; font-variant-numeric:tabular-nums; }
+.chips button.on{ background:var(--accent); border-color:var(--accent); color:#fff; }
+@media (prefers-color-scheme: dark){ .chips button.on{ color:#102010; } }
+
+.result{ background:var(--accent-soft); border:2px solid var(--accent); border-radius:12px; padding:14px 14px 10px; margin-bottom:10px; }
+.big{ text-align:center; }
+.big .num{ font-size:64px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; color:var(--accent); }
+.big .unit{ font-size:22px; font-weight:800; margin-left:4px; }
+.big .sub{ font-size:14px; color:var(--muted); margin-top:4px; font-weight:600; }
+.err{ text-align:center; color:var(--error); font-weight:800; font-size:16px; padding:12px 0; }
+table{ width:100%; border-collapse:collapse; margin-top:10px; font-variant-numeric:tabular-nums; }
+td{ padding:7px 4px; font-size:15px; border-top:1px solid var(--hair); }
+td.v{ text-align:right; font-weight:800; white-space:nowrap; }
+td .why{ display:block; font-size:12px; color:var(--muted); font-weight:500; }
+tr.sum td{ border-top:2px solid var(--accent); font-weight:800; }
+tr.zero td{ color:var(--muted); }
+tr.zero td.v{ font-weight:600; }
+
+.people{ display:grid; grid-template-columns:72px 1fr 72px; gap:8px; align-items:center; }
+.people button{ font:inherit; height:48px; font-size:24px; font-weight:800; color:var(--ink); background:var(--btn); border:1.5px solid var(--hair); border-radius:10px; }
+.people .n{ text-align:center; font-size:26px; font-weight:800; }
+
+details{ border:1.5px dashed var(--muted); border-radius:10px; padding:10px 12px; font-size:14px; line-height:1.7; }
+summary{ font-weight:800; cursor:pointer; color:var(--accent); }
+details ul{ padding-left:1.2em; margin-top:6px; }
+.foot{ font-size:11px; color:var(--muted); text-align:right; margin-top:10px; }
+.check{ font-size:11px; color:var(--muted); }
+.check.ng{ color:var(--error); font-weight:800; font-size:13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>人工計算</h1>
+  <span class="badge">日報・原価用（8時間基準）</span>
+</header>
+
+<section class="card">
+  <h2>始めた時刻 <small>8:00より前は早出</small></h2>
+  <div class="stepper">
+    <button type="button" data-step="start" data-d="-10">−10分</button>
+    <div class="timebox"><span id="startLabel">8:00</span><input id="startInput" type="time" step="600" aria-label="始めた時刻"></div>
+    <button type="button" data-step="start" data-d="10">＋10分</button>
+  </div>
+  <div class="chips" id="startChips"></div>
+</section>
+
+<section class="card">
+  <h2>終わった時刻 <small>17:00より後は残業</small></h2>
+  <div class="stepper">
+    <button type="button" data-step="end" data-d="-10">−10分</button>
+    <div class="timebox"><span id="endLabel">17:00</span><input id="endInput" type="time" step="600" aria-label="終わった時刻"></div>
+    <button type="button" data-step="end" data-d="10">＋10分</button>
+  </div>
+  <div class="chips" id="endChips"></div>
+</section>
+
+<section class="result" aria-live="polite">
+  <div id="out"></div>
+</section>
+
+<section class="card">
+  <h2>同じ時間で働いた人数 <small>まとめて足すとき</small></h2>
+  <div class="people">
+    <button type="button" id="pMinus" aria-label="1人へらす">−</button>
+    <div class="n"><span id="pNum">1</span>人</div>
+    <button type="button" id="pPlus" aria-label="1人ふやす">＋</button>
+  </div>
+</section>
+
+<details>
+  <summary>計算のきまり（人工計算表 改訂2版と同じ）</summary>
+  <ul>
+    <li>所定は 8:00〜17:00。<b>実働8時間 ＝ 1.00人工</b>。</li>
+    <li>昼休憩 12:00〜13:10 を引きます（引くのは最大60分。17:00でちょうど1.00人工になる社内の換算）。</li>
+    <li>10時・15時の休憩は実働あつかいで、引きません。</li>
+    <li>17:00より後の残業と、8:00より前の早出は、<b>すべて一律1.25倍</b>。</li>
+    <li>所定内・早出・残業をそれぞれ小数2けたにしてから足します（表を引いて足すのと同じ答え）。</li>
+    <li>例：8:00〜19:00 ＝ 1.00＋0.31 ＝ <b>1.31人工</b>／7:00〜18:00 ＝ 1.00＋0.16＋0.16 ＝ <b>1.32人工</b></li>
+    <li>8:00より後に始めた日は、始めた時刻から数えます（表には載っていない場合です）。</li>
+  </ul>
+</details>
+
+<div class="foot">株式会社みどり造園｜人工計算 v01 <span class="check" id="check"></span></div>
+
+<script>
+"use strict";
+const STD = 480;                        // 実働8時間 = 1.00人工
+const DAY_S = 480, DAY_E = 1020;        // 所定 8:00〜17:00
+const LUNCH_S = 720, LUNCH_E = 790;     // 昼休憩 12:00〜13:10
+const LUNCH_MAX = 60;                   // 昼の控除は上限60分
+const OT_RATE = 1.25;                   // 残業・早出は一律1.25倍
+const MIN_T = 240, MAX_T = 1430;        // 4:00〜23:50 の範囲で選べる
+
+function overlap(a1,a2,b1,b2){ return Math.max(0, Math.min(a2,b2) - Math.max(a1,b1)); }
+function round2(x){ return Math.round(x*100)/100; }
+function fmtT(m){ return Math.floor(m/60) + ":" + String(m%60).padStart(2,"0"); }
+function fmtDur(m){ const h = Math.floor(m/60), mm = m%60; return h === 0 ? `${mm}分` : (mm === 0 ? `${h}時間` : `${h}時間${mm}分`); }
+function toInput(m){ return String(Math.floor(m/60)).padStart(2,"0") + ":" + String(m%60).padStart(2,"0"); }
+function fromInput(v){ const [h,mm] = v.split(":").map(Number); return Math.round((h*60 + mm)/10)*10; }
+
+// 1人分の人工（所定内・早出・残業をそれぞれ2けたに丸めて足す＝人工計算表と同じ）
+function calc(start, end){
+  const regMin = overlap(start, end, DAY_S, DAY_E) - Math.min(overlap(start, end, LUNCH_S, LUNCH_E), LUNCH_MAX);
+  const earlyMin = Math.max(0, Math.min(end, DAY_S) - start);
+  const otMin = Math.max(0, end - Math.max(start, DAY_E));
+  const reg = round2(regMin / STD);
+  const early = round2(earlyMin / STD * OT_RATE);
+  const ot = round2(otMin / STD * OT_RATE);
+  return { regMin, earlyMin, otMin, reg, early, ot, total: round2(reg + early + ot) };
+}
+
+const state = { start: 480, end: 1020, people: 1 };
+try {
+  const saved = JSON.parse(localStorage.getItem("ninku-v01") || "null");
+  if (saved && Number.isFinite(saved.start) && Number.isFinite(saved.end)) {
+    state.start = saved.start; state.end = saved.end;
+    state.people = Math.min(30, Math.max(1, saved.people | 0 || 1));
+  }
+} catch (e) {}
+
+const START_CHIPS = [420, 450, 480];
+const END_CHIPS = [960, 1020, 1050, 1080, 1140];
+
+function chips(el, list, key){
+  el.innerHTML = list.map(t => `<button type="button" data-set="${key}" data-t="${t}">${fmtT(t)}</button>`).join("");
+}
+chips(document.getElementById("startChips"), START_CHIPS, "start");
+chips(document.getElementById("endChips"), END_CHIPS, "end");
+
+function render(){
+  document.getElementById("startLabel").textContent = fmtT(state.start);
+  document.getElementById("endLabel").textContent = fmtT(state.end);
+  document.getElementById("startInput").value = toInput(state.start);
+  document.getElementById("endInput").value = toInput(state.end);
+  document.getElementById("pNum").textContent = state.people;
+  document.querySelectorAll("[data-set]").forEach(b => b.classList.toggle("on", Number(b.dataset.t) === state[b.dataset.set]));
+
+  const out = document.getElementById("out");
+  if (state.end <= state.start) {
+    out.innerHTML = `<div class="err">終わった時刻が、始めた時刻より前になっています</div>`;
+  } else {
+    const r = calc(state.start, state.end);
+    const all = round2(r.total * state.people);
+    const work = r.regMin + r.earlyMin + r.otMin;
+    const row = (name, why, v, min) =>
+      `<tr${min === 0 ? ' class="zero"' : ''}><td>${name}<span class="why">${why}</span></td><td class="v">${v.toFixed(2)}</td></tr>`;
+    out.innerHTML = `
+      <div class="big">
+        <span class="num">${(state.people > 1 ? all : r.total).toFixed(2)}</span><span class="unit">人工</span>
+        <div class="sub">${state.people > 1 ? `1人 ${r.total.toFixed(2)}人工 × ${state.people}人` : `実働 ${fmtDur(work)}`}</div>
+      </div>
+      <table>
+        ${row("所定内", `8:00〜17:00 のうち ${fmtDur(r.regMin)}（昼を引いた後）`, r.reg, r.regMin)}
+        ${row("早出", r.earlyMin ? `${fmtDur(r.earlyMin)} × 1.25倍` : "なし", r.early, r.earlyMin)}
+        ${row("残業", r.otMin ? `${fmtDur(r.otMin)} × 1.25倍` : "なし", r.ot, r.otMin)}
+        <tr class="sum"><td>1人分</td><td class="v">${r.total.toFixed(2)}</td></tr>
+      </table>`;
+  }
+  try { localStorage.setItem("ninku-v01", JSON.stringify(state)); } catch (e) {}
+}
+
+function clampT(t){ return Math.min(MAX_T, Math.max(MIN_T, t)); }
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.step) { state[b.dataset.step] = clampT(state[b.dataset.step] + Number(b.dataset.d)); render(); }
+  else if (b.dataset.set) { state[b.dataset.set] = Number(b.dataset.t); render(); }
+  else if (b.id === "pMinus") { state.people = Math.max(1, state.people - 1); render(); }
+  else if (b.id === "pPlus") { state.people = Math.min(30, state.people + 1); render(); }
+});
+["start","end"].forEach(k => {
+  document.getElementById(k + "Input").addEventListener("change", e => {
+    if (e.target.value) { state[k] = clampT(fromInput(e.target.value)); render(); }
+  });
+});
+
+// 検算（人工計算表 改訂2版の値・使い方の例と同じになること）
+(function selfCheck(){
+  const cases = [
+    [480, 720, 0.50], [480, 790, 0.52], [480, 900, 0.75], [480, 960, 0.88], [480, 1020, 1.00],
+    [480, 1030, 1.03], [480, 1050, 1.08], [480, 1080, 1.16], [480, 1140, 1.31], [480, 1200, 1.47],
+    [420, 1080, 1.32]
+  ];
+  const ng = cases.filter(([s, e, exp]) => Math.abs(calc(s, e).total - exp) > 1e-9);
+  const el = document.getElementById("check");
+  if (ng.length) {
+    el.textContent = "検算NG！ " + ng.map(([s, e]) => fmtT(s) + "〜" + fmtT(e)).join("、");
+    el.classList.add("ng");
+  } else {
+    el.textContent = "・検算OK";
+  }
+})();
+
+render();
+
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>

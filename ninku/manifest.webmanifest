@@ -1,0 +1,15 @@
+{
+  "name": "人工計算｜みどり造園",
+  "short_name": "人工計算",
+  "description": "始めた時刻と終わった時刻から人工を出す（日報・原価用・8時間基準）",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2e5d34",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
