@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>人類創世</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <style>
+    :root {
+      --bg-color: #f6efe2;
+      --text-color: #3b2a1c;
+      --btn-bg: #8a5a35;
+      --btn-text: #ffffff;
+      --accent-color: #c8642a;
+      --btn-disabled: #a09080;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #2b231d;
+        --text-color: #e5dccf;
+        --btn-bg: #60422a;
+        --btn-text: #e5dccf;
+        --accent-color: #b05520;
+        --btn-disabled: #4a4038;
+      }
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      max-width: 412px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    header {
+      width: 100%;
+    }
+    #hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-texts {
+      padding: 16px;
+    }
+    #hero-title {
+      font-size: 26px;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+      color: var(--accent-color);
+    }
+    #hero-headline {
+      font-size: 20px;
+      margin: 0;
+    }
+    .container {
+      padding: 16px;
+    }
+    button {
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      min-height: 64px;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    button:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:disabled {
+      background-color: var(--btn-disabled);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .sub-text {
+      font-size: 16px;
+      font-weight: normal;
+      margin-top: 4px;
+    }
+    .notice-text {
+      font-size: 16px;
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: 16px;
+      color: var(--accent-color);
+    }
+    #footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 20px;
+      opacity: 0.8;
+    }
+    /* コントロールUI群 */
+    .control-panel {
+      display: none;
+      background-color: var(--bg-color);
+      border: 3px solid var(--accent-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .control-panel p {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 0;
+    }
+    .flex-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .flex-btns button {
+      margin-bottom: 0;
+      min-height: 54px;
+      font-size: 20px;
+    }
+    video, audio {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    /* 画面切り替え */
+    #page-list {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- メイン画面 -->
+  <div id="page-main">
+    <header>
+      <img id="hero-img" src="" alt="" style="display:none;">
+      <div class="hero-texts">
+        <h1 id="hero-title"></h1>
+        <p id="hero-headline"></p>
+      </div>
+    </header>
+
+    <div class="container">
+      <button id="btn-read-page">今年の話を読む</button>
+
+      <!-- 読み上げパネル -->
+      <button id="btn-start-speech">今年の話をスマホに読ませる</button>
+      <div id="speech-panel" class="control-panel">
+        <p id="speech-text">読み込み中…</p>
+        <div class="flex-btns">
+          <button id="btn-speech-pause">一時停止</button>
+          <button id="btn-speech-resume">つづきから</button>
+          <button id="btn-speech-stop">止める</button>
+        </div>
+      </div>
+
+      <!-- 音声パネル -->
+      <button id="btn-start-audio">村人の声で聞く</button>
+      <div id="audio-panel" class="control-panel">
+        <p>村人の声</p>
+        <audio id="audio-player"></audio>
+        <div class="flex-btns">
+          <button id="btn-audio-play">再生</button>
+          <button id="btn-audio-pause">一時停止</button>
+          <button id="btn-audio-stop">止める</button>
+        </div>
+      </div>
+
+      <!-- アニメパネル -->
+      <button id="btn-start-anime">村のアニメを見る</button>
+      <p id="anime-notice" class="notice-text" style="display:none;"></p>
+      <div id="anime-panel" class="control-panel">
+        <video id="video-player" controls playsinline></video>
+        <button id="btn-anime-close" style="margin-top:10px; min-height:54px; font-size:20px;">閉じる</button>
+      </div>
+
+      <button id="btn-link-hito">村の人たちを見る</button>
+      <button id="btn-link-okite">村の掟（おきて）を見る</button>
+      <button id="btn-link-hatsumei">発明と発見を見る</button>
+      <button id="btn-link-kotoba">ことば帳を見る</button>
+      <button id="btn-link-negai">天への願いを見る</button>
+      
+      <button id="btn-show-list">前の年（過去の話）を見る</button>
+      <button id="btn-link-koes">声をまとめて聞く</button>
+      <button id="btn-link-dougas">アニメをまとめて見る</button>
+    </div>
+  </div>
+
+  <!-- 年一覧画面 -->
+  <div id="page-list">
+    <div class="container">
+      <button class="btn-back">もどる</button>
+      <div id="list-container" style="margin: 20px 0;"></div>
+      <button class="btn-back">もどる</button>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="update-date"></div>
+    <div>つくった人：Gemini</div>
+  </div>
+
+  <script>
+    // サービスワーカー登録
+    if (location.protocol === 'https:' && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+    let appData = null;
+    let latestYearData = null;
+    let latestAnimeData = null;
+    let speechSentences = [];
+    let currentSpeechIndex = 0;
+    let synth = window.speechSynthesis;
+    let speechUtterance = null;
+    let speechOn = false; // まとん直し：止めた後に次の文へ進まないように
+    let voices = [];
+
+    // 音声リストの準備
+    function loadVoices() {
+      voices = synth.getVoices().filter(v => v.lang.startsWith('ja'));
+    }
+    if (synth.onvoiceschanged !== undefined) {
+      synth.onvoiceschanged = loadVoices;
+    }
+    
+    async function init() {
+      try {
+        const res = await fetch("nen.json", {cache: "no-store"});
+        appData = await res.json();
+      } catch (e) {
+        console.error("データ読み込み失敗", e);
+        return;
+      }
+
+      const years = appData.years;
+      latestYearData = years.find(y => y.y === appData.latest) || years[years.length - 1];
+
+      // アニメの確認（falseのうち新しい方から最大3件）
+      const notReadyAnimes = years.filter(y => !y.animeReady && y.anime).reverse().slice(0, 3);
+      for (const year of notReadyAnimes) {
+        try {
+          const checkRes = await fetch(year.anime, {method: "HEAD", cache: "no-store"});
+          if (checkRes.ok) year.animeReady = true;
+        } catch (e) {}
+      }
+
+      // いちばん新しいアニメを探す
+      const readyAnimes = years.filter(y => y.animeReady && y.anime).reverse();
+      if (readyAnimes.length > 0) {
+        latestAnimeData = readyAnimes[0];
+      }
+
+      renderHero();
+      setupButtons();
+      buildList();
+      renderFooter();
+    }
+
+    function renderHero() {
+      if (latestYearData.img) {
+        const imgEl = document.getElementById('hero-img');
+        imgEl.src = latestYearData.img;
+        imgEl.style.display = 'block';
+      }
+      document.getElementById('hero-title').textContent = latestYearData.title;
+      if (latestYearData.headline) {
+        document.getElementById('hero-headline').textContent = latestYearData.headline;
+      }
+    }
+
+    function renderFooter() {
+      if (appData.updated) {
+        // "2026-10-28 00:54" -> "10月28日 0時54分に更新"
+        const m = appData.updated.match(/-(\d{2})-(\d{2}) (\d{2}):(\d{2})/);
+        if (m) {
+          const text = `${parseInt(m[1])}月${parseInt(m[2])}日 ${parseInt(m[3])}時${parseInt(m[4])}分に更新`;
+          document.getElementById('update-date').textContent = text;
+        }
+      }
+    }
+
+    function setupButtons() {
+      // リンク系ボタン
+      document.getElementById('btn-read-page').onclick = () => location.href = '../';
+      document.getElementById('btn-link-hito').onclick = () => location.href = '../#hito';
+      document.getElementById('btn-link-okite').onclick = () => location.href = '../#okite';
+      document.getElementById('btn-link-hatsumei').onclick = () => location.href = '../#hatsumei';
+      document.getElementById('btn-link-kotoba').onclick = () => location.href = '../#kotoba';
+      document.getElementById('btn-link-negai').onclick = () => location.href = '../#negai';
+      document.getElementById('btn-link-koes').onclick = () => location.href = '../koe/';
+      document.getElementById('btn-link-dougas').onclick = () => location.href = '../douga/';
+
+      // 音声再生
+      const btnAudio = document.getElementById('btn-start-audio');
+      if (latestYearData.koe) {
+        btnAudio.onclick = () => {
+          btnAudio.style.display = 'none';
+          document.getElementById('audio-panel').style.display = 'block';
+          const audio = document.getElementById('audio-player');
+          audio.src = latestYearData.koe;
+          audio.play();
+        };
+      } else {
+        btnAudio.innerHTML = `村人の声で聞く<br><span class="sub-text">（まだありません）</span>`;
+        btnAudio.disabled = true;
+      }
+
+      document.getElementById('btn-audio-play').onclick = () => document.getElementById('audio-player').play();
+      document.getElementById('btn-audio-pause').onclick = () => document.getElementById('audio-player').pause();
+      document.getElementById('btn-audio-stop').onclick = () => {
+        const audio = document.getElementById('audio-player');
+        audio.pause();
+        audio.currentTime = 0;
+      };
+
+      // アニメ再生
+      const btnAnime = document.getElementById('btn-start-anime');
+      const animeNotice = document.getElementById('anime-notice');
+      if (latestAnimeData) {
+        btnAnime.textContent = `村のアニメを見る（${latestAnimeData.title}）`;
+        if (latestAnimeData.y !== appData.latest) {
+          animeNotice.textContent = `${appData.latest}年目のアニメは、あした以降に出ます`;
+          animeNotice.style.display = 'block';
+        }
+        btnAnime.onclick = () => {
+          btnAnime.style.display = 'none';
+          animeNotice.style.display = 'none';
+          document.getElementById('anime-panel').style.display = 'block';
+          const video = document.getElementById('video-player');
+          video.src = latestAnimeData.anime;
+          if (latestAnimeData.poster) video.poster = latestAnimeData.poster;
+          video.play();
+        };
+      } else {
+        btnAnime.innerHTML = `村のアニメを見る<br><span class="sub-text">（まだありません）</span>`;
+        btnAnime.disabled = true;
+      }
+
+      document.getElementById('btn-anime-close').onclick = () => {
+        const video = document.getElementById('video-player');
+        video.pause();
+        document.getElementById('anime-panel').style.display = 'none';
+        btnAnime.style.display = 'flex';
+        if (latestAnimeData && latestAnimeData.y !== appData.latest) {
+          animeNotice.style.display = 'block';
+        }
+      };
+
+      // 読み上げ
+      const btnSpeech = document.getElementById('btn-start-speech');
+      const panelSpeech = document.getElementById('speech-panel');
+      btnSpeech.onclick = async () => {
+        btnSpeech.style.display = 'none';
+        panelSpeech.style.display = 'block';
+        if (speechSentences.length === 0) {
+          await prepareSpeech();
+        }
+        speechOn = true; // まとん直し
+        playSpeech(0);
+      };
+
+      // まとん直し：Android の Chrome は synth.pause()/resume() が効かないので、
+      // 一時停止＝いったん止める、つづきから＝その文の頭から読み直す、にした
+      document.getElementById('btn-speech-pause').onclick = () => {
+        speechOn = false;
+        synth.cancel();
+      };
+      document.getElementById('btn-speech-resume').onclick = () => {
+        if (speechOn) return;
+        speechOn = true;
+        playSpeech(currentSpeechIndex);
+      };
+      document.getElementById('btn-speech-stop').onclick = () => {
+        speechOn = false; // まとん直し
+        synth.cancel();
+        panelSpeech.style.display = 'none';
+        btnSpeech.style.display = 'flex';
+        currentSpeechIndex = 0;
+      };
+
+      // 一覧画面切り替え
+      document.getElementById('btn-show-list').onclick = () => {
+        document.getElementById('page-main').style.display = 'none';
+        document.getElementById('page-list').style.display = 'block';
+        window.scrollTo(0, 0);
+      };
+      document.querySelectorAll('.btn-back').forEach(btn => {
+        btn.onclick = () => {
+          document.getElementById('page-list').style.display = 'none';
+          document.getElementById('page-main').style.display = 'block';
+          window.scrollTo(0, 0);
+        };
+      });
+    }
+
+    async function prepareSpeech() {
+      try {
+        const res = await fetch('../', {cache: 'no-store'});
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        
+        doc.querySelectorAll('script, style, audio, video, img, svg, button, .toc, .totop, .yomi, .lb-bar, .kotoshi-mk, .sn').forEach(el => el.remove());
+        
+        const sections = ['#mura', '#ten', '#dekigoto', '#kaiwa', '#yoriai', '#negai'];
+        speechSentences = [];
+        
+        sections.forEach(id => {
+          const sec = doc.querySelector(id);
+          if (sec) {
+            const text = sec.innerText || sec.textContent;
+            const parts = text.split(/([。！？\n])/);
+            let current = '';
+            for (let i = 0; i < parts.length; i++) {
+              current += parts[i];
+              if (parts[i].match(/[。！？\n]/) || i === parts.length - 1) {
+                const trimmed = current.trim();
+                if (trimmed) speechSentences.push(trimmed);
+                current = '';
+              }
+            }
+          }
+        });
+        if(speechSentences.length === 0) speechSentences.push("読む文章が見つかりませんでした。");
+      } catch (e) {
+        speechSentences.push("文章の読み込みに失敗しました。");
+      }
+    }
+
+    function playSpeech(index) {
+      if (index >= speechSentences.length) {
+        document.getElementById('speech-text').textContent = "（読み終わりました）";
+        return;
+      }
+      currentSpeechIndex = index;
+      const text = speechSentences[index];
+      document.getElementById('speech-text').textContent = text;
+      
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text); // まとん直し：古い文の終わりの知らせを見分ける
+      speechUtterance = u;
+      if(voices.length > 0) speechUtterance.voice = voices[0];
+      speechUtterance.rate = 1.0;
+      speechUtterance.lang = 'ja-JP';
+
+      // まとん直し：止めた時（cancel）も Chrome は onerror('interrupted') や onend を出すので、
+      // 読み上げ中で、しかも今の文の知らせの時だけ次へ進む
+      speechUtterance.onend = () => {
+        if (speechOn && u === speechUtterance) playSpeech(currentSpeechIndex + 1);
+      };
+      speechUtterance.onerror = (e) => {
+        if (speechOn && u === speechUtterance && e.error !== 'canceled' && e.error !== 'interrupted') playSpeech(currentSpeechIndex + 1);
+      };
+      
+      synth.speak(speechUtterance);
+    }
+
+    function buildList() {
+      const container = document.getElementById('list-container');
+      const reversed = [...appData.years].reverse();
+      reversed.forEach(year => {
+        const btn = document.createElement('button');
+        btn.textContent = year.title;
+        btn.onclick = () => location.href = year.page;
+        container.appendChild(btn);
+      });
+    }
+
+    // 初期化実行
+    loadVoices();
+    init();
+  </script>
+</body>
+</html>
