@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-28 04:24",
-  "latest": 19,
+  "updated": "2026-10-29 00:49",
+  "latest": 20,
   "years": [
     {
       "y": 1,
@@ -220,8 +220,8 @@
       "img": "../img/y0017.jpg",
       "koe": "../koe/y0017.mp3",
       "anime": "../annai/jinrui_y0017_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0017.jpg"
     },
     {
       "y": 18,
@@ -246,6 +246,19 @@
       "img": "../img/y0019.jpg",
       "koe": "../koe/y0019.mp3",
       "anime": "../annai/jinrui_y0019_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 20,
+      "title": "20年目　スナカゲの年",
+      "name": "スナカゲの年",
+      "headline": "北風の当たらない砂山のかげに浜のホリヤを建て、ナギとイソが十夜をすごした",
+      "date": "2026-10-29",
+      "page": "../nen/20/",
+      "img": "../img/y0020.jpg",
+      "koe": "../koe/y0020.mp3",
+      "anime": "../annai/jinrui_y0020_720p.mp4",
       "animeReady": false,
       "poster": null
     }
