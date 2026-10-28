@@ -172,6 +172,51 @@
       width: 100%;
       margin-bottom: 10px;
     }
+    /* まとん直し（v03）：どの年まで読むかの一行と、村の年表 */
+    #speech-hani {
+      display: none;
+      font-size: 16px;
+      margin: 0 0 10px 0;
+    }
+    .nenpyo-title {
+      font-size: 26px;
+      color: var(--accent-color);
+      margin: 8px 0 4px 0;
+    }
+    .nenpyo-note {
+      font-size: 17px;
+      margin: 0 0 16px 0;
+    }
+    button.nenpyo {
+      align-items: flex-start;
+      text-align: left;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      border: 3px solid var(--btn-bg);
+      border-left-width: 10px;
+      box-shadow: none;
+      padding: 12px 14px;
+    }
+    .nenpyo-y {
+      font-size: 18px;
+      color: var(--accent-color);
+    }
+    .nenpyo-name {
+      font-size: 24px;
+    }
+    .nenpyo-head {
+      font-size: 18px;
+      font-weight: normal;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    .nenpyo-go {
+      font-size: 16px;
+      font-weight: normal;
+      text-decoration: underline;
+      align-self: flex-end;
+      margin-top: 6px;
+    }
     /* 画面切り替え */
     #page-list {
       display: none;
@@ -197,6 +242,8 @@
       <button id="btn-start-speech">今年の話をスマホに読ませる</button>
       <div id="speech-panel" class="control-panel">
         <div id="speech-where"></div><!-- まとん直し（v02） -->
+        <p id="speech-hani"></p><!-- まとん直し（v03） -->
+        <audio id="yomi-player" preload="none"></audio><!-- まとん直し（v03）：録音の声（画面を消しても続く） -->
         <div id="speech-note"></div><!-- まとん直し（v02） -->
         <div id="speech-choice"><!-- まとん直し（v02） -->
           <button id="btn-speech-tsuzuki">つづきから</button>
@@ -238,7 +285,7 @@
       <button id="btn-link-kotoba">ことば帳を見る</button>
       <button id="btn-link-negai">天への願いを見る</button>
       
-      <button id="btn-show-list">前の年（過去の話）を見る</button>
+      <button id="btn-show-list">村の年表を見る<span class="sub-text">何年目に何があったか・前の年の話</span></button><!-- まとん直し（v03） -->
       <button id="btn-link-koes">声をまとめて聞く</button>
       <button id="btn-link-dougas">アニメをまとめて見る</button>
     </div>
@@ -248,6 +295,8 @@
   <div id="page-list">
     <div class="container">
       <button class="btn-back">もどる</button>
+      <h2 class="nenpyo-title">村の年表</h2><!-- まとん直し（v03） -->
+      <p class="nenpyo-note">新しい年が上です。押すと、その年の話のページが開きます。</p>
       <div id="list-container" style="margin: 20px 0;"></div>
       <button class="btn-back">もどる</button>
     </div>
@@ -281,6 +330,11 @@
     let speechWaitTimer = null;
     let speechFails = 0;
     let wakeLock = null;
+    // まとん直し（v03）：毎晩の回が作る録音の声（yomi/yNNNN.json と .mp3）。あれば画面を消しても続く
+    const YOMI_NEN = 3; // 年ごとに増える話（願い・天のヒント・暮らしの移り変わり）は、新しい方3年だけ読む
+    let yomiData = null;
+    let yomiPromise = null;
+    let yomiAudioMode = false;
 
     // 音声リストの準備
     function loadVoices() {
@@ -301,6 +355,7 @@
 
       const years = appData.years;
       latestYearData = years.find(y => y.y === appData.latest) || years[years.length - 1];
+      yomiPromise = loadYomi(); // まとん直し（v03）
 
       // アニメの確認（falseのうち新しい方から最大3件）
       const notReadyAnimes = years.filter(y => !y.animeReady && y.anime).reverse().slice(0, 3);
@@ -321,6 +376,12 @@
       setupButtons();
       buildList();
       renderFooter();
+      // まとん直し（v03）：録音の声があれば、ボタンに「画面を消しても続く」と書く
+      yomiPromise.then(yd => {
+        if (yd && yd.src) {
+          document.getElementById('btn-start-speech').innerHTML = '今年の話をスマホに読ませる<span class="sub-text">画面を消しても、そのまま読みます</span>';
+        }
+      });
     }
 
     function renderHero() {
@@ -446,6 +507,14 @@
       // まとん直し（v02）：読み上げ中でも、黙って止まった後でも、いつ押しても今の文の頭から読み直す
       document.getElementById('btn-speech-resume').onclick = () => {
         if (speechSentences.length === 0) return;
+        // まとん直し（v03）：録音の声は、止めた所からそのまま続ける
+        const au = document.getElementById('yomi-player');
+        if (yomiAudioMode && au.getAttribute('src') && au.paused && !au.ended && au.currentTime > 0) {
+          speechOn = true;
+          document.getElementById('speech-note').style.display = 'none';
+          playYomi();
+          return;
+        }
         startSpeechAt(currentSpeechIndex);
       };
       document.getElementById('btn-speech-stop').onclick = () => {
@@ -456,8 +525,9 @@
       };
       // まとん直し（v02）：画面がもどった時、読み上げ中なら画面を消さない仕掛けを取り直す
       document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible' && speechOn) takeWakeLock();
+        if (document.visibilityState === 'visible' && speechOn && !yomiAudioMode) takeWakeLock(); // まとん直し（v03）：録音の声の時は画面を消してよい
       });
+      setupYomiPlayer(); // まとん直し（v03）
 
       // 一覧画面切り替え
       document.getElementById('btn-show-list').onclick = () => {
@@ -475,13 +545,30 @@
     }
 
     async function prepareSpeech() {
+      // まとん直し（v03）：毎晩の回が作った「読む文と録音の声」があれば、それを使う
+      const yd = await yomiPromise;
+      const cutoff = Math.max(1, appData.latest - YOMI_NEN + 1);
+      showSpeechHani(cutoff);
+      if (yd) {
+        yomiData = yd;
+        speechSentences = yd.items.map(it => it.t);
+        speechSecStarts = (yd.secs || []).filter(s => s.start < speechSentences.length);
+        const au = document.getElementById('yomi-player');
+        yomiAudioMode = !!(yd.src && yd.items.every(it => typeof it.a === 'number') && au.canPlayType && au.canPlayType('audio/mpeg') !== '');
+        return;
+      }
       try {
         const res = await fetch('../', {cache: 'no-store'});
         const html = await res.text();
         const doc = new DOMParser().parseFromString(html, 'text/html');
-        
+
         doc.querySelectorAll('script, style, audio, video, img, svg, button, .toc, .totop, .yomi, .lb-bar, .kotoshi-mk, .sn').forEach(el => el.remove());
-        
+        // まとん直し（v03）：「N年目の願い」「N年目・〇〇へ」のように年ごとに増える囲み・行は、新しい方3年だけ
+        doc.querySelectorAll('.wish, li').forEach(el => {
+          const m = (el.textContent || '').trim().match(/^(\d+)\s*年目/);
+          if (m && +m[1] < cutoff) el.remove();
+        });
+
         const sections = ['#mura', '#ten', '#dekigoto', '#kaiwa', '#yoriai', '#negai'];
         speechSentences = [];
         speechSecStarts = []; // まとん直し（v02）
@@ -497,7 +584,9 @@
               current += parts[i];
               if (parts[i].match(/[。！？\n]/) || i === parts.length - 1) {
                 const trimmed = current.trim();
-                if (trimmed) speechSentences.push(trimmed);
+                // まとん直し（v03）：「暮らし方」の「N年目からは、…」も新しい方3年だけ
+                const old = trimmed.match(/^(\d+)年目からは/);
+                if (trimmed && !(old && +old[1] < cutoff)) speechSentences.push(trimmed);
                 current = '';
               }
             }
@@ -559,6 +648,7 @@
 
     // ボタンから読み始める：今しゃべっていたら cancel して 250ms あけてから読む
     function startSpeechAt(index) {
+      if (yomiAudioMode) { startYomiAt(index); return; } // まとん直し（v03）
       clearSpeechTimers();
       speechOn = true;
       speechFails = 0;
@@ -581,6 +671,7 @@
       speechUtterance = null;
       synth.cancel();
       releaseWakeLock();
+      document.getElementById('yomi-player').pause(); // まとん直し（v03）
     }
 
     // 切られた・黙った時：同じ文を1秒後に読み直す。同じ文で3回続けてだめなら止めて知らせる
@@ -674,12 +765,180 @@
     }
     // ===== まとん直し（v02）ここまで =====
 
+    // ===== ここから下は まとん直し（v03）=====
+    // スマホのブラウザの声（speechSynthesis）は、画面を消すと止まる。
+    // 毎晩の回（app_yomi.ps1）が VOICEVOX で作った mp3 をふつうの音として流すと、画面を消しても続き、ロック画面からも止めたり進めたりできる。
+
+    async function loadYomi() {
+      try {
+        const n = String(appData.latest).padStart(4, '0');
+        const res = await fetch(`yomi/y${n}.json`, {cache: 'no-store'});
+        if (!res.ok) return null;
+        const yd = await res.json();
+        if (yd.year !== appData.latest || !Array.isArray(yd.items) || yd.items.length === 0) return null;
+        return yd;
+      } catch (e) { return null; }
+    }
+
+    // 「読むのは 18〜20年目の話です」
+    function showSpeechHani(cutoff) {
+      const el = document.getElementById('speech-hani');
+      if (cutoff <= 1) { el.style.display = 'none'; return; }
+      el.textContent = `年ごとの願いや暮らしの移り変わりは、${cutoff}〜${appData.latest}年目の分だけ読みます。前の年のことは「村の年表」で見られます。`;
+      el.style.display = 'block';
+    }
+
+    function setupYomiPlayer() {
+      const au = document.getElementById('yomi-player');
+      au.addEventListener('timeupdate', () => {
+        if (!yomiAudioMode || !yomiData) return;
+        const i = yomiIndexAt(au.currentTime);
+        if (i !== currentSpeechIndex) showYomiIndex(i);
+      });
+      // スマホの声へ切りかえた後に遅れて来る知らせでは、読み上げ中の印を変えない
+      au.addEventListener('play', () => {
+        if (!yomiAudioMode) return;
+        speechOn = true;
+        setYomiState('playing');
+      });
+      au.addEventListener('pause', () => {
+        if (!yomiAudioMode || au.ended) return;
+        speechOn = false;
+        setYomiState('paused');
+      });
+      au.addEventListener('ended', () => {
+        if (!yomiAudioMode) return;
+        speechOn = false;
+        clearSpeechPos();
+        document.getElementById('speech-text').textContent = '（読み終わりました）';
+        setYomiState('none');
+      });
+      au.addEventListener('error', () => { if (yomiAudioMode && au.getAttribute('src')) yomiFailed(); });
+      // 村人の声を聞き始めたら、こちらは止める（声が重ならないように）
+      document.getElementById('audio-player').addEventListener('play', () => { if (!au.paused) au.pause(); });
+    }
+
+    function startYomiAt(index) {
+      const au = document.getElementById('yomi-player');
+      clearSpeechTimers();
+      if (synth.speaking || synth.pending) synth.cancel();
+      releaseWakeLock();
+      speechOn = true;
+      document.getElementById('speech-note').style.display = 'none';
+      document.getElementById('speech-choice').style.display = 'none';
+      const i = Math.max(0, Math.min(index, yomiData.items.length - 1));
+      const t = yomiData.items[i].a;
+      showYomiIndex(i);
+      setYomiMediaSession();
+      if (!au.getAttribute('src')) {
+        au.src = 'yomi/' + yomiData.src;
+        au.addEventListener('loadedmetadata', () => { if (Math.abs(au.currentTime - t) > 1) au.currentTime = t; }, {once: true});
+      }
+      try { au.currentTime = t; } catch (e) {}
+      playYomi();
+    }
+
+    function playYomi() {
+      // 村人の声・アニメが鳴っていたら止める
+      document.getElementById('audio-player').pause();
+      document.getElementById('video-player').pause();
+      const au = document.getElementById('yomi-player');
+      const p = au.play();
+      if (p && p.catch) p.catch(err => {
+        if (err && err.name === 'AbortError') return; // 止めた・場所を変えた時
+        if (!yomiAudioMode) return; // もうスマホの声へ切りかえた後
+        speechOn = false;
+        if (err && err.name === 'NotAllowedError') {
+          const note = document.getElementById('speech-note');
+          note.textContent = '『つづきから』を押すと、読みはじめます';
+          note.style.display = 'block';
+          return;
+        }
+        yomiFailed();
+      });
+    }
+
+    // 録音の声が読みこめない時は、これまでのスマホの声で、同じ文から読む（この時は画面を消すと止まる）
+    function yomiFailed() {
+      if (!yomiAudioMode) return;
+      yomiAudioMode = false;
+      const au = document.getElementById('yomi-player');
+      au.pause();
+      au.removeAttribute('src');
+      setYomiState('none');
+      startSpeechAt(currentSpeechIndex);
+      const note = document.getElementById('speech-note');
+      note.textContent = '録音の声が読みこめないので、スマホの声で読みます（画面を消すと止まります）';
+      note.style.display = 'block';
+    }
+
+    function yomiIndexAt(t) {
+      const it = yomiData.items;
+      let k = 0;
+      for (let n = 0; n < it.length; n++) { if (it[n].a <= t + 0.05) k = n; else break; }
+      return k;
+    }
+
+    function showYomiIndex(i) {
+      currentSpeechIndex = i;
+      document.getElementById('speech-text').textContent = speechSentences[i];
+      showSpeechWhere(i);
+      saveSpeechPos(i);
+    }
+
+    // ロック画面・通知の「前へ」「次へ」＝段の頭へ（段の途中なら、その段の頭へもどる）
+    function yomiJumpSec(dir) {
+      if (speechSecStarts.length === 0) return;
+      let cur = 0;
+      speechSecStarts.forEach((s, k) => { if (s.start <= currentSpeechIndex) cur = k; });
+      let k = cur + dir;
+      if (dir < 0 && currentSpeechIndex > speechSecStarts[cur].start + 1) k = cur;
+      k = Math.max(0, Math.min(speechSecStarts.length - 1, k));
+      startSpeechAt(speechSecStarts[k].start);
+    }
+
+    function setYomiMediaSession() {
+      if (!('mediaSession' in navigator)) return;
+      const au = document.getElementById('yomi-player');
+      try {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: `今年の話（${yomiData.title}）`,
+          artist: '人類創世',
+          artwork: [
+            {src: 'icon-192.png', sizes: '192x192', type: 'image/png'},
+            {src: 'icon-512.png', sizes: '512x512', type: 'image/png'}
+          ]
+        });
+        navigator.mediaSession.setActionHandler('play', () => { speechOn = true; playYomi(); });
+        navigator.mediaSession.setActionHandler('pause', () => au.pause());
+        navigator.mediaSession.setActionHandler('seekbackward', () => { au.currentTime = Math.max(0, au.currentTime - 10); });
+        navigator.mediaSession.setActionHandler('seekforward', () => { au.currentTime = Math.min(au.duration || au.currentTime, au.currentTime + 10); });
+        navigator.mediaSession.setActionHandler('previoustrack', () => yomiJumpSec(-1));
+        navigator.mediaSession.setActionHandler('nexttrack', () => yomiJumpSec(1));
+      } catch (e) {}
+    }
+    function setYomiState(s) {
+      try { if ('mediaSession' in navigator) navigator.mediaSession.playbackState = s; } catch (e) {}
+    }
+    // ===== まとん直し（v03）ここまで =====
+
+    // まとん直し（v03）：前の年の一覧を「村の年表」にした（何年目に何があったかを、目で見て分かるように）
     function buildList() {
       const container = document.getElementById('list-container');
       const reversed = [...appData.years].reverse();
       reversed.forEach(year => {
         const btn = document.createElement('button');
-        btn.textContent = year.title;
+        btn.className = 'nenpyo';
+        const add = (cls, text) => {
+          const s = document.createElement('span');
+          s.className = cls;
+          s.textContent = text;
+          btn.appendChild(s);
+        };
+        add('nenpyo-y', `${year.y}年目${year.y === appData.latest ? '（今年）' : ''}`);
+        add('nenpyo-name', year.name || year.title);
+        if (year.headline) add('nenpyo-head', year.headline);
+        add('nenpyo-go', 'この年の話を読む ›');
         btn.onclick = () => location.href = year.page;
         container.appendChild(btn);
       });
