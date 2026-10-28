@@ -130,6 +130,44 @@
       min-height: 54px;
       font-size: 20px;
     }
+    /* まとん直し（v02）：読み上げの今の所・止まった知らせ・どこから読むかのボタン */
+    #speech-where {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--accent-color);
+      margin: 0 0 8px 0;
+    }
+    #speech-note {
+      display: none;
+      font-size: 18px;
+      font-weight: bold;
+      border: 2px dashed var(--accent-color);
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+    #speech-choice {
+      display: none;
+      margin-bottom: 12px;
+    }
+    #speech-choice button {
+      margin-bottom: 8px;
+    }
+    .speech-secs-title {
+      font-size: 16px;
+      margin: 16px 0 6px 0;
+    }
+    #speech-secs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    #speech-secs button {
+      margin-bottom: 0;
+      min-height: 48px;
+      font-size: 17px;
+      padding: 6px;
+    }
     video, audio {
       width: 100%;
       margin-bottom: 10px;
@@ -158,12 +196,20 @@
       <!-- 読み上げパネル -->
       <button id="btn-start-speech">今年の話をスマホに読ませる</button>
       <div id="speech-panel" class="control-panel">
+        <div id="speech-where"></div><!-- まとん直し（v02） -->
+        <div id="speech-note"></div><!-- まとん直し（v02） -->
+        <div id="speech-choice"><!-- まとん直し（v02） -->
+          <button id="btn-speech-tsuzuki">つづきから</button>
+          <button id="btn-speech-hajime">最初から</button>
+        </div>
         <p id="speech-text">読み込み中…</p>
         <div class="flex-btns">
           <button id="btn-speech-pause">一時停止</button>
           <button id="btn-speech-resume">つづきから</button>
           <button id="btn-speech-stop">止める</button>
         </div>
+        <p class="speech-secs-title">読み始める所をえらぶ</p><!-- まとん直し（v02） -->
+        <div id="speech-secs"></div>
       </div>
 
       <!-- 音声パネル -->
@@ -227,6 +273,14 @@
     let speechUtterance = null;
     let speechOn = false; // まとん直し：止めた後に次の文へ進まないように
     let voices = [];
+    // まとん直し（v02）：途中で黙って止まらないように（見張りの時計・読み直しの回数・画面を消さない仕掛け・段の頭）
+    const SPEECH_SECTION_NAMES = {mura: 'いまの村', ten: '天の答え', dekigoto: '今年の出来事', kaiwa: '会話と心の中', yoriai: '寄り合い', negai: '天への願い'};
+    const SPEECH_POS_KEY = 'jinrui-app-speech-pos';
+    let speechSecStarts = []; // [{name, start}]
+    let speechWatchTimer = null;
+    let speechWaitTimer = null;
+    let speechFails = 0;
+    let wakeLock = null;
 
     // 音声リストの準備
     function loadVoices() {
@@ -367,29 +421,43 @@
         panelSpeech.style.display = 'block';
         if (speechSentences.length === 0) {
           await prepareSpeech();
+          buildSpeechSecButtons(); // まとん直し（v02）
         }
-        speechOn = true; // まとん直し
-        playSpeech(0);
+        // まとん直し（v02）：前に読んだ所が残っていたら「つづきから（N文目）」「最初から」を出す
+        const saved = loadSpeechPos();
+        if (saved > 0) {
+          currentSpeechIndex = saved;
+          showSpeechWhere(saved);
+          document.getElementById('btn-speech-tsuzuki').textContent = `つづきから（${saved + 1}文目）`;
+          document.getElementById('speech-choice').style.display = 'block';
+          document.getElementById('speech-text').textContent = speechSentences[saved];
+          return;
+        }
+        startSpeechAt(0);
       };
+      document.getElementById('btn-speech-tsuzuki').onclick = () => startSpeechAt(currentSpeechIndex); // まとん直し（v02）
+      document.getElementById('btn-speech-hajime').onclick = () => startSpeechAt(0); // まとん直し（v02）
 
       // まとん直し：Android の Chrome は synth.pause()/resume() が効かないので、
       // 一時停止＝いったん止める、つづきから＝その文の頭から読み直す、にした
       document.getElementById('btn-speech-pause').onclick = () => {
-        speechOn = false;
-        synth.cancel();
+        haltSpeech(); // まとん直し（v02）
       };
+      // まとん直し（v02）：読み上げ中でも、黙って止まった後でも、いつ押しても今の文の頭から読み直す
       document.getElementById('btn-speech-resume').onclick = () => {
-        if (speechOn) return;
-        speechOn = true;
-        playSpeech(currentSpeechIndex);
+        if (speechSentences.length === 0) return;
+        startSpeechAt(currentSpeechIndex);
       };
       document.getElementById('btn-speech-stop').onclick = () => {
-        speechOn = false; // まとん直し
-        synth.cancel();
+        haltSpeech(); // まとん直し（v02）
         panelSpeech.style.display = 'none';
         btnSpeech.style.display = 'flex';
         currentSpeechIndex = 0;
       };
+      // まとん直し（v02）：画面がもどった時、読み上げ中なら画面を消さない仕掛けを取り直す
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && speechOn) takeWakeLock();
+      });
 
       // 一覧画面切り替え
       document.getElementById('btn-show-list').onclick = () => {
@@ -416,10 +484,12 @@
         
         const sections = ['#mura', '#ten', '#dekigoto', '#kaiwa', '#yoriai', '#negai'];
         speechSentences = [];
-        
+        speechSecStarts = []; // まとん直し（v02）
+
         sections.forEach(id => {
           const sec = doc.querySelector(id);
           if (sec) {
+            speechSecStarts.push({name: SPEECH_SECTION_NAMES[id.slice(1)], start: speechSentences.length}); // まとん直し（v02）
             const text = sec.innerText || sec.textContent;
             const parts = text.split(/([。！？\n])/);
             let current = '';
@@ -433,6 +503,11 @@
             }
           }
         });
+        // まとん直し（v02）：文の無い段は外す（段のボタンを出さない）
+        speechSecStarts = speechSecStarts.filter((s, i) => {
+          const next = speechSecStarts[i + 1];
+          return (next ? next.start : speechSentences.length) > s.start;
+        });
         if(speechSentences.length === 0) speechSentences.push("読む文章が見つかりませんでした。");
       } catch (e) {
         speechSentences.push("文章の読み込みに失敗しました。");
@@ -440,15 +515,23 @@
     }
 
     function playSpeech(index) {
+      clearSpeechTimers(); // まとん直し（v02）
       if (index >= speechSentences.length) {
+        // まとん直し（v02）：読み終わり＝画面の仕掛けを放し、覚えた所も消す
+        speechOn = false;
+        speechUtterance = null;
+        releaseWakeLock();
+        clearSpeechPos();
         document.getElementById('speech-text').textContent = "（読み終わりました）";
         return;
       }
       currentSpeechIndex = index;
       const text = speechSentences[index];
       document.getElementById('speech-text').textContent = text;
-      
-      synth.cancel();
+      showSpeechWhere(index); // まとん直し（v02）
+      saveSpeechPos(index); // まとん直し（v02）
+
+      // まとん直し（v02）：文のつなぎ目では cancel() しない（Android の Chrome で次の文が落ちる・切られるため）
       const u = new SpeechSynthesisUtterance(text); // まとん直し：古い文の終わりの知らせを見分ける
       speechUtterance = u;
       if(voices.length > 0) speechUtterance.voice = voices[0];
@@ -458,14 +541,138 @@
       // まとん直し：止めた時（cancel）も Chrome は onerror('interrupted') や onend を出すので、
       // 読み上げ中で、しかも今の文の知らせの時だけ次へ進む
       speechUtterance.onend = () => {
-        if (speechOn && u === speechUtterance) playSpeech(currentSpeechIndex + 1);
+        if (!(speechOn && u === speechUtterance)) return;
+        speechFails = 0; // まとん直し（v02）
+        playSpeech(currentSpeechIndex + 1);
       };
+      // まとん直し（v02）：自分で止めていないのに切られた時（interrupted・canceled・ほかのエラー）は、同じ文を読み直す
       speechUtterance.onerror = (e) => {
-        if (speechOn && u === speechUtterance && e.error !== 'canceled' && e.error !== 'interrupted') playSpeech(currentSpeechIndex + 1);
+        if (speechOn && u === speechUtterance) retrySpeech(false);
       };
-      
+
+      if (synth.paused) synth.resume(); // まとん直し（v02）
       synth.speak(speechUtterance);
+      watchSpeech(u, text.length); // まとん直し（v02）
     }
+
+    // ===== ここから下は まとん直し（v02）=====
+
+    // ボタンから読み始める：今しゃべっていたら cancel して 250ms あけてから読む
+    function startSpeechAt(index) {
+      clearSpeechTimers();
+      speechOn = true;
+      speechFails = 0;
+      speechUtterance = null; // 古い文の知らせで新しい文を動かさない
+      document.getElementById('speech-note').style.display = 'none';
+      document.getElementById('speech-choice').style.display = 'none';
+      takeWakeLock();
+      if (synth.speaking || synth.pending) {
+        synth.cancel();
+        speechWaitTimer = setTimeout(() => { if (speechOn) playSpeech(index); }, 250);
+      } else {
+        playSpeech(index);
+      }
+    }
+
+    // 一時停止・止める
+    function haltSpeech() {
+      speechOn = false;
+      clearSpeechTimers();
+      speechUtterance = null;
+      synth.cancel();
+      releaseWakeLock();
+    }
+
+    // 切られた・黙った時：同じ文を1秒後に読み直す。同じ文で3回続けてだめなら止めて知らせる
+    function retrySpeech(needCancel) {
+      clearSpeechTimers();
+      speechUtterance = null;
+      if (needCancel) synth.cancel();
+      speechFails++;
+      if (speechFails >= 3) {
+        speechOn = false;
+        releaseWakeLock();
+        const note = document.getElementById('speech-note');
+        note.textContent = '止まりました。『つづきから』を押すと、この文から読みます';
+        note.style.display = 'block';
+        return;
+      }
+      speechWaitTimer = setTimeout(() => { if (speechOn) playSpeech(currentSpeechIndex); }, 1000);
+    }
+
+    // 見張り：1文ごとに時計（字数×0.3秒＋8秒）。終わりの知らせが来ないまま過ぎたら読み直す
+    function watchSpeech(u, len) {
+      const ms = len * 300 + 8000;
+      speechWatchTimer = setTimeout(() => {
+        if (!(speechOn && u === speechUtterance)) return;
+        if (!synth.speaking) { retrySpeech(false); return; }
+        // まだしゃべっている事になっている時は、もう1回だけ待つ
+        speechWatchTimer = setTimeout(() => {
+          if (speechOn && u === speechUtterance) retrySpeech(true);
+        }, ms);
+      }, ms);
+    }
+
+    function clearSpeechTimers() {
+      clearTimeout(speechWatchTimer);
+      clearTimeout(speechWaitTimer);
+      speechWatchTimer = null;
+      speechWaitTimer = null;
+    }
+
+    // 今の所を「いまの村　53 / 423」のように出す
+    function showSpeechWhere(index) {
+      let name = '';
+      speechSecStarts.forEach(s => { if (s.start <= index) name = s.name; });
+      document.getElementById('speech-where').textContent = `${name ? name + '　' : ''}${index + 1} / ${speechSentences.length}`;
+    }
+
+    // 段の頭から読むボタン
+    function buildSpeechSecButtons() {
+      const box = document.getElementById('speech-secs');
+      box.innerHTML = '';
+      speechSecStarts.forEach(s => {
+        const b = document.createElement('button');
+        b.textContent = `${s.name}から`;
+        b.onclick = () => startSpeechAt(s.start);
+        box.appendChild(b);
+      });
+      box.previousElementSibling.style.display = speechSecStarts.length ? 'block' : 'none';
+    }
+
+    // 読んだ所を覚える（文は毎晩0:40に変わるので、文の字もいっしょに覚えて探す）
+    function saveSpeechPos(index) {
+      try { localStorage.setItem(SPEECH_POS_KEY, JSON.stringify({i: index, t: speechSentences[index]})); } catch (e) {}
+    }
+    function clearSpeechPos() {
+      try { localStorage.removeItem(SPEECH_POS_KEY); } catch (e) {}
+    }
+    function loadSpeechPos() {
+      try {
+        const p = JSON.parse(localStorage.getItem(SPEECH_POS_KEY) || 'null');
+        if (!p || typeof p.t !== 'string') return 0;
+        if (speechSentences[p.i] === p.t) return p.i;
+        const found = speechSentences.indexOf(p.t);
+        return found > 0 ? found : 0;
+      } catch (e) { return 0; }
+    }
+
+    // 画面を消さない仕掛け（使えないスマホ・断られた時は何もしない）
+    async function takeWakeLock() {
+      try {
+        if (!('wakeLock' in navigator) || wakeLock || document.visibilityState !== 'visible') return;
+        const lock = await navigator.wakeLock.request('screen');
+        if (!speechOn) { lock.release().catch(() => {}); return; }
+        wakeLock = lock;
+        lock.addEventListener('release', () => { if (wakeLock === lock) wakeLock = null; });
+      } catch (e) {}
+    }
+    function releaseWakeLock() {
+      const lock = wakeLock;
+      wakeLock = null;
+      try { if (lock) lock.release().catch(() => {}); } catch (e) {}
+    }
+    // ===== まとん直し（v02）ここまで =====
 
     function buildList() {
       const container = document.getElementById('list-container');
