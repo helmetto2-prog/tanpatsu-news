@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-29 05:41",
-  "latest": 20,
+  "updated": "2026-10-30 00:50",
+  "latest": 21,
   "years": [
     {
       "y": 1,
@@ -233,8 +233,8 @@
       "img": "../img/y0018.jpg",
       "koe": "../koe/y0018.mp3",
       "anime": "../annai/jinrui_y0018_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0018.jpg"
     },
     {
       "y": 19,
@@ -259,6 +259,19 @@
       "img": "../img/y0020.jpg",
       "koe": "../koe/y0020.mp3",
       "anime": "../annai/jinrui_y0020_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 21,
+      "title": "21年目　シミアナと見送りの年",
+      "name": "シミアナと見送りの年",
+      "headline": "砂山のくぼ地に飲める水を見つけ、秋の終わりに長老シイを見送った",
+      "date": "2026-10-30",
+      "page": "../nen/21/",
+      "img": "../img/y0021.jpg",
+      "koe": "../koe/y0021.mp3",
+      "anime": "../annai/jinrui_y0021_720p.mp4",
       "animeReady": false,
       "poster": null
     }
