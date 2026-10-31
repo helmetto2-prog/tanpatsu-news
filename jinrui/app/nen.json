@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-31 00:48",
-  "latest": 22,
+  "updated": "2026-11-01 00:48",
+  "latest": 23,
   "years": [
     {
       "y": 1,
@@ -259,8 +259,8 @@
       "img": "../img/y0020.jpg",
       "koe": "../koe/y0020.mp3",
       "anime": "../annai/jinrui_y0020_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0020.jpg"
     },
     {
       "y": 21,
@@ -285,6 +285,19 @@
       "img": "../img/y0022.jpg",
       "koe": "../koe/y0022.mp3",
       "anime": "../annai/jinrui_y0022_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 23,
+      "title": "23年目　ハジケマメの年",
+      "name": "ハジケマメの年",
+      "headline": "湿地のはしではじける豆を見つけ、丘のはしにまいて、次の春の種を残した",
+      "date": "2026-11-01",
+      "page": "../nen/23/",
+      "img": "../img/y0023.jpg",
+      "koe": "../koe/y0023.mp3",
+      "anime": "../annai/jinrui_y0023_720p.mp4",
       "animeReady": false,
       "poster": null
     }
