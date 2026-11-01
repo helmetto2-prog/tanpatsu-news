@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-01 00:48",
-  "latest": 23,
+  "updated": "2026-11-02 00:49",
+  "latest": 24,
   "years": [
     {
       "y": 1,
@@ -272,8 +272,8 @@
       "img": "../img/y0021.jpg",
       "koe": "../koe/y0021.mp3",
       "anime": "../annai/jinrui_y0021_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0021.jpg"
     },
     {
       "y": 22,
@@ -298,6 +298,19 @@
       "img": "../img/y0023.jpg",
       "koe": "../koe/y0023.mp3",
       "anime": "../annai/jinrui_y0023_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 24,
+      "title": "24年目　トオカゲの年",
+      "name": "トオカゲの年",
+      "headline": "ハナの先から遠い陸が見えた年。魚は山ほどとれたが、嵐でクリの実が落ちた",
+      "date": "2026-11-02",
+      "page": "../nen/24/",
+      "img": "../img/y0024.jpg",
+      "koe": "../koe/y0024.mp3",
+      "anime": "../annai/jinrui_y0024_720p.mp4",
       "animeReady": false,
       "poster": null
     }
