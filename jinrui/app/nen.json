@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-02 00:49",
-  "latest": 24,
+  "updated": "2026-11-04 00:53",
+  "latest": 25,
   "years": [
     {
       "y": 1,
@@ -285,8 +285,8 @@
       "img": "../img/y0022.jpg",
       "koe": "../koe/y0022.mp3",
       "anime": "../annai/jinrui_y0022_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0022.jpg"
     },
     {
       "y": 23,
@@ -311,6 +311,19 @@
       "img": "../img/y0024.jpg",
       "koe": "../koe/y0024.mp3",
       "anime": "../annai/jinrui_y0024_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 25,
+      "title": "25年目　ケムダナの年",
+      "name": "ケムダナの年",
+      "headline": "けむりで魚が春までもつと分かった年。ナツが生まれ、浜に見なれないかいが流れ着いた",
+      "date": "2026-11-04",
+      "page": "../nen/25/",
+      "img": "../img/y0025.jpg",
+      "koe": "../koe/y0025.mp3",
+      "anime": "../annai/jinrui_y0025_720p.mp4",
       "animeReady": false,
       "poster": null
     }
