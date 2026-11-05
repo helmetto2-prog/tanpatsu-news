@@ -84,6 +84,15 @@ h1{font-size:clamp(2rem,8.4vw,2.9rem);margin:.05em 0 .1em}
 .ytitle{font-size:1.5rem;margin:.25em 0 .1em}
 .headline{font-size:1.05rem;margin:.2em auto 0;max-width:30em}
 .ytitle,.headline,.vname{text-wrap:balance;word-break:auto-phrase}
+.kaunta{display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap;gap:6px 8px;margin:14px auto 0;max-width:30em;font-size:.84rem;color:var(--muted);line-height:1.5}
+.kaunta[hidden]{display:none}
+.kaunta .kl,.kaunta .ks{flex-basis:100%;text-align:center}
+.kaunta .kl{font-weight:700;color:var(--clay-ink);letter-spacing:.12em}
+.kaunta .ks{font-size:.76rem}
+.kaunta .k{display:inline-flex;align-items:baseline;gap:.25em;padding:3px 13px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}
+.kaunta .k b{font-size:1.2rem;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:0}
+.kaunta .k.kyo{border-color:var(--clay);background:var(--clay-soft)}
+.kaunta .k.kyo b{color:var(--clay-ink)}
 .rope{height:12px;margin:18px auto 6px;max-width:420px;opacity:.55;
   background:repeating-linear-gradient(-60deg,var(--clay) 0 2px,transparent 2px 7px),repeating-linear-gradient(60deg,var(--clay) 0 2px,transparent 2px 7px);
   background-size:100% 6px,100% 6px;background-position:0 0,0 6px;background-repeat:repeat-x;
@@ -263,6 +272,7 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 <p class="yearbig">27年目</p>
 <h2 class="ytitle">27年目　ヌリカサネの年</h2>
 <p class="headline">おだやかな一年。ミルがコナに弟子入りし、ハネギを黒く光らせた</p>
+<p class="kaunta" id="kaunta" hidden><span class="kl">村をのぞきに来た人</span><span class="k kyo">きょう<b data-k="today"></b>人</span><span class="k">きのう<b data-k="yesterday"></b>人</span><span class="k">これまで<b data-k="total"></b>人</span><span class="ks"></span></p>
 <div class="rope" aria-hidden="true"></div>
 </div>
 </header>
@@ -2091,6 +2101,22 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
   document.addEventListener('visibilitychange',function(){ if(on&&!cue&&document.visibilityState==='visible') lock(); });
   window.__yomi={au:au, koe:!!cue};
   setBtn();
+})();
+(function(){
+  // 2026-11-06 まとん：見た人のカウンター（義樹さん「最初の画面にカウンターつけて。やる気になるよね」）。
+  //   数える所＝ランキング台帳 GAS の action=count（台帳のシート counter）。本ページ（/jinrui/）だけで数えて見せ、nen/<年>/ の写しでは出さない。同じブラウザは1日1回だけ足す。
+  var el=document.getElementById('kaunta'); if(!el||!window.fetch) return;
+  if(!/\/jinrui\/(index\.html)?$/.test(location.pathname)) return;
+  var API='https://script.google.com/macros/s/AKfycbz3yJMoui8-HX0iec4dLgW-Wk2nwBxa8t86CmGiuU9-PqqjG8PVb6emUodSweBZfID0Mw/exec';
+  var day=new Date(Date.now()+9*3600000).toISOString().slice(0,10), key='jinrui_kaunta_day', hit=true;
+  try{ if(localStorage.getItem(key)===day) hit=false; }catch(e){}
+  fetch(API+'?action=count&page=jinrui'+(hit?'&hit=1':'')).then(function(r){ return r.json(); }).then(function(j){
+    if(!j||!j.ok) return;
+    if(hit){ try{ localStorage.setItem(key,day); }catch(e){} }
+    [].forEach.call(el.querySelectorAll('[data-k]'),function(b){ var v=j[b.getAttribute('data-k')]; b.textContent=(typeof v==='number')?v.toLocaleString('ja-JP'):''; });
+    var s=el.querySelector('.ks'); if(s&&j.since){ var p=j.since.split('-'); s.textContent='（'+Number(p[1])+'月'+Number(p[2])+'日から数えています）'; }
+    el.hidden=false;
+  }).catch(function(){});
 })();
 </script>
 </body>
