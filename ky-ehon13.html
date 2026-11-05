@@ -320,5 +320,37 @@
   }
 })();
 </script>
+<style>/* NAV-ART-v1 めくる矢印を、いま見ているページの絵の高さの真ん中へ（文字にかぶらないように） */
+  .nav{ top:var(--navT,0) !important; bottom:auto !important; height:var(--navH,50%) !important; }
+</style>
+<script>
+/* NAV-ART-v1 矢印の帯（.nav）を、表示中のページの絵（.art）と同じ高さにそろえる。表紙は絵が全面なので今までどおり真ん中 */
+(function(){
+  var root = document.documentElement;
+  var nav = document.querySelector('.nav'); if(!nav) return;
+  function clear(){ root.style.removeProperty('--navT'); root.style.removeProperty('--navH'); }
+  function fit(){
+    var p = document.querySelector('.page.show'), a = p && p.querySelector('.art');
+    if(!a){ clear(); return; }
+    var ar = a.getBoundingClientRect();
+    if(ar.height < 60){ clear(); return; }
+    /* .nav の基準（親の箱）の上端を、いまの位置と top の値から逆算する */
+    var base = nav.getBoundingClientRect().top - (parseFloat(getComputedStyle(nav).top) || 0);
+    root.style.setProperty('--navT', Math.round(ar.top - base) + 'px');
+    root.style.setProperty('--navH', Math.round(ar.height) + 'px');
+  }
+  var pages = document.querySelectorAll('.page');
+  var mo = new MutationObserver(fit);
+  for(var i=0;i<pages.length;i++) mo.observe(pages[i], {attributes:true, attributeFilter:['class']});
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function(){ setTimeout(fit, 250); });
+  if(window.ResizeObserver){
+    var ro = new ResizeObserver(fit), arts = document.querySelectorAll('.art');
+    for(var j=0;j<arts.length;j++) ro.observe(arts[j]);
+  }
+  window.addEventListener('load', fit);
+  fit();
+})();
+</script>
 </body>
 </html>
