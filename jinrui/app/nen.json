@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-05 00:49",
-  "latest": 26,
+  "updated": "2026-11-06 00:48",
+  "latest": 27,
   "years": [
     {
       "y": 1,
@@ -324,8 +324,8 @@
       "img": "../img/y0025.jpg",
       "koe": "../koe/y0025.mp3",
       "anime": "../annai/jinrui_y0025_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0025.jpg"
     },
     {
       "y": 26,
@@ -337,6 +337,19 @@
       "img": "../img/y0026.jpg",
       "koe": "../koe/y0026.mp3",
       "anime": "../annai/jinrui_y0026_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 27,
+      "title": "27年目　ヌリカサネの年",
+      "name": "ヌリカサネの年",
+      "headline": "おだやかな一年。ミルがコナに弟子入りし、ハネギを黒く光らせた",
+      "date": "2026-11-06",
+      "page": "../nen/27/",
+      "img": "../img/y0027.jpg",
+      "koe": "../koe/y0027.mp3",
+      "anime": "../annai/jinrui_y0027_720p.mp4",
       "animeReady": false,
       "poster": null
     }
