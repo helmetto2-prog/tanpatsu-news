@@ -318,7 +318,9 @@
     let latestAnimeData = null;
     let speechSentences = [];
     let currentSpeechIndex = 0;
-    let synth = window.speechSynthesis;
+    // まとん直し（v04）：LINE などアプリの中のブラウザには読み上げ（speechSynthesis）が無い。
+    // 無いと下の synth.onvoiceschanged で止まり、絵も題も出ず、ボタンが全部効かなくなっていた（2026-11-06）
+    let synth = window.speechSynthesis || null;
     let speechUtterance = null;
     let speechOn = false; // まとん直し：止めた後に次の文へ進まないように
     let voices = [];
@@ -338,18 +340,58 @@
 
     // 音声リストの準備
     function loadVoices() {
+      if (!synth) return; // まとん直し（v04）
       voices = synth.getVoices().filter(v => v.lang.startsWith('ja'));
     }
-    if (synth.onvoiceschanged !== undefined) {
+    if (synth && synth.onvoiceschanged !== undefined) {
       synth.onvoiceschanged = loadVoices;
     }
-    
+
+    // まとん直し（v04）：電波の弱い所でも待ちすぎない（決めた時間で打ち切る）
+    function fetchWait(url, opt, ms) {
+      const ctl = window.AbortController ? new AbortController() : null;
+      const timer = ctl ? setTimeout(() => ctl.abort(), ms) : null;
+      return fetch(url, Object.assign({}, opt, ctl ? {signal: ctl.signal} : {}))
+        .finally(() => clearTimeout(timer));
+    }
+
+    // まとん直し（v04）：年表が読みこめない時も、行き先のボタンは使えるようにして知らせる
+    function showLoadError() {
+      document.getElementById('hero-title').textContent = 'うまく読みこめませんでした';
+      document.getElementById('hero-headline').textContent = '電波のよい所で、もう一度ひらいてください。下の「見る」ボタンは使えます。';
+    }
+
+    // まとん直し（v04）：行き先へ飛ぶだけのボタンは、年表を読みこむ前から効くようにする
+    function setupLinks() {
+      document.getElementById('btn-read-page').onclick = () => location.href = '../';
+      document.getElementById('btn-link-hito').onclick = () => location.href = '../#hito';
+      document.getElementById('btn-link-okite').onclick = () => location.href = '../#okite';
+      document.getElementById('btn-link-hatsumei').onclick = () => location.href = '../#hatsumei';
+      document.getElementById('btn-link-kotoba').onclick = () => location.href = '../#kotoba';
+      document.getElementById('btn-link-negai').onclick = () => location.href = '../#negai';
+      document.getElementById('btn-link-koes').onclick = () => location.href = '../koe/';
+      document.getElementById('btn-link-dougas').onclick = () => location.href = '../douga/';
+      document.getElementById('btn-show-list').onclick = () => {
+        document.getElementById('page-main').style.display = 'none';
+        document.getElementById('page-list').style.display = 'block';
+        window.scrollTo(0, 0);
+      };
+      document.querySelectorAll('.btn-back').forEach(btn => {
+        btn.onclick = () => {
+          document.getElementById('page-list').style.display = 'none';
+          document.getElementById('page-main').style.display = 'block';
+          window.scrollTo(0, 0);
+        };
+      });
+    }
+
     async function init() {
       try {
-        const res = await fetch("nen.json", {cache: "no-store"});
+        const res = await fetchWait("nen.json", {cache: "no-store"}, 12000);
         appData = await res.json();
       } catch (e) {
         console.error("データ読み込み失敗", e);
+        showLoadError();
         return;
       }
 
@@ -358,13 +400,12 @@
       yomiPromise = loadYomi(); // まとん直し（v03）
 
       // アニメの確認（falseのうち新しい方から最大3件）
+      // まとん直し（v04）：1本ずつ待たず、まとめて確かめる（1本5秒で打ち切る）
       const notReadyAnimes = years.filter(y => !y.animeReady && y.anime).reverse().slice(0, 3);
-      for (const year of notReadyAnimes) {
-        try {
-          const checkRes = await fetch(year.anime, {method: "HEAD", cache: "no-store"});
-          if (checkRes.ok) year.animeReady = true;
-        } catch (e) {}
-      }
+      await Promise.all(notReadyAnimes.map(year =>
+        fetchWait(year.anime, {method: "HEAD", cache: "no-store"}, 5000)
+          .then(checkRes => { if (checkRes.ok) year.animeReady = true; })
+          .catch(() => {})));
 
       // いちばん新しいアニメを探す
       const readyAnimes = years.filter(y => y.animeReady && y.anime).reverse();
@@ -380,6 +421,8 @@
       yomiPromise.then(yd => {
         if (yd && yd.src) {
           document.getElementById('btn-start-speech').innerHTML = '今年の話をスマホに読ませる<span class="sub-text">画面を消しても、そのまま読みます</span>';
+        } else if (!synth) { // まとん直し（v04）：録音の声も、スマホの声も無い時
+          document.getElementById('btn-start-speech').innerHTML = '今年の話をスマホに読ませる<span class="sub-text">この画面では使えません。Chrome で開いてください</span>';
         }
       });
     }
@@ -408,15 +451,7 @@
     }
 
     function setupButtons() {
-      // リンク系ボタン
-      document.getElementById('btn-read-page').onclick = () => location.href = '../';
-      document.getElementById('btn-link-hito').onclick = () => location.href = '../#hito';
-      document.getElementById('btn-link-okite').onclick = () => location.href = '../#okite';
-      document.getElementById('btn-link-hatsumei').onclick = () => location.href = '../#hatsumei';
-      document.getElementById('btn-link-kotoba').onclick = () => location.href = '../#kotoba';
-      document.getElementById('btn-link-negai').onclick = () => location.href = '../#negai';
-      document.getElementById('btn-link-koes').onclick = () => location.href = '../koe/';
-      document.getElementById('btn-link-dougas').onclick = () => location.href = '../douga/';
+      // リンク系ボタン・年表の切り替えは setupLinks()（まとん直し v04：読みこむ前から効くように）
 
       // 音声再生
       const btnAudio = document.getElementById('btn-start-audio');
@@ -528,20 +563,6 @@
         if (document.visibilityState === 'visible' && speechOn && !yomiAudioMode) takeWakeLock(); // まとん直し（v03）：録音の声の時は画面を消してよい
       });
       setupYomiPlayer(); // まとん直し（v03）
-
-      // 一覧画面切り替え
-      document.getElementById('btn-show-list').onclick = () => {
-        document.getElementById('page-main').style.display = 'none';
-        document.getElementById('page-list').style.display = 'block';
-        window.scrollTo(0, 0);
-      };
-      document.querySelectorAll('.btn-back').forEach(btn => {
-        btn.onclick = () => {
-          document.getElementById('page-list').style.display = 'none';
-          document.getElementById('page-main').style.display = 'block';
-          window.scrollTo(0, 0);
-        };
-      });
     }
 
     async function prepareSpeech() {
@@ -620,6 +641,7 @@
       showSpeechWhere(index); // まとん直し（v02）
       saveSpeechPos(index); // まとん直し（v02）
 
+      if (!synth) return; // まとん直し（v04）
       // まとん直し（v02）：文のつなぎ目では cancel() しない（Android の Chrome で次の文が落ちる・切られるため）
       const u = new SpeechSynthesisUtterance(text); // まとん直し：古い文の終わりの知らせを見分ける
       speechUtterance = u;
@@ -649,6 +671,15 @@
     // ボタンから読み始める：今しゃべっていたら cancel して 250ms あけてから読む
     function startSpeechAt(index) {
       if (yomiAudioMode) { startYomiAt(index); return; } // まとん直し（v03）
+      if (!synth) { // まとん直し（v04）：録音の声が無く、スマホの声も使えないブラウザ
+        speechOn = false;
+        document.getElementById('speech-choice').style.display = 'none';
+        document.getElementById('speech-text').textContent = speechSentences[index] || '';
+        const note = document.getElementById('speech-note');
+        note.textContent = 'この画面（LINE などアプリの中のブラウザ）では、スマホの声で読めません。メニューから Chrome で開いてください';
+        note.style.display = 'block';
+        return;
+      }
       clearSpeechTimers();
       speechOn = true;
       speechFails = 0;
@@ -669,7 +700,7 @@
       speechOn = false;
       clearSpeechTimers();
       speechUtterance = null;
-      synth.cancel();
+      if (synth) synth.cancel(); // まとん直し（v04）
       releaseWakeLock();
       document.getElementById('yomi-player').pause(); // まとん直し（v03）
     }
@@ -678,7 +709,7 @@
     function retrySpeech(needCancel) {
       clearSpeechTimers();
       speechUtterance = null;
-      if (needCancel) synth.cancel();
+      if (needCancel && synth) synth.cancel(); // まとん直し（v04）
       speechFails++;
       if (speechFails >= 3) {
         speechOn = false;
@@ -696,7 +727,7 @@
       const ms = len * 300 + 8000;
       speechWatchTimer = setTimeout(() => {
         if (!(speechOn && u === speechUtterance)) return;
-        if (!synth.speaking) { retrySpeech(false); return; }
+        if (!synth || !synth.speaking) { retrySpeech(false); return; } // まとん直し（v04）
         // まだしゃべっている事になっている時は、もう1回だけ待つ
         speechWatchTimer = setTimeout(() => {
           if (speechOn && u === speechUtterance) retrySpeech(true);
@@ -821,7 +852,7 @@
     function startYomiAt(index) {
       const au = document.getElementById('yomi-player');
       clearSpeechTimers();
-      if (synth.speaking || synth.pending) synth.cancel();
+      if (synth && (synth.speaking || synth.pending)) synth.cancel(); // まとん直し（v04）
       releaseWakeLock();
       speechOn = true;
       document.getElementById('speech-note').style.display = 'none';
@@ -867,6 +898,7 @@
       au.removeAttribute('src');
       setYomiState('none');
       startSpeechAt(currentSpeechIndex);
+      if (!synth) return; // まとん直し（v04）：スマホの声も無い時は startSpeechAt の知らせのまま
       const note = document.getElementById('speech-note');
       note.textContent = '録音の声が読みこめないので、スマホの声で読みます（画面を消すと止まります）';
       note.style.display = 'block';
@@ -945,8 +977,9 @@
     }
 
     // 初期化実行
+    setupLinks(); // まとん直し（v04）：いちばん先に
     loadVoices();
-    init();
+    init().catch(e => { console.error('init', e); showLoadError(); }); // まとん直し（v04）
   </script>
 </body>
 </html>
