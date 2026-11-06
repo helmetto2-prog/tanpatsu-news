@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-06 00:48",
-  "latest": 27,
+  "updated": "2026-11-07 00:52",
+  "latest": 28,
   "years": [
     {
       "y": 1,
@@ -337,8 +337,8 @@
       "img": "../img/y0026.jpg",
       "koe": "../koe/y0026.mp3",
       "anime": "../annai/jinrui_y0026_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0026.jpg"
     },
     {
       "y": 27,
@@ -350,6 +350,19 @@
       "img": "../img/y0027.jpg",
       "koe": "../koe/y0027.mp3",
       "anime": "../annai/jinrui_y0027_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 28,
+      "title": "28年目　ハコビアミの年",
+      "name": "ハコビアミの年",
+      "headline": "カシがぬれた坂で足をひねり、ホムラとコイシが二本の木と縄で運んだ",
+      "date": "2026-11-07",
+      "page": "../nen/28/",
+      "img": "../img/y0028.jpg",
+      "koe": "../koe/y0028.mp3",
+      "anime": "../annai/jinrui_y0028_720p.mp4",
       "animeReady": false,
       "poster": null
     }
