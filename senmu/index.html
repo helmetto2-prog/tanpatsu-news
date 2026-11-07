@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#2f5d34">
+<title>みどり 専務</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="../icons/midori-senmu-192.png">
+<link rel="apple-touch-icon" href="../icons/midori-senmu-192.png">
+<style>
+  :root{ --midori:#2f5d34; --kami:#f4f1e8; --sumi:#22301f; --usui:#e3ecdf; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--kami); color:var(--sumi);
+    font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic UI",sans-serif; }
+  body{ overflow:hidden; }
+  /* アプリをはめる枠：上の帯の高さ（--obi）ぶん上へずらして、帯を画面の外へ出す */
+  #waku{ position:fixed; left:0; right:0; top:0; bottom:0; overflow:hidden; }
+  #app{ position:absolute; left:0; width:100%; border:0; display:block;
+    top:calc(-1 * var(--obi, 140px)); height:calc(100% + var(--obi, 140px)); background:#fff; }
+  /* 左上のすみ：2回トンで「設定」を開く（アプリの見出しの余白の上だけ） */
+  #sumi{ position:fixed; left:0; top:0; width:48px; height:22px; z-index:5; }
+  .hidden{ display:none !important; }
+  /* 設定の板 */
+  #ita{ position:fixed; inset:0; z-index:10; overflow:auto; background:var(--kami); padding:20px 16px 32px; }
+  #ita.mihon{ inset:auto 0 0 0; max-height:62%; border-top:4px solid var(--midori);
+    box-shadow:0 -6px 24px rgba(0,0,0,.25); }
+  h1{ font-size:24px; margin:0 0 6px; color:var(--midori); }
+  h2{ font-size:19px; margin:18px 0 8px; }
+  p{ font-size:16px; line-height:1.6; margin:6px 0; }
+  .chiisai{ font-size:14px; color:#5b6658; }
+  textarea{ width:100%; font-size:16px; padding:10px; border:2px solid #b9c7b3; border-radius:12px;
+    min-height:84px; resize:vertical; background:#fff; }
+  .narabi{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  button{ font:inherit; font-size:18px; font-weight:700; border:0; border-radius:14px;
+    padding:14px 18px; min-height:52px; background:var(--usui); color:var(--midori); }
+  button.omo{ background:var(--midori); color:#fff; flex:1; }
+  .obi-ue{ display:flex; align-items:center; gap:10px; margin-top:6px; }
+  .obi-ue input[type=range]{ flex:1; height:36px; }
+  .obi-ue button{ min-width:60px; }
+  #obiAtai{ font-size:18px; font-weight:700; min-width:64px; text-align:right; }
+  #ayamari{ color:#b3261e; font-weight:700; }
+</style>
+</head>
+<body>
+<div id="waku" class="hidden"><iframe id="app" title="みどり 専務" allow="clipboard-write"></iframe></div>
+<div id="sumi" class="hidden" aria-hidden="true"></div>
+
+<div id="ita" class="hidden">
+  <!-- ① アドレスを入れる -->
+  <section id="dan1">
+    <h1>みどり 専務の入口</h1>
+    <p>専務アプリを、上の帯を出さずに開くための入口です。</p>
+    <h2>① アプリのアドレスを貼る（最初の1回だけ）</h2>
+    <p class="chiisai">今のショートカットで専務アプリを開き、共有ボタン →「コピー」でアドレスをコピーして、ここに貼ってください。アドレスはこのスマホの中だけに覚えます。</p>
+    <textarea id="adoresu" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false"
+      placeholder="https://script.google.com/macros/s/…/exec"></textarea>
+    <p id="ayamari" class="hidden"></p>
+    <div class="narabi">
+      <button id="hari" type="button">貼り付け</button>
+      <button id="kimeru1" class="omo" type="button">これで開く</button>
+    </div>
+  </section>
+  <!-- ② 帯の高さを合わせる -->
+  <section id="dan2" class="hidden">
+    <h2 style="margin-top:0">② 上の帯がかくれるまで動かす</h2>
+    <p class="chiisai">「このアプリケーションは Google Apps Script の…」の帯がちょうど見えなくなる所で「決定」。アプリの上の部分まで切れていたら − で戻してください。</p>
+    <div class="obi-ue">
+      <button id="hiku" type="button">−</button>
+      <input id="obi" type="range" min="0" max="260" step="2" value="140" aria-label="帯の高さ">
+      <button id="tasu" type="button">＋</button>
+      <span id="obiAtai">140</span>
+    </div>
+    <div class="narabi">
+      <button id="kimeru2" class="omo" type="button">決定</button>
+      <button id="kaeru" type="button">アドレスを変える</button>
+    </div>
+    <p class="chiisai">あとで直したい時は、画面の<b>左上のすみを2回トン</b>でこの板が出ます。<br>
+      アプリが真っ白・「接続が拒否されました」と出る時は、アプリ側（へるさん）の準備がまだです。</p>
+  </section>
+</div>
+
+<script>
+"use strict";
+const KEY = "senmu-wrap-v1";
+const OK_URL = /^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[A-Za-z0-9_-]+\/(exec|dev)(\?[^#\s]*)?$/;
+const $ = (id) => document.getElementById(id);
+
+function yomu(){ try { return JSON.parse(localStorage.getItem(KEY) || "null") || {}; } catch (e) { return {}; } }
+function kaku(o){ try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
+let st = Object.assign({ url: "", obi: 140 }, yomu());
+
+// はめこむ時は ?wrap=1 を付ける（GAS 側が「入口の中だ」と分かるように）
+function wrapTsuki(u){
+  const x = new URL(u);
+  x.searchParams.set("wrap", "1");
+  return x.toString();
+}
+function obiWo(n){
+  n = Math.max(0, Math.min(260, Math.round(n)));
+  st.obi = n;
+  document.documentElement.style.setProperty("--obi", n + "px");
+  $("obi").value = n; $("obiAtai").textContent = n;
+}
+function hiraku(u){
+  $("app").src = wrapTsuki(u);
+  $("waku").classList.remove("hidden");
+  $("sumi").classList.remove("hidden");
+}
+function itaDasu(dan){
+  $("ita").classList.remove("hidden");
+  $("dan1").classList.toggle("hidden", dan !== 1);
+  $("dan2").classList.toggle("hidden", dan !== 2);
+  $("ita").classList.toggle("mihon", dan === 2);   // ②はアプリを見ながら合わせる
+}
+function itaShimau(){ $("ita").classList.add("hidden"); }
+
+// ① アドレス
+$("hari").addEventListener("click", async () => {
+  try { $("adoresu").value = (await navigator.clipboard.readText()).trim(); }
+  catch (e) { $("adoresu").focus(); }
+});
+$("kimeru1").addEventListener("click", () => {
+  const u = $("adoresu").value.trim();
+  if (!OK_URL.test(u)) {
+    $("ayamari").textContent = "script.google.com/macros/s/…/exec の形のアドレスを貼ってください。";
+    $("ayamari").classList.remove("hidden");
+    return;
+  }
+  $("ayamari").classList.add("hidden");
+  st.url = u; kaku(st);
+  hiraku(u);
+  itaDasu(2);
+});
+// ② 帯の高さ
+$("obi").addEventListener("input", (e) => obiWo(+e.target.value));
+$("hiku").addEventListener("click", () => obiWo(st.obi - 2));
+$("tasu").addEventListener("click", () => obiWo(st.obi + 2));
+$("kimeru2").addEventListener("click", () => { kaku(st); itaShimau(); });
+$("kaeru").addEventListener("click", () => { $("adoresu").value = st.url; itaDasu(1); });
+
+// 左上のすみ：2回トンで設定
+let maeTon = 0;
+$("sumi").addEventListener("click", () => {
+  const ima = Date.now();
+  if (ima - maeTon < 450) { itaDasu(2); maeTon = 0; } else { maeTon = ima; }
+});
+
+// GAS からの「ほかの画面へ」の知らせ（リンクで入口の外へ出ないように）
+//   GAS 側：window.top.postMessage({ midori: "nav", url: "https://script.google.com/macros/s/…/exec?…" }, "https://helmetto2-prog.github.io")
+window.addEventListener("message", (ev) => {
+  const kara = String(ev.origin || "");
+  const gas = /^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(kara) || kara === "https://script.google.com";
+  if (!gas) return;
+  const d = ev.data;
+  if (!d || d.midori !== "nav" || typeof d.url !== "string") return;
+  if (!OK_URL.test(d.url.replace(/#.*$/, ""))) return;
+  $("app").src = wrapTsuki(d.url);
+});
+
+obiWo(st.obi);
+if (st.url && OK_URL.test(st.url)) { hiraku(st.url); }
+else { itaDasu(1); }
+
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
