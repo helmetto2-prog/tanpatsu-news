@@ -77,6 +77,9 @@
       <button id="kimeru2" class="omo" type="button">決定</button>
       <button id="kaeru" type="button">アドレスを変える</button>
     </div>
+    <div class="narabi">
+      <button id="home" type="button" style="flex:1">◀ 専務のホームへ戻る</button>
+    </div>
     <p class="chiisai">あとで直したい時は、画面の<b>左上のすみを2回トン</b>でこの板が出ます。<br>
       アプリが真っ白・「接続が拒否されました」と出る時は、アプリ側（へるさん）の準備がまだです。</p>
   </section>
@@ -140,6 +143,9 @@ $("hiku").addEventListener("click", () => obiWo(st.obi - 2));
 $("tasu").addEventListener("click", () => obiWo(st.obi + 2));
 $("kimeru2").addEventListener("click", () => { kaku(st); itaShimau(); });
 $("kaeru").addEventListener("click", () => { $("adoresu").value = st.url; itaDasu(1); });
+// 専務のホーム（最初に貼ったアドレス）を開き直す。src を差し替える＝スマホの「戻る」で前の画面へも戻れる
+function homeHe(){ if (st.url && OK_URL.test(st.url)) $("app").src = wrapTsuki(st.url); }
+$("home").addEventListener("click", () => { kaku(st); homeHe(); itaShimau(); });
 
 // 左上のすみ：2回トンで設定
 let maeTon = 0;
@@ -148,14 +154,18 @@ $("sumi").addEventListener("click", () => {
   if (ima - maeTon < 450) { itaDasu(2); maeTon = 0; } else { maeTon = ima; }
 });
 
-// GAS からの「ほかの画面へ」の知らせ（リンクで入口の外へ出ないように）
-//   GAS 側：window.top.postMessage({ midori: "nav", url: "https://script.google.com/macros/s/…/exec?…" }, "https://helmetto2-prog.github.io")
+// GAS からの知らせ（リンクで入口の外へ出ないように）
+//   ほかの画面へ：window.top.postMessage({ midori: "nav", url: "https://script.google.com/macros/s/…/exec?…" }, "https://helmetto2-prog.github.io")
+//   ホームへ戻る：window.top.postMessage({ midori: "back" }, "https://helmetto2-prog.github.io")
+//     → 入口が覚えている専務のホーム（最初に貼ったアドレス）を開き直す。ホームのアドレスを知らない GAS（仮日報など）用
 window.addEventListener("message", (ev) => {
   const kara = String(ev.origin || "");
   const gas = /^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(kara) || kara === "https://script.google.com";
   if (!gas) return;
   const d = ev.data;
-  if (!d || d.midori !== "nav" || typeof d.url !== "string") return;
+  if (!d) return;
+  if (d.midori === "back" || d.midori === "home") { homeHe(); return; }
+  if (d.midori !== "nav" || typeof d.url !== "string") return;
   if (!OK_URL.test(d.url.replace(/#.*$/, ""))) return;
   $("app").src = wrapTsuki(d.url);
 });
