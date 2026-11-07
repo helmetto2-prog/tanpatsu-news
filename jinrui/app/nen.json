@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-07 00:52",
-  "latest": 28,
+  "updated": "2026-11-08 00:49",
+  "latest": 29,
   "years": [
     {
       "y": 1,
@@ -350,8 +350,8 @@
       "img": "../img/y0027.jpg",
       "koe": "../koe/y0027.mp3",
       "anime": "../annai/jinrui_y0027_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0027.jpg"
     },
     {
       "y": 28,
@@ -363,6 +363,19 @@
       "img": "../img/y0028.jpg",
       "koe": "../koe/y0028.mp3",
       "anime": "../annai/jinrui_y0028_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 29,
+      "title": "29年目　ナカワシの年",
+      "name": "ナカワシの年",
+      "headline": "クリが浅瀬で川上の若者と物の名を交わし、秋の終わりにナギが静かに眠った",
+      "date": "2026-11-08",
+      "page": "../nen/29/",
+      "img": "../img/y0029.jpg",
+      "koe": "../koe/y0029.mp3",
+      "anime": "../annai/jinrui_y0029_720p.mp4",
       "animeReady": false,
       "poster": null
     }
