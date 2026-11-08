@@ -22,6 +22,11 @@
     top:calc(-1 * var(--obi, 140px)); height:calc(100% + var(--obi, 140px)); background:#fff; }
   /* 左上のすみ：2回トンで「設定」を開く（アプリの見出しの余白の上だけ） */
   #sumi{ position:fixed; left:0; top:0; width:48px; height:22px; z-index:5; }
+  /* 設定を開く小さな⚙（2026-11-08 スマホのカスタムタブでは すみの2回トンが効かなかったため）。下の左に半分すけて置く */
+  #gear{ position:fixed; z-index:6; left:calc(10px + env(safe-area-inset-left, 0px));
+    bottom:calc(12px + env(safe-area-inset-bottom, 0px)); width:44px; height:44px; min-height:0; padding:0;
+    border-radius:50%; font-size:22px; line-height:44px; background:rgba(47,93,52,.55); color:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.3); }
   .hidden{ display:none !important; }
   /* 設定の板 */
   #ita{ position:fixed; inset:0; z-index:10; overflow:auto; background:var(--kami); padding:20px 16px 32px; }
@@ -47,6 +52,7 @@
 <body>
 <div id="waku" class="hidden"><iframe id="app" title="みどり 専務" allow="clipboard-write"></iframe></div>
 <div id="sumi" class="hidden" aria-hidden="true"></div>
+<button id="gear" class="hidden" type="button" aria-label="入口の設定（帯の高さ）" title="入口の設定">⚙</button>
 
 <div id="ita" class="hidden">
   <!-- ① アドレスを入れる -->
@@ -80,7 +86,7 @@
     <div class="narabi">
       <button id="home" type="button" style="flex:1">◀ 専務のホームへ戻る</button>
     </div>
-    <p class="chiisai">あとで直したい時は、画面の<b>左上のすみを2回トン</b>でこの板が出ます。<br>
+    <p class="chiisai">あとで直したい時は、画面の<b>左下の ⚙</b> を押すとこの板が出ます（左上のすみを2回トンでも出ます）。<br>
       アプリが真っ白・「接続が拒否されました」と出る時は、アプリ側（へるさん）の準備がまだです。</p>
   </section>
 </div>
@@ -111,14 +117,19 @@ function hiraku(u){
   $("app").src = wrapTsuki(u);
   $("waku").classList.remove("hidden");
   $("sumi").classList.remove("hidden");
+  $("gear").classList.toggle("hidden", !$("ita").classList.contains("hidden"));
 }
 function itaDasu(dan){
   $("ita").classList.remove("hidden");
   $("dan1").classList.toggle("hidden", dan !== 1);
   $("dan2").classList.toggle("hidden", dan !== 2);
   $("ita").classList.toggle("mihon", dan === 2);   // ②はアプリを見ながら合わせる
+  $("gear").classList.add("hidden");
 }
-function itaShimau(){ $("ita").classList.add("hidden"); }
+function itaShimau(){
+  $("ita").classList.add("hidden");
+  $("gear").classList.toggle("hidden", $("waku").classList.contains("hidden"));
+}
 
 // ① アドレス
 $("hari").addEventListener("click", async () => {
@@ -147,6 +158,9 @@ $("kaeru").addEventListener("click", () => { $("adoresu").value = st.url; itaDas
 function homeHe(){ if (st.url && OK_URL.test(st.url)) $("app").src = wrapTsuki(st.url); }
 $("home").addEventListener("click", () => { kaku(st); homeHe(); itaShimau(); });
 
+// 左下の ⚙：押すと設定（帯の高さ）
+$("gear").addEventListener("click", () => itaDasu(2));
+
 // 左上のすみ：2回トンで設定
 let maeTon = 0;
 $("sumi").addEventListener("click", () => {
@@ -171,8 +185,11 @@ window.addEventListener("message", (ev) => {
 });
 
 obiWo(st.obi);
-if (st.url && OK_URL.test(st.url)) { hiraku(st.url); }
+// アドレスに ?settei=1 か #settei が付いていたら、はじめから設定の板を出す（2026-11-08 へるめっとの頼み）
+const setteiDe = new URLSearchParams(location.search).has("settei") || /^#settei$/i.test(location.hash);
+if (st.url && OK_URL.test(st.url)) { hiraku(st.url); if (setteiDe) itaDasu(2); }
 else { itaDasu(1); }
+if (setteiDe) { try { history.replaceState(null, "", location.pathname); } catch (e) {} }   // 次に開いた時は板を出さない
 
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("sw.js").catch(() => {});
