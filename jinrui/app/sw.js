@@ -1,6 +1,6 @@
 // 人類創世アプリ：電波が無い所でも開けるように、アプリのフォルダの物だけ手元に置いておく
 // （この sw.js は Gemini が4回とも書けずに止まったので、まとんが人工計算アプリ（ninku/sw.js）と同じ形で書いた・2026-10-28）
-const CACHE = "jinrui-app-v04"; // まとん直し（v04）：読み上げの無いブラウザ（LINE などアプリの中）でもボタンが効く。v03＝録音の声で読む・村の年表
+const CACHE = "jinrui-app-v05"; // v05（2026-11-08）：「村の案内動画を見る」のボタン（Gemini 作）。v04＝読み上げの無いブラウザでもボタンが効く
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png", "nen.json"];
 
 self.addEventListener("install", e => {

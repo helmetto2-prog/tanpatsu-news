@@ -288,6 +288,7 @@
       <button id="btn-show-list">村の年表を見る<span class="sub-text">何年目に何があったか・前の年の話</span></button><!-- まとん直し（v03） -->
       <button id="btn-link-koes">声をまとめて聞く</button>
       <button id="btn-link-dougas">アニメをまとめて見る</button>
+      <button id="btn-link-annai">村の案内動画を見る</button><!-- Gemini 作（v05・2026-11-08） -->
     </div>
   </div>
 
@@ -371,6 +372,7 @@
       document.getElementById('btn-link-negai').onclick = () => location.href = '../#negai';
       document.getElementById('btn-link-koes').onclick = () => location.href = '../koe/';
       document.getElementById('btn-link-dougas').onclick = () => location.href = '../douga/';
+      document.getElementById('btn-link-annai').onclick = () => location.href = '../annai/jinrui_annai_720p.mp4'; // Gemini 作（v05）
       document.getElementById('btn-show-list').onclick = () => {
         document.getElementById('page-main').style.display = 'none';
         document.getElementById('page-list').style.display = 'block';
