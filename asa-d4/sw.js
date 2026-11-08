@@ -1,7 +1,7 @@
 // 株の朝刊アプリ（asa-d4）：電波が無い所でも開けるように、アプリのフォルダの物だけ手元に置いておく
 // 手元の写しの名前は "asa-d4-app-" で始める。同じサイトのほかのアプリの写し、
 // それに画面が自分で取っておく号の写し（asa-d4-news）は消さない
-const CACHE = "asa-d4-app-v01";
+const CACHE = "asa-d4-app-v02";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png", "top.jpg"];
 
 self.addEventListener("install", e => {
@@ -16,7 +16,7 @@ self.addEventListener("activate", e => {
   );
 });
 
-// アプリのフォルダの物だけ扱う。朝刊（zoennews/kabu/）は画面が自分で「まずネット」で取りに行く
+// アプリのフォルダの物だけ扱う。朝刊（zoennews/market/）は画面が自分で「まずネット」で取りに行く
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET" || !e.request.url.startsWith(self.registration.scope)) return;
   const key = e.request.url.split("?")[0];

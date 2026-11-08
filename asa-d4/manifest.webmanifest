@@ -1,7 +1,7 @@
 {
   "name": "山さんの朝刊",
   "short_name": "山さんの朝刊",
-  "description": "毎朝の株式デイリー情報を読むためのアプリ",
+  "description": "毎朝の株とドル円デイリー情報を読むためのアプリ",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
