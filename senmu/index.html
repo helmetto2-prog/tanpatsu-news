@@ -17,9 +17,10 @@
     font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic UI",sans-serif; }
   body{ overflow:hidden; }
   /* アプリをはめる枠：上の帯の高さ（--obi）ぶん上へずらして、帯を画面の外へ出す */
+  /* 初めの値は 0（2026-11-08 義樹さんのスマホでは帯がはじめから出ていなかった＝140 だと見出しが切れた） */
   #waku{ position:fixed; left:0; right:0; top:0; bottom:0; overflow:hidden; }
   #app{ position:absolute; left:0; width:100%; border:0; display:block;
-    top:calc(-1 * var(--obi, 140px)); height:calc(100% + var(--obi, 140px)); background:#fff; }
+    top:calc(-1 * var(--obi, 0px)); height:calc(100% + var(--obi, 0px)); background:#fff; }
   /* 左上のすみ：2回トンで「設定」を開く（アプリの見出しの余白の上だけ） */
   #sumi{ position:fixed; left:0; top:0; width:48px; height:22px; z-index:5; }
   /* 設定を開く小さな⚙（2026-11-08 スマホのカスタムタブでは すみの2回トンが効かなかったため）。下の左に半分すけて置く */
@@ -71,13 +72,14 @@
   </section>
   <!-- ② 帯の高さを合わせる -->
   <section id="dan2" class="hidden">
-    <h2 style="margin-top:0">② 上の帯がかくれるまで動かす</h2>
-    <p class="chiisai">「このアプリケーションは Google Apps Script の…」の帯がちょうど見えなくなる所で「決定」。アプリの上の部分まで切れていたら − で戻してください。</p>
+    <h2 style="margin-top:0">② 上の帯があれば、かくれるまで動かす</h2>
+    <p class="chiisai">アプリの見出し（日付など）がそのまま見えていれば、0 のままで「決定」。<br>
+      上に「このアプリケーションは Google Apps Script の…」の帯が出ていたら、＋で帯がちょうど見えなくなる所まで動かして「決定」。アプリの上の部分まで切れたら − で戻してください。</p>
     <div class="obi-ue">
       <button id="hiku" type="button">−</button>
-      <input id="obi" type="range" min="0" max="260" step="2" value="140" aria-label="帯の高さ">
+      <input id="obi" type="range" min="0" max="260" step="2" value="0" aria-label="帯の高さ">
       <button id="tasu" type="button">＋</button>
-      <span id="obiAtai">140</span>
+      <span id="obiAtai">0</span>
     </div>
     <div class="narabi">
       <button id="kimeru2" class="omo" type="button">決定</button>
@@ -99,7 +101,7 @@ const $ = (id) => document.getElementById(id);
 
 function yomu(){ try { return JSON.parse(localStorage.getItem(KEY) || "null") || {}; } catch (e) { return {}; } }
 function kaku(o){ try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
-let st = Object.assign({ url: "", obi: 140 }, yomu());
+let st = Object.assign({ url: "", obi: 0 }, yomu());   // 覚えた値があればそちら（義樹さんのスマホは 0 で決定ずみ）
 
 // はめこむ時は ?wrap=1 を付ける（GAS 側が「入口の中だ」と分かるように）
 function wrapTsuki(u){

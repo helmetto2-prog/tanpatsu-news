@@ -1,5 +1,5 @@
 // みどり専務の入口：入口のページだけを手元に写す（アプリ本体＝script.google.com は写さない）
-const CACHE = "senmu-v03";
+const CACHE = "senmu-v04";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "../icons/midori-senmu-192.png", "../icons/midori-senmu-512.png"];
 
 self.addEventListener("install", (e) => {
