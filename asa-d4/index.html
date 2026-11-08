@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>山さんの朝刊</title>
+<meta name="theme-color" content="#1f3b78">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="山さんの朝刊">
+<!-- 株の朝刊アプリ（まとん作・2026-11-08）。中身はクラウドが毎朝出す zoennews/kabu/ をそのまま読む。
+     このアプリは読むだけ。クラウドの発行の手順には手を入れない。 -->
+<style>
+:root{--theme:#1f3b78;--theme2:#4a90c8;--ink:#1e2530;--bg:#eef1f4;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--ink);font-family:'メイリオ',Meiryo,'Hiragino Sans',sans-serif;}
+header{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;display:flex;align-items:center;gap:14px;}
+header img{width:84px;height:84px;border-radius:20px;box-shadow:0 3px 10px rgba(0,0,0,.35);flex:none;object-fit:cover;}
+header h1{font-size:1.35rem;letter-spacing:.06em;}
+header p{font-size:.8rem;opacity:.9;margin-top:4px;}
+nav.tabs{display:none;gap:6px;padding:8px 10px 0;background:var(--bg);}
+nav.tabs.on{display:flex;}
+nav.tabs button{flex:1;padding:10px 6px;border:2px solid var(--theme);background:#fff;color:var(--theme);border-radius:10px 10px 0 0;font-size:1rem;font-weight:bold;font-family:inherit;}
+nav.tabs button.sel{background:var(--theme);color:#fff;}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:10px;background:var(--bg);position:sticky;top:0;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.bar button{min-height:48px;padding:8px 6px;border:none;border-radius:12px;background:#fff;color:var(--theme);font-size:.98rem;font-weight:bold;font-family:inherit;box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.bar button.main{grid-column:1 / -1;background:var(--theme);color:#fff;}
+.bar button[hidden]{display:none;}
+#note{display:none;margin:0 10px 8px;padding:10px 12px;border-radius:10px;background:#fff6dc;border:1px solid #e8cf86;color:#6b5210;font-size:.9rem;line-height:1.6;}
+#note.on{display:block;}
+#view[hidden]{display:none;}
+#view{display:block;width:100%;border:0;min-height:70vh;background:#fff;}
+#wait{padding:40px 16px;text-align:center;color:#5a6676;}
+</style>
+</head>
+<body>
+<header>
+  <img src="top.jpg" alt="">
+  <div>
+    <h1>山さんの朝刊</h1>
+    <p id="sub">毎朝6時ごろ、新しい号になります</p>
+  </div>
+</header>
+<nav class="tabs" id="tabs">
+  <button type="button" data-tab="kabu" class="sel">株のニュース</button>
+  <button type="button" data-tab="fx">ドル円のニュース</button>
+</nav>
+<div class="bar">
+  <button type="button" id="b-today" class="main">きょうの号を読む</button>
+  <button type="button" id="b-back" hidden>ひとつ前の画面へ戻る</button>
+  <button type="button" id="b-bn">バックナンバーを見る</button>
+  <button type="button" id="b-reload">もう一度読み込む</button>
+</div>
+<div id="note"></div>
+<div id="wait">読み込んでいます…</div>
+<iframe id="view" title="ニュース" hidden></iframe>
+
+<script>
+// ===== 人ごとの設定（build.ps1 が書き入れる） =====
+const APP = "asa-d4";          // 手元の写しの名前の頭
+const SITE = "https://helmetto2-prog.github.io";
+const FEEDS = {
+  kabu: { today: SITE + "/zoennews/kabu/", bn: SITE + "/zoennews/kabu/backnumber/", label: "株の朝刊" },
+  // ドル円のニュースができたら today と bn に入れる。空のあいだはタブを出さない
+  fx:   { today: "", bn: "", label: "ドル円の朝刊" }
+};
+// ===================================================
+
+const STORE = APP + "-news";      // 読んだ号の写し（電波が無い時に出す）
+const view = document.getElementById("view");
+const note = document.getElementById("note");
+const wait = document.getElementById("wait");
+const btnBack = document.getElementById("b-back");
+let tab = "kabu";
+let current = "";
+let history_ = [];
+let openedAt = 0;
+
+function say(msg){ note.textContent = msg || ""; note.classList.toggle("on", !!msg); }
+
+// 号のページを読む。まずネット（古い写しを使わない）、だめなら前に読んだ写し
+async function load(url, push){
+  wait.hidden = false; wait.textContent = "読み込んでいます…";
+  say("");
+  let html = "", offline = false;
+  try {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), 15000);
+    const sep = url.includes("?") ? "&" : "?";
+    const res = await fetch(url + sep + "t=" + Date.now(), { cache: "no-store", signal: ctl.signal });
+    clearTimeout(t);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    html = await res.text();
+    // 写しの保存は待たない（保存が遅い・できない端末でも画面は先に出す）
+    try { caches.open(STORE).then(c => c.put(url, new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } }))).catch(() => {}); } catch (e) {}
+  } catch (e) {
+    try { const c = await caches.open(STORE); const hit = await c.match(url); if (hit) { html = await hit.text(); offline = true; } } catch (e2) {}
+    if (!html) {
+      wait.textContent = "読み込めませんでした。電波のある所で「もう一度読み込む」を押してください。";
+      return;
+    }
+  }
+  if (push && current && current !== url) history_.push(current);
+  current = url;
+  btnBack.hidden = history_.length === 0;
+  show(html, url);
+  if (offline) say("電波がつながらないので、前に読んだ号を出しています。つながったら「もう一度読み込む」を押してください。");
+  openedAt = Date.now();
+}
+
+// ページの中の写真・リンクが正しく開けるように、元の場所を base に入れて iframe に出す
+function show(html, url){
+  const base = '<base href="' + url + '">';
+  html = /<head[^>]*>/i.test(html) ? html.replace(/<head[^>]*>/i, m => m + base) : base + html;
+  view.onload = () => {
+    wait.hidden = true; view.hidden = false;
+    const d = view.contentDocument;
+    if (!d) return;
+    // 題（title）は前の日のまま残ることがあるので、本文の最初の日付を使う
+    const m = d.body && d.body.textContent.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+    document.getElementById("sub").textContent = m ? m[2] + "月" + m[3] + "日の号を表示中" : "毎朝6時ごろ、新しい号になります";
+    fit();
+    try { new ResizeObserver(fit).observe(d.body); } catch (e) { d.addEventListener("toggle", fit, true); }
+    d.addEventListener("click", ev => {
+      const a = ev.target.closest && ev.target.closest("a[href]");
+      if (!a) return;
+      const href = a.href;
+      if (!/^https?:/.test(href)) return;
+      ev.preventDefault();
+      const f = FEEDS[tab];
+      const root = f.today.replace(/[^/]*$/, "");
+      if (href.split("#")[0].startsWith(root)) { load(href.split("#")[0], true); window.scrollTo(0, 0); }
+      else window.open(href, "_blank", "noopener");   // 記事の元のサイトは別の画面で開く
+    });
+  };
+  view.srcdoc = html;
+}
+function fit(){
+  const d = view.contentDocument;
+  if (d && d.documentElement) view.style.height = Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0) + "px";
+}
+
+function setTab(name){
+  tab = name; history_ = []; current = "";
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("sel", b.dataset.tab === name));
+  load(FEEDS[name].today, false);
+}
+
+document.getElementById("b-today").onclick = () => { history_ = []; current = ""; load(FEEDS[tab].today, false); window.scrollTo(0, 0); };
+document.getElementById("b-bn").onclick = () => { load(FEEDS[tab].bn, true); window.scrollTo(0, 0); };
+document.getElementById("b-reload").onclick = () => { if (current) { const u = current; current = ""; load(u, false); } else load(FEEDS[tab].today, false); };
+btnBack.onclick = () => { const u = history_.pop(); if (u) { current = ""; load(u, false); window.scrollTo(0, 0); } btnBack.hidden = history_.length === 0; };
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => setTab(b.dataset.tab));
+if (FEEDS.fx.today) document.getElementById("tabs").classList.add("on");
+
+// 開きっぱなしで翌朝に戻ってきた時も、新しい号を取りに行く（30分たっていたら）
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && Date.now() - openedAt > 30 * 60 * 1000 && history_.length === 0) load(FEEDS[tab].today, false);
+});
+window.addEventListener("resize", fit);
+
+load(FEEDS.kabu.today, false);
+
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
