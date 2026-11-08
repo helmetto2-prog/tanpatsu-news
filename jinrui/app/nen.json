@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-08 00:49",
-  "latest": 29,
+  "updated": "2026-11-09 00:49",
+  "latest": 30,
   "years": [
     {
       "y": 1,
@@ -363,8 +363,8 @@
       "img": "../img/y0028.jpg",
       "koe": "../koe/y0028.mp3",
       "anime": "../annai/jinrui_y0028_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0028.jpg"
     },
     {
       "y": 29,
@@ -376,6 +376,19 @@
       "img": "../img/y0029.jpg",
       "koe": "../koe/y0029.mp3",
       "anime": "../annai/jinrui_y0029_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 30,
+      "title": "30年目　ナミノコの年",
+      "name": "ナミノコの年",
+      "headline": "ソヨがグツで海の水を煮つめてナミノコを取り、コイシが自分のホリヤを建てた",
+      "date": "2026-11-09",
+      "page": "../nen/30/",
+      "img": "../img/y0030.jpg",
+      "koe": "../koe/y0030.mp3",
+      "anime": "../annai/jinrui_y0030_720p.mp4",
       "animeReady": false,
       "poster": null
     }
