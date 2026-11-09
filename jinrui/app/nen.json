@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-09 00:49",
-  "latest": 30,
+  "updated": "2026-11-10 00:48",
+  "latest": 31,
   "years": [
     {
       "y": 1,
@@ -376,8 +376,8 @@
       "img": "../img/y0029.jpg",
       "koe": "../koe/y0029.mp3",
       "anime": "../annai/jinrui_y0029_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0029.jpg"
     },
     {
       "y": 30,
@@ -389,6 +389,19 @@
       "img": "../img/y0030.jpg",
       "koe": "../koe/y0030.mp3",
       "anime": "../annai/jinrui_y0030_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 31,
+      "title": "31年目　アシマキの年",
+      "name": "アシマキの年",
+      "headline": "オキがカシじいの毛皮でアシマキを作り、秋の終わりにカシが静かに眠った",
+      "date": "2026-11-10",
+      "page": "../nen/31/",
+      "img": "../img/y0031.jpg",
+      "koe": "../koe/y0031.mp3",
+      "anime": "../annai/jinrui_y0031_720p.mp4",
       "animeReady": false,
       "poster": null
     }
