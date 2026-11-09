@@ -2171,18 +2171,37 @@ details.sec>summary h2::before{content:"";flex:none;width:12px;height:12px;borde
 (function(){
   // 2026-11-06 まとん：見た人のカウンター（義樹さん「最初の画面にカウンターつけて。やる気になるよね」）。
   //   数える所＝ランキング台帳 GAS の action=count（台帳のシート counter）。本ページ（/jinrui/）だけで数えて見せ、nen/<年>/ の写しでは出さない。同じブラウザは1日1回だけ足す。
-  var el=document.getElementById('kaunta'); if(!el||!window.fetch) return;
+  // 2026-11-09 まとん：義樹さん「カウンターが消えてしまったように見える」。返事（2〜3秒・ときどきもっと）を待ってから枠を出していたので、
+  //   遅い・失敗した時は枠ごと見えなかった。→ 枠は先に出して「…」、10秒で返事が無ければ1回だけ聞き直し（足さずに数えるだけ）、だめなら「いまは数を読めませんでした」。
+  var el=document.getElementById('kaunta'); if(!el) return;
   if(!/\/jinrui\/(index\.html)?$/.test(location.pathname)) return;
+  var bs=el.querySelectorAll('[data-k]'), s=el.querySelector('.ks');
+  function put(t){ [].forEach.call(bs,function(b){ b.textContent=t; }); }
+  function fail(){ put('—'); if(s) s.textContent='（いまは数を読めませんでした。少しして開き直すと出ます）'; }
+  put('…'); if(s) s.textContent='（数えています…）';
+  el.hidden=false;
+  if(!window.fetch){ fail(); return; }
   var API='https://script.google.com/macros/s/AKfycbz3yJMoui8-HX0iec4dLgW-Wk2nwBxa8t86CmGiuU9-PqqjG8PVb6emUodSweBZfID0Mw/exec';
   var day=new Date(Date.now()+9*3600000).toISOString().slice(0,10), key='jinrui_kaunta_day', hit=true;
   try{ if(localStorage.getItem(key)===day) hit=false; }catch(e){}
-  fetch(API+'?action=count&page=jinrui'+(hit?'&hit=1':'')).then(function(r){ return r.json(); }).then(function(j){
-    if(!j||!j.ok) return;
-    if(hit){ try{ localStorage.setItem(key,day); }catch(e){} }
-    [].forEach.call(el.querySelectorAll('[data-k]'),function(b){ var v=j[b.getAttribute('data-k')]; b.textContent=(typeof v==='number')?v.toLocaleString('ja-JP'):''; });
-    var s=el.querySelector('.ks'); if(s&&j.since){ var p=j.since.split('-'); s.textContent='（'+Number(p[1])+'月'+Number(p[2])+'日から数えています）'; }
-    el.hidden=false;
-  }).catch(function(){});
+  function show(j,added){
+    if(added){ try{ localStorage.setItem(key,day); }catch(e){} }
+    [].forEach.call(bs,function(b){ var v=j[b.getAttribute('data-k')]; b.textContent=(typeof v==='number')?v.toLocaleString('ja-JP'):'—'; });
+    if(s){ if(j.since){ var p=String(j.since).split('-'); s.textContent='（'+Number(p[1])+'月'+Number(p[2])+'日から数えています）'; } else s.textContent=''; }
+  }
+  function ask(n){
+    var useHit=hit&&n===0, done=false;
+    var t=setTimeout(function(){ if(done) return; done=true; if(n<1) ask(n+1); else fail(); },10000);
+    fetch(API+'?action=count&page=jinrui'+(useHit?'&hit=1':'')).then(function(r){ return r.json(); }).then(function(j){
+      if(done) return; done=true; clearTimeout(t);
+      if(!j||!j.ok){ if(n<1) ask(n+1); else fail(); return; }
+      show(j,useHit);
+    }).catch(function(){
+      if(done) return; done=true; clearTimeout(t);
+      if(n<1) setTimeout(function(){ ask(n+1); },1500); else fail();
+    });
+  }
+  ask(0);
 })();
 </script>
 </body>
