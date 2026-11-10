@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-10 00:48",
-  "latest": 31,
+  "updated": "2026-11-11 00:48",
+  "latest": 32,
   "years": [
     {
       "y": 1,
@@ -402,6 +402,19 @@
       "img": "../img/y0031.jpg",
       "koe": "../koe/y0031.mp3",
       "anime": "../annai/jinrui_y0031_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 32,
+      "title": "32年目　ナカビの年",
+      "name": "ナカビの年",
+      "headline": "浅瀬のまん中の砂地で、クリとハヤが一つの火を囲み、秋の終わりにヨシが静かに眠った",
+      "date": "2026-11-11",
+      "page": "../nen/32/",
+      "img": "../img/y0032.jpg",
+      "koe": "../koe/y0032.mp3",
+      "anime": "../annai/jinrui_y0032_720p.mp4",
       "animeReady": false,
       "poster": null
     }
