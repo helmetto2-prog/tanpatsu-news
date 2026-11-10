@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>まとんの難問ナンプレ</title>
+<meta name="description" content="まとんが探した難問ナンプレ。スマホでそのまま遊べます。メモ・やり直し・途中保存つき。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="まとんの難問ナンプレ">
+<meta property="og:description" content="スマホでそのまま遊べる難問ナンプレ。ヒント24個の★と、ヒント27個のおまけ。みんなで挑戦！">
+<meta property="og:url" content="https://helmetto2-prog.github.io/tanpatsu-news/nanpure/">
+<meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/nanpure/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f6f54">
+<style>
+:root{
+  --bg:#f4f1e8; --ink:#1d2a26; --sub:#5b6b65; --line:#9aa8a2; --bold:#1d2a26;
+  --cell:#ffffff; --given:#1d2a26; --mine:#1a5fb4; --sel:#ffe08a; --peer:#eef3ea; --same:#cfe8d8;
+  --bad:#c62828; --badbg:#fde0dc; --btn:#ffffff; --btnline:#c9d2cd; --accent:#1f6f54; --accentink:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141a18; --ink:#e8eee9; --sub:#9fb0a8; --line:#4b5a54; --bold:#cfdad4;
+    --cell:#1e2623; --given:#e8eee9; --mine:#8ab8ff; --sel:#6b5a14; --peer:#25302c; --same:#1f4a39;
+    --bad:#ff8a80; --badbg:#4a1f1c; --btn:#232c29; --btnline:#3a4742; --accent:#3aa37d; --accentink:#0d1512;
+  }
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;}
+body{padding:10px 10px calc(16px + env(safe-area-inset-bottom)); touch-action:manipulation;
+  -webkit-user-select:none; user-select:none;}
+main{max-width:520px; margin:0 auto}
+h1{font-size:19px; margin:4px 0 8px; text-align:center; letter-spacing:.04em}
+.tabs{display:flex; gap:6px; margin-bottom:8px}
+.tabs button{flex:1; padding:9px 4px; font-size:14px; border-radius:10px; border:1.5px solid var(--btnline);
+  background:var(--btn); color:var(--ink); font-weight:700}
+.tabs button.on{background:var(--accent); color:var(--accentink); border-color:var(--accent)}
+.tabs small{display:block; font-weight:400; font-size:11px; opacity:.85}
+.bar{display:flex; justify-content:space-between; align-items:center; font-size:13px; color:var(--sub); margin:0 2px 6px}
+.bar b{color:var(--ink); font-variant-numeric:tabular-nums; font-size:15px}
+#board{display:grid; grid-template-columns:repeat(9,1fr); width:100%; aspect-ratio:1/1;
+  border:2.5px solid var(--bold); background:var(--bold); border-radius:4px; overflow:hidden}
+.c{position:relative; background:var(--cell); border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; font-size:clamp(20px,6.4vw,32px); line-height:1;
+  color:var(--mine); cursor:pointer; min-width:0; min-height:0}
+.c.g{color:var(--given); font-weight:700}
+.c.r3{border-bottom:2.5px solid var(--bold)} .c.c3{border-right:2.5px solid var(--bold)}
+.c.r9{border-bottom:none} .c.c9{border-right:none}
+.c.peer{background:var(--peer)} .c.same{background:var(--same)} .c.sel{background:var(--sel)}
+.c.bad{color:var(--bad); background:var(--badbg)} .c.bad.sel{background:var(--sel)}
+.c.wrong{color:var(--bad); text-decoration:line-through; text-decoration-thickness:2px}
+.n{position:absolute; inset:1px; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr);
+  font-size:clamp(8px,2.5vw,12px); color:var(--sub); font-weight:400}
+.n span{display:flex; align-items:center; justify-content:center}
+.n span.hl{color:var(--ink); font-weight:700; background:var(--same); border-radius:3px}
+.pad{display:grid; grid-template-columns:repeat(9,1fr); gap:4px; margin-top:10px}
+.pad button{position:relative; padding:0; height:52px; font-size:24px; border-radius:9px; border:1.5px solid var(--btnline);
+  background:var(--btn); color:var(--ink); font-weight:700}
+.pad button i{position:absolute; right:3px; bottom:2px; font-size:10px; font-style:normal; font-weight:400; color:var(--sub)}
+.pad button.done{opacity:.35}
+.tools{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:8px}
+.tools button,.sub button,.dlg button{padding:11px 2px; font-size:14px; border-radius:9px; border:1.5px solid var(--btnline);
+  background:var(--btn); color:var(--ink); font-weight:700}
+#memo.on{background:var(--accent); color:var(--accentink); border-color:var(--accent)}
+.sub{display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-top:6px}
+.sub button{font-weight:400; font-size:13px}
+.line{margin-top:10px; width:100%; padding:13px; font-size:16px; font-weight:700; border:none; border-radius:10px;
+  background:#06c755; color:#fff}
+button:active{transform:translateY(1px); filter:brightness(.95)}
+#msg{min-height:22px; margin:8px 2px 0; font-size:14px; text-align:center; color:var(--sub)}
+#msg.ok{color:var(--accent); font-weight:700} #msg.ng{color:var(--bad); font-weight:700}
+details{margin-top:14px; font-size:13px; color:var(--sub); line-height:1.7}
+details summary{color:var(--ink); font-weight:700; padding:6px 0}
+details ul{margin:4px 0; padding-left:1.2em}
+footer{margin-top:14px; text-align:center; font-size:11px; color:var(--sub)}
+.ov{position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; padding:20px; z-index:9}
+.ov.show{display:flex}
+.dlg{background:var(--cell); color:var(--ink); border-radius:14px; padding:20px 18px; max-width:340px; width:100%; text-align:center}
+.dlg h2{margin:0 0 8px; font-size:20px} .dlg p{margin:0 0 14px; font-size:14px; line-height:1.7}
+.dlg .row{display:flex; gap:8px} .dlg .row button{flex:1}
+.dlg .go{background:var(--accent); color:var(--accentink); border-color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+  <h1>まとんの難問ナンプレ</h1>
+  <div class="tabs" id="tabs"></div>
+  <div class="bar"><span id="info"></span><span>時間 <b id="time">0:00</b></span></div>
+  <div id="board"></div>
+  <div class="pad" id="pad"></div>
+  <div class="tools">
+    <button id="memo">メモ：切</button>
+    <button id="erase">消す</button>
+    <button id="undo">1つ戻す</button>
+    <button id="check">まちがい<br>さがし</button>
+  </div>
+  <div class="sub">
+    <button id="auto">候補を全部メモに入れる</button>
+    <button id="reset">最初からやり直す</button>
+  </div>
+  <div id="msg"></div>
+  <button class="line" id="share">LINEでみんなに送る</button>
+
+  <details>
+    <summary>遊び方</summary>
+    <ul>
+      <li>たて・よこ・太枠（3×3）のそれぞれに、1〜9 を1つずつ入れます。</li>
+      <li>マスを押してから、下の数字を押します。同じ数字をもう一度押すと消えます。</li>
+      <li>「メモ」を入れにすると、小さい数字（候補）を書けます。数字を入れると、同じ列・太枠のメモからその数字が自動で消えます。</li>
+      <li>ルールに合わない数字（同じ列や太枠で重なった数字）は赤くなります。</li>
+      <li>「まちがいさがし」は、答えとちがう数字に線を引きます。自力で解きたい時は押さないでください。</li>
+      <li>途中の様子はこのスマホに自動で残ります（人ごとに別々です）。</li>
+    </ul>
+  </details>
+  <details>
+    <summary>この問題について</summary>
+    <ul>
+      <li>★＝ヒント24個、おまけ＝ヒント27個。どちらも答えは1つだけです。</li>
+      <li>かなりの難問です。基本の埋め方だけでは進まず、「もしここが3なら…」と仮に置いて先を読む場面が出ます。</li>
+      <li>まとんが自宅PCで新しく探した問題です。難しさの物差しは自作のもので、「世界一むずかしい」とは言えません。</li>
+    </ul>
+  </details>
+  <footer>2026年11月 まとん（自宅PC）作成</footer>
+</main>
+
+<div class="ov" id="ov"><div class="dlg">
+  <h2 id="dh"></h2><p id="dp"></p>
+  <div class="row"><button id="dno">やめる</button><button id="dyes" class="go">はい</button></div>
+</div></div>
+
+<script>
+(function(){
+'use strict';
+var PUZ = [
+  {id:'hoshi', name:'★ 本命', sub:'ヒント24個', q:'.7...34..13..6.9..4.6....1.31.....79..4.....6......3..7..58.....9.......6.....79.'},
+  {id:'omake', name:'おまけ', sub:'ヒント27個', q:'.1.......7........8....5..3...65.39....9.1..6....435.14.3..61......9.46...9.14..5'}
+];
+var URL_ = 'https://helmetto2-prog.github.io/tanpatsu-news/nanpure/';
+var KEY = 'nanpure-v1-';
+
+// ---- 仲間のマス（同じ行・列・太枠）----
+var PEERS = [];
+for (var i=0;i<81;i++){
+  var r=Math.floor(i/9), c=i%9, s={}, br=r-r%3, bc=c-c%3;
+  for (var k=0;k<9;k++){ s[r*9+k]=1; s[k*9+c]=1; s[(br+Math.floor(k/3))*9+bc+k%3]=1; }
+  delete s[i];
+  PEERS.push(Object.keys(s).map(Number));
+}
+
+// ---- 答えを求める（答えが1つかも数える）----
+function solve(q){
+  var g=[], i;
+  for (i=0;i<81;i++) g.push(q[i]==='.'?0:+q[i]);
+  var found=null, count=0;
+  function cand(i){ var m=0x3FE, p=PEERS[i]; for (var k=0;k<p.length;k++) m&=~(1<<g[p[k]]); return m; }
+  function bits(m){ var n=0; while(m){ n+=m&1; m>>=1; } return n; }
+  function go(){
+    var best=-1, bm=0, bn=10;
+    for (var i=0;i<81;i++) if(!g[i]){ var m=cand(i), n=bits(m); if(n<bn){ bn=n; best=i; bm=m; if(n<2) break; } }
+    if (best<0){ count++; if(!found) found=g.slice(); return; }
+    if (bn===0) return;
+    for (var d=1; d<=9 && count<2; d++) if (bm&(1<<d)){ g[best]=d; go(); g[best]=0; }
+  }
+  go();
+  return {sol:found, count:count};
+}
+PUZ.forEach(function(p){ var r=solve(p.q); p.sol=r.sol; p.uniq=(r.count===1); });
+
+// ---- 状態 ----
+var cur=0, st=null, sel=-1, memo=false, timer=null, wrongShown=false;
+function fresh(p){
+  var v=[], n=[];
+  for (var i=0;i<81;i++){ v.push(p.q[i]==='.'?0:+p.q[i]); n.push(0); }
+  return {v:v, n:n, t:0, done:false, hist:[]};
+}
+function load(p){
+  try{
+    var s=JSON.parse(localStorage.getItem(KEY+p.id));
+    if (s && s.v && s.v.length===81 && s.n && s.n.length===81){
+      for (var i=0;i<81;i++) if (p.q[i]!=='.' && s.v[i]!==+p.q[i]) return fresh(p);
+      s.hist = s.hist||[]; s.t = s.t||0; return s;
+    }
+  }catch(e){}
+  return fresh(p);
+}
+function save(){
+  try{
+    var s={v:st.v, n:st.n, t:st.t, done:st.done, hist:st.hist.slice(-200)};
+    localStorage.setItem(KEY+PUZ[cur].id, JSON.stringify(s));
+    localStorage.setItem(KEY+'cur', String(cur));
+  }catch(e){}
+}
+function given(i){ return PUZ[cur].q[i]!=='.'; }
+
+// ---- 画面 ----
+var $=function(id){ return document.getElementById(id); };
+var board=$('board'), cells=[];
+for (var i=0;i<81;i++){
+  var d=document.createElement('div'), r=Math.floor(i/9), c=i%9;
+  d.className='c'+(r%3===2?' r3':'')+(c%3===2?' c3':'')+(r===8?' r9':'')+(c===8?' c9':'');
+  d.dataset.i=i; board.appendChild(d); cells.push(d);
+}
+board.addEventListener('click', function(e){
+  var t=e.target.closest('.c'); if(!t) return;
+  var i=+t.dataset.i; sel=(sel===i?-1:i); wrongShown=false; draw();
+});
+var pad=$('pad'), padBtns=[];
+for (var d=1;d<=9;d++){
+  var b=document.createElement('button'); b.dataset.d=d; b.innerHTML=d+'<i></i>';
+  pad.appendChild(b); padBtns.push(b);
+}
+pad.addEventListener('click', function(e){ var t=e.target.closest('button'); if(t) put(+t.dataset.d); });
+var tabs=$('tabs');
+PUZ.forEach(function(p,k){
+  var b=document.createElement('button'); b.innerHTML=p.name+'<small>'+p.sub+'</small>';
+  b.addEventListener('click', function(){ if(k!==cur){ save(); start(k); } });
+  tabs.appendChild(b);
+});
+
+function conflicts(){
+  var bad=[]; for (var i=0;i<81;i++) bad.push(false);
+  for (var i=0;i<81;i++) if(st.v[i]){ var p=PEERS[i]; for (var k=0;k<p.length;k++) if(st.v[p[k]]===st.v[i]){ bad[i]=true; break; } }
+  return bad;
+}
+function draw(){
+  var p=PUZ[cur], bad=conflicts(), sv=(sel>=0?st.v[sel]:0), peer={};
+  if (sel>=0) PEERS[sel].forEach(function(j){ peer[j]=1; });
+  var left=0, cnt=[0,0,0,0,0,0,0,0,0,0];
+  for (var i=0;i<81;i++){
+    var el=cells[i], v=st.v[i], cls=el.className.replace(/ (g|sel|peer|same|bad|wrong)\b/g,'');
+    if (given(i)) cls+=' g';
+    if (i===sel) cls+=' sel'; else if (sv && v===sv) cls+=' same'; else if (peer[i]) cls+=' peer';
+    if (v && bad[i]) cls+=' bad';
+    if (v && wrongShown && !given(i) && p.sol && v!==p.sol[i]) cls+=' wrong';
+    el.className=cls;
+    if (v){ el.textContent=v; cnt[v]++; }
+    else {
+      left++;
+      if (st.n[i]){
+        var h='<div class="n">';
+        for (var d=1;d<=9;d++) h+='<span'+(sv===d && (st.n[i]&(1<<d))?' class="hl"':'')+'>'+((st.n[i]&(1<<d))?d:'')+'</span>';
+        el.innerHTML=h+'</div>';
+      } else el.textContent='';
+    }
+  }
+  for (var d=1;d<=9;d++){
+    var rest=9-cnt[d];
+    padBtns[d-1].querySelector('i').textContent=rest>0?rest:'';
+    padBtns[d-1].className=rest<=0?'done':'';
+  }
+  $('info').textContent=p.sub+'・のこり '+left+' マス';
+  $('memo').textContent='メモ：'+(memo?'入':'切');
+  $('memo').className=memo?'on':'';
+  for (var k=0;k<PUZ.length;k++) tabs.children[k].className=(k===cur?'on':'');
+  showTime();
+}
+function showTime(){
+  var t=st.t, h=Math.floor(t/3600), m=Math.floor(t%3600/60), s=t%60;
+  $('time').textContent=(h?h+':'+(m<10?'0':''):'')+m+':'+(s<10?'0':'')+s;
+}
+function timeText(){
+  var t=st.t, h=Math.floor(t/3600), m=Math.floor(t%3600/60), s=t%60;
+  return (h?h+'時間':'')+(m?m+'分':'')+s+'秒';
+}
+function say(text, kind){ var m=$('msg'); m.textContent=text||''; m.className=kind||''; }
+
+// ---- 操作 ----
+function push(i){ st.hist.push([i, st.v[i], st.n.slice()]); if(st.hist.length>200) st.hist.shift(); }
+function put(d){
+  if (sel<0){ say('先にマスを押してください'); return; }
+  if (given(sel)){ say('はじめからある数字は変えられません'); return; }
+  if (st.done) return;
+  wrongShown=false; say('');
+  push(sel);
+  if (memo){
+    if (st.v[sel]) st.v[sel]=0;
+    st.n[sel]^=(1<<d);
+  } else {
+    if (st.v[sel]===d) st.v[sel]=0;
+    else {
+      st.v[sel]=d; st.n[sel]=0;
+      PEERS[sel].forEach(function(j){ st.n[j]&=~(1<<d); });
+    }
+  }
+  after();
+}
+function after(){
+  draw(); save();
+  var full=true, i;
+  for (i=0;i<81;i++) if(!st.v[i]){ full=false; break; }
+  if (!full) return;
+  var p=PUZ[cur], ok=true;
+  for (i=0;i<81;i++) if(st.v[i]!==p.sol[i]){ ok=false; break; }
+  if (ok){
+    st.done=true; save(); stopTimer(); sel=-1; draw();
+    say('できました！ かかった時間 '+timeText(), 'ok');
+    ask('おめでとう！', p.name+'（'+p.sub+'）を '+timeText()+' で解きました。みんなに知らせますか？', 'LINEで知らせる', function(){ share(true); });
+  } else say('全部うまりましたが、どこかがちがいます', 'ng');
+}
+$('memo').addEventListener('click', function(){ memo=!memo; draw(); });
+$('erase').addEventListener('click', function(){
+  if (sel<0 || given(sel) || st.done) return;
+  if (!st.v[sel] && !st.n[sel]) return;
+  push(sel); st.v[sel]=0; st.n[sel]=0; wrongShown=false; say(''); draw(); save();
+});
+$('undo').addEventListener('click', function(){
+  if (st.done) return;
+  var h=st.hist.pop(); if(!h){ say('戻す物がありません'); return; }
+  st.v[h[0]]=h[1]; st.n=h[2]; sel=h[0]; wrongShown=false; say(''); draw(); save();
+});
+$('check').addEventListener('click', function(){
+  var p=PUZ[cur], n=0, filled=0;
+  for (var i=0;i<81;i++) if(st.v[i] && !given(i)){ filled++; if(st.v[i]!==p.sol[i]) n++; }
+  if (!filled){ say('まだ数字が入っていません'); return; }
+  wrongShown=true; draw();
+  if (n) say('答えとちがう数字が '+n+' 個あります（線を引いた数字）', 'ng');
+  else say('今のところ、まちがいはありません', 'ok');
+});
+$('auto').addEventListener('click', function(){
+  if (st.done) return;
+  ask('候補を全部メモに入れる', '空いているマス全部に、今入れられる数字をメモします。今のメモは書きかわります。', '入れる', function(){
+    st.hist.push([sel<0?0:sel, st.v[sel<0?0:sel], st.n.slice()]);
+    for (var i=0;i<81;i++){
+      if (st.v[i]){ st.n[i]=0; continue; }
+      var m=0x3FE; PEERS[i].forEach(function(j){ m&=~(1<<st.v[j]); });
+      st.n[i]=m;
+    }
+    draw(); save(); say('候補をメモに入れました');
+  });
+});
+$('reset').addEventListener('click', function(){
+  ask('最初からやり直す', 'この問題に入れた数字とメモ、時間を全部消します。よいですか？', '消してやり直す', function(){
+    st=fresh(PUZ[cur]); sel=-1; wrongShown=false; say(''); draw(); save(); startTimer();
+  });
+});
+
+// ---- LINE で送る ----
+function share(solved){
+  var p=PUZ[cur];
+  var text = solved
+    ? 'まとんの難問ナンプレ '+p.name+'（'+p.sub+'）を '+timeText()+' で解いたよ！ みんなもどうぞ\n'+URL_
+    : 'まとんの難問ナンプレ、スマホでそのまま遊べるよ。みんなで挑戦！\n'+URL_;
+  location.href='https://line.me/R/share?text='+encodeURIComponent(text);
+}
+$('share').addEventListener('click', function(){ share(false); });
+
+// ---- 確かめの窓 ----
+var onYes=null;
+function ask(h, p, yes, fn){ $('dh').textContent=h; $('dp').textContent=p; $('dyes').textContent=yes; onYes=fn; $('ov').className='ov show'; }
+$('dno').addEventListener('click', function(){ $('ov').className='ov'; });
+$('dyes').addEventListener('click', function(){ $('ov').className='ov'; if(onYes) onYes(); });
+
+// ---- 時間 ----
+function stopTimer(){ if(timer){ clearInterval(timer); timer=null; } }
+function startTimer(){
+  stopTimer(); if (st.done) return;
+  timer=setInterval(function(){
+    if (document.hidden) return;
+    st.t++; showTime(); if (st.t%10===0) save();
+  }, 1000);
+}
+document.addEventListener('visibilitychange', function(){ if(document.hidden) save(); });
+window.addEventListener('pagehide', save);
+
+// ---- キーボード（パソコン用）----
+document.addEventListener('keydown', function(e){
+  if (e.key>='1' && e.key<='9'){ put(+e.key); return; }
+  if (e.key==='Backspace' || e.key==='Delete' || e.key==='0'){ $('erase').click(); return; }
+  if (e.key==='m' || e.key==='M'){ $('memo').click(); return; }
+  var mv={ArrowUp:-9, ArrowDown:9, ArrowLeft:-1, ArrowRight:1}[e.key];
+  if (mv){ e.preventDefault(); if(sel<0) sel=0; else { var n=sel+mv; if(n>=0 && n<81 && !(Math.abs(mv)===1 && Math.floor(n/9)!==Math.floor(sel/9))) sel=n; } draw(); }
+});
+
+function start(k){
+  cur=k; st=load(PUZ[k]); sel=-1; wrongShown=false;
+  say(st.done ? 'この問題は解きおわっています（'+timeText()+'）' : '', st.done?'ok':'');
+  draw(); startTimer(); save();
+}
+var c0=0; try{ c0=+localStorage.getItem(KEY+'cur')||0; }catch(e){}
+start(c0>=0 && c0<PUZ.length ? c0 : 0);
+window.__nanpure={PUZ:PUZ, state:function(){return st;}};
+})();
+</script>
+</body>
+</html>
