@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-11 00:48",
-  "latest": 32,
+  "updated": "2026-11-12 00:48",
+  "latest": 33,
   "years": [
     {
       "y": 1,
@@ -389,8 +389,8 @@
       "img": "../img/y0030.jpg",
       "koe": "../koe/y0030.mp3",
       "anime": "../annai/jinrui_y0030_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0030.jpg"
     },
     {
       "y": 31,
@@ -415,6 +415,19 @@
       "img": "../img/y0032.jpg",
       "koe": "../koe/y0032.mp3",
       "anime": "../annai/jinrui_y0032_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 33,
+      "title": "33年目　カラミズの年",
+      "name": "カラミズの年",
+      "headline": "ソヨが干した海草からカラミズを取り、たきぎ少しでナミノコを煮た大漁の年",
+      "date": "2026-11-12",
+      "page": "../nen/33/",
+      "img": "../img/y0033.jpg",
+      "koe": "../koe/y0033.mp3",
+      "anime": "../annai/jinrui_y0033_720p.mp4",
       "animeReady": false,
       "poster": null
     }
