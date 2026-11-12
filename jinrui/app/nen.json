@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-12 00:48",
-  "latest": 33,
+  "updated": "2026-11-13 00:49",
+  "latest": 34,
   "years": [
     {
       "y": 1,
@@ -402,8 +402,8 @@
       "img": "../img/y0031.jpg",
       "koe": "../koe/y0031.mp3",
       "anime": "../annai/jinrui_y0031_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0031.jpg"
     },
     {
       "y": 32,
@@ -428,6 +428,19 @@
       "img": "../img/y0033.jpg",
       "koe": "../koe/y0033.mp3",
       "anime": "../annai/jinrui_y0033_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 34,
+      "title": "34年目　ヒイシの年",
+      "name": "ヒイシの年",
+      "headline": "ミルが川原で見つけた赤い小石で、グツのふちに赤い線を引いた豊作の年",
+      "date": "2026-11-13",
+      "page": "../nen/34/",
+      "img": "../img/y0034.jpg",
+      "koe": "../koe/y0034.mp3",
+      "anime": "../annai/jinrui_y0034_720p.mp4",
       "animeReady": false,
       "poster": null
     }
