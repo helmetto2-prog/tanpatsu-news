@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-13 00:49",
-  "latest": 34,
+  "updated": "2026-11-14 00:49",
+  "latest": 35,
   "years": [
     {
       "y": 1,
@@ -415,8 +415,8 @@
       "img": "../img/y0032.jpg",
       "koe": "../koe/y0032.mp3",
       "anime": "../annai/jinrui_y0032_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0032.jpg"
     },
     {
       "y": 33,
@@ -441,6 +441,19 @@
       "img": "../img/y0034.jpg",
       "koe": "../koe/y0034.mp3",
       "anime": "../annai/jinrui_y0034_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 35,
+      "title": "35年目　モドラズの年",
+      "name": "モドラズの年",
+      "headline": "川上から流れてきたかごをまねて、コナとアケビがモドラズを編んだ不作の年",
+      "date": "2026-11-14",
+      "page": "../nen/35/",
+      "img": "../img/y0035.jpg",
+      "koe": "../koe/y0035.mp3",
+      "anime": "../annai/jinrui_y0035_720p.mp4",
       "animeReady": false,
       "poster": null
     }
