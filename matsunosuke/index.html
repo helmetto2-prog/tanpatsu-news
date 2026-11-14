@@ -64,6 +64,25 @@ h1{font-size:30px;line-height:1.35;margin:4px 0 12px}
 .kagi{font-size:11px;color:var(--hai);margin-left:6px}
 .okuru{display:block;margin:28px auto 0;max-width:420px;background:#06c755;color:#fff;font-weight:700;text-align:center;padding:14px;border-radius:8px;font-size:16px}
 
+/* 名刺 */
+.meishi-ran{padding:22px 0 6px}
+.meishi-ran h2{font-size:19px;margin:2px 0 14px;line-height:1.45}
+.meishi{position:relative;width:100%;max-width:455px;aspect-ratio:91/55;margin:0 auto;overflow:hidden;
+  background:linear-gradient(135deg,#fbf8ef,#f1ebdb);border:1px solid #e2dac4;border-radius:4px;
+  box-shadow:0 10px 24px rgba(40,30,10,.18),0 2px 4px rgba(40,30,10,.12);
+  font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;color:#1d1d1b;container-type:inline-size}
+.meishi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1.6%;background:var(--midori)}
+.m-matsu{position:absolute;left:6%;bottom:0;height:86%;opacity:.92}
+.m-na{position:absolute;right:9%;top:6%;writing-mode:vertical-rl;white-space:nowrap;font-weight:900;
+  font-size:6.6cqw;letter-spacing:.12em;line-height:1}
+.m-kata{position:absolute;right:21%;top:9%;writing-mode:vertical-rl;white-space:nowrap;font-size:2.6cqw;letter-spacing:.25em;color:var(--midori);
+  border-left:1px solid var(--kin);padding-left:1.6cqw}
+.m-in{position:absolute;right:9.8%;bottom:7%;width:5cqw;height:5cqw;background:var(--shu);color:#fff;font-weight:900;
+  font-size:3.3cqw;display:flex;align-items:center;justify-content:center;border-radius:3px}
+.m-ato{position:absolute;left:34%;bottom:9%;font-size:2cqw;line-height:1.9;color:#3b3a35;
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif}
+.m-chu{font-size:13px;color:var(--hai);text-align:center;margin:12px 0 0}
+
 /* わきの欄 */
 aside .oshirase{background:var(--usu);padding:10px 14px;font-size:13px;font-weight:700;margin-bottom:28px}
 aside h3{font-size:15px;border-top:4px solid var(--usu);padding-top:14px;margin:0 0 8px}
@@ -144,7 +163,7 @@ footer ul{list-style:none;margin:0;padding:0}
         <ul>
           <li>親方「桜？　聞いたことのない木だ」<span class="kagi">🔒</span></li>
           <li>専門家「松としては一流」<span class="kagi">🔒</span></li>
-          <li>屋号が長すぎて看板に入らず<span class="kagi">🔒</span></li>
+          <li>屋号が長すぎて看板に入らず　名刺には入った<span class="kagi">🔒</span></li>
         </ul>
       </div>
     </section>
@@ -185,6 +204,32 @@ footer ul{list-style:none;margin:0;padding:0}
         <p>松でない木のご相談は、お近くの造園屋さんへ。</p></div>
       <img class="e" src="e/e1.jpg" alt="黄色く色づいた木" loading="lazy">
     </article>
+
+    <section class="meishi-ran">
+      <div class="kata">速報</div>
+      <h2>屋号、名刺に入る　職人の技で「縦に書けばよい」と判明</h2>
+      <div class="meishi" role="img" aria-label="松之助松太郎の名刺。松の専門店・造園、親方 松之助松太郎">
+        <svg class="m-matsu" viewBox="0 0 200 260" aria-hidden="true">
+          <path d="M70 258 C82 210 52 180 80 140 C104 104 72 82 108 50" fill="none" stroke="#4a3122" stroke-width="9" stroke-linecap="round"/>
+          <path d="M80 140 C56 130 38 132 18 120" fill="none" stroke="#4a3122" stroke-width="5" stroke-linecap="round"/>
+          <path d="M92 88 C124 96 146 90 172 98" fill="none" stroke="#4a3122" stroke-width="5" stroke-linecap="round"/>
+          <g fill="#1f3d2b">
+            <path d="M2 122 q4 -20 26 -21 q10 -10 24 -3 q18 -2 21 13 q7 8 -3 12 h-62 q-9 -1 -6 -1z"/>
+            <path d="M140 100 q4 -18 24 -19 q10 -9 22 -2 q14 0 15 12 q5 7 -4 10 h-52 q-8 -1 -5 -1z"/>
+            <path d="M82 52 q3 -22 30 -24 q13 -12 32 -3 q21 -1 24 16 q8 9 -4 13 h-76 q-11 -1 -6 -2z"/>
+          </g>
+        </svg>
+        <div class="m-kata">松の専門店 ・ 造園　親方</div>
+        <div class="m-na">松之助松太郎</div>
+        <div class="m-in">松</div>
+        <div class="m-ato">
+          電話　松の下で大きな声でお呼びください<br>
+          営業　日の出から、松が見えなくなるまで<br>
+          取扱　松（梅・竹はございません）
+        </div>
+      </div>
+      <p class="m-chu">文字を小さくする案は、親方が「松は縮めない」と退けた。</p>
+    </section>
 
     <a class="okuru" id="okuru" href="#">LINEでみんなに送る</a>
   </main>
