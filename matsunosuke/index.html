@@ -248,6 +248,14 @@ body{background:var(--kinari);font-size:15px;line-height:1.9}
 .keizu p{margin:0;font-size:14px;color:#c9c2ad}
 .shinbun{background:#fff;border-top:3px double var(--sumi);border-bottom:3px double var(--sumi);max-width:1248px;margin:0 auto;box-shadow:0 14px 40px rgba(40,30,10,.12)}
 .shinbun h1{font-family:var(--min)}
+.shinbun .hon{padding-left:20px;padding-right:20px}
+.rank details{min-width:0}
+.rank summary{list-style:none;cursor:pointer}
+.rank summary::-webkit-details-marker{display:none}
+.rank summary::after{content:"読む ＋";display:inline-block;margin-left:10px;font-size:11px;font-weight:400;color:var(--hai);white-space:nowrap}
+.rank details[open] summary::after{content:"閉じる －"}
+.rank .honbun{font-weight:400;font-size:14px;line-height:1.9;margin:8px 0 2px;color:#33322d}
+.rank .honbun small{display:block;color:var(--hai);font-size:12px;margin-top:6px;text-align:right}
 .niwa{border:1px solid #5d5138;outline:1px solid #5d5138;outline-offset:5px;border-radius:0;margin:6px}
 .mitsumori{margin:22px 6px 0;background:#fffdf6}
 .mitsumori .gou{font-family:var(--min)}
@@ -499,11 +507,16 @@ footer h4{color:#ece5d2;font-family:var(--min);letter-spacing:.2em;font-weight:5
 
     <h3>よく読まれている記事</h3>
     <ol class="rank">
-      <li>親方、今日も松しか見ていない</li>
-      <li>はしご、また行方不明　捜索続く</li>
-      <li>松葉が服の中に入る問題、解決のめど立たず</li>
-      <li>「竹はやらないのか」の問いに親方沈黙</li>
-      <li>社歌を募集　歌詞は「松」のみ</li>
+      <li><details><summary>親方、今日も松しか見ていない</summary>
+        <p class="honbun">親方はけさ、店の前の松を見ていた。昼も見ていた。夕方、職人が「そろそろ帰りましょう」と声をかけると、親方は「まだ松が終わっていない」と答えた。松が終わる時刻は、公表されていない。関係者によると、きのうも同じだったという。<small>（松だより編集部）</small></p></details></li>
+      <li><details><summary>はしご、また行方不明　捜索続く</summary>
+        <p class="honbun">店のはしごが、また見当たらない。創業2日目にして3回目。職人たちは倉庫、軽トラの荷台、隣の家の庭の順に探したが、見つかったのは前回なくした別のはしごだった。親方は「はしごは、探していない時に出てくる」と話し、捜索の打ち切りをにおわせた。<small>（松だより編集部）</small></p></details></li>
+      <li><details><summary>松葉が服の中に入る問題、解決のめど立たず</summary>
+        <p class="honbun">職人の間で長年（きのうから）の懸案となっている。対策会議では「服を着ない」案が出たが、全会一致で否決。「松葉のほうに遠慮してもらう」案は、松葉側の回答を待っている。専門家は「松の店である以上、避けられない」と指摘する。<small>（松だより編集部）</small></p></details></li>
+      <li><details><summary>「竹はやらないのか」の問いに親方沈黙</summary>
+        <p class="honbun">お客さまの問いに、親方は11秒間だまった。その後「……松なら、ある」とだけ答えた。同席した職人によると、沈黙のあいだ親方は松を見ていたという。続けて梅について尋ねた記者には、返事がなかった。<small>（松だより編集部）</small></p></details></li>
+      <li><details><summary>社歌を募集　歌詞は「松」のみ</summary>
+        <p class="honbun">応募の決まりは一つ。歌詞に使える言葉は「松」だけ。1番は「松、松、松」、2番は「松、松、松（気持ちをこめて）」を想定している。曲は自由。締め切りは「松が見えるあいだ」。選ばれた方には、松ぼっくりを進呈する（もともと、ご自由にどうぞの品）。<small>（松だより編集部　協力・たま）</small></p></details></li>
     </ol>
   </aside>
 </div>
