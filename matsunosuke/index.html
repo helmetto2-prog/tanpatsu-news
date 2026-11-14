@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <meta property="og:title" content="松之助松太郎｜松の専門店・造園（冗談です）">
 <meta property="og:description" content="松之助松太郎「松しか扱わない」と宣言　梅と竹は「他をあたって」">
-<meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/e/matsu.png">
+<meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/e/matsu_top.jpg">
 <meta property="og:url" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/">
 <meta name="twitter:card" content="summary_large_image">
 <title>松之助松太郎｜松の専門店・造園（冗談です）</title>
@@ -64,6 +64,13 @@ h1{font-size:30px;line-height:1.35;margin:4px 0 12px}
 .kagi{font-size:11px;color:var(--hai);margin-left:6px}
 .okuru{display:block;margin:28px auto 0;max-width:420px;background:#06c755;color:#fff;font-weight:700;text-align:center;padding:14px;border-radius:8px;font-size:16px}
 
+/* すぅっと入って、びしっと止まる */
+.waku{overflow:hidden;align-self:start}
+.suu{transform:translateX(-112%)}
+.mieta .suu,.suu.mieta{animation:suu 1.15s cubic-bezier(.42,.12,.72,.9) forwards}
+@keyframes suu{from{transform:translateX(-112%)}to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){.suu{transform:none;animation:none!important}}
+
 /* 名刺 */
 .meishi-ran{padding:22px 0 6px}
 .meishi-ran h2{font-size:19px;margin:2px 0 14px;line-height:1.45}
@@ -72,14 +79,14 @@ h1{font-size:30px;line-height:1.35;margin:4px 0 12px}
   box-shadow:0 10px 24px rgba(40,30,10,.18),0 2px 4px rgba(40,30,10,.12);
   font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;color:#1d1d1b;container-type:inline-size}
 .meishi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1.6%;background:var(--midori)}
-.m-matsu{position:absolute;left:6%;bottom:0;height:86%;opacity:.92}
+.m-matsu{position:absolute;left:1%;bottom:-2%;height:100%;mix-blend-mode:multiply}
 .m-na{position:absolute;right:9%;top:6%;writing-mode:vertical-rl;white-space:nowrap;font-weight:900;
   font-size:6.6cqw;letter-spacing:.12em;line-height:1}
 .m-kata{position:absolute;right:21%;top:9%;writing-mode:vertical-rl;white-space:nowrap;font-size:2.6cqw;letter-spacing:.25em;color:var(--midori);
   border-left:1px solid var(--kin);padding-left:1.6cqw}
 .m-in{position:absolute;right:9.8%;bottom:7%;width:5cqw;height:5cqw;background:var(--shu);color:#fff;font-weight:900;
   font-size:3.3cqw;display:flex;align-items:center;justify-content:center;border-radius:3px}
-.m-ato{position:absolute;left:34%;bottom:9%;font-size:2cqw;line-height:1.9;color:#3b3a35;
+.m-ato{position:absolute;left:46%;bottom:8%;font-size:1.9cqw;line-height:1.9;color:#3b3a35;
   font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif}
 .m-chu{font-size:13px;color:var(--hai);text-align:center;margin:12px 0 0}
 
@@ -155,7 +162,7 @@ footer ul{list-style:none;margin:0;padding:0}
 <div class="wrap hon">
   <main>
     <section class="ichi">
-      <img class="e" src="e/matsu.png" alt="夕空に立つ松">
+      <div class="waku"><img class="e suu" src="e/matsu_top.jpg" alt="夕空の庭に立つ松"></div>
       <div>
         <div class="kata">松の専門店</div>
         <h1>松之助松太郎「松しか扱わない」と宣言　梅と竹は「他をあたって」</h1>
@@ -209,23 +216,14 @@ footer ul{list-style:none;margin:0;padding:0}
       <div class="kata">速報</div>
       <h2>屋号、名刺に入る　職人の技で「縦に書けばよい」と判明</h2>
       <div class="meishi" role="img" aria-label="松之助松太郎の名刺。松の専門店・造園、親方 松之助松太郎">
-        <svg class="m-matsu" viewBox="0 0 200 260" aria-hidden="true">
-          <path d="M70 258 C82 210 52 180 80 140 C104 104 72 82 108 50" fill="none" stroke="#4a3122" stroke-width="9" stroke-linecap="round"/>
-          <path d="M80 140 C56 130 38 132 18 120" fill="none" stroke="#4a3122" stroke-width="5" stroke-linecap="round"/>
-          <path d="M92 88 C124 96 146 90 172 98" fill="none" stroke="#4a3122" stroke-width="5" stroke-linecap="round"/>
-          <g fill="#1f3d2b">
-            <path d="M2 122 q4 -20 26 -21 q10 -10 24 -3 q18 -2 21 13 q7 8 -3 12 h-62 q-9 -1 -6 -1z"/>
-            <path d="M140 100 q4 -18 24 -19 q10 -9 22 -2 q14 0 15 12 q5 7 -4 10 h-52 q-8 -1 -5 -1z"/>
-            <path d="M82 52 q3 -22 30 -24 q13 -12 32 -3 q21 -1 24 16 q8 9 -4 13 h-76 q-11 -1 -6 -2z"/>
-          </g>
-        </svg>
+        <img class="m-matsu suu" src="e/matsu_meishi.jpg" alt="">
         <div class="m-kata">松の専門店 ・ 造園　親方</div>
         <div class="m-na">松之助松太郎</div>
         <div class="m-in">松</div>
         <div class="m-ato">
-          電話　松の下で大きな声でお呼びください<br>
-          営業　日の出から、松が見えなくなるまで<br>
-          取扱　松（梅・竹はございません）
+          電話　松の下から大声で<br>
+          営業　松が見えるあいだ<br>
+          取扱　松（梅・竹はなし）
         </div>
       </div>
       <p class="m-chu">文字を小さくする案は、親方が「松は縮めない」と退けた。</p>
@@ -270,7 +268,7 @@ footer ul{list-style:none;margin:0;padding:0}
       <div><h4>学び</h4><ul><li>松葉の数え方入門</li><li>はじめてのチクチク</li></ul></div>
       <div><h4>店の情報</h4><ul><li>創業：きのう</li><li>扱う木：松のみ</li></ul></div>
     </div>
-    <p class="kotowari">※このページは冗談で作ったものです。「松之助松太郎」は架空の店で、記事・数字・人物はすべて作り話です。実在の新聞社・会社・店・団体・人物とは関係ありません。松の手入れの案内でもありません。絵は自作アニメ「人類創世ゲーム」の場面と、自作の松の絵です。</p>
+    <p class="kotowari">※このページは冗談で作ったものです。「松之助松太郎」は架空の店で、記事・数字・人物はすべて作り話です。実在の新聞社・会社・店・団体・人物とは関係ありません。松の手入れの案内でもありません。絵は自作アニメ「人類創世ゲーム」の場面です。松の絵は Gemini に描いてもらいました。</p>
     <p>© 松之助松太郎　無断で笑うことを禁じません</p>
   </div>
 </footer>
@@ -288,6 +286,17 @@ footer ul{list-style:none;margin:0;padding:0}
     }).join("")+"<span><b>松一覧 ›</b></span>";
   }
   draw(); setInterval(draw,3000);
+  // 上の松は開いたらすぐ、名刺の松は見える所まで来たら、すぅっと入る
+  function hairu(t){ if(t.complete&&t.naturalWidth){t.classList.add("mieta")} else {t.addEventListener("load",function(){t.classList.add("mieta")}); t.addEventListener("error",function(){t.classList.add("mieta")});} }
+  var ue=document.querySelector(".waku .suu"), mm=document.querySelector(".meishi .suu");
+  if(ue){hairu(ue)}
+  if(mm){
+    if("IntersectionObserver" in window){
+      var io=new IntersectionObserver(function(es){ if(es[0].isIntersecting){hairu(mm);io.disconnect();} },{threshold:.35});
+      io.observe(mm.parentNode);
+    }else{hairu(mm)}
+  }
+  setTimeout(function(){ if(ue){ue.classList.add("mieta")} },5000);
   document.getElementById("okuru").href="https://line.me/R/share?text="+encodeURIComponent("松の専門店「松之助松太郎」のホームページ（冗談です）\nhttps://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/");
 })();
 </script>
