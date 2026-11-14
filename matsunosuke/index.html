@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="松之助松太郎｜公式ホームページ（冗談です）">
-<meta property="og:description" content="松之助松太郎、創業初日から「世界一」を宣言　根拠は社長の勘">
-<meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/e/e2.jpg">
+<meta property="og:title" content="松之助松太郎｜松の専門店・造園（冗談です）">
+<meta property="og:description" content="松之助松太郎「松しか扱わない」と宣言　梅と竹は「他をあたって」">
+<meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/e/matsu.png">
 <meta property="og:url" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/">
 <meta name="twitter:card" content="summary_large_image">
-<title>松之助松太郎｜株式会社 松之助松太郎 公式ホームページ（冗談です）</title>
+<title>松之助松太郎｜松の専門店・造園（冗談です）</title>
 <style>
 :root{
   --sumi:#1d1d1b; --midori:#1f3d2b; --shu:#b3261e; --kin:#b08a2e;
@@ -30,7 +30,7 @@ a:hover{text-decoration:underline}
 .sagasu{height:40px;border:1px solid var(--sen);background:var(--usu);padding:0 12px;width:180px;font-size:13px}
 .daiji{font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;font-weight:900;
   font-size:44px;letter-spacing:.22em;margin:0 0 0 .22em;line-height:1;white-space:nowrap}
-.daiji small{display:block;font-size:10px;letter-spacing:.3em;font-weight:400;color:var(--hai);margin-top:6px;text-align:center}
+.daiji small{display:block;font-size:11px;letter-spacing:.5em;font-weight:400;color:var(--hai);margin-top:7px;text-align:center}
 .top .migi{display:flex;gap:8px;justify-content:flex-end}
 .btn{height:40px;padding:0 14px;border:0;font-weight:700;font-size:13px;color:#fff;cursor:pointer}
 .btn.kin{background:var(--kin)} .btn.mi{background:var(--midori)}
@@ -61,8 +61,8 @@ h1{font-size:30px;line-height:1.35;margin:4px 0 12px}
 .kiji h2{font-size:19px;margin:2px 0 6px;line-height:1.45}
 .kiji p{margin:0;font-size:13px;color:var(--hai)}
 .kiji .e{aspect-ratio:3/2}
-.okuru{display:block;margin:28px auto 0;max-width:420px;background:#06c755;color:#fff;font-weight:700;text-align:center;padding:14px;border-radius:8px;font-size:16px}
 .kagi{font-size:11px;color:var(--hai);margin-left:6px}
+.okuru{display:block;margin:28px auto 0;max-width:420px;background:#06c755;color:#fff;font-weight:700;text-align:center;padding:14px;border-radius:8px;font-size:16px}
 
 /* わきの欄 */
 aside .oshirase{background:var(--usu);padding:10px 14px;font-size:13px;font-weight:700;margin-bottom:28px}
@@ -74,6 +74,9 @@ aside h3 i{font-style:normal;background:var(--midori);color:#fff;border-radius:1
 .rank{list-style:none;margin:0 0 24px;padding:0;counter-reset:r}
 .rank li{counter-increment:r;display:grid;grid-template-columns:28px 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--sen);font-size:14px;font-weight:700}
 .rank li::before{content:counter(r);font-family:"Yu Mincho",serif;font-size:20px;color:var(--shu);line-height:1.2}
+.shina{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:24px}
+.shina td{border-bottom:1px solid var(--sen);padding:8px 0}
+.shina td:last-child{text-align:right;font-weight:700;white-space:nowrap}
 
 /* 下の案内 */
 footer{background:var(--usu);border-top:1px solid var(--sen);font-size:12px;color:var(--hai);padding:24px 0 40px}
@@ -85,7 +88,8 @@ footer ul{list-style:none;margin:0;padding:0}
 @media (max-width:860px){
   .top{grid-template-columns:auto 1fr auto}
   .sagasu,.btn.kin{display:none}
-  .daiji{font-size:23px;letter-spacing:.12em;margin-left:.12em;text-align:center}.daiji small{letter-spacing:.12em;font-size:8px}
+  .daiji{font-size:23px;letter-spacing:.12em;margin-left:.12em;text-align:center}
+  .daiji small{letter-spacing:.2em;font-size:9px}
   .sub{gap:14px;font-size:12px}
   .nav ul{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}
   .nav li{padding:10px 12px;font-size:13px}
@@ -104,24 +108,24 @@ footer ul{list-style:none;margin:0;padding:0}
   <div class="top">
     <div class="hidari">
       <button class="menu" aria-label="メニュー">☰</button>
-      <input class="sagasu" placeholder="社長・弁当を検索" aria-label="検索">
+      <input class="sagasu" placeholder="松・松・松を検索" aria-label="検索">
     </div>
-    <p class="daiji">松之助松太郎<small>MATSUNOSUKE MATSUTARO</small></p>
+    <p class="daiji">松之助松太郎<small>松の専門店 ・ 造園</small></p>
     <div class="migi">
       <button class="btn kin">弟子入り</button>
-      <button class="btn mi">出勤</button>
+      <button class="btn mi">お見積り</button>
     </div>
   </div>
   <div class="sub">
-    <a href="#">朝礼・夕礼</a><a href="#">LIVE（社長室）</a><a href="#">My松之助</a>
-    <a href="#">松之助松太郎会社情報</a><a href="#">席替えウオッチ</a><a href="#">Matsunosuke Asia</a>
+    <a href="#">朝の水やり・夕の水やり</a><a href="#">LIVE（松の成長）</a><a href="#">My松</a>
+    <a href="#">松之助松太郎会社情報</a><a href="#">みどり摘みウオッチ</a><a href="#">Matsunosuke Asia</a>
   </div>
 </header>
 
 <nav class="nav" aria-label="メインの案内">
   <ul class="wrap">
-    <li>トップ</li><li>速報</li><li>商い</li><li>相場</li><li>ふところ</li><li>ご近所</li><li>ご意見</li><li>もっと見る</li>
-    <li class="tag">#弁当値上げ</li><li>#昼寝・金利</li>
+    <li>トップ</li><li>速報</li><li>黒松</li><li>赤松</li><li>五葉松</li><li>お手入れ</li><li>ご意見</li><li>もっと松</li>
+    <li class="tag">#みどり摘み</li><li>#もみあげ・こも巻き</li>
   </ul>
 </nav>
 
@@ -132,67 +136,83 @@ footer ul{list-style:none;margin:0;padding:0}
 <div class="wrap hon">
   <main>
     <section class="ichi">
-      <img class="e" src="e/e2.jpg" alt="手を高く上げる人">
+      <img class="e" src="e/matsu.png" alt="夕空に立つ松">
       <div>
-        <div class="kata">松之助松太郎 創業</div>
-        <h1>松之助松太郎、創業初日から「世界一」を宣言　根拠は社長の勘</h1>
+        <div class="kata">松の専門店</div>
+        <h1>松之助松太郎「松しか扱わない」と宣言　梅と竹は「他をあたって」</h1>
         <div class="awase">あわせて読む</div>
         <ul>
-          <li>社長「まだ何も売っていない」と強気<span class="kagi">🔒</span></li>
-          <li>専門家「勘としては一流」<span class="kagi">🔒</span></li>
-          <li>社名が長すぎて名刺に入らず<span class="kagi">🔒</span></li>
+          <li>親方「桜？　聞いたことのない木だ」<span class="kagi">🔒</span></li>
+          <li>専門家「松としては一流」<span class="kagi">🔒</span></li>
+          <li>屋号が長すぎて看板に入らず<span class="kagi">🔒</span></li>
         </ul>
       </div>
     </section>
 
     <article class="kiji">
-      <div><div class="kata">ふところ</div>
-        <h2>松之助松太郎指数、3日連続で最高値　弁当の卵増量を好感</h2>
-        <p>市場では「漬物も増やすべきだ」との声が広がっている。</p></div>
-      <img class="e" src="e/e4.jpg" alt="かごいっぱいの卵" loading="lazy">
+      <div><div class="kata">業界</div>
+        <h2>松之助松太郎、「世界一の松屋」を宣言　根拠は親方の勘</h2>
+        <p>牛丼の店とまちがえた電話が、早くも3件あったという。</p></div>
+      <img class="e" src="e/e2.jpg" alt="手を高く上げる人" loading="lazy">
     </article>
     <article class="kiji">
-      <div><div class="kata">人事</div>
-        <h2>松之助松太郎、役員人事を発表　全員が「社長」に</h2>
-        <p>名刺の刷り直しに伴い、今期の利益見通しを下方修正した。</p></div>
-      <img class="e" src="e/e5.jpg" alt="車座で話し合う4人" loading="lazy">
-    </article>
-    <article class="kiji">
-      <div><div class="kata">海外</div>
-        <h2>松之助松太郎、海外進出を発表　まず隣の島へ手こぎで</h2>
-        <p>到着は「潮しだい」。帰りの計画は現在検討中という。</p></div>
+      <div><div class="kata">出張</div>
+        <h2>島の一本松を手入れに　職人3人、舟で出張</h2>
+        <p>到着は「潮しだい」。はしごを積み忘れたことに沖で気づいた。</p></div>
       <img class="e" src="e/e3.jpg" alt="舟をこぐ3人" loading="lazy">
     </article>
     <article class="kiji">
-      <div><div class="kata">働き方</div>
-        <h2>暖房費を削減へ　松之助松太郎、会議は「たき火」で</h2>
-        <p>議事録は煙で読めなかったが、結束は強まったとしている。</p></div>
-      <img class="e" src="e/e6.jpg" alt="たき火を囲む人たち" loading="lazy">
+      <div><div class="kata">会議</div>
+        <h2>職人会議、議題は「松とは何か」　3時間かけて結論出ず</h2>
+        <p>次回の議題は「では松ぼっくりとは何か」に決まった。</p></div>
+      <img class="e" src="e/e5.jpg" alt="車座で話し合う4人" loading="lazy">
     </article>
     <article class="kiji">
-      <div><div class="kata">ご近所</div>
-        <h2>本社の木が色づく　社長「業績と関係がある」</h2>
-        <p>関係者は「毎年のことだ」と冷静に受け止めている。</p></div>
+      <div><div class="kata">新商品</div>
+        <h2>「白い松ぼっくり」入荷か　専門家「それは卵では」</h2>
+        <p>親方は「松の店にあるのだから松ぼっくりだ」と説明している。</p></div>
+      <img class="e" src="e/e4.jpg" alt="かごいっぱいの白い物" loading="lazy">
+    </article>
+    <article class="kiji">
+      <div><div class="kata">人づくり</div>
+        <h2>新人研修は松林で　最初の課題は「松とそれ以外」の見分け</h2>
+        <p>初日の正解率は5割。親方は「伸びしろしかない」と前向きだ。</p></div>
+      <img class="e" src="e/e6.jpg" alt="林の中に集まる人たち" loading="lazy">
+    </article>
+    <article class="kiji">
+      <div><div class="kata">お問い合わせ</div>
+        <h2>「これは松ですか」相談相次ぐ　回答はすべて「違います」</h2>
+        <p>松でない木のご相談は、お近くの造園屋さんへ。</p></div>
       <img class="e" src="e/e1.jpg" alt="黄色く色づいた木" loading="lazy">
     </article>
+
     <a class="okuru" id="okuru" href="#">LINEでみんなに送る</a>
   </main>
 
   <aside>
-    <div class="oshirase">ⓘ 松之助松太郎電子版、黒電話に対応</div>
+    <div class="oshirase">ⓘ 松之助松太郎電子版、回覧板に対応</div>
 
     <h3><i>うなる!</i>えらい人の見方</h3>
-    <div class="shiki"><div class="kao">🧓</div><div><b>松之助 松太郎</b><em>株式会社 松之助松太郎　代表取締役 兼 社長 兼 会長</em>・うちは伸びる。なぜなら、伸びると思うからだ</div></div>
-    <div class="shiki"><div class="kao">🐈</div><div><b>たま</b><em>隣の家　猫</em>・にゃー（訳：かつお節の比率が低い）</div></div>
-    <div class="shiki"><div class="kao">🍱</div><div><b>弁当屋のおばちゃん</b><em>角の弁当屋　店主</em>・ツケは月末までに払ってほしい</div></div>
+    <div class="shiki"><div class="kao">🧓</div><div><b>松之助 松太郎</b><em>松の専門店 松之助松太郎　親方</em>・松は裏切らない。チクチクするだけだ</div></div>
+    <div class="shiki"><div class="kao">🐈</div><div><b>たま</b><em>隣の家　猫</em>・にゃー（訳：松の上は見晴らしがよい。降りられない）</div></div>
+    <div class="shiki"><div class="kao">👴</div><div><b>向かいのご隠居</b><em>町内会　相談役</em>・うちの松も頼みたいが、屋号が覚えられない</div></div>
 
-    <h3 style="margin-top:28px">よく読まれている記事</h3>
+    <h3 style="margin-top:28px">本日のお品書き</h3>
+    <table class="shina">
+      <tr><td>松</td><td>あります</td></tr>
+      <tr><td>松（大）</td><td>あります</td></tr>
+      <tr><td>松（すごく大）</td><td>要相談</td></tr>
+      <tr><td>梅・竹</td><td>ありません</td></tr>
+      <tr><td>松ぼっくり</td><td>ご自由にどうぞ</td></tr>
+    </table>
+
+    <h3>よく読まれている記事</h3>
     <ol class="rank">
-      <li>社長の機嫌、午後から回復の見込み</li>
-      <li>コピー機、また紙づまり　復旧のめど立たず</li>
-      <li>忘年会の幹事、今年も決まらず</li>
-      <li>冷蔵庫のプリン、名前を書いても消える</li>
-      <li>松之助松太郎、社歌を募集　締め切りは未定</li>
+      <li>親方、今日も松しか見ていない</li>
+      <li>はしご、また行方不明　捜索続く</li>
+      <li>松葉が服の中に入る問題、解決のめど立たず</li>
+      <li>「竹はやらないのか」の問いに親方沈黙</li>
+      <li>社歌を募集　歌詞は「松」のみ</li>
     </ol>
   </aside>
 </div>
@@ -200,19 +220,19 @@ footer ul{list-style:none;margin:0;padding:0}
 <footer>
   <div class="wrap">
     <div class="retsu">
-      <div><h4>関連サイト</h4><ul><li>松之助松太郎 朝礼アーカイブ</li><li>松之助松太郎 弁当速報</li></ul></div>
-      <div><h4>催し</h4><ul><li>社長と語る会（毎日）</li><li>大掃除（年1回）</li></ul></div>
-      <div><h4>学び</h4><ul><li>松之助松太郎 昼寝入門</li><li>はじめての言い訳</li></ul></div>
-      <div><h4>会社情報</h4><ul><li>創業：きのう</li><li>社員数：気持ちは1万人</li></ul></div>
+      <div><h4>関連サイト</h4><ul><li>松之助松太郎 朝礼アーカイブ</li><li>松ぼっくり速報</li></ul></div>
+      <div><h4>催し</h4><ul><li>親方と松を眺める会（毎日）</li><li>松葉ひろい大会（秋）</li></ul></div>
+      <div><h4>学び</h4><ul><li>松葉の数え方入門</li><li>はじめてのチクチク</li></ul></div>
+      <div><h4>店の情報</h4><ul><li>創業：きのう</li><li>扱う木：松のみ</li></ul></div>
     </div>
-    <p class="kotowari">※このページは冗談で作ったものです。「松之助松太郎」は架空の会社で、記事・数字・人物はすべて作り話です。実在の新聞社・会社・団体・人物とは関係ありません。絵は自作アニメ「人類創世ゲーム」の場面です。</p>
+    <p class="kotowari">※このページは冗談で作ったものです。「松之助松太郎」は架空の店で、記事・数字・人物はすべて作り話です。実在の新聞社・会社・店・団体・人物とは関係ありません。松の手入れの案内でもありません。絵は自作アニメ「人類創世ゲーム」の場面と、自作の松の絵です。</p>
     <p>© 松之助松太郎　無断で笑うことを禁じません</p>
   </div>
 </footer>
 
 <script>
 (function(){
-  var d=[["松之助松太郎平均",61142.35,2],["社長の機嫌",52.3,1],["弁当円",680,0],["昼寝指数",88.92,2],["やる気金利",2.865,3]];
+  var d=[["黒松平均",61142.35,2],["赤松ダウ",52347.5,2],["松ぼっくり円",159.8,1],["松葉指数",88.92,2],["松ヤニ金利",2.865,3]];
   var el=document.getElementById("souba");
   function draw(){
     el.innerHTML=d.map(function(x){
@@ -220,10 +240,10 @@ footer ul{list-style:none;margin:0;padding:0}
       x[1]=Math.max(0,x[1]+v);
       return "<span><b>"+x[0]+"</b>"+x[1].toLocaleString("ja-JP",{minimumFractionDigits:x[2],maximumFractionDigits:x[2]})+
         ' <span class="'+(up?"up":"down")+'">'+(up?"▲+":"▼")+v.toFixed(x[2])+"</span></span>";
-    }).join("")+"<span><b>指数一覧 ›</b></span>";
+    }).join("")+"<span><b>松一覧 ›</b></span>";
   }
   draw(); setInterval(draw,3000);
-  document.getElementById("okuru").href="https://line.me/R/share?text="+encodeURIComponent("松之助松太郎の公式ホームページ（冗談です）\nhttps://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/");
+  document.getElementById("okuru").href="https://line.me/R/share?text="+encodeURIComponent("松の専門店「松之助松太郎」のホームページ（冗談です）\nhttps://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/");
 })();
 </script>
 </body>
