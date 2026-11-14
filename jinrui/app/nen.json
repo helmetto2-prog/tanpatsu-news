@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-14 00:49",
-  "latest": 35,
+  "updated": "2026-11-15 00:49",
+  "latest": 36,
   "years": [
     {
       "y": 1,
@@ -428,8 +428,8 @@
       "img": "../img/y0033.jpg",
       "koe": "../koe/y0033.mp3",
       "anime": "../annai/jinrui_y0033_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0033.jpg"
     },
     {
       "y": 34,
@@ -454,6 +454,19 @@
       "img": "../img/y0035.jpg",
       "koe": "../koe/y0035.mp3",
       "anime": "../annai/jinrui_y0035_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 36,
+      "title": "36年目　ヨリギヤマの年",
+      "name": "ヨリギヤマの年",
+      "headline": "大風のあとの流木を、仲直りしたコイシとソヨが積み、アカガケも見つかった豊作の年",
+      "date": "",
+      "page": "../nen/36/",
+      "img": "../img/y0036.jpg",
+      "koe": "../koe/y0036.mp3",
+      "anime": "../annai/jinrui_y0036_720p.mp4",
       "animeReady": false,
       "poster": null
     }
