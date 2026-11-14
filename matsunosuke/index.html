@@ -8,6 +8,8 @@
 <meta property="og:description" content="松之助松太郎「松しか扱わない」と宣言　梅と竹は「他をあたって」">
 <meta property="og:image" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/e/matsu_top.jpg">
 <meta property="og:url" content="https://helmetto2-prog.github.io/tanpatsu-news/matsunosuke/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Shippori+Mincho:wght@500;800&display=swap" rel="stylesheet">
 <meta name="twitter:card" content="summary_large_image">
 <title>松之助松太郎｜松の専門店・造園（冗談です）</title>
 <style>
@@ -16,7 +18,7 @@
   --usu:#f4f2ec; --sen:#d9d5c8; --hai:#6b6a64;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:64px}
 body{margin:0;background:#fff;color:var(--sumi);
   font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;line-height:1.6}
 a{color:inherit;text-decoration:none}
@@ -184,35 +186,229 @@ footer ul{list-style:none;margin:0;padding:0}
   .kiji h2{font-size:16px}
   footer .retsu{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ══ 重厚な造園屋さんの形（老舗のページを参考に） ══ */
+:root{--sumi2:#12110d;--kinari:#f6f2e7;--kin2:#b79a4b;--min:"Shippori Mincho","Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;--ei:"Cormorant Garamond","Times New Roman",serif}
+body{background:var(--kinari);font-size:15px;line-height:1.9}
+.atama{position:fixed;left:0;right:0;top:0;z-index:50;display:flex;align-items:center;gap:20px;padding:12px 22px;
+  background:linear-gradient(rgba(18,17,13,.82),rgba(18,17,13,0));color:#f3ecd8;font-family:var(--min);transition:background .3s}
+.atama.kote{background:rgba(18,17,13,.94);box-shadow:0 1px 0 rgba(183,154,75,.5)}
+.atama .in{flex:none;width:40px;height:40px;border:1px solid var(--kin2);outline:1px solid var(--kin2);outline-offset:2px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#f3ecd8}
+.atama nav{flex:1;display:flex;gap:26px;justify-content:center;font-size:14px;letter-spacing:.14em;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.atama nav::-webkit-scrollbar{display:none}
+.atama a:hover{text-decoration:none;color:var(--kin2)}
+.atama .toi-b{flex:none;border:1px solid var(--kin2);padding:8px 16px;font-size:13px;letter-spacing:.14em}
+.hero{position:relative;height:100vh;height:100svh;min-height:520px;background:var(--sumi2);overflow:hidden;color:#f6efdc}
+.hero .waku{position:absolute;left:0;top:0;width:100%;height:100%;align-self:stretch}
+.hero .waku img{width:100%;height:100%;object-fit:cover;object-position:42% 50%}
+.hero .kage{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(12,11,8,.18) 0,rgba(12,11,8,.62) 100%),linear-gradient(rgba(12,11,8,.25),rgba(12,11,8,0) 30%,rgba(12,11,8,.75))}
+.hero .mon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:18px;opacity:0}
+.hero .yagou{margin:0;font-family:var(--min);font-weight:800;font-size:clamp(34px,6vw,62px);line-height:1.15;letter-spacing:.12em;
+  writing-mode:vertical-rl;padding:26px 20px 18px;border:2px solid #f6efdc;outline:1px solid #f6efdc;outline-offset:5px;background:rgba(12,11,8,.46);text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.hero .yagou span{display:block}
+.hero .so{writing-mode:vertical-rl;font-family:var(--min);font-size:15px;letter-spacing:.5em;order:2}
+.hero .en{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:20px;font-family:var(--ei);font-style:italic;font-size:19px;letter-spacing:.14em;white-space:nowrap}
+.hero .catch{position:absolute;right:7%;top:20%;margin:0;writing-mode:vertical-rl;font-family:var(--min);font-size:clamp(18px,2.4vw,26px);letter-spacing:.5em;opacity:0;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.hero .shita{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-family:var(--min);font-size:12px;letter-spacing:.4em;writing-mode:vertical-rl;display:flex;align-items:center;gap:8px;opacity:.9}
+.hero .shita i{display:block;width:1px;height:44px;background:#f6efdc}
+.hero .waku:has(.mieta) ~ .mon{animation:deru .5s 1.15s cubic-bezier(.2,.9,.2,1) forwards}
+.hero .waku:has(.mieta) ~ .catch{animation:deru2 .8s 1.6s ease-out forwards}
+@keyframes deru{from{opacity:0;transform:translate(-50%,-50%) scale(1.12)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes deru2{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hero .mon,.hero .catch{opacity:1;animation:none!important}}
+
+.obi{border-top:0;padding:84px 0;background:var(--kinari)}
+.obi.usu{background:#ece6d6}
+.obi.sumi{background:var(--sumi2);color:#ece5d2}
+.obi h2.dai{font-family:var(--min);font-weight:800;font-size:30px;letter-spacing:.3em;margin:0 0 8px;padding-left:.3em}
+.obi h2.dai::after{content:attr(data-en);display:block;font-family:var(--ei);font-style:italic;font-weight:500;font-size:17px;letter-spacing:.16em;color:var(--kin2);margin-top:6px;padding:0}
+.obi h2.dai::before{content:"";display:block;width:1px;height:40px;background:var(--kin2);margin:0 auto 18px}
+.obi .soe{font-family:var(--min);font-size:14px;margin-bottom:40px;letter-spacing:.08em}
+.obi.sumi .soe{color:#b9b19b}
+.fuda{border:0;border-top:1px solid var(--kin2);background:transparent;padding:22px 6px 0}
+.fuda b{font-family:var(--min);font-size:19px;letter-spacing:.1em;margin-bottom:10px}
+.fuda p{font-size:14px;line-height:1.9}
+.fuda .ban{font-family:var(--min);font-size:40px;color:var(--kin2);margin-bottom:14px}
+.obi.sumi .fuda p{color:#c9c2ad}
+.mittsu{gap:40px}.yottsu{gap:30px}
+.aisatsu{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:56px;align-items:start;max-width:980px}
+.tate{writing-mode:vertical-rl;font-family:var(--min);font-weight:800;font-size:30px;letter-spacing:.4em;margin:0;border-right:1px solid var(--kin2);padding-right:22px}
+.tate::after{content:attr(data-en);font-family:var(--ei);font-style:italic;font-weight:500;font-size:16px;letter-spacing:.14em;color:var(--kin2);margin-top:16px;display:inline-block}
+.aisatsu .bun{font-family:var(--min);font-size:17px;line-height:2.3;letter-spacing:.06em}
+.aisatsu .bun p{margin:0 0 1.2em}
+.aisatsu .na{text-align:right;font-size:18px;margin-top:2em}
+.han{display:inline-flex;width:34px;height:34px;background:var(--shu);color:#fff;font-weight:800;font-size:19px;align-items:center;justify-content:center;border-radius:3px;margin-left:12px;vertical-align:middle;transform:rotate(-4deg)}
+.shaze{writing-mode:vertical-rl;font-family:var(--min);text-align:center;border:1px solid var(--sumi);outline:1px solid var(--sumi);outline-offset:4px;padding:22px 14px}
+.shaze small{font-size:13px;letter-spacing:.6em;color:var(--hai)}
+.shaze b{font-size:76px;line-height:1.1;font-weight:800}
+.keizu{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:980px;margin:0 auto}
+.keizu>div{border-left:1px solid rgba(183,154,75,.55);padding:6px 26px 6px}
+.keizu small{font-family:var(--min);color:var(--kin2);letter-spacing:.3em;font-size:13px}
+.keizu b{display:block;font-family:var(--min);font-size:24px;letter-spacing:.14em;margin:8px 0 10px}
+.keizu p{margin:0;font-size:14px;color:#c9c2ad}
+.shinbun{background:#fff;border-top:3px double var(--sumi);border-bottom:3px double var(--sumi);max-width:1248px;margin:0 auto;box-shadow:0 14px 40px rgba(40,30,10,.12)}
+.shinbun h1{font-family:var(--min)}
+.niwa{border:1px solid #5d5138;outline:1px solid #5d5138;outline-offset:5px;border-radius:0;margin:6px}
+.mitsumori{margin:22px 6px 0;background:#fffdf6}
+.mitsumori .gou{font-family:var(--min)}
+.sousa label{font-family:var(--min);letter-spacing:.1em;font-size:15px}
+.erabu button,.erabu label.c{border-radius:0;background:#fffdf6}
+.oshi{border-radius:0;background:var(--sumi2);border:1px solid var(--kin2);font-family:var(--min);letter-spacing:.2em;padding:17px}
+.nagare{gap:0}
+.nagare li{background:transparent;border:0;border-left:1px solid var(--kin2);padding:4px 16px 10px;font-size:14px}
+.nagare li::before{background:transparent;color:var(--kin2);font-family:var(--min);font-size:30px;width:auto;height:auto;display:block;border-radius:0;font-weight:500;line-height:1}
+.nagare b{font-family:var(--min);font-size:18px;letter-spacing:.1em;margin:8px 0 4px}
+.qa summary{font-family:var(--min);font-size:17px;letter-spacing:.06em}
+.qa details{border-color:#cfc6ad;padding:18px 0}
+.toi{border:1px solid var(--sumi);outline:1px solid var(--sumi);outline-offset:5px;background:#fffdf6;padding:30px 26px}
+.toi label{font-family:var(--min);letter-spacing:.1em}
+.toi .narabi a,.toi .narabi button{border-radius:0;font-family:var(--min);letter-spacing:.14em}
+.toi .copy{background:var(--sumi2)}
+footer{background:var(--sumi2);color:#a9a28e;border-top:1px solid var(--kin2);padding:54px 0 60px}
+footer h4{color:#ece5d2;font-family:var(--min);letter-spacing:.2em;font-weight:500}
+.kotowari{background:transparent;border-color:#4a4636;color:#c9c2ad}
+@media (max-width:860px){
+  .atama{padding:10px 12px;gap:12px}
+  .atama nav{justify-content:flex-start;gap:18px;font-size:13px}
+  .atama .toi-b{padding:7px 10px;font-size:12px;letter-spacing:.06em}
+  .hero .waku img{object-position:44% 50%}
+  .hero .catch{right:6%;top:14%}
+  .obi{padding:56px 0}
+  .obi h2.dai{font-size:23px}
+  .aisatsu{grid-template-columns:auto minmax(0,1fr);gap:22px}
+  .tate{font-size:23px;padding-right:14px}
+  .aisatsu .bun{font-size:15px;line-height:2.1}
+  .shaze{grid-column:1/-1;writing-mode:horizontal-tb;justify-self:center;padding:10px 30px}
+  .shaze b{font-size:54px;display:block}
+  .keizu{grid-template-columns:1fr;gap:26px}
+  .mittsu{gap:26px}
+  .nagare li{margin-bottom:14px}
+}
 </style>
 </head>
 <body>
 
-<header class="wrap">
-  <div class="top">
-    <div class="hidari">
-      <button class="menu" aria-label="メニュー">☰</button>
-      <input class="sagasu" placeholder="松・松・松を検索" aria-label="検索">
-    </div>
-    <p class="daiji">松之助松太郎<small>松の専門店 ・ 造園</small></p>
-    <div class="migi">
-      <a class="btn kin" href="#sim" style="display:flex;align-items:center">庭を試す</a>
-      <a class="btn mi" href="#toiawase" style="display:flex;align-items:center">お問い合わせ</a>
-    </div>
-  </div>
-  <div class="sub">
-    <a href="#">朝の水やり・夕の水やり</a><a href="#">LIVE（松の成長）</a><a href="#">My松</a>
-    <a href="#">松之助松太郎会社情報</a><a href="#">みどり摘みウオッチ</a><a href="#">Matsunosuke Asia</a>
-  </div>
+<header class="atama">
+  <a class="in" href="#" aria-label="松之助松太郎 トップ">松</a>
+  <nav aria-label="メインの案内">
+    <a href="#aisatsu">ごあいさつ</a><a href="#riyuu">選ばれる理由</a><a href="#shigoto">お仕事</a><a href="#sim">庭シミュレーション</a><a href="#rekidai">歴代</a><a href="#tayori">松だより</a><a href="#nagare">ご依頼の流れ</a>
+  </nav>
+  <a class="toi-b" href="#toiawase">お問い合わせ</a>
 </header>
 
-<nav class="nav" aria-label="メインの案内">
-  <ul class="wrap">
-    <li><a href="#">トップ</a></li><li><a href="#riyuu">選ばれる理由</a></li><li><a href="#shigoto">お仕事</a></li><li><a href="#sim">庭シミュレーション</a></li><li><a href="#nagare">ご依頼の流れ</a></li><li><a href="#qa">ご質問</a></li><li><a href="#toiawase">お問い合わせ</a></li>
-    <li class="tag">#みどり摘み</li><li>#もみあげ・こも巻き</li>
-  </ul>
-</nav>
+<section class="hero">
+  <div class="waku"><img class="suu" src="e/matsu_top.jpg" alt="夕空の庭に立つ黒松"></div>
+  <div class="kage"></div>
+  <div class="mon">
+    <span class="so">創業　きのう</span>
+    <h1 class="yagou"><span>松之助</span><span>松太郎</span></h1>
+    <span class="en">Matsunosuke Matsutaro</span>
+  </div>
+  <p class="catch">松、ひとすじ。</p>
+  <a class="shita" href="#aisatsu" aria-label="下へ">ごあいさつ<i></i></a>
+</section>
 
+<section class="obi" id="aisatsu">
+  <div class="wrap aisatsu">
+    <h2 class="tate" data-en="Greeting">ごあいさつ</h2>
+    <div class="bun">
+      <p>松之助松太郎は、創業以来（きのう以来）、松だけを見つめてまいりました。</p>
+      <p>梅も、竹も、よい木です。けれども私どもは、松しか知りません。知らないものを扱わないことが、職人の誠実さだと考えております。</p>
+      <p>一本の松を、気がすむまで眺める。その時間を、お客さまのお庭にもお届けいたします。</p>
+      <p class="na">親方　松之助 松太郎<span class="han">松</span></p>
+    </div>
+    <div class="shaze"><small>社是</small><b>松</b></div>
+  </div>
+</section>
+
+<section class="obi sumi" id="riyuu">
+  <div class="wrap">
+    <h2 class="dai" data-en="Our Principles">選ばれる三つの理由</h2>
+    <p class="soe">松のことだけを、松のように、まっすぐ（曲がっていますが）考えています。</p>
+    <div class="mittsu">
+      <div class="fuda"><span class="ban">一</span><b>松しかやりません</b><p>迷いがありません。ご相談の答えは、いつも松です。</p></div>
+      <div class="fuda"><span class="ban">二</span><b>親方が毎日ながめます</b><p>作業のあとも、気がすむまで松を眺めて帰ります。</p></div>
+      <div class="fuda"><span class="ban">三</span><b>見積りがわかりやすい</b><p>単位は「松ぼっくり」。親方の勘で、その場でお出しします。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="obi" id="shigoto">
+  <div class="wrap">
+    <h2 class="dai" data-en="Our Works">お仕事のご案内</h2>
+    <p class="soe">庭づくりから日々のお手入れまで。ただし松にかぎります。</p>
+    <div class="yottsu">
+      <div class="fuda"><b>松の庭づくり</b><p>お庭の広さに合わせて、松と松と松の配置をご提案します。</p></div>
+      <div class="fuda"><b>松の植えつけ</b><p>一本から承ります。九十九本までなら、気持ちで植えます。</p></div>
+      <div class="fuda"><b>松のお手入れ</b><p>季節ごとに伺います。親方が松と相談して決めます。</p></div>
+      <div class="fuda"><b>松のよろず相談</b><p>「これは松ですか」からどうぞ。たいてい違います。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="obi usu" id="sim">
+  <div class="wrap">
+    <h2 class="dai" data-en="Garden Simulation">松の庭シミュレーション</h2>
+    <p class="soe">あなたのお庭に松を植えたら、どうなるか。その場でお見積り（松ぼっくり建て）まで出ます。</p>
+    <div class="sim">
+      <div>
+        <div class="niwa" id="niwa" aria-label="お庭の完成予想図">
+          <div class="ike"></div><div class="tourou">🏮</div><div class="ishi">●●●●●</div><div class="neko">🐈</div>
+          <div class="afure" id="afure"></div>
+        </div>
+        <div class="mitsumori" aria-live="polite">
+          お見積り（親方の勘）
+          <span class="gou" id="gou"></span>
+          <span id="uchi"></span><br>
+          <span class="hito" id="hito"></span>
+        </div>
+      </div>
+      <div class="sousa">
+        <label>お庭の広さ</label>
+        <div class="erabu" id="hirosa">
+          <button type="button" data-v="猫のひたい" class="on">猫のひたい</button>
+          <button type="button" data-v="ふつう">ふつう</button>
+          <button type="button" data-v="お殿さま">お殿さま</button>
+        </div>
+        <label for="hon">松の本数：<span id="honsu">3</span>本</label>
+        <input type="range" id="hon" min="1" max="99" value="3">
+        <label>松の大きさ</label>
+        <div class="erabu" id="ookisa">
+          <button type="button" data-v="小" >小</button>
+          <button type="button" data-v="大" class="on">大</button>
+          <button type="button" data-v="すごく大">すごく大</button>
+        </div>
+        <label>おまけ</label>
+        <div class="erabu" id="omake">
+          <label class="c"><input type="checkbox" value="tourou" data-n="石灯籠">石灯籠</label>
+          <label class="c"><input type="checkbox" value="ishi" data-n="飛び石">飛び石</label>
+          <label class="c"><input type="checkbox" value="ike" data-n="池">池</label>
+          <label class="c"><input type="checkbox" value="neko" data-n="隣の猫">隣の猫</label>
+        </div>
+        <button type="button" class="oshi" id="kore">この庭で問い合わせる ↓</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="obi sumi" id="rekidai">
+  <div class="wrap">
+    <h2 class="dai" data-en="Lineage">歴代・当代</h2>
+    <p class="soe">受け継がれる（予定の）松の技。</p>
+    <div class="keizu">
+      <div><small>初代・当代</small><b>松之助 松太郎</b><p>きのう創業。松しか扱わないと決める。現在に至る。</p></div>
+      <div><small>二代</small><b>未定</b><p>松が好きな方を募集しております。猫は不可。</p></div>
+      <div><small>相談役</small><b>隣の猫（たま）</b><p>毎日、松の上から経営を見守る。降りられない。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="obi" id="tayori">
+  <div class="wrap">
+    <h2 class="dai" data-en="News">松だより</h2>
+    <p class="soe">松之助松太郎の日々を、新聞の形でお伝えします。</p>
+  </div>
+  <div class="shinbun">
 <div class="souba" aria-label="本日の相場">
   <div class="wrap" id="souba"></div>
 </div>
@@ -220,7 +416,7 @@ footer ul{list-style:none;margin:0;padding:0}
 <div class="wrap hon">
   <main>
     <section class="ichi">
-      <div class="waku"><img class="e suu" src="e/matsu_top.jpg" alt="夕空の庭に立つ松"></div>
+      <img class="e" src="e/e2.jpg" alt="手を高く上げる人">
       <div>
         <div class="kata">松の専門店</div>
         <h1>松之助松太郎「松しか扱わない」と宣言　梅と竹は「他をあたって」</h1>
@@ -233,12 +429,6 @@ footer ul{list-style:none;margin:0;padding:0}
       </div>
     </section>
 
-    <article class="kiji">
-      <div><div class="kata">業界</div>
-        <h2>松之助松太郎、「世界一の松屋」を宣言　根拠は親方の勘</h2>
-        <p>牛丼の店とまちがえた電話が、早くも3件あったという。</p></div>
-      <img class="e" src="e/e2.jpg" alt="手を高く上げる人" loading="lazy">
-    </article>
     <article class="kiji">
       <div><div class="kata">出張</div>
         <h2>島の一本松を手入れに　職人3人、舟で出張</h2>
@@ -318,79 +508,12 @@ footer ul{list-style:none;margin:0;padding:0}
   </aside>
 </div>
 
-<section class="obi usu" id="riyuu">
-  <div class="wrap">
-    <h2 class="dai">選ばれる三つの理由</h2>
-    <p class="soe">松のことだけを、松のように、まっすぐ（曲がっていますが）考えています。</p>
-    <div class="mittsu">
-      <div class="fuda"><span class="ban">一</span><b>松しかやりません</b><p>迷いがありません。ご相談の答えは、いつも松です。</p></div>
-      <div class="fuda"><span class="ban">二</span><b>親方が毎日ながめます</b><p>作業のあとも、気がすむまで松を眺めて帰ります。</p></div>
-      <div class="fuda"><span class="ban">三</span><b>見積りがわかりやすい</b><p>単位は「松ぼっくり」。親方の勘で、その場でお出しします。</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="obi" id="shigoto">
-  <div class="wrap">
-    <h2 class="dai">お仕事のご案内</h2>
-    <p class="soe">庭づくりから日々のお手入れまで。ただし松にかぎります。</p>
-    <div class="yottsu">
-      <div class="fuda"><b>松の庭づくり</b><p>お庭の広さに合わせて、松と松と松の配置をご提案します。</p></div>
-      <div class="fuda"><b>松の植えつけ</b><p>一本から承ります。九十九本までなら、気持ちで植えます。</p></div>
-      <div class="fuda"><b>松のお手入れ</b><p>季節ごとに伺います。親方が松と相談して決めます。</p></div>
-      <div class="fuda"><b>松のよろず相談</b><p>「これは松ですか」からどうぞ。たいてい違います。</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="obi usu" id="sim">
-  <div class="wrap">
-    <h2 class="dai">松の庭シミュレーション</h2>
-    <p class="soe">あなたのお庭に松を植えたら、どうなるか。その場でお見積り（松ぼっくり建て）まで出ます。</p>
-    <div class="sim">
-      <div>
-        <div class="niwa" id="niwa" aria-label="お庭の完成予想図">
-          <div class="ike"></div><div class="tourou">🏮</div><div class="ishi">●●●●●</div><div class="neko">🐈</div>
-          <div class="afure" id="afure"></div>
-        </div>
-        <div class="mitsumori" aria-live="polite">
-          お見積り（親方の勘）
-          <span class="gou" id="gou"></span>
-          <span id="uchi"></span><br>
-          <span class="hito" id="hito"></span>
-        </div>
-      </div>
-      <div class="sousa">
-        <label>お庭の広さ</label>
-        <div class="erabu" id="hirosa">
-          <button type="button" data-v="猫のひたい" class="on">猫のひたい</button>
-          <button type="button" data-v="ふつう">ふつう</button>
-          <button type="button" data-v="お殿さま">お殿さま</button>
-        </div>
-        <label for="hon">松の本数：<span id="honsu">3</span>本</label>
-        <input type="range" id="hon" min="1" max="99" value="3">
-        <label>松の大きさ</label>
-        <div class="erabu" id="ookisa">
-          <button type="button" data-v="小" >小</button>
-          <button type="button" data-v="大" class="on">大</button>
-          <button type="button" data-v="すごく大">すごく大</button>
-        </div>
-        <label>おまけ</label>
-        <div class="erabu" id="omake">
-          <label class="c"><input type="checkbox" value="tourou" data-n="石灯籠">石灯籠</label>
-          <label class="c"><input type="checkbox" value="ishi" data-n="飛び石">飛び石</label>
-          <label class="c"><input type="checkbox" value="ike" data-n="池">池</label>
-          <label class="c"><input type="checkbox" value="neko" data-n="隣の猫">隣の猫</label>
-        </div>
-        <button type="button" class="oshi" id="kore">この庭で問い合わせる ↓</button>
-      </div>
-    </div>
   </div>
 </section>
 
 <section class="obi" id="nagare">
   <div class="wrap">
-    <h2 class="dai">ご依頼の流れ</h2>
+    <h2 class="dai" data-en="Process">ご依頼の流れ</h2>
     <p class="soe">お問い合わせから、親方が松を眺めて帰るまで。</p>
     <ol class="nagare">
       <li><b>お問い合わせ</b>下の欄からどうぞ。</li>
@@ -404,7 +527,7 @@ footer ul{list-style:none;margin:0;padding:0}
 
 <section class="obi usu" id="qa">
   <div class="wrap qa">
-    <h2 class="dai">よくあるご質問</h2>
+    <h2 class="dai" data-en="Questions">よくあるご質問</h2>
     <p class="soe">いちばん多いのは「本当に松だけですか」です。</p>
     <details><summary>本当に松だけですか。</summary><p>はい。松だけです。</p></details>
     <details><summary>梅と竹もお願いしたいのですが。</summary><p>お近くの造園屋さんをおすすめします。松竹梅の「松」だけ、当店が担当します。</p></details>
@@ -415,7 +538,7 @@ footer ul{list-style:none;margin:0;padding:0}
 
 <section class="obi" id="toiawase">
   <div class="wrap">
-    <h2 class="dai">お問い合わせ</h2>
+    <h2 class="dai" data-en="Contact">お問い合わせ</h2>
     <p class="soe">シミュレーションの内容が、下の文に入ります。書き足して、そのまま送れます。</p>
     <div class="toi">
       <label for="shurui">ご相談の内容</label>
@@ -459,9 +582,10 @@ footer ul{list-style:none;margin:0;padding:0}
     }).join("")+"<span><b>松一覧 ›</b></span>";
   }
   draw(); setInterval(draw,3000);
+  var at=document.querySelector(".atama"); function kote(){at.classList.toggle("kote",window.scrollY>window.innerHeight*.6)} window.addEventListener("scroll",kote,{passive:true}); kote();
   // 上の松は開いたらすぐ、名刺の松は見える所まで来たら、すぅっと入る
   function hairu(t){ if(t.complete&&t.naturalWidth){t.classList.add("mieta")} else {t.addEventListener("load",function(){t.classList.add("mieta")}); t.addEventListener("error",function(){t.classList.add("mieta")});} }
-  var ue=document.querySelector(".waku .suu"), mm=document.querySelector(".meishi .suu");
+  var ue=document.querySelector(".hero .suu"), mm=document.querySelector(".meishi .suu");
   if(ue){hairu(ue)}
   if(mm){
     if("IntersectionObserver" in window){
