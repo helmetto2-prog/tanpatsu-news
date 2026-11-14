@@ -1,0 +1,66 @@
+:root{--sumi:#1d1d1b;--sumi2:#12110d;--kinari:#f6f2e7;--kin2:#b79a4b;--shu:#b3261e;--midori:#1f3d2b;--hai:#6b6a63;--sen:#d9d2bd;
+--min:"Shippori Mincho","Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;--ei:"Cormorant Garamond","Times New Roman",serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--kinari);color:var(--sumi);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;font-size:16px;line-height:2}
+a{color:inherit}
+.susumi{position:fixed;left:0;right:0;top:0;height:3px;z-index:60;background:rgba(183,154,75,.25)}
+.susumi i{display:block;height:100%;width:0;background:var(--kin2)}
+.atama{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px 20px;background:rgba(18,17,13,.95);color:#f3ecd8;font-family:var(--min);border-bottom:1px solid var(--kin2)}
+.atama a{text-decoration:none}
+.atama .in{flex:none;width:36px;height:36px;border:1px solid var(--kin2);outline:1px solid var(--kin2);outline-offset:2px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.atama .dai{flex:1;font-weight:800;letter-spacing:.3em;font-size:17px}
+.atama .nokori{flex:none;font-size:12px;letter-spacing:.08em;color:var(--kin2)}
+main.kiji{max-width:720px;margin:0 auto;padding:26px 20px 60px;background:#fff;box-shadow:0 0 40px rgba(40,30,10,.08)}
+.pan{font-size:12px;color:var(--hai);margin-bottom:18px}
+.kata{color:var(--midori);font-size:13px;font-weight:700;letter-spacing:.1em}
+h1{font-family:var(--min);font-weight:800;font-size:28px;line-height:1.5;margin:6px 0 12px}
+.hi{font-size:12px;color:var(--hai);line-height:1.7;margin:0 0 18px;padding-bottom:14px;border-bottom:3px double var(--sumi)}
+figure{margin:0 0 20px}
+figure img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;background:#ddd}
+figure.naka img{aspect-ratio:16/9}
+figcaption{font-size:12px;color:var(--hai);line-height:1.6;margin-top:6px}
+.lead{font-family:var(--min);font-size:18px;line-height:2.1;margin:0 0 24px}
+.mokuji{border:1px solid var(--sen);background:var(--kinari);padding:12px 16px;margin:0 0 30px;font-size:14px}
+.mokuji summary{font-weight:700;cursor:pointer}
+.mokuji ol{margin:8px 0 0;padding-left:1.6em;line-height:1.9}
+h2{font-family:var(--min);font-weight:800;font-size:21px;line-height:1.5;margin:44px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--kin2);display:flex;gap:12px;align-items:baseline}
+h2 span{flex:none;font-family:var(--ei);font-style:italic;font-weight:500;color:var(--kin2);font-size:24px}
+h2#hyo span,h2#shiki span,h2#nen span,h2#yougo span,h2#danwa span,h2#chu span,h2#teisei span,h2#kanren span{font-family:var(--min);font-style:normal;font-size:15px;border:1px solid var(--kin2);padding:0 6px}
+main.kiji p{margin:0 0 1.3em}
+sup{font-size:10px;line-height:0;margin-left:2px}
+sup a{color:var(--shu);text-decoration:none}
+table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.7}
+th,td{border-bottom:1px solid var(--sen);padding:10px 6px;text-align:left;vertical-align:top}
+th{font-weight:400;width:46%}
+td{font-weight:700}
+.hito{border-left:3px solid var(--kin2);padding:2px 0 2px 14px;margin:0 0 18px}
+.hito b{display:block;font-family:var(--min);font-size:17px}
+.hito em{display:block;font-style:normal;font-size:12px;color:var(--hai);line-height:1.5}
+.hito p{margin:6px 0 0!important;font-size:15px}
+.nen{list-style:none;margin:0;padding:0;border-left:1px solid var(--kin2)}
+.nen li{position:relative;padding:0 0 16px 18px;font-size:15px;line-height:1.7}
+.nen li::before{content:"";position:absolute;left:-4px;top:.6em;width:7px;height:7px;background:var(--kin2);border-radius:50%}
+.nen b{display:block;font-size:12px;color:var(--midori);letter-spacing:.08em}
+.yougo dt{font-family:var(--min);font-weight:800;margin-top:12px}
+.yougo dd{margin:0;font-size:14px;line-height:1.8;color:#44433e}
+.soe{font-size:13px;color:var(--hai)}
+.danwa{font-family:var(--min);font-size:16px;line-height:2.2;background:var(--kinari);border-top:3px double var(--sumi);border-bottom:3px double var(--sumi);padding:18px 16px}
+.danwa p{margin:0 0 1.4em!important;text-align:justify;word-break:break-all}
+.chu{font-size:12px;color:#44433e;line-height:1.8;padding-left:2em}
+.teisei{font-size:14px;background:#fbf3f2;border-left:3px solid var(--shu);padding:10px 14px}
+.owari{margin:44px 0 0;border:1px solid var(--sumi);outline:1px solid var(--sumi);outline-offset:4px;padding:20px 18px;text-align:center}
+.owari b{font-family:var(--min);font-size:19px;letter-spacing:.1em}
+.owari p{font-size:14px;margin:10px 0 16px!important;text-align:left}
+.owari a{display:block;text-decoration:none;padding:13px 10px;margin-top:10px;font-weight:700;font-size:15px;line-height:1.6}
+.owari .line{background:#06c755;color:#fff}
+.owari .tsugi{background:var(--sumi2);color:#f3ecd8;border:1px solid var(--kin2);font-family:var(--min)}
+.kanren{list-style:none;margin:0;padding:0}
+.kanren li{border-bottom:1px solid var(--sen)}
+.kanren a{display:block;padding:12px 0;text-decoration:none;font-weight:700;font-size:15px;line-height:1.6}
+.kanren i{display:block;font-style:normal;font-weight:700;font-size:11px;color:var(--midori)}
+.modoru{margin:30px 0 0!important;font-size:14px;text-align:center}
+footer{background:var(--sumi2);color:#a9a28e;border-top:1px solid var(--kin2);padding:30px 20px 44px;font-size:12px;line-height:1.9}
+footer p{max-width:720px;margin:0 auto}
+@media (max-width:600px){h1{font-size:22px}.lead{font-size:16px}h2{font-size:19px}body{font-size:15px}.atama{padding:9px 14px}.atama .dai{font-size:15px;letter-spacing:.2em}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
