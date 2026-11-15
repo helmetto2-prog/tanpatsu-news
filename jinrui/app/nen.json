@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-15 00:49",
-  "latest": 36,
+  "updated": "2026-11-16 00:58",
+  "latest": 37,
   "years": [
     {
       "y": 1,
@@ -441,8 +441,8 @@
       "img": "../img/y0034.jpg",
       "koe": "../koe/y0034.mp3",
       "anime": "../annai/jinrui_y0034_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0034.jpg"
     },
     {
       "y": 35,
@@ -467,6 +467,19 @@
       "img": "../img/y0036.jpg",
       "koe": "../koe/y0036.mp3",
       "anime": "../annai/jinrui_y0036_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 37,
+      "title": "37年目　ブジビの年",
+      "name": "ブジビの年",
+      "headline": "ツバメに島の道を教わり、イソたちがはじめてトリシマで夜をこした年",
+      "date": "",
+      "page": "../nen/37/",
+      "img": null,
+      "koe": "../koe/y0037.mp3",
+      "anime": "../annai/jinrui_y0037_720p.mp4",
       "animeReady": false,
       "poster": null
     }
