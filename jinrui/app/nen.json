@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-16 00:58",
-  "latest": 37,
+  "updated": "2026-11-17 00:56",
+  "latest": 38,
   "years": [
     {
       "y": 1,
@@ -454,8 +454,8 @@
       "img": "../img/y0035.jpg",
       "koe": "../koe/y0035.mp3",
       "anime": "../annai/jinrui_y0035_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0035.jpg"
     },
     {
       "y": 36,
@@ -480,6 +480,19 @@
       "img": null,
       "koe": "../koe/y0037.mp3",
       "anime": "../annai/jinrui_y0037_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 38,
+      "title": "38年目　合わさった石の年",
+      "name": "合わさった石の年",
+      "headline": "ヨシの石の片われが届き、縄の筋をつけたグツが生まれた年",
+      "date": "",
+      "page": "../nen/38/",
+      "img": "../img/y0038.jpg",
+      "koe": "../koe/y0038.mp3",
+      "anime": "../annai/jinrui_y0038_720p.mp4",
       "animeReady": false,
       "poster": null
     }
