@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17 00:56",
-  "latest": 38,
+  "updated": "2026-11-18 00:48",
+  "latest": 39,
   "years": [
     {
       "y": 1,
@@ -493,6 +493,19 @@
       "img": "../img/y0038.jpg",
       "koe": "../koe/y0038.mp3",
       "anime": "../annai/jinrui_y0038_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 39,
+      "title": "39年目　大風と赤い土の年",
+      "name": "大風と赤い土の年",
+      "headline": "三日の大風に耐え、黄色い土を焼いて赤い色を作った年",
+      "date": "",
+      "page": "../nen/39/",
+      "img": "../img/y0039.jpg",
+      "koe": "../koe/y0039.mp3",
+      "anime": "../annai/jinrui_y0039_720p.mp4",
       "animeReady": false,
       "poster": null
     }
