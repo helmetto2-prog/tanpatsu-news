@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-18 00:48",
-  "latest": 39,
+  "updated": "2026-11-19 00:49",
+  "latest": 40,
   "years": [
     {
       "y": 1,
@@ -467,8 +467,8 @@
       "img": "../img/y0036.jpg",
       "koe": "../koe/y0036.mp3",
       "anime": "../annai/jinrui_y0036_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0036.jpg"
     },
     {
       "y": 37,
@@ -506,6 +506,19 @@
       "img": "../img/y0039.jpg",
       "koe": "../koe/y0039.mp3",
       "anime": "../annai/jinrui_y0039_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 40,
+      "title": "40年目　ナガナミと赤い縄の年",
+      "name": "ナガナミと赤い縄の年",
+      "headline": "大風を三日前に知るしるしを覚え、長老アケビを見送った年",
+      "date": "",
+      "page": "../nen/40/",
+      "img": "../img/y0040.jpg",
+      "koe": "../koe/y0040.mp3",
+      "anime": "../annai/jinrui_y0040_720p.mp4",
       "animeReady": false,
       "poster": null
     }
