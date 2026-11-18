@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>竹中さんのアプリ</title>
+<meta name="theme-color" content="#2f5d34">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="竹中さんのアプリ">
+<!-- 竹中さん（MKJ）のアプリ（まとん作・2026-11-18 v01）。義樹さんの専務アプリと同じ見た目の入口。
+     中身はゲームだけ（タイトル画面の絵つき）。会社の物（日報など）はここには入れていない。目次に載せない・noindex。 -->
+<style>
+:root{--green:#2f5d34;--green2:#3f7a45;--bg:#f3f0e6;--line:#d9d3bd;--ink:#22301f;--sub:#5d6b58;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Noto Sans JP",Meiryo,sans-serif;}
+header{background:var(--green);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 16px;display:flex;align-items:center;gap:14px;}
+header img{width:64px;height:64px;border-radius:16px;flex:none;box-shadow:0 3px 10px rgba(0,0,0,.3);}
+header h1{font-size:1.35rem;font-weight:900;letter-spacing:.04em;line-height:1.3;}
+header p{font-size:.82rem;opacity:.9;margin-top:3px;}
+main{max-width:720px;margin:0 auto;padding:6px 14px 20px;}
+.sec{display:flex;align-items:center;gap:12px;margin:22px 0 12px;}
+.sec span{background:var(--green);color:#fff;font-weight:900;font-size:1.05rem;padding:8px 18px;border-radius:10px 10px 10px 0;flex:none;}
+.sec::after{content:"";flex:1;height:2px;background:var(--line);}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+@media (min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+a.g{display:block;background:#fff;border:2px solid var(--line);border-radius:18px;overflow:hidden;color:inherit;text-decoration:none;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:transform .08s;}
+a.g:active{transform:scale(.97);border-color:var(--green2);}
+a.g .pic{position:relative;aspect-ratio:4/3;background:#16241a;}
+a.g .pic img{width:100%;height:100%;object-fit:cover;display:block;}
+a.g .tag{position:absolute;left:6px;bottom:6px;background:rgba(20,30,20,.82);color:#fff;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:999px;}
+a.g .tx{padding:9px 10px 11px;}
+a.g b{display:block;font-size:1rem;font-weight:900;line-height:1.35;}
+a.g small{display:block;font-size:.76rem;color:var(--sub);line-height:1.5;margin-top:3px;}
+.memo{margin-top:22px;padding:12px 14px;border-radius:14px;background:#fff;border:2px dashed var(--line);font-size:.82rem;line-height:1.75;color:var(--sub);}
+.memo b{color:var(--ink);}
+footer{text-align:center;color:var(--sub);font-size:.95rem;padding:10px 0 calc(22px + env(safe-area-inset-bottom));}
+</style>
+</head>
+<body>
+<header>
+  <img src="icon-192.png" alt="">
+  <div>
+    <h1>竹中さんのアプリ</h1>
+    <p>すきなゲームをえらんで、タップで遊べます</p>
+  </div>
+</header>
+<main id="main"></main>
+<footer>🌲 みどり造園</footer>
+
+<script>
+// ===== ゲームの一覧（足す時はここに1行。絵は shots\<id>.jpg） =====
+const S = "https://helmetto2-prog.github.io";
+const LIST = [
+  ["かるく遊ぶ", [
+    ["flower-pop", "フラワーポップ", "花を4つつなげて消す落ち物パズル", S + "/midori-games/flower-pop/"],
+    ["hakooshi", "はこおし", "箱を押してしまう倉庫パズル・全30面", S + "/hakooshi/"],
+    ["nashimuki", "なしむきパズル 3D", "なしの皮を切らさずにむく", S + "/nashimuki-puzzle/"],
+    ["tsumikomi", "積み込みチャレンジ", "トラックに道具をうまく積む", S + "/tsumikomi-challenge/"],
+    ["survivor", "ネオ・サバイバー", "10分間、敵の群れを生きのびる", S + "/midori-games/survivor/"],
+    ["gundan-cannon", "軍団カノン", "大砲から兵隊を撃ち出して増やす", S + "/midori-games/gundan-cannon/"],
+    ["midorius", "ミドリウス", "横スクロールのシューティング", S + "/midorius/"],
+    ["kungfu-garden", "カンフーガーデン", "拳法で城をのぼる横スクロール", S + "/midori-games/kungfu-garden/"],
+    ["uchiwa", "うちわ番長", "リズムに合わせてあおぐ", S + "/uchiwa-bancho/"],
+    ["hanabi", "花火番長", "リズムに合わせて花火を上げる", S + "/hanabi-bancho/"],
+    ["amida", "あみだ株レース", "あみだくじのレース", S + "/amida-kabu-race/"]
+  ]],
+  ["じっくり", [
+    ["zorozoro", "ゾロゾロ大進軍", "仲間をふやして魔王をたおす", S + "/midori-games/zorozoro/"],
+    ["midorikun", "みどりくんの大冒険", "入るたびに形が変わる地下迷宮", S + "/midorikun-daiboken/"],
+    ["emerald", "エメラルドの迷宮", "仲間を集めて地下迷宮をすすむRPG", S + "/emerald-labyrinth/"],
+    ["zouen", "造園立志伝", "造園会社の経営シミュレーション", S + "/midori-games/zouen-risshiden/"],
+    ["sengoku", "戦国", "全国統一をめざす", S + "/midorisengoku/", "横向き"],
+    ["kyoryu", "恐竜スタリオン", "恐竜を育ててレースへ", S + "/midori-games/kyoryu-stallion/", "横向き"],
+    ["tsugu", "つぐのずんだ", "夕ぐれの町の物語", S + "/tsugu-no-zunda/"]
+  ]],
+  ["3D", [
+    ["aquatoto", "アクア・トト 3D", "たんけん水族館を歩く", S + "/aquatoto-3d/"],
+    ["toba", "鳥羽 3D", "海の水族館を歩く", S + "/aquatoto-3d/toba/"],
+    ["shokubutsu-koen", "みどりの植物公園 3D", "木や花にタッチして図鑑をあつめる", S + "/shokubutsu-koen/"],
+    ["neko", "ねこガーデン大作戦 3D", "ねこを出して敵の城をおとす", S + "/midorinyanko/", "横向き"],
+    ["umiraku-en", "うみらく園ものがたり 3D", "お部屋から釣りができる海の宿", S + "/midori-games/umiraku-en/"],
+    ["tsuri-bancho", "釣り番長", "潮を読んで大物をねらう", S + "/midori-games/tsuri-bancho/", "データ大きめ"],
+    ["z-exit", "Z番出口", "異変を見つけたら引き返す地下道", S + "/midori-games/z-exit/", "データ大きめ"]
+  ]]
+];
+// ================================================================
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let h = "";
+for (const [name, games] of LIST) {
+  h += '<div class="sec"><span>' + esc(name) + '</span></div><div class="grid">';
+  for (const [id, title, sub, url, tag] of games) {
+    h += '<a class="g" href="' + esc(url) + '"><div class="pic"><img src="shots/' + esc(id) + '.jpg" alt="" loading="lazy">' +
+      (tag ? '<span class="tag">' + esc(tag) + '</span>' : '') + '</div><div class="tx"><b>' + esc(title) + '</b><small>' + esc(sub) + '</small></div></a>';
+  }
+  h += '</div>';
+}
+h += '<div class="memo"><b>ホーム画面に置くと、アプリのように開けます。</b><br>iPhone：下の「共有」→「ホーム画面に追加」／Android：右上の「︙」→「ホーム画面に追加」<br>ゲームから戻る時は、スマホの「戻る」で戻れます。音が出るゲームがあります。</div>';
+document.getElementById("main").innerHTML = h;
+if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(() => {}); }
+</script>
+</body>
+</html>
