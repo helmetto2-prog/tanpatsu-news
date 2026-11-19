@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-19 00:49",
-  "latest": 40,
+  "updated": "2026-11-20 00:48",
+  "latest": 41,
   "years": [
     {
       "y": 1,
@@ -480,8 +480,8 @@
       "img": null,
       "koe": "../koe/y0037.mp3",
       "anime": "../annai/jinrui_y0037_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0037.jpg"
     },
     {
       "y": 38,
@@ -519,6 +519,19 @@
       "img": "../img/y0040.jpg",
       "koe": "../koe/y0040.mp3",
       "anime": "../annai/jinrui_y0040_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 41,
+      "title": "41年目　カケマゼとカタミダニの年",
+      "name": "カケマゼとカタミダニの年",
+      "headline": "割れたグツのかけらで大きなグツを焼き、ナツが一人で谷を見つけた年",
+      "date": "",
+      "page": "../nen/41/",
+      "img": "../img/y0041.jpg",
+      "koe": "../koe/y0041.mp3",
+      "anime": "../annai/jinrui_y0041_720p.mp4",
       "animeReady": false,
       "poster": null
     }
