@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>みどりくんの きけんよち えほん その84 〜みどり造園 あんぜん紙芝居〜</title>
+<style>
+  :root{
+    --paper:#fdf8ec; --ink:#4a3f2e; --accent:#5a8f3c; --danger:#d0541e; --point:#1e6fa8;
+    --shadow:rgba(90,70,40,.18);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:linear-gradient(160deg,#f5e3a8 0%,#cfe3b8 45%,#7fb97f 100%);
+    font-family:"BIZ UDPMincho","Yu Mincho","Hiragino Mincho ProN",serif;
+    color:var(--ink); overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #book{
+    width:min(96vw, 168vh); max-width:1100px; height:min(96vh, 100%);
+    display:flex;flex-direction:column;
+    background:var(--paper);
+    border-radius:18px;
+    box-shadow:0 18px 50px rgba(40,60,30,.35), inset 0 0 0 6px #fff, inset 0 0 0 8px #f0d98a;
+    overflow:hidden; position:relative;
+  }
+  .page{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    opacity:0; pointer-events:none; transition:opacity .55s ease;
+    padding:14px 14px 8px;
+  }
+  .page.show{opacity:1; pointer-events:auto;}
+  .art{
+    flex:1 1 56%; min-height:0; border-radius:12px; overflow:hidden;
+    box-shadow:0 4px 14px var(--shadow); background:#e9e2cf;
+    display:flex;align-items:center;justify-content:center; position:relative;
+  }
+  .art img{width:100%;height:100%;object-fit:cover;display:block;}
+  .txt{ flex:0 0 auto; padding:10px 20px 4px; text-align:center; }
+  .txt p.scene{
+    font-size:clamp(14px, 2.3vmin, 19px); line-height:1.75; text-align:justify;
+    text-align-last:center;
+  }
+  .kv{
+    display:flex; gap:10px; margin-top:8px; text-align:left;
+    flex-wrap:wrap; justify-content:center;
+  }
+  .kv .box{
+    flex:1 1 260px; max-width:480px; border-radius:10px; padding:7px 12px;
+    font-size:clamp(13px, 2.1vmin, 17px); line-height:1.6;
+    background:#fff7ec; box-shadow:0 2px 8px var(--shadow);
+  }
+  .kv .danger{ border-left:6px solid var(--danger); }
+  .kv .danger b{ color:var(--danger); }
+  .kv .yakusoku{ border-left:6px solid var(--point); }
+  .kv .yakusoku b{ color:var(--point); }
+  .kv .sanko{ border-left:6px solid #b08d3a; }
+  .kv .sanko b{ color:#8a6a1c; }
+  .kv .box .src{ display:block; margin-top:3px; font-size:.86em; color:#7d7157; }
+  .coverTitle .coverNote{ margin-top:10px; font-size:clamp(11px,1.9vmin,14px); color:#4a3f2e; letter-spacing:.04em; line-height:1.5; }
+  .pageno{
+    text-align:center; font-size:12px; color:#9b8c6e; padding:4px 0 2px;
+    letter-spacing:.3em;
+  }
+  #p0 .art{flex:1 1 100%;}
+  .coverTitle{
+    position:absolute; left:0; right:0; top:6%; text-align:center;
+    text-shadow:0 2px 10px rgba(255,255,255,.9),0 0 26px rgba(255,255,255,.85);
+  }
+  .coverTitle h1{
+    font-size:clamp(26px,6vmin,50px); letter-spacing:.1em; color:#3c5a24;
+  }
+  .coverTitle h2{
+    margin-top:10px; font-size:clamp(13px,2.6vmin,20px); letter-spacing:.24em; color:#8a5a1c;
+    font-weight:normal;
+  }
+  .coverHint{
+    position:absolute; left:0; right:0; bottom:5%; text-align:center;
+    font-size:clamp(12px,2.2vmin,16px); color:#fff;
+    text-shadow:0 1px 6px rgba(0,0,0,.45); letter-spacing:.2em;
+    animation:blink 2.2s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:.95}50%{opacity:.35}}
+  .fin{
+    margin-top:6px; font-size:clamp(14px,2.5vmin,20px); color:var(--danger);
+    letter-spacing:.4em; text-align:center; font-weight:bold;
+  }
+  .nav{
+    position:absolute; top:0; bottom:0; width:19%; z-index:5; cursor:pointer;
+    display:flex; align-items:center; opacity:.85; transition:opacity .25s;
+  }
+  .nav:hover{opacity:1;}
+  .nav.dis{opacity:.25; pointer-events:none;}
+  #prev{left:0; justify-content:flex-start;}
+  #next{right:0; justify-content:flex-end;}
+  .nav span{
+    font-size:34px; color:#fff; background:rgba(90,120,60,.55);
+    border-radius:50%; width:52px;height:52px; display:flex;align-items:center;justify-content:center;
+    margin:0 8px; user-select:none;
+  }
+  #dots{
+    position:absolute; bottom:6px; left:0; right:0; text-align:center; z-index:6;
+    pointer-events:none;
+  }
+  #dots i{
+    display:inline-block; width:7px;height:7px;border-radius:50%;
+    background:#cbbd97; margin:0 3.5px; transition:all .3s;
+  }
+  #dots i.on{background:var(--accent); transform:scale(1.45);}
+</style>
+<style id="artfix">
+/* 2026-08-31 絵を大きく: 文章が長くても絵は画面の46%以上を確保。あふれた文章はスクロール */
+.page .art{flex:1 1 auto !important; min-height:46% !important;}
+.page .txt{flex:0 1 auto !important; max-height:44% !important; overflow-y:auto !important; -webkit-overflow-scrolling:touch;}
+.kv .box{padding:5px 10px !important; font-size:clamp(12px,1.9vmin,15px) !important; line-height:1.55 !important;}
+.txt p.scene{font-size:clamp(13px,2.1vmin,17px) !important; line-height:1.6 !important;}
+</style>
+<style id="backno-css">
+/* 2026-09-13 バックナンバー導線と短い注意書き */
+  #tomenu{ position:absolute; top:14px; right:16px; z-index:9; text-decoration:none;
+    background:rgba(255,253,246,.92); color:#3a7d44; border:1px solid #e0d8c4;
+    border-radius:999px; padding:5px 12px; font-weight:bold; letter-spacing:.04em;
+    font-family:"Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+    font-size:clamp(11px,1.8vmin,13px); box-shadow:0 2px 8px rgba(60,70,50,.18); }
+  #tomenu:active{ transform:scale(.96); }
+  .backno{ position:relative; z-index:6; display:flex; gap:8px; justify-content:center;
+    flex-wrap:wrap; margin-top:10px; }
+  .backno a{ text-decoration:none; background:#fff7ec; color:#3a7d44; border:1px solid #e0d8c4;
+    border-radius:999px; padding:5px 14px; font-weight:bold;
+    font-family:"Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+    font-size:clamp(11px,1.9vmin,14px); box-shadow:0 2px 6px rgba(60,70,50,.14); }
+  .backno a.mid{ background:#3a7d44; color:#fff; border-color:#3a7d44; }
+  #p0 .backno{ position:absolute; left:0; right:0; bottom:4%; z-index:7; margin:0; }
+  #p0 .coverHint{ bottom:13%; }
+  .kv .box a.chui{ display:inline-block; margin-top:4px; color:#1e6fa8; font-weight:bold; }
+</style>
+</head>
+<body>
+<div id="book">
+  <!-- 表紙 -->
+  <div class="page" id="p0">
+    <div class="art"><img src="ky-img/18_00.jpg" alt="">
+      <div class="coverTitle">
+        <h1>みどりくんの<br>きけんよち えほん その84</h1>
+        <h2>〜 「肩の束と、枝の山と、降りる一歩」の巻 〜</h2>
+        <p class="coverNote">この絵本は「📘 一般の基準（参考・出典つき）」と「☝ やくそく（みどり造園の現場でやること）」を分けて書いています。</p>
+      </div>
+      <div class="coverHint">タップ・クリックで ページをめくる ▶</div>
+      <div class="backno" id="coverBackno">
+        <a href="ky-ehon83.html">&#9664; 前の巻（その83）</a>
+        <a class="mid" href="ky-ehon-matome.html">&#128218; 全巻もくじ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="p1">
+    <div class="art"><img src="ky-img/84_01.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">剪定した枝を、ひもで束にしました。先輩は、束をひょいと肩にかついで、枝の置き場へ歩きだしました。束のうしろには、とがった切り口がいくつも、ちょうど顔の高さに出ています。先輩「肩にのせたほうが楽だもんで。」みどりくんは、少し離れた所から手のひらを向けました。「そのまま振り向いたら、切り口が人の顔に当たるよ。<b>枝の束は、切り口を下に向けて、腰の高さで両手で持って運ぶ。人のそばでは、肩にかつがない。</b>」先輩「長い束は、二人で持とうか。」みどりくん「うん。前と後ろで持とう。」</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 肩にかついだ枝の束は、とがった切り口や枝先が、ちょうど人の顔や目の高さに来ます。振り向いたり向きを変えたりしたときに、うしろや横の人の顔に当たるおそれがあります。自分からは束のうしろが見えないので、当たりそうになっても気づきにくいです。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> 枝の束の運び方を名指しした条文は、見当たりませんでした。厚生労働省の「職場における腰痛予防対策指針」では、荷物はできるだけ体に近づけて持つ、という考え方が示されています。<span class="src">出典：厚生労働省「職場における腰痛予防対策指針」（紹介）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> 枝の束は、切り口を下に向けて、腰の高さで両手で持って運ぶ。人のそばでは、肩にかつがない。長い束は、二人で持つ。</div>
+      </div>
+    </div>
+    <div class="pageno">— 枝の束は、切り口を下にして腰の高さで —</div>
+  </div>
+
+  <div class="page" id="p2">
+    <div class="art"><img src="ky-img/28_07.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">秋の庭で、生垣の刈り込みと落ち葉かきをしています。道の両わきには、切った枝と落ち葉の山ができました。先輩「向こうの生垣まで、山をまたいで行けば近いね。」みどりくんが、熊手で山をさしました。「枝の山の下は、だれにも見えとらんよ。<b>切った枝や落ち葉の山には、乗らない。またがない。まわって、道を通る。</b>」先輩「中で枝が転がったら、足をとられるね。」みどりくん「道を通っても、そんなに遠くないじゃん。」</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 枝と落ち葉の山の中では、枝が重なっていて、踏むと転がったり、はね上がったりします。足首をひねったり、転んだりするおそれがあります。とがった枝の切り口が、すねや足に刺さることもあります。山の下にある石・穴・ホース・道具は、上からは見えません。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> 枝の山に乗ることを名指しした条文は、見当たりませんでした。厚生労働省の「STOP!転倒災害プロジェクト」では、通路に物を置かない・足もとの見えない所を歩かない、といった転倒を防ぐ考え方がよびかけられています。職場のあんぜんサイトの「4S活動」（整理・整頓・清掃・清潔）も、通り道をあける考え方です。<span class="src">出典：厚生労働省「STOP!転倒災害プロジェクト」・職場のあんぜんサイト「4S活動」（いずれも紹介）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> 切った枝や落ち葉の山には、乗らない。またがない。まわって、道を通る。山は、通り道から離して積む。</div>
+      </div>
+    </div>
+    <div class="pageno">— 枝と落ち葉の山には、乗らない —</div>
+  </div>
+
+  <div class="page" id="p3">
+    <div class="art"><img src="ky-img/84_03.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">冬の朝、軽トラで現場に着きました。運転席のドアの下は、霜の残る側溝のふたです。先輩がドアを開けて、ぱっと飛び降りようとしました。車の外にいたみどりくんが、足もとを指さしました。「ストップ！ <b>車から降りるときは、先に足もとを見る。車の取っ手か座席をつかんで、片足ずつゆっくり降りる。</b>」先輩「ほんとだ。ふたが白く光ってる。」みどりくん「日かげの地面は、昼まで凍っとることもあるでね。」</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 車から飛び降りると、着いた足がすべって、転んだり足首をひねったりするおそれがあります。冬の朝は、側溝のふた・日かげの水たまり・ぬれた落ち葉が、凍ったりすべりやすくなったりしています。転んだときに、車のドアや荷台のふちに頭や体をぶつけることもあります。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> 車から降りる時の動きを名指しした条文は、見当たりませんでした。厚生労働省の「STOP!転倒災害プロジェクト」では、冬は凍った路面などでの転倒に気をつけるよう、よびかけられています。<span class="src">出典：厚生労働省「STOP!転倒災害プロジェクト」（紹介）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> 車から降りるときは、先に足もとを見る。車の取っ手か座席をつかんで、片足ずつゆっくり降りる。飛び降りない。</div>
+      </div>
+    </div>
+    <div class="pageno">— 車から降りるときは、先に足もと —</div>
+  </div>
+
+  <div class="page" id="p4">
+    <div class="art"><img src="ky-img/10_05.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">お客さまの庭のすみに、古い木があります。木には、ツタがぐるぐる巻きついています。みどりくんがツタを一本手に取って、上を見上げました。ツタは、上の枯れ枝にもからんでいます。先輩「一気に引っぱれば、早く終わるよ。」みどりくん「引っぱると、上の枯れ枝までいっしょに落ちてまう。<b>木や塀にからんだツタは、引っぱってはがさない。はさみで根元を切って、手の届く所から少しずつ外す。</b>」先輩「上のほうは、責任者に段取りを聞こう。」</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> からんだツタを力まかせに引っぱると、上の枯れ枝・古い葉・虫の巣・ほこりが、顔や目の上に落ちてくるおそれがあります。ツタが急に切れると、勢いでうしろに転ぶこともあります。塀や雨どい・フェンスにからんだツタは、引っぱると、それ自体をこわしてしまうおそれがあります。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> ツタの外し方を名指しした条文は、見当たりませんでした。労働安全衛生規則では、物が落ちてきて働く人に危険があるときは、立ち入る区域を決めるなどの措置をとる、とされています。<span class="src">出典：労働安全衛生規則 第537条（紹介）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> 木や塀にからんだツタは、引っぱってはがさない。はさみで根元を切って、手の届く所から少しずつ外す。上に枯れ枝があるときは、責任者に伝える。</div>
+      </div>
+    </div>
+    <div class="pageno">— からんだツタは、引っぱってはがさない —</div>
+  </div>
+
+  <div class="page" id="p5">
+    <div class="art"><img src="ky-img/84_05.jpg" alt=""></div>
+    <div class="txt">
+      <p class="scene">夕方、片付けが終わりました。先輩が、軽トラのあおりを閉めています。みどりくん「<b>帰る前に、きょう手を入れた所を、お客さまといっしょに歩いて見て、伝える。</b>」みどりくんは、お客さまと飛び石を歩きながら、植えたばかりの木を指さしました。「きょう、支柱を立てた所です。まわりの土はやわらかいので、しばらくは足をとられやすいです。」お客さま「暗くなってから通る所なので、聞いておいてよかったです。」みどりくんは、先輩の所へもどりました。「伝え終わったよ。帰ろまい。」</p>
+      <div class="kv">
+        <div class="box danger"><b>⚠ ここがきけん！</b> 植えたばかりの木のまわりの土・掘りかえした所・新しい支柱・動かした植木鉢は、お客さまにとって「きのうまでと違う庭」です。知らずに夜や朝早くに歩くと、やわらかい土に足をとられたり、支柱や鉢につまずいたりするおそれがあります。口で「終わりました」と言うだけでは、どこが変わったのかは伝わりません。</div>
+        <div class="box sanko"><b>📘 一般の基準（参考）</b> 帰る前の伝え方を名指しした条文は、見当たりませんでした。国土交通省の「建設工事公衆災害防止対策要綱」は、工事のまわりの人（公衆）にけがをさせないための考え方をまとめたものです。<span class="src">出典：国土交通省「建設工事公衆災害防止対策要綱」（紹介）</span></div>
+        <div class="box yakusoku"><b>☝ やくそく</b> 帰る前に、きょう手を入れた所（植えた木・支柱・掘った所・動かした物）を、お客さまといっしょに歩いて見て、伝える。</div>
+        <div class="box sanko"><b>&#128216; この絵本の読み方</b> <b>&#128216; 一般の基準（参考）</b>＝法令などの一般的な基準（出典は各ページに記載）。<b>&#9757; やくそく</b>＝みどり造園の現場で実際にやること。／基準どおりにできない現場では、無視せず<b>その場で手を止めて、先輩か責任者に相談</b>してください。／<b>資格・特別教育・事前の取り決めが必要な作業</b>は、見よう見まねで始めないでください。<a class="chui" href="ky-ehon-chui.html">&#9654; 詳しい注意書き</a></div>
+      </div>
+      <div class="fin">きょうの五話は「肩の束と、枝の山と、降りる一歩」でした。きょうも みんなそろって ご安全に！</div>
+      <div class="backno">
+        <a href="ky-ehon83.html">&#9664; 前の巻（その83）</a>
+        <a class="mid" href="ky-ehon-matome.html">&#128218; 全巻もくじ</a>
+      </div>
+    </div>
+    <div class="pageno">— 【帰り際】きょう手を入れた所は、お客さまと歩いて伝える —</div>
+  </div>
+  </div>
+  <a id="tomenu" href="ky-ehon-matome.html">&#128218; ぜんぶの巻</a>
+  <div class="nav" id="prev"><span>◀</span></div>
+  <div class="nav" id="next"><span>▶</span></div>
+  <div id="dots"></div>
+</div>
+<script>
+(function(){
+  var N = document.querySelectorAll('.page').length, cur = 0;
+  var pages = [];
+  for(var i=0;i<N;i++) pages.push(document.getElementById('p'+i));
+  var dots = document.getElementById('dots');
+  for(var i=0;i<N;i++){ dots.appendChild(document.createElement('i')); }
+  function show(n){
+    if(n<0||n>=N) return;
+    cur = n;
+    for(var i=0;i<N;i++) pages[i].classList.toggle('show', i===n);
+    var ds = dots.children;
+    for(var i=0;i<N;i++) ds[i].classList.toggle('on', i===n);
+    document.getElementById('prev').classList.toggle('dis', n===0);
+    document.getElementById('next').classList.toggle('dis', n===N-1);
+  }
+  document.getElementById('next').addEventListener('click',function(e){e.stopPropagation();show(cur+1);});
+  document.getElementById('prev').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});
+  document.getElementById('book').addEventListener('click',function(e){
+    /* LINKGUARD リンクを押したときはめくらない */ if(e.target && e.target.closest && e.target.closest('a')) return;
+    var r = this.getBoundingClientRect();
+    var x = (e.clientX - r.left)/r.width;
+    if(x < .22) show(cur-1); else show(cur+1);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' ') show(cur+1);
+    else if(e.key==='ArrowLeft') show(cur-1);
+  });
+  var sx=null;
+  document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(sx===null) return;
+    var dx = e.changedTouches[0].clientX - sx; sx=null;
+    if(dx<-40) show(cur+1); else if(dx>40) show(cur-1);
+  },{passive:true});
+  show(0);
+})();
+</script>
+<style>/* PAGENO-SYNC-v2 ページ番号とドットが重ならないように */
+  .pageno{ padding-bottom:14px !important; }
+  #dots{ bottom:3px !important; }
+</style>
+<script>
+/* PAGENO-SYNC-v2 ページ番号を「n / N」に統一（表紙＝1）。ドットの位置と必ず一致する */
+(function(){
+  var ps = document.querySelectorAll('.page'), N = ps.length;
+  for (var i=0; i<N; i++){
+    var e = ps[i].querySelector('.pageno');
+    if(!e){ e = document.createElement('div'); e.className='pageno'; ps[i].appendChild(e); }
+    var t = e.textContent.replace(/^[\s—-]*/,'').replace(/[\s—-]*$/,'')
+                         .replace(/^\d+\s*[\/／]?\s*\d*\s*/,'');
+    e.textContent = '— ' + (i+1) + ' / ' + N + (t ? '　' + t : '') + ' —';
+  }
+})();
+</script>
+<style>/* NAV-ART-v1 めくる矢印を、いま見ているページの絵の高さの真ん中へ（文字にかぶらないように） */
+  .nav{ top:var(--navT,0) !important; bottom:auto !important; height:var(--navH,50%) !important; }
+</style>
+<script>
+/* NAV-ART-v1 矢印の帯（.nav）を、表示中のページの絵（.art）と同じ高さにそろえる。表紙は絵が全面なので今までどおり真ん中 */
+(function(){
+  var root = document.documentElement;
+  var nav = document.querySelector('.nav'); if(!nav) return;
+  function clear(){ root.style.removeProperty('--navT'); root.style.removeProperty('--navH'); }
+  function fit(){
+    var p = document.querySelector('.page.show'), a = p && p.querySelector('.art');
+    if(!a){ clear(); return; }
+    var ar = a.getBoundingClientRect();
+    if(ar.height < 60){ clear(); return; }
+    /* .nav の基準（親の箱）の上端を、いまの位置と top の値から逆算する */
+    var base = nav.getBoundingClientRect().top - (parseFloat(getComputedStyle(nav).top) || 0);
+    root.style.setProperty('--navT', Math.round(ar.top - base) + 'px');
+    root.style.setProperty('--navH', Math.round(ar.height) + 'px');
+  }
+  var pages = document.querySelectorAll('.page');
+  var mo = new MutationObserver(fit);
+  for(var i=0;i<pages.length;i++) mo.observe(pages[i], {attributes:true, attributeFilter:['class']});
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function(){ setTimeout(fit, 250); });
+  if(window.ResizeObserver){
+    var ro = new ResizeObserver(fit), arts = document.querySelectorAll('.art');
+    for(var j=0;j<arts.length;j++) ro.observe(arts[j]);
+  }
+  window.addEventListener('load', fit);
+  fit();
+})();
+</script>
+</body>
