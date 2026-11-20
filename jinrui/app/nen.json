@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-20 00:48",
-  "latest": 41,
+  "updated": "2026-11-21 00:49",
+  "latest": 42,
   "years": [
     {
       "y": 1,
@@ -493,8 +493,8 @@
       "img": "../img/y0038.jpg",
       "koe": "../koe/y0038.mp3",
       "anime": "../annai/jinrui_y0038_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0038.jpg"
     },
     {
       "y": 39,
@@ -532,6 +532,19 @@
       "img": "../img/y0041.jpg",
       "koe": "../koe/y0041.mp3",
       "anime": "../annai/jinrui_y0041_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 42,
+      "title": "42年目　ヒアテとオオウルの年",
+      "name": "ヒアテとオオウルの年",
+      "headline": "日を当てたクリの木が実り、イソのかくしていた大きなウルが見つかった年",
+      "date": "",
+      "page": "../nen/42/",
+      "img": "../img/y0042.jpg",
+      "koe": "../koe/y0042.mp3",
+      "anime": "../annai/jinrui_y0042_720p.mp4",
       "animeReady": false,
       "poster": null
     }
