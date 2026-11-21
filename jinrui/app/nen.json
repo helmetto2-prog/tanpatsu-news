@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-21 00:49",
-  "latest": 42,
+  "updated": "2026-11-22 00:48",
+  "latest": 43,
   "years": [
     {
       "y": 1,
@@ -506,8 +506,8 @@
       "img": "../img/y0039.jpg",
       "koe": "../koe/y0039.mp3",
       "anime": "../annai/jinrui_y0039_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0039.jpg"
     },
     {
       "y": 40,
@@ -545,6 +545,19 @@
       "img": "../img/y0042.jpg",
       "koe": "../koe/y0042.mp3",
       "anime": "../annai/jinrui_y0042_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 43,
+      "title": "43年目　ウツシギとオオウルの年",
+      "name": "ウツシギとオオウルの年",
+      "headline": "クリの芽を日なたへ移し、ナツがひとり立ちし、オオウルが入り江に浮かんだ年",
+      "date": "",
+      "page": "../nen/43/",
+      "img": "../img/y0043.jpg",
+      "koe": "../koe/y0043.mp3",
+      "anime": "../annai/jinrui_y0043_720p.mp4",
       "animeReady": false,
       "poster": null
     }
