@@ -1,6 +1,6 @@
 // 竹中さんのアプリ（asobi-t4）：入口の画面を手元に置いておく。ゲーム本体は別の場所なので扱わない
 // 手元の写しの名前は "asobi-t4-app-" で始める。同じサイトのほかのアプリの写しは消さない
-const CACHE = "asobi-t4-app-v02";
+const CACHE = "asobi-t4-app-v03";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", e => {
