@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>AIに頼んで3Dを作る その2 ― 写真から石灯籠を作る</title>
+<style>
+:root{--bg:#f4ede5;--paper:#fffdfa;--ink:#2c2a27;--sub:#6b645c;--line:#e4d9cc;--teal:#128f82;--teal-bg:#e3f4f1;--wood-bg:#f6ecdf;--warn:#b4552d;--warn-bg:#fbeee6}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","BIZ UDPGothic","Yu Gothic UI","Meiryo",sans-serif;font-size:16px;line-height:1.75}
+main{max-width:900px;margin:0 auto;padding:16px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 20px;margin:0 0 18px;box-shadow:0 2px 10px rgba(80,60,40,.06)}
+h1{font-size:25px;line-height:1.4;margin:4px 0 6px}
+h2{font-size:20px;line-height:1.45;margin:2px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+h3{font-size:16.5px;margin:18px 0 6px}
+p{margin:6px 0}
+.lead{color:var(--sub);margin:0 0 12px}
+ul{margin:6px 0;padding-left:1.35em} li{margin:2px 0}
+figure{margin:10px 0}
+figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+figcaption{font-size:13px;color:var(--sub);margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.stat{border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center;background:var(--wood-bg)}
+.stat b{display:block;font-size:21px;line-height:1.3;color:var(--teal)}
+.stat span{font-size:13px;color:var(--sub)}
+.note{border-left:4px solid var(--teal);background:var(--teal-bg);border-radius:0 8px 8px 0;padding:8px 12px;margin:10px 0;font-size:15px}
+.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.split{display:grid;grid-template-columns:1fr;gap:10px}
+a{color:var(--teal)}
+footer{font-size:13px;color:var(--sub);text-align:center;padding:4px 0 18px}
+@media (min-width:700px){main{padding:24px}.sheet{padding:30px 34px}h1{font-size:31px}.stats{grid-template-columns:repeat(4,1fr)}.split{grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
+@page{size:A4;margin:11mm}
+@media print{body{background:#fff;font-size:9.6pt;line-height:1.5}main{max-width:none;padding:0}.sheet{border:0;box-shadow:none;padding:0;margin:0 0 6mm}figure{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main>
+
+<section class="sheet">
+  <h1>AIに頼んで3Dを作る その2<br>― 写真から石灯籠を作る</h1>
+  <p class="lead">2026年11月23日 朝の記録。「ちょうどいい写真を見つけて、それを題材に勉強して」と頼んだだけで、AI（Claude）が写真探しから組み立て・確かめ・図面・絵までを約1時間25分で進めました。</p>
+
+  <figure>
+    <img src="20261123-solidcraft/hero.jpg" alt="夕暮れの庭に春日灯籠と雪見灯籠が並び、火袋に灯りがともっている絵">
+    <figcaption>設計図ソフトで作った2つの灯籠を Blender に渡し、夕暮れの庭に置いた絵。</figcaption>
+  </figure>
+
+  <div class="stats">
+    <div class="stat"><b>約10分</b><span>春日灯籠の最初の形</span></div>
+    <div class="stat"><b>約6分</b><span>雪見灯籠の最初の形</span></div>
+    <div class="stat"><b>90%</b><span>写真と輪郭の重なり</span></div>
+    <div class="stat"><b>約885kg</b><span>春日灯籠の重さ（計算）</span></div>
+  </div>
+</section>
+
+<section class="sheet">
+  <h2>できたこと5つ</h2>
+
+  <h3>① 写真1枚から、寸法つきの立体</h3>
+  <p>写真の幅を高さごとに測って寸法に直し、六角の段・回転・ロフト（断面をつなぐ）・渦巻きで組み立てました。全高 2,102mm。</p>
+  <div class="split">
+    <figure><img src="20261123-solidcraft/kasuga_hikaku.jpg" alt="春日灯籠の元の図と、作った模型の比べ絵" loading="lazy"><figcaption>春日灯籠：元の図（左）と模型</figcaption></figure>
+    <figure><img src="20261123-solidcraft/yukimi_hikaku.jpg" alt="雪見灯籠の写真と、作った模型の比べ絵" loading="lazy"><figcaption>雪見灯籠：本物の写真と模型</figcaption></figure>
+  </div>
+
+  <h3>② 後から数字だけで直せる</h3>
+  <p>「アーチの幅」「窓の大きさ」に名前を付けておけば、作り直さずに数字を変えるだけで形が変わります。雪見灯籠は写真と並べて、足・窓・アーチをこれで直しました。</p>
+
+  <h3>③ 重さと図面</h3>
+  <p>材料を御影石（参考値 2.65 g/cm³）にして部品ごとの重さを計算。いちばん重いのは笠で約220kg。寸法入りの A3 図面も出せます。</p>
+  <figure><img src="20261123-solidcraft/zumen.jpg" alt="春日灯籠のA3図面。正面図・側面図・立体図と寸法" loading="lazy"><figcaption>A3 図面（正面・横 1:10、立体 1:15）</figcaption></figure>
+
+  <h3>④ 動く仕組みを試せる</h3>
+  <div class="split">
+    <div>
+      <p>鹿威し（ししおどし）に回る関節を付けて、「竹筒の尻が何度で石に当たるか」をソフトに調べさせました。答えは <b>15.16°</b>。手計算の約15.0°とほぼ同じ。動きは GIF にしました。</p>
+    </div>
+    <figure><img src="20261123-solidcraft/shishiodoshi.gif" alt="鹿威しの竹筒が傾いて戻る動き" loading="lazy"><figcaption>鹿威しの「カコン」</figcaption></figure>
+  </div>
+
+  <h3>⑤ 他のソフトへ渡せる</h3>
+  <p>STEP（ほかの CAD 用）と glb（Blender 用）で書き出し。上の夕暮れの絵はこれで作りました。</p>
+
+  <figure><img src="20261123-solidcraft/matome.jpg" alt="今朝作った物6つを並べた一枚絵" loading="lazy"><figcaption>今朝作った物のまとめ（春日灯籠・雪見灯籠・鹿威し・つくばい など）</figcaption></figure>
+</section>
+
+<section class="sheet">
+  <h2>正直なところ</h2>
+  <div class="note warn">
+    <ul>
+      <li>寸法は写真からの<b>目分量</b>。実物の寸法・重さではありません。</li>
+      <li>数字を極端にすると、<b>エラーを出さずに形が崩れる</b>ことがある（アーチを広げすぎると足が消える）。だから毎回、体積や大きさを計算と照らし合わせて確かめています。</li>
+      <li>最後の確認は人の目が要ります。</li>
+    </ul>
+  </div>
+  <div class="note">
+    <b>ひとことで</b>：写真や言葉で伝えた物を、数分〜数十分で「寸法・重さ・図面つきの3D」にでき、動きの確認までできる。
+  </div>
+  <p>前日（11/22）の記録：<a href="20261122-solidcraft.html">AIに頼んで3Dを作る ― 箱1個から、自分の机をぐるっと回る映像まで</a></p>
+  <p style="font-size:12.5px;color:var(--sub)">題材の写真（Wikimedia Commons）：「Kasuga-dōrō.jpg」CC BY-SA 3.0／「Florent thomas-penette, Lanterne Yukimi-dōrō, Jardin japonais.jpg」パブリックドメイン／「Morikami Museum and Gardens - Shishi Odoshi Filling Up With Water.jpg」CC BY-SA 4.0／「JapaneseGardenWaterBasin.jpg」CC BY-SA 3.0</p>
+</section>
+
+<footer>2026年11月23日 作成　／　頼んだ人と、AI（Claude）の共同作業の記録です</footer>
+</main>
+</body>
+</html>
