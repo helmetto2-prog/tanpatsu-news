@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-22 00:48",
-  "latest": 43,
+  "updated": "2026-11-23 00:48",
+  "latest": 44,
   "years": [
     {
       "y": 1,
@@ -519,8 +519,8 @@
       "img": "../img/y0040.jpg",
       "koe": "../koe/y0040.mp3",
       "anime": "../annai/jinrui_y0040_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0040.jpg"
     },
     {
       "y": 41,
@@ -558,6 +558,19 @@
       "img": "../img/y0043.jpg",
       "koe": "../koe/y0043.mp3",
       "anime": "../annai/jinrui_y0043_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 44,
+      "title": "44年目　ミネアテの年",
+      "name": "ミネアテの年",
+      "headline": "オオウルがトリシマへ三度渡り、クロミネの峰を目じるしに帰った年",
+      "date": "",
+      "page": "../nen/44/",
+      "img": "../img/y0044.jpg",
+      "koe": "../koe/y0044.mp3",
+      "anime": "../annai/jinrui_y0044_720p.mp4",
       "animeReady": false,
       "poster": null
     }
