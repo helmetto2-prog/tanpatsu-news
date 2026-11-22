@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>AIに頼んで3Dを作る ― 箱1個から、自分の机をぐるっと回る映像まで</title>
+<style>
+:root{
+  --bg:#f4ede5; --paper:#fffdfa; --ink:#2c2a27; --sub:#6b645c; --line:#e4d9cc;
+  --teal:#128f82; --teal-bg:#e3f4f1; --wood:#a9855c; --wood-bg:#f6ecdf; --warn:#b4552d; --warn-bg:#fbeee6;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","BIZ UDPGothic","Yu Gothic UI","Meiryo",sans-serif;
+  font-size:16px;line-height:1.75}
+main{max-width:900px;margin:0 auto;padding:16px}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 20px;margin:0 0 18px;
+  box-shadow:0 2px 10px rgba(80,60,40,.06)}
+.pageno{font-size:12px;letter-spacing:.12em;color:var(--teal);font-weight:700}
+h1{font-size:25px;line-height:1.4;margin:4px 0 6px}
+h2{font-size:20px;line-height:1.45;margin:2px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+h3{font-size:16.5px;margin:20px 0 6px;display:flex;align-items:baseline;gap:8px}
+h3 .no{flex:none;display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:14px;transform:translateY(2px)}
+p{margin:6px 0}
+.lead{color:var(--sub);margin:0 0 12px}
+ul,ol{margin:6px 0;padding-left:1.35em}
+li{margin:2px 0}
+b{font-weight:700}
+.num{font-variant-numeric:tabular-nums}
+figure{margin:10px 0}
+figure img,video{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#1b1d22}
+figcaption{font-size:13px;color:var(--sub);margin-top:4px}
+.tools{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+.tool{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--wood-bg)}
+.tool b{display:block}
+.tool span{font-size:14px;color:var(--sub)}
+.flow{list-style:none;padding:0;margin:8px 0;counter-reset:f}
+.flow li{position:relative;padding:7px 0 7px 40px;border-bottom:1px dashed var(--line);counter-increment:f}
+.flow li:last-child{border-bottom:0}
+.flow li::before{content:counter(f);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;
+  background:var(--teal);color:#fff;font-size:14px;display:grid;place-items:center}
+.flow time{font-size:13px;color:var(--sub);margin-left:6px;white-space:nowrap}
+.split{display:grid;grid-template-columns:1fr;gap:10px}
+.note{border-left:4px solid var(--teal);background:var(--teal-bg);border-radius:0 8px 8px 0;padding:8px 12px;margin:10px 0;font-size:15px}
+.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0}
+.grid figure{margin:0}
+.grid figcaption b{color:var(--ink)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
+.pair figure{margin:0}
+.pair img{aspect-ratio:1/1.05;object-fit:cover}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.stat{border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center;background:var(--wood-bg)}
+.stat b{display:block;font-size:21px;line-height:1.3;color:var(--teal)}
+.stat span{font-size:13px;color:var(--sub)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--wood-bg)}
+.said{list-style:none;padding:0;margin:6px 0}
+.said li{background:var(--wood-bg);border-radius:10px;padding:7px 12px;margin:6px 0;font-size:15px}
+.said li::before{content:"頼んだ言葉";display:block;font-size:11.5px;color:var(--wood);font-weight:700;letter-spacing:.08em}
+footer{font-size:13px;color:var(--sub);text-align:center;padding:4px 0 18px}
+.print-only{display:none}
+@media (min-width:700px){
+  main{padding:24px}
+  .sheet{padding:30px 34px}
+  h1{font-size:31px}
+  h2{font-size:23px}
+  .tools{grid-template-columns:repeat(3,1fr)}
+  .split{grid-template-columns:1.05fr 1fr;gap:20px;align-items:start}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .stats{grid-template-columns:repeat(4,1fr)}
+}
+@page{size:A4;margin:11mm}
+@media print{
+  body{background:#fff;font-size:9.6pt;line-height:1.5}
+  main{max-width:none;padding:0}
+  .sheet{border:0;box-shadow:none;border-radius:0;padding:0;margin:0;break-after:page}
+  .sheet:last-of-type{break-after:auto}
+  h1{font-size:18pt;margin:2px 0 3px} h2{font-size:14pt;margin:1px 0 5px;padding-bottom:4px} h3{font-size:11pt;margin:7px 0 2px}
+  h3 .no{width:18px;height:18px;font-size:9pt}
+  p{margin:3px 0} .lead{margin:0 0 5px} ul,ol{margin:2px 0} li{margin:0}
+  figure{margin:4px 0;break-inside:avoid} figcaption{font-size:8.2pt;margin-top:2px}
+  .note,.tool,.stat,.said li{break-inside:avoid}
+  .tools{grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0} .tool{padding:5px 8px} .tool span{font-size:8.6pt}
+  .flow li{padding:3px 0 3px 30px} .flow li::before{width:20px;height:20px;font-size:9pt;top:4px} .flow time{font-size:8.4pt}
+  .split{grid-template-columns:1.05fr 1fr;gap:14px}
+  .split figure img{max-height:44mm;object-fit:contain}
+  .grid{grid-template-columns:repeat(3,1fr);gap:6px;margin:4px 0} .stats{grid-template-columns:repeat(4,1fr);gap:6px;margin:4px 0}
+  video{display:none} .print-only{display:block}
+  .hero img{max-height:58mm;object-fit:cover} .wide img{max-height:48mm;object-fit:contain}
+  .pair img{aspect-ratio:auto;height:54mm;width:100%;object-fit:contain;background:#fff;border:0}
+  .grid img{max-height:27mm;object-fit:cover}
+  .stat{padding:4px 6px} .stat b{font-size:13pt} .stat span{font-size:8.2pt}
+  table{font-size:8.8pt;margin:3px 0} th,td{padding:3px 6px}
+  .said li{font-size:9pt;padding:3px 9px;margin:3px 0} .said li::before{font-size:7.5pt}
+  .note{font-size:9.2pt;padding:4px 9px;margin:4px 0} footer{padding:0;font-size:8pt}
+}
+</style>
+
+</head>
+<body>
+<main>
+
+<!-- ===================== 1枚目 ===================== -->
+<section class="sheet" id="s1">
+  <div class="pageno">1 / 4　全体の流れ</div>
+  <h1>AIに頼んで3Dを作る<br>― 箱1個から、自分の机をぐるっと回る映像まで</h1>
+  <p class="lead">2026年11月22日の記録（勉強会の資料）。マウスもキーボードも触らず、<b>言葉で頼むだけ</b>で、約2時間でここまで進みました。</p>
+
+  <figure class="hero">
+    <video controls loop muted playsinline preload="metadata" poster="20261122-solidcraft/poster.jpg">
+      <source src="20261122-solidcraft/isshu.mp4" type="video/mp4">
+    </video>
+    <img class="print-only" src="20261122-solidcraft/poster.jpg" alt="できあがった映像の1コマ。机とパソコンと椅子の模型">
+    <figcaption>できあがった映像（12秒・音なし）。自宅のパソコンまわりを模型にして、カメラが一周します。再生ボタンを押してください。</figcaption>
+  </figure>
+
+  <h3>使った道具は3つ（どれも無料）</h3>
+  <div class="tools">
+    <div class="tool"><b>SolidCraft</b><span>寸法の数字で形を作る「設計図ソフト」（3D CAD）。部品・金具・ケース向き。</span></div>
+    <div class="tool"><b>MCP</b><span>AIとアプリをつなぐ「差し込み口」の決まり。これがあるとAIがアプリを直接動かせる。</span></div>
+    <div class="tool"><b>Blender</b><span>色や光を付けて、絵や動画にするソフト。キャラクターや映像向き。</span></div>
+  </div>
+  <p style="font-size:14px;color:var(--sub)">AIは Claude（Claude Code）。パソコンの中で動き、上の2つのソフトに命令を送ります。</p>
+
+  <h3>作った順番</h3>
+  <ol class="flow">
+    <li><b>つなぐ</b>：AIが設計図ソフトを動かせるようにする <time>17:40〜18:00</time></li>
+    <li><b>はじめの箱</b>：入門の手順どおりに箱を1個。寸法を変えて作り直しも試す <time>18:00〜18:10</time></li>
+    <li><b>部品の練習</b>：HDMI・DisplayPort のプラグ、マウス、キーボード、ディスプレイ <time>18:45〜19:05</time></li>
+    <li><b>組み合わせる</b>：机の上セット → 写真1枚から「うちのPCコーナー」を再現 <time>19:05〜19:20</time></li>
+    <li><b>映像にする</b>：Blender に渡して、やわらかい光で一周する映像に <time>19:23〜19:40</time></li>
+  </ol>
+
+  <div class="note">
+    <b>人がやったこと</b>：言葉で頼む・写真を1枚送る・設定を変える時に「いいよ」と言う。<br>
+    <b>AIがやったこと</b>：寸法の計算、命令の組み立て、できた形の確かめ、やり直し、記録。
+  </div>
+</section>
+
+<!-- ===================== 2枚目 ===================== -->
+<section class="sheet" id="s2">
+  <div class="pageno">2 / 4　つなぐ・はじめの箱・部品の練習</div>
+  <h2>まず箱を1個。それから部品を5つ</h2>
+
+  <div class="split">
+    <div>
+      <h3><span class="no">1</span>つなぐ</h3>
+      <ul>
+        <li>設計図ソフトを入れる（配布元の合い言葉＝ハッシュで本物か確かめた）。</li>
+        <li>ソフトの設定「AIからつなぐ」をオンにする。設定を変える所は、人の「いいよ」をもらってから。</li>
+        <li>AIの返事が「アプリの画面とつながった」に変わり、画面の上に形が出るようになった。</li>
+      </ul>
+
+      <h3><span class="no">2</span>はじめの箱（入門の手順）</h3>
+      <ol>
+        <li>平らな面に下絵：60×40mm の四角と、直径12mm の円</li>
+        <li>押し出し 12mm（円は穴になる）</li>
+        <li>上の面を抜いて、くり抜く（壁の厚さ 2mm）</li>
+        <li>上のふちを丸める（半径 1.5mm）</li>
+        <li>床に直径 4mm の穴</li>
+      </ol>
+    </div>
+    <figure>
+      <img src="20261122-solidcraft/box.jpg" alt="設計図ソフトの画面。上が開いた箱の中に筒が立っている" loading="lazy">
+      <figcaption>ソフトの画面。左に部品の一覧、下に「作った順」が並ぶ。押し出しを 12→20mm に変えた後の形。</figcaption>
+    </figure>
+  </div>
+
+  <div class="note">
+    <b>確かめ方のこつ</b>：作る前に体積を計算しておき、作った後でソフトに測らせて比べる。箱は <span class="num">9,173.04 mm³</span> でぴったり一致。「できました」の返事だけでは信じない。<br>
+    <b>設計図ソフトらしさ</b>：押し出しの数字を 12→20 に変えるだけで、くり抜き・丸め・穴が自動で作り直された。
+  </div>
+
+  <h3><span class="no">3</span>部品の練習（やさしい物から順に）</h3>
+  <div class="grid">
+    <figure><img src="20261122-solidcraft/p1_hdmi.jpg" alt="HDMIのプラグの模型" loading="lazy"><figcaption><b>HDMI のプラグ</b>　点を並べて台形の口 → 押し出し → くり抜き</figcaption></figure>
+    <figure><img src="20261122-solidcraft/p2_dp.jpg" alt="DisplayPortのプラグの模型" loading="lazy"><figcaption><b>DisplayPort のプラグ</b>　角の面取り・左右の写し（ミラー）</figcaption></figure>
+    <figure><img src="20261122-solidcraft/p3_mouse.jpg" alt="マウスの模型" loading="lazy"><figcaption><b>マウス</b>　だ円の柱を弧でけずる → 大きく丸める（計算に14秒）</figcaption></figure>
+    <figure><img src="20261122-solidcraft/p4_keyboard.jpg" alt="キーボードの模型" loading="lazy"><figcaption><b>キーボード</b>　キーを1個作って並べる（全部で71部品）</figcaption></figure>
+    <figure><img src="20261122-solidcraft/p5_display.jpg" alt="ディスプレイの模型" loading="lazy"><figcaption><b>ディスプレイ</b>　箱の足し引きだけで本体・画面・スタンド</figcaption></figure>
+    <figure><img src="20261122-solidcraft/p5_ports.jpg" alt="ディスプレイの裏の差し込み口" loading="lazy"><figcaption><b>裏の差し込み口</b>　左が HDMI（台形）、右が DisplayPort（片角が斜め）</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 3枚目 ===================== -->
+<section class="sheet" id="s3">
+  <div class="pageno">3 / 4　組み合わせる・写真を再現する</div>
+  <h2>作った部品を使い回して、自分の机を再現</h2>
+
+  <div class="split">
+    <div>
+      <h3><span class="no">4</span>机の上セット</h3>
+      <p>ばらばらに作った ディスプレイ・キーボード・マウス を、共通のファイル（STEP）に書き出し、1つの設計に読みこんで机の板の上に並べた。色もそのまま付いて来る。</p>
+      <h3><span class="no">5</span>写真1枚から「うちのPCコーナー」</h3>
+      <p>机の写真を1枚送って「この写真に近い形を」と頼んだ。</p>
+      <ul>
+        <li><b>使い回した物</b>：ディスプレイ・キーボード・マウス</li>
+        <li><b>新しく足した物</b>：木目の机と黒い枠、上の棚、椅子、机の下のパソコン本体、白い充電器、立てかけた黒い板、壁、緑のカーテン、カレンダー</li>
+        <li><b>遊び</b>：模型の画面に、さっきの「机の上セット」の絵を貼った（写真と同じ入れ子）</li>
+      </ul>
+    </div>
+    <figure>
+      <img src="20261122-solidcraft/p6_deskset.jpg" alt="机の板の上にディスプレイ、キーボード、マウスが並んだ模型" loading="lazy">
+      <figcaption>机の上セット。3つの部品を1つの設計に並べた。</figcaption>
+      <img src="20261122-solidcraft/p7_chair.jpg" alt="黒い事務椅子の模型" loading="lazy" style="margin-top:8px">
+      <figcaption>椅子。5本脚は「1本作って、円く5つ並べる」。</figcaption>
+    </figure>
+  </div>
+
+  <div class="pair">
+    <figure><img src="20261122-solidcraft/photo.jpg" alt="実物の机の写真。木目の机にモニター、黒いキーボード、手前に黒い椅子" loading="lazy"><figcaption>もとの写真（机のまわりだけ）</figcaption></figure>
+    <figure><img src="20261122-solidcraft/cad.jpg" alt="同じ角度から見た模型" loading="lazy"><figcaption>設計図ソフトで作った模型（同じ角度）</figcaption></figure>
+  </div>
+
+  <div class="note warn">
+    <b>正直なところ</b>：寸法は写真からの<b>目分量</b>で、実物は測っていない（机は 幅800×奥行480×高さ720mm と仮に置いた）。キーボードは練習の小さい物の使い回しで、実物より短い。コード類は作っていない。
+  </div>
+
+  <figure class="wide">
+    <img src="20261122-solidcraft/angles4.jpg" alt="模型を4つの角度から見た絵。正面、左ななめ前、真上、右ななめ上" loading="lazy">
+    <figcaption>「角度を変えて4種類」と頼んだ結果。左上＝正面、右上＝左ななめ前、左下＝真上、右下＝右ななめ上。</figcaption>
+  </figure>
+</section>
+
+<!-- ===================== 4枚目 ===================== -->
+<section class="sheet" id="s4">
+  <div class="pageno">4 / 4　映像にする・学んだこと</div>
+  <h2>Blender でやわらかい映像に。そして学んだこと</h2>
+
+  <h3><span class="no">6</span>映像にする流れ</h3>
+  <p>設計図ソフトから模型を書き出す（glb という形）→ Blender を台本（Python）で動かす → 288コマを描く → 1本の映像（mp4）にまとめる。部品の名前も大きさも、そのまま Blender に入った。</p>
+  <figure class="wide">
+    <img src="20261122-solidcraft/blender8.jpg" alt="カメラが部屋のまわりを一周する8コマ" loading="lazy">
+    <figcaption>一周の8コマ。カメラが壁の裏へ回る時は、その壁が床まで沈んで中が見える。裏からはモニターの背中が見える。</figcaption>
+  </figure>
+
+  <div class="split">
+    <div>
+      <p><b>やわらかく見せた工夫</b></p>
+      <ul>
+        <li>角を少し丸める（光がふわっと乗る）</li>
+        <li>大きな面の光を3つ置いて、影をぼかす</li>
+        <li>真っ黒を、やわらかい炭色にする</li>
+        <li>画面はほんのり光らせる</li>
+        <li>邪魔になる壁だけ、すーっと沈める</li>
+      </ul>
+    </div>
+    <div class="stats">
+      <div class="stat"><b class="num">118</b><span>部品の数</span></div>
+      <div class="stat"><b class="num">288</b><span>描いたコマ</span></div>
+      <div class="stat"><b class="num">5分3秒</b><span>描く時間</span></div>
+      <div class="stat"><b class="num">12秒</b><span>映像の長さ</span></div>
+    </div>
+  </div>
+
+  <h3>うまく行ったやり方・つまずいた所</h3>
+  <div class="split">
+    <ul>
+      <li>箱・円柱・円すいの<b>足し引き</b>がいちばん速くて失敗しない。机も椅子もこれだけ。</li>
+      <li>同じ形は<b>1個作って並べる</b>（キー、椅子の脚）。</li>
+      <li>作った部品は<b>使い回す</b>。次の作品が速くなる。</li>
+      <li>毎回、<b>計算と測った値を比べる</b>。</li>
+    </ul>
+    <ul>
+      <li>まとめて頼むと「全部できるか、全部やめるか」。最後の色の書き方1つで15工程が巻き戻った。</li>
+      <li>丸めの失敗は1回（プラグの持ち手の端）。範囲をせまくしたら通った。</li>
+      <li>曲面の丸めは重い（マウスは1工程15秒ほど）。</li>
+      <li>映像の最初の試しは、光が強すぎて白く飛んだ。</li>
+    </ul>
+  </div>
+
+  <h3>2つのソフトの違い</h3>
+  <div class="tablewrap">
+  <table>
+    <tr><th></th><th>SolidCraft（設計図）</th><th>Blender（映像）</th></tr>
+    <tr><th>たとえると</th><td>定規と設計図</td><td>粘土と絵の具</td></tr>
+    <tr><th>形の作り方</th><td>寸法の数字で決める</td><td>網目を手で動かす</td></tr>
+    <tr><th>得意</th><td>部品・金具・ケース・3Dプリント</td><td>キャラクター・絵・動画</td></tr>
+    <tr><th>直し方</th><td>数字を変えると後ろも作り直される</td><td>形を直接いじる</td></tr>
+  </table>
+  </div>
+
+  <h3>実際に頼んだ言葉（そのまま）</h3>
+  <ul class="said">
+    <li>「30分ほど勉強のためにどんどん使ってみて。題材を決めて作成を繰り返して。マウス、キーボード、ディスプレイ、ディスプレイポートとかHDMIとか」</li>
+    <li>「うちのパソコンがこんな感じなんだけど、今使ったものを使って、プラスして、この写真に近い形を作り上げてもらってもいい？」（写真を1枚）</li>
+    <li>「今作ったやつを元に、今度はブレンダーを使って柔らかい感じの映像にして、そこの中をぐるっと回るようなのを作ってください」</li>
+  </ul>
+</section>
+
+<footer>2026年11月22日 作成　／　頼んだ人と、AI（Claude）の共同作業の記録です</footer>
+</main>
+</body>
+</html>
