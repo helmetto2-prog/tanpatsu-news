@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-23 00:48",
-  "latest": 44,
+  "updated": "2026-11-24 00:48",
+  "latest": 45,
   "years": [
     {
       "y": 1,
@@ -532,8 +532,8 @@
       "img": "../img/y0041.jpg",
       "koe": "../koe/y0041.mp3",
       "anime": "../annai/jinrui_y0041_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0041.jpg"
     },
     {
       "y": 42,
@@ -571,6 +571,19 @@
       "img": "../img/y0044.jpg",
       "koe": "../koe/y0044.mp3",
       "anime": "../annai/jinrui_y0044_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 45,
+      "title": "45年目　ナエウタの年",
+      "name": "ナエウタの年",
+      "headline": "父ヨシの歌でヤナと話せた年。オオウルはトリダマリで大漁",
+      "date": "",
+      "page": "../nen/45/",
+      "img": "../img/y0045.jpg",
+      "koe": "../koe/y0045.mp3",
+      "anime": "../annai/jinrui_y0045_720p.mp4",
       "animeReady": false,
       "poster": null
     }
