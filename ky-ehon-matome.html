@@ -38,6 +38,29 @@
   .read{ margin-top:9px; font-size:12.5px; color:var(--accent); font-weight:bold; text-align:right; }
   .sec{ max-width:640px; margin:26px auto 0; font-size:11.5px; color:var(--sub);
         border-top:1px dashed var(--line); padding-top:14px; line-height:1.9; }
+  #kybox{ max-width:640px; margin:14px auto 0; background:var(--card); border:1px solid var(--line);
+          border-radius:14px; padding:12px 14px 12px; box-shadow:0 2px 8px rgba(60,70,50,.06); }
+  .kyh{ font-size:12px; font-weight:bold; color:var(--accent); margin:2px 0 7px; }
+  .kyrow{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:11px; }
+  .kyrow button{ font:inherit; font-size:14px; font-weight:bold; color:var(--ink); background:#fff;
+          border:1.5px solid var(--line); border-radius:999px; padding:8px 13px; min-height:40px; cursor:pointer; }
+  .kyrow button small{ font-size:10.5px; font-weight:normal; color:var(--sub); margin-left:5px; }
+  .kyrow button.on{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  .kyrow button.on small{ color:#e4f2e6; }
+  .kyq{ display:flex; gap:8px; }
+  #kyq{ flex:1; min-width:0; font:inherit; font-size:16px; padding:9px 12px; border:1.5px solid var(--line);
+        border-radius:10px; background:#fff; color:var(--ink); }
+  #kyclr{ font:inherit; font-size:13px; font-weight:bold; color:var(--accent2); background:#fff;
+          border:1.5px solid var(--accent2); border-radius:10px; padding:0 12px; cursor:pointer; visibility:hidden; }
+  #kymsg{ font-size:12px; color:var(--sub); margin-top:8px; min-height:1em; }
+  #kyhits{ max-width:640px; margin:14px auto 0; display:flex; flex-direction:column; gap:9px; }
+  a.hit{ display:block; background:var(--card); border:1px solid var(--line); border-left:5px solid var(--accent);
+         border-radius:12px; padding:11px 14px; text-decoration:none; color:inherit; }
+  .ht{ font-size:15px; font-weight:bold; line-height:1.6; }
+  .hm{ margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; font-size:11px; }
+  .hn{ color:var(--accent); font-weight:bold; margin-right:2px; }
+  .hg{ color:var(--sub); background:#f1ebda; border-radius:999px; padding:1px 8px; }
+  .hnone{ font-size:13px; color:var(--sub); text-align:center; padding:18px 8px; }
   footer{ text-align:center; margin-top:26px; font-size:10.5px; color:#a8a08c; line-height:1.9; }
 </style>
 </head>
@@ -52,6 +75,9 @@
   </div>
   <div class="stat"><span>全 90 冊</span><span>最終更新 2026-11-23</span></div>
 </header>
+
+<!-- 作業の分類と検索（中身は ky-bunrui.js が作る。話の仕分けもそこ） -->
+<div id="kybox"></div>
 
 <div id="list">
 <!-- ▼ 新しい巻はこの行の直後に追加（新しいものが上）。NEW は「先週の月曜6:40〜今週の月曜6:40」に出た巻だけに付ける（各巻ちょうど1週間だけNEW） ▼ -->
@@ -619,5 +645,6 @@
 </div>
 
 <footer>みどり造園（愛知県豊田市）／みどりくんの きけんよち えほん<br>あしたも、ご安全に！</footer>
+<script src="ky-bunrui.js?v=20261123"></script>
 </body>
 </html>
