@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-24 00:48",
-  "latest": 45,
+  "updated": "2026-11-25 00:49",
+  "latest": 46,
   "years": [
     {
       "y": 1,
@@ -545,8 +545,8 @@
       "img": "../img/y0042.jpg",
       "koe": "../koe/y0042.mp3",
       "anime": "../annai/jinrui_y0042_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0042.jpg"
     },
     {
       "y": 43,
@@ -584,6 +584,19 @@
       "img": "../img/y0045.jpg",
       "koe": "../koe/y0045.mp3",
       "anime": "../annai/jinrui_y0045_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 46,
+      "title": "46年目　トオミイワの年",
+      "name": "トオミイワの年",
+      "headline": "ミルが川上のけむりを見た年。長老ホムラが眠り、コナが長老に",
+      "date": "",
+      "page": "../nen/46/",
+      "img": "../img/y0046.jpg",
+      "koe": "../koe/y0046.mp3",
+      "anime": "../annai/jinrui_y0046_720p.mp4",
       "animeReady": false,
       "poster": null
     }
