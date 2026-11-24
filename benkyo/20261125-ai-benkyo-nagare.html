@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIに「勉強して」と頼む流れ</title>
+<style>
+  @page { size: A4; margin: 10mm; }
+  :root { --ink:#1f2a24; --sub:#56635b; --green:#2f6b4a; --deep:#1d4a33; --pale:#eef5ef; --line:#cfdcd2; --accent:#c9772b; --paper:#fffdf8; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; background:#e9ede8; color:var(--ink); font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif; font-size:13.5px; line-height:1.6; }
+  .sheet { max-width:190mm; margin:12px auto; background:var(--paper); padding:16px 18px 14px; border-radius:6px; }
+  header { border-bottom:3px solid var(--green); padding-bottom:8px; margin-bottom:10px; }
+  .kicker { font-size:11.5px; color:var(--green); font-weight:700; letter-spacing:.08em; }
+  h1 { font-size:22px; line-height:1.3; margin:2px 0 4px; color:var(--deep); text-wrap:balance; }
+  .lead { margin:0; color:var(--sub); font-size:13px; }
+  h2 { font-size:14.5px; margin:12px 0 6px; color:var(--deep); display:flex; align-items:center; gap:6px; }
+  h2::before { content:""; width:5px; height:15px; background:var(--accent); border-radius:2px; flex:none; }
+  .ba { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .ba div { border:1px solid var(--line); border-radius:6px; padding:7px 10px; background:#fff; }
+  .ba .now { border-color:var(--green); background:var(--pale); }
+  .ba b { display:block; font-size:12px; color:var(--sub); margin-bottom:2px; }
+  .ba .now b { color:var(--green); }
+  .ba p { margin:0; font-size:12.8px; }
+  ol.steps { list-style:none; margin:0; padding:0; display:grid; gap:5px; counter-reset:s; }
+  ol.steps li { counter-increment:s; display:grid; grid-template-columns:30px 1fr; gap:9px; align-items:start; border:1px solid var(--line); border-radius:6px; padding:6px 10px; background:#fff; }
+  ol.steps li::before { content:counter(s); width:28px; height:28px; border-radius:50%; background:var(--green); color:#fff; font-weight:700; display:grid; place-items:center; font-size:14px; }
+  ol.steps .who { font-size:11.5px; color:var(--accent); font-weight:700; }
+  ol.steps .what { font-weight:700; font-size:13.8px; }
+  ol.steps p { margin:0; font-size:12.5px; color:var(--sub); }
+  .two { display:grid; grid-template-columns:1.05fr .95fr; gap:10px; }
+  .box { border:1px solid var(--line); border-radius:6px; padding:7px 10px; background:#fff; }
+  .box ul { margin:0; padding-left:1.1em; }
+  .box li { margin:1px 0; font-size:12.6px; }
+  .ex { background:var(--pale); border-color:var(--green); }
+  .ex p { margin:0 0 3px; font-size:12.6px; }
+  .ask { margin-top:10px; border:2px solid var(--accent); border-radius:6px; padding:7px 12px; background:#fff8ef; font-size:13px; }
+  .ask b { color:var(--accent); }
+  footer { margin-top:8px; font-size:11px; color:var(--sub); text-align:right; }
+  @media (max-width:560px) { .ba, .two { grid-template-columns:1fr; } h1 { font-size:19px; } .sheet { margin:0; border-radius:0; padding:14px 16px; } }
+  @media print { body { background:#fff; font-size:12.5px; } .sheet { margin:0; max-width:none; padding:0; border-radius:0; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header>
+    <div class="kicker">勉強会メモ　2026年11月25日</div>
+    <h1>AIに「これを勉強して」と頼む流れ</h1>
+    <p class="lead">YouTube で学ぶやり方を、「見つけた動画を試してもらう」から「動画さがしから練習まで任せる」に変えました。今朝つくった流れを1枚にまとめます。</p>
+  </header>
+
+  <h2>何が変わったか</h2>
+  <div class="ba">
+    <div><b>今まで</b><p>私が YouTube を見る → 学びがあったら AI に「これ、できる？」と頼む → できるか確かめて始める。<br>動画を見つけるのは私でした。</p></div>
+    <div class="now"><b>これから</b><p>私は「○○について勉強して」と言うだけ。動画さがし・分析・練習の題決め・練習まで、AI が順番に進めます。</p></div>
+  </div>
+
+  <h2>流れ（5つの段）</h2>
+  <ol class="steps">
+    <li><div><div class="who">私 → 案内役のAI</div><div class="what">「これについて勉強して」と頼む</div><p>テーマだけ伝えます。例：3D の図面ソフト、Gemini の使い方。</p></div></li>
+    <li><div><div class="who">動画係のAI</div><div class="what">練習になる動画を2〜3本さがす</div><p>選ぶ基準は「新しい・画面で実演している・仕事に使える」。再生数や派手な題名では選びません。</p></div></li>
+    <li><div><div class="who">動画係のAI ＋ ノートブックLM</div><div class="what">動画を入れて分析する</div><p>字幕を読むだけでなく、動画そのものを入れて、何本も比べたり質問を重ねたりします。数字や名前は字幕と照らして確かめます。</p></div></li>
+    <li><div><div class="who">動画係のAI → 練習係のAI</div><div class="what">分析から「今日の練習の題」を決めて渡す</div><p>「この動画のこの手順を、この題でやってみる」という形にして、練習する係に渡します。</p></div></li>
+    <li><div><div class="who">練習係のAI</div><div class="what">実際に手を動かして練習し、記録を書く</div><p>見て終わりにしません。作ってみて、うまくいった事・だめだった事を書き残します。</p></div></li>
+  </ol>
+
+  <div class="two">
+    <div>
+      <h2>今朝の実例</h2>
+      <div class="box ex">
+        <p><b>テーマ：3D の図面ソフト</b></p>
+        <p>動画3本を分析 → 練習の題を決める → 部品を9つ作成。大きさと体積を手計算と比べて、9つとも一致。かかった時間は約38分でした。</p>
+      </div>
+    </div>
+    <div>
+      <h2>うまく回すコツ</h2>
+      <div class="box">
+        <ul>
+          <li>係を分ける（さがす係・練習する係）</li>
+          <li>AI の分析をうのみにしない（元の動画と照らす）</li>
+          <li>見るだけで終わらせず、必ず作ってみる</li>
+          <li>記録を残して、同じ練習をくり返さない</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ask"><b>みんなへ：</b>これは AI だけの話ではありません。「見つける → 分析する → 題を決める → やってみる → 書き残す」は、人が技術を覚える時も同じ順番です。仕事で「これ覚えたい」と思った事があれば、テーマだけ教えてください。</div>
+
+  <footer>みどり造園　勉強会</footer>
+</div>
+</body>
+</html>
