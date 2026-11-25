@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-25 00:49",
-  "latest": 46,
+  "updated": "2026-11-26 00:49",
+  "latest": 47,
   "years": [
     {
       "y": 1,
@@ -558,8 +558,8 @@
       "img": "../img/y0043.jpg",
       "koe": "../koe/y0043.mp3",
       "anime": "../annai/jinrui_y0043_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0043.jpg"
     },
     {
       "y": 44,
@@ -597,6 +597,19 @@
       "img": "../img/y0046.jpg",
       "koe": "../koe/y0046.mp3",
       "anime": "../annai/jinrui_y0046_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 47,
+      "title": "47年目　ナリナワの年",
+      "name": "ナリナワの年",
+      "headline": "ソヨとコイシが連れ合いに。ナリナワで森を守り、イソが眠った",
+      "date": "",
+      "page": "../nen/47/",
+      "img": "../img/y0047.jpg",
+      "koe": "../koe/y0047.mp3",
+      "anime": "../annai/jinrui_y0047_720p.mp4",
       "animeReady": false,
       "poster": null
     }
