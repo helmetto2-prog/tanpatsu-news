@@ -142,7 +142,10 @@ $("hari").addEventListener("click", async () => {
   catch (e) { $("adoresu").focus(); }
 });
 $("kimeru1").addEventListener("click", () => {
-  const u = $("adoresu").value.trim();
+  // 2026-11-26 置き方つきの文や入口つきのアドレス（…/home/#https://script…）を丸ごと貼っても、中のアドレスを拾う
+  let u = $("adoresu").value.trim();
+  const hiroi = u.match(/https:\/\/script\.google\.com\/(a\/[^\/\s]+\/)?macros\/s\/[A-Za-z0-9_-]+\/(exec|dev)(\?[^#\s]*)?/);
+  if (hiroi) u = hiroi[0];
   if (!OK_URL.test(u)) {
     $("ayamari").textContent = "script.google.com/macros/s/…/exec の形のアドレスを貼ってください。";
     $("ayamari").classList.remove("hidden");
