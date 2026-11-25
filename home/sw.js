@@ -1,6 +1,6 @@
 // みどりのホームの入口（みんな用）：入口のページだけを手元に写す（アプリ本体＝script.google.com は写さない）
-const CACHE = "home-v01";
-const FILES = ["./", "./index.html", "./manifest.webmanifest", "../icons/midori-senmu-192.png", "../icons/midori-senmu-512.png"];
+const CACHE = "home-v02";
+const FILES = ["./", "./index.html", "./manifest.webmanifest", "../icons/midori-home-192.png", "../icons/midori-home-512.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
