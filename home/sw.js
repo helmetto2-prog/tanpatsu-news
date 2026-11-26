@@ -1,5 +1,5 @@
 // みどりのホームの入口（みんな用）：入口のページだけを手元に写す（アプリ本体＝script.google.com は写さない）
-const CACHE = "home-v03";
+const CACHE = "home-v04";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "../icons/midori-home-192.png", "../icons/midori-home-512.png"];
 
 self.addEventListener("install", (e) => {
