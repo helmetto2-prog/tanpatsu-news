@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-26 00:49",
-  "latest": 47,
+  "updated": "2026-11-27 00:53",
+  "latest": 48,
   "years": [
     {
       "y": 1,
@@ -610,6 +610,19 @@
       "img": "../img/y0047.jpg",
       "koe": "../koe/y0047.mp3",
       "anime": "../annai/jinrui_y0047_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 48,
+      "title": "48年目　ヌクシオの年",
+      "name": "ヌクシオの年",
+      "headline": "青い小石はぬるい潮から。クリとミルが父ヨシの村カワネへ",
+      "date": "",
+      "page": "../nen/48/",
+      "img": "../img/y0048.jpg",
+      "koe": "../koe/y0048.mp3",
+      "anime": "../annai/jinrui_y0048_720p.mp4",
       "animeReady": false,
       "poster": null
     }
