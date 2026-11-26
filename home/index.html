@@ -192,14 +192,15 @@ window.addEventListener("message", (ev) => {
   $("app").src = wrapTsuki(d.url);
 });
 
-// アドレスつきの入口（…/home/#https://script.google.com/macros/s/…/exec?me=…）で開いた時は、そのアドレスを覚えて # から後ろを消す
+// アドレスつきの入口（…/home/#https://script.google.com/macros/s/…/exec?me=…）で開いた時は、そのアドレスを覚える（# から後ろは消さない＝2026-11-26）
 //   ＝貼る手間なしで始められる。# から後ろはサーバーへ送られない（このスマホの中だけ）
 (function(){
   let hs = location.hash.slice(1);
   try { hs = decodeURIComponent(hs); } catch (e) {}
   if (!OK_URL.test(hs)) return;
   st.url = hs; kaku(st);
-  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  // 2026-11-26 # から後ろを消すのをやめた：LINE WORKS などの中で開いてから「ブラウザで開く」で Chrome へ移る時、
+  //   消してあるとアドレスが付いて行かず、Chrome の側で「アドレスを貼る」が出ていた（# から後ろはサーバーへは送られない）
 })();
 obiWo(st.obi);
 // アドレスに ?settei=1 か #settei が付いていたら、はじめから設定の板を出す（2026-11-08 へるめっとの頼み）
