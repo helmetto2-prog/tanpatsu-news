@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>11月26日の成果</title>
+<style>
+  :root{ --bg:#f3f6ee; --card:#ffffff; --ink:#1f2d22; --sub:#5b6b5e; --line:#d9e2d2; --acc:#2f7d4a; --acc2:#e6f2e4; --warn:#8a5a12; --warnbg:#fff5df; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:'Hiragino Sans','Yu Gothic UI','Segoe UI',sans-serif; line-height:1.7; }
+  main{ max-width:760px; margin:0 auto; padding:20px 16px 56px; }
+  h1{ font-size:24px; margin:8px 0 2px; }
+  .lead{ color:var(--sub); font-size:14px; margin:0 0 18px; }
+  h2{ font-size:18px; margin:30px 0 10px; padding-left:10px; border-left:5px solid var(--acc); }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin:10px 0; }
+  .card h3{ margin:0 0 4px; font-size:17px; }
+  .card p{ margin:4px 0; font-size:14.5px; }
+  .tag{ display:inline-block; font-size:12px; color:var(--acc); background:var(--acc2); border-radius:999px; padding:1px 10px; margin-bottom:4px; }
+  .row{ display:flex; gap:12px; align-items:flex-start; }
+  .row img{ width:96px; border-radius:8px; border:1px solid var(--line); flex:none; }
+  a.btn{ display:block; text-align:center; background:var(--acc); color:#fff; text-decoration:none; font-weight:bold; border-radius:10px; padding:12px; margin-top:10px; font-size:16px; }
+  img.wide{ width:100%; border-radius:10px; border:1px solid var(--line); display:block; margin:8px 0; }
+  .scroll{ overflow-x:auto; border-radius:10px; border:1px solid var(--line); margin:8px 0; }
+  .scroll img{ display:block; height:220px; }
+  audio{ width:100%; margin:2px 0 10px; }
+  .song{ font-size:14.5px; font-weight:bold; margin-top:8px; }
+  .note{ background:var(--warnbg); color:var(--warn); border-radius:10px; padding:10px 12px; font-size:13.5px; margin:10px 0; }
+  small{ color:var(--sub); }
+  ul{ margin:6px 0; padding-left:20px; font-size:14.5px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>11月26日の成果</h1>
+  <p class="lead">YouTube の動画を AI が分析し、その内容で練習して作った物です。ゲームは、そのままタップで遊べます。</p>
+
+  <h2>1. ゲーム3本（動画で見た仕組みを借りて作った別のゲーム）</h2>
+  <div class="card"><div class="row"><img src="img/g1.jpg" alt="庭の日かげ番の画面">
+    <div><span class="tag">ターン制パズル・全5面</span><h3>庭の日かげ番</h3>
+    <p>蛇口で水をくんで、しおれた花に届けます。日なたは続けて2歩まで。木の影は太陽といっしょに動きます。</p></div></div>
+    <a class="btn" href="higage.html">庭の日かげ番で遊ぶ</a></div>
+  <div class="card"><div class="row"><img src="img/g2.jpg" alt="造園会社タイクーンの画面">
+    <div><span class="tag">経営・全24か月</span><h3>造園会社タイクーン</h3>
+    <p>毎月の依頼から受ける物を選び、かせいだお金で人と道具に投資します。受けすぎると品質が落ちます。</p></div></div>
+    <a class="btn" href="tycoon.html">造園会社タイクーンで遊ぶ</a></div>
+  <div class="card"><div class="row"><img src="img/g3.jpg" alt="庭師の横スクロールの画面">
+    <div><span class="tag">2Dアクション・3面＋面を作る道具</span><h3>庭師の横スクロール</h3>
+    <p>走る・2段ジャンプ・ダッシュで、伸びすぎた枝と落ち葉を払って門まで。自分で面も作れます。</p></div></div>
+    <a class="btn" href="niwashi.html">庭師の横スクロールで遊ぶ</a></div>
+  <div class="note">金額・暑さなどの数字は、すべてゲーム用の作り物です。実際の仕事の相場や決まりとは関係ありません。音が出ます（曲は下の「3.」の物）。</div>
+
+  <h2>2. Gemini で 3D</h2>
+  <div class="card"><span class="tag">Blender 用の Python を Gemini に書かせる</span><h3>春日灯籠（3回の直し）</h3>
+    <p>左から 1回目・2回目・3回目。いちばん右は、先に作った「完成予想の絵」です。予想の絵と見比べて直させると、笠の反り・火袋の窓と格子・基礎の段が付きました。</p>
+    <div class="scroll"><img src="img/tourou.jpg" alt="灯籠の1回目から3回目と完成予想の絵"></div>
+    <small>横に動かして見られます。</small></div>
+  <div class="card"><span class="tag">平面図の文から、歩ける 3D</span><h3>枯山水と露地の庭（20m×20m）</h3>
+    <img class="wide" src="img/teien3d.jpg" alt="歩ける3Dの庭の画面">
+    <p>平面図を文で書いて頼むと、置き場所は数字どおりになりました。</p>
+    <a class="btn" href="teien3d.html">3D の庭を開く</a>
+    <small>歩く操作はキーボード（W A S D・矢印）向けです。スマホでは見るだけになる事があります。</small></div>
+
+  <h2>3. Gemini で音楽（歌なしの6曲）</h2>
+  <div class="card">
+    <p>頼み方を変えて作った曲です。聞き比べてみてください。</p>
+    <div class="song">Petals on the Basin <small>（和風パズルのBGM・「ループして」と書いた版）</small></div><audio controls preload="none" src="bgm/01_Petals_on_the_Basin.mp3"></audio>
+    <div class="song">Moss and Bamboo <small>（同じ頼み方で「ループ」と書かない版）</small></div><audio controls preload="none" src="bgm/02_Moss_and_Bamboo.mp3"></audio>
+    <div class="song">Koi Pond Solitude <small>（同じ内容を英文で頼んだ版）</small></div><audio controls preload="none" src="bgm/09_Koi_Pond_Solitude.mp3"></audio>
+    <div class="song">Steps on the Garden Path <small>（絵本のBGM・楽器だけ指定）</small></div><audio controls preload="none" src="bgm/03_Steps_on_the_Garden_Path.mp3"></audio>
+    <div class="song">The Little Red Gate <small>（15秒ごとに 穏やか→不安→緊張→ほっと、と指定）</small></div><audio controls preload="none" src="bgm/04_The_Little_Red_Gate.mp3"></audio>
+    <div class="song">Tiptoeing Through Tall Grass <small>（絵を1枚わたして「この絵に合う曲」）</small></div><audio controls preload="none" src="bgm/10_Tiptoeing_Through_Tall_Grass.mp3"></audio>
+  </div>
+
+  <h2>4. SolidCraft（3D CAD）の練習</h2>
+  <div class="card"><span class="tag">スイープ・ロフト・ねじ・組み立て</span><h3>約38分で21個</h3>
+    <img class="wide" src="img/solidcraft.png" alt="SolidCraft の練習18から38の一覧">
+    <p>ホースガイド金具、散水ニップル、門扉のちょうつがい、植木鉢、じょうろの注ぎ口、門扉一式、落とし棒の図面 など。ちょうつがいが当たる角度は、手計算と一致しました。</p></div>
+
+  <h2>5. Muse（Meta の AI）の検証</h2>
+  <div class="card">
+    <ul>
+      <li>作った物：資材の底値メモ／道具・機械の週の点検表／毎朝6時の天気のお知らせ</li>
+      <li>「予約はしないで」と頼むと、候補を比べた所で止まって聞いてくれた（動画のとおり）</li>
+      <li>4つ頼んで、使える量は 0%→4% 減った</li>
+    </ul>
+    <small>画面はアカウントの中身が写るため、このページには載せていません。</small></div>
+
+  <p class="lead" style="margin-top:28px">作り方の流れ：<a href="../20261125-ai-benkyo-nagare.html">AIに「これを勉強して」と頼む流れ</a></p>
+</main>
+</body>
+</html>

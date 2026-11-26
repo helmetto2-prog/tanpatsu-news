@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歩ける 3D 日本庭園 - Japanese Garden Walker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #1a241b;
+            font-family: 'Inter', 'Noto Serif JP', sans-serif;
+            user-select: none;
+        }
+
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .jp-font {
+            font-family: 'Noto Serif JP', serif;
+        }
+
+        /* ミニマップの枠組み */
+        #minimap-wrapper {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 190px;
+            height: 190px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45), 0 0 0 2px rgba(255, 255, 255, 0.2);
+            background: rgba(20, 28, 22, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 20;
+        }
+
+        #minimap {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 操作ガイド・HUD */
+        .hud-panel {
+            background: rgba(18, 26, 20, 0.72);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        /* モバイル用バーチャルパッド */
+        @media (pointer: fine) {
+            #mobile-controls {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <!-- 3D描画領域 -->
+        <div id="three-mount" class="w-full h-full"></div>
+
+        <!-- 右上ミニマップ -->
+        <div id="minimap-wrapper">
+            <canvas id="minimap" width="380" height="380"></canvas>
+            <div class="absolute bottom-1.5 left-2.5 text-[10px] text-stone-300/90 pointer-events-none tracking-wider">
+                平面図 (北↑)
+            </div>
+        </div>
+
+        <!-- 左上タイトル＆座標インジケーター -->
+        <div class="absolute top-4 left-4 hud-panel text-stone-100 px-4 py-3 rounded-2xl shadow-xl z-20 pointer-events-none max-w-[260px]">
+            <h1 class="jp-font text-base sm:text-lg font-semibold tracking-widest text-emerald-200">枯山水と露地の庭</h1>
+            <p class="text-xs text-stone-300 mt-0.5">20m × 20m 庭園散策</p>
+            <div class="mt-2 pt-2 border-t border-white/10 flex items-center justify-between text-xs font-mono text-stone-300">
+                <span id="coord-display">X: 0.0m, Z: 9.0m</span>
+                <span id="dir-display" class="text-emerald-300 font-sans">北向き</span>
+            </div>
+        </div>
+
+        <!-- 画面中央の照準（ポインターロック時） -->
+        <div id="crosshair" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/60 pointer-events-none z-10"></div>
+
+        <!-- 操作説明オーバーレイ（初期表示・クリックで開始） -->
+        <div id="start-overlay" class="fixed inset-0 bg-black/55 backdrop-blur-sm flex items-center justify-center z-30 p-4 transition-opacity duration-300">
+            <div class="hud-panel text-stone-100 p-6 sm:p-8 rounded-3xl max-w-md w-full text-center shadow-2xl">
+                <div class="inline-block px-3 py-1 rounded-full bg-emerald-900/60 border border-emerald-500/30 text-emerald-300 text-xs mb-3">
+                    3D 庭園ウォークスルー
+                </div>
+                <h2 class="jp-font text-2xl font-semibold mb-2 text-white">日本庭園を散策する</h2>
+                <p class="text-sm text-stone-300 mb-6 leading-relaxed">
+                    南の入口から飛び石伝いに、池や松、つくばい、石灯籠を巡ることができます。
+                </p>
+
+                <div class="grid grid-cols-2 gap-3 text-left text-xs bg-black/30 p-4 rounded-2xl mb-6 border border-white/10">
+                    <div>
+                        <span class="text-emerald-300 font-semibold block mb-1">移動操作</span>
+                        <p class="text-stone-300"><kbd class="px-1.5 py-0.5 bg-white/15 rounded">W</kbd><kbd class="px-1.5 py-0.5 bg-white/15 rounded ml-0.5">A</kbd><kbd class="px-1.5 py-0.5 bg-white/15 rounded ml-0.5">S</kbd><kbd class="px-1.5 py-0.5 bg-white/15 rounded ml-0.5">D</kbd> / 矢印キー</p>
+                    </div>
+                    <div>
+                        <span class="text-emerald-300 font-semibold block mb-1">視点操作</span>
+                        <p class="text-stone-300">マウス移動（またはドラッグ）</p>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-medium shadow-lg shadow-emerald-950/50 transition transform active:scale-95 cursor-pointer">
+                    散策を始める
+                </button>
+            </div>
+        </div>
+
+        <!-- 下部操作ヒント＆リセットボタン -->
+        <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between pointer-events-none z-20">
+            <div class="hud-panel text-stone-200 text-xs px-3.5 py-2 rounded-xl hidden sm:block">
+                <span class="text-emerald-300 font-medium">操作:</span> WASDで歩行 / マウスで見回す（ESCでカーソル解除・ドラッグでも視点移動可）
+            </div>
+
+            <button id="reset-btn" class="pointer-events-auto hud-panel hover:bg-white/15 text-stone-100 text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg cursor-pointer ml-auto">
+                <svg class="w-3.5 h-3.5 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                </svg>
+                入口へ戻る
+            </button>
+        </div>
+
+        <!-- タッチデバイス用簡易移動ボタン -->
+        <div id="mobile-controls" class="fixed bottom-16 left-4 z-20 grid grid-cols-3 gap-1.5 w-32 h-32 opacity-80">
+            <div></div>
+            <button data-key="KeyW" class="touch-btn hud-panel rounded-xl flex items-center justify-center text-white active:bg-emerald-600/60">▲</button>
+            <div></div>
+            <button data-key="KeyA" class="touch-btn hud-panel rounded-xl flex items-center justify-center text-white active:bg-emerald-600/60">◀</button>
+            <button data-key="KeyS" class="touch-btn hud-panel rounded-xl flex items-center justify-center text-white active:bg-emerald-600/60">▼</button>
+            <button data-key="KeyD" class="touch-btn hud-panel rounded-xl flex items-center justify-center text-white active:bg-emerald-600/60">▶</button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. プロシージャルテクスチャ生成（外部画像不使用）
+        // ==========================================
+        function createProceduralTextures() {
+            // 1) 苔（モス）テクスチャ
+            const mossCanvas = document.createElement('canvas');
+            mossCanvas.width = 512;
+            mossCanvas.height = 512;
+            const mCtx = mossCanvas.getContext('2d');
+            mCtx.fillStyle = '#3b5c2a';
+            mCtx.fillRect(0, 0, 512, 512);
+
+            for (let i = 0; i < 18000; i++) {
+                const x = Math.random() * 512;
+                const y = Math.random() * 512;
+                const r = 1 + Math.random() * 3.5;
+                const shades = ['#2d4a1e', '#466d31', '#537d3a', '#355424', '#608c42'];
+                mCtx.fillStyle = shades[Math.floor(Math.random() * shades.length)];
+                mCtx.beginPath();
+                mCtx.arc(x, y, r, 0, Math.PI * 2);
+                mCtx.fill();
+            }
+            const mossTex = new THREE.CanvasTexture(mossCanvas);
+            mossTex.wrapS = THREE.RepeatWrapping;
+            mossTex.wrapT = THREE.RepeatWrapping;
+            mossTex.repeat.set(12, 12);
+
+            // 2) 砂利（白川砂利風）テクスチャ
+            const gravelCanvas = document.createElement('canvas');
+            gravelCanvas.width = 512;
+            gravelCanvas.height = 512;
+            const gCtx = gravelCanvas.getContext('2d');
+            gCtx.fillStyle = '#b9b8b2';
+            gCtx.fillRect(0, 0, 512, 512);
+
+            for (let i = 0; i < 14000; i++) {
+                const x = Math.random() * 512;
+                const y = Math.random() * 512;
+                const r = 1.2 + Math.random() * 2.8;
+                const colors = ['#d4d3cd', '#9e9d97', '#e5e4df', '#7f7e79', '#c2c0b9'];
+                gCtx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                gCtx.beginPath();
+                gCtx.ellipse(x, y, r, r * 0.75, Math.random() * Math.PI, 0, Math.PI * 2);
+                gCtx.fill();
+            }
+            const gravelTex = new THREE.CanvasTexture(gravelCanvas);
+            gravelTex.wrapS = THREE.RepeatWrapping;
+            gravelTex.wrapT = THREE.RepeatWrapping;
+            gravelTex.repeat.set(6, 6);
+
+            // 3) 御影石・自然石テクスチャ
+            const stoneCanvas = document.createElement('canvas');
+            stoneCanvas.width = 256;
+            stoneCanvas.height = 256;
+            const sCtx = stoneCanvas.getContext('2d');
+            sCtx.fillStyle = '#7c7e7b';
+            sCtx.fillRect(0, 0, 256, 256);
+
+            for (let i = 0; i < 6000; i++) {
+                const x = Math.random() * 256;
+                const y = Math.random() * 256;
+                const s = 1 + Math.random() * 2;
+                const colors = ['#595b58', '#9a9c98', '#6a6c69', '#b0b2ae', '#454744'];
+                sCtx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                sCtx.fillRect(x, y, s, s);
+            }
+            const stoneTex = new THREE.CanvasTexture(stoneCanvas);
+            stoneTex.wrapS = THREE.RepeatWrapping;
+            stoneTex.wrapT = THREE.RepeatWrapping;
+
+            // 4) 竹垣テクスチャ
+            const bambooCanvas = document.createElement('canvas');
+            bambooCanvas.width = 256;
+            bambooCanvas.height = 256;
+            const bCtx = bambooCanvas.getContext('2d');
+            bCtx.fillStyle = '#9b8b4e';
+            bCtx.fillRect(0, 0, 256, 256);
+
+            const cols = 12;
+            const colW = 256 / cols;
+            for (let i = 0; i < cols; i++) {
+                const grad = bCtx.createLinearGradient(i * colW, 0, (i + 1) * colW, 0);
+                grad.addColorStop(0, '#6e6132');
+                grad.addColorStop(0.35, '#b8a762');
+                grad.addColorStop(0.7, '#9e8e4f');
+                grad.addColorStop(1, '#5e5228');
+                bCtx.fillStyle = grad;
+                bCtx.fillRect(i * colW, 0, colW - 1, 256);
+
+                // 竹の節
+                const nodeY = ((i * 73) % 180) + 40;
+                bCtx.fillStyle = '#4e431f';
+                bCtx.fillRect(i * colW, nodeY, colW, 3);
+            }
+            // 横の押さえ竹とシュロ縄
+            [45, 128, 210].forEach(y => {
+                bCtx.fillStyle = '#8a7a3e';
+                bCtx.fillRect(0, y - 5, 256, 10);
+                bCtx.fillStyle = '#241e18';
+                for (let i = 0; i < cols; i += 2) {
+                    bCtx.fillRect(i * colW + 4, y - 7, colW - 8, 14);
+                }
+            });
+            const bambooTex = new THREE.CanvasTexture(bambooCanvas);
+            bambooTex.wrapS = THREE.RepeatWrapping;
+            bambooTex.wrapT = THREE.RepeatWrapping;
+            bambooTex.repeat.set(9, 1);
+
+            return { mossTex, gravelTex, stoneTex, bambooTex };
+        }
+
+        // ==========================================
+        // 2. 平面図データの定義（座標・サイズ）
+        // ==========================================
+        const GARDEN_DATA = {
+            size: 20, // 20m x 20m (-10 to 10)
+            spawn: { x: 0, z: 9, yaw: 0 }, // yaw=0 は北（-Z方向）を向く
+            pond: { x: -4, z: -3, rx: 3.0, rz: 2.0 }, // 横6m×縦4mの楕円 (半径 rx=3, rz=2)
+            steppingStones: [
+                // 南の入口 (0, 9) から北のつくばい手前 (3, -4.1) へ緩やかに曲がって並ぶ8個の飛び石 (直径60cm = 半径0.3m)
+                { x: 0.0,  z: 9.0,  r: 0.3 },
+                { x: -0.35, z: 7.2, r: 0.3 },
+                { x: -0.45, z: 5.4, r: 0.3 },
+                { x: -0.1,  z: 3.6, r: 0.3 },
+                { x: 0.55,  z: 1.8, r: 0.3 },
+                { x: 1.35,  z: 0.0, r: 0.3 },
+                { x: 2.1,   z: -1.7, r: 0.3 },
+                { x: 2.75,  z: -3.2, r: 0.3 }
+            ],
+            tsukubai: {
+                basin: { x: 3, z: -5, r: 0.36 },
+                frontStone: { x: 3, z: -4.15, w: 0.65, d: 0.45 }
+            },
+            lantern: { x: 5, z: -6, height: 2.0 },
+            evergreens: [
+                // 北の境目 z=-9 に常緑樹を6本
+                { x: -7.5, z: -9, scale: 1.05 },
+                { x: -4.5, z: -9, scale: 0.95 },
+                { x: -1.5, z: -9, scale: 1.1 },
+                { x: 1.5,  z: -9, scale: 1.0 },
+                { x: 4.5,  z: -9, scale: 1.08 },
+                { x: 7.5,  z: -9, scale: 0.96 }
+            ],
+            bambooFence: { x: 9, zStart: -9.5, zEnd: 9.5, height: 1.8 },
+            pine: { x: -8, z: -2 }
+        };
+
+        // ==========================================
+        // 3. Three.js シーン構築
+        // ==========================================
+        let scene, camera, renderer, waterMesh;
+        const colliders = []; // 衝突判定用円柱リスト {x, z, r}
+
+        function initScene() {
+            const mount = document.getElementById('three-mount');
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xcde0d4);
+            scene.fog = new THREE.FogExp2(0xcde0d4, 0.018);
+
+            camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.rotation.order = 'YXZ';
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            mount.appendChild(renderer.domElement);
+
+            const textures = createProceduralTextures();
+
+            // ライティング（木漏れ日を感じる柔らかい太陽光）
+            const hemiLight = new THREE.HemisphereLight(0xf4f9f5, 0x3b4d36, 0.72);
+            scene.add(hemiLight);
+
+            const dirLight = new THREE.DirectionalLight(0xfff8e7, 0.95);
+            dirLight.position.set(12, 22, 10);
+            dirLight.castShadow = true;
+            dirLight.shadow.mapSize.width = 2048;
+            dirLight.shadow.mapSize.height = 2048;
+            dirLight.shadow.camera.near = 2;
+            dirLight.shadow.camera.far = 55;
+            const d = 14;
+            dirLight.shadow.camera.left = -d;
+            dirLight.shadow.camera.right = d;
+            dirLight.shadow.camera.top = d;
+            dirLight.shadow.camera.bottom = -d;
+            dirLight.shadow.bias = -0.0005;
+            scene.add(dirLight);
+
+            // ⑦ 地面：苔（20m × 20m）
+            const groundGeo = new THREE.PlaneGeometry(20, 20);
+            const groundMat = new THREE.MeshStandardMaterial({
+                map: textures.mossTex,
+                roughness: 0.92,
+                metalness: 0.02
+            });
+            const ground = new THREE.Mesh(groundGeo, groundMat);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // 庭の外周の低い縁石・生け垣フレーム（境界の視覚化）
+            buildBoundaryMarkers(textures);
+
+            // ① 池と ⑦ 池の周りの砂利
+            buildPondAndGravel(textures);
+
+            // ② 飛び石（8個）
+            buildSteppingStones(textures);
+
+            // ③ つくばい（水鉢と前石）
+            buildTsukubai(textures);
+
+            // ④ 石灯籠（x=5, z=-6, 高さ2m）
+            buildStoneLantern(textures);
+
+            // ⑤ 植え込み（北 z=-9 に常緑樹6本、東 x=9 に竹垣 高さ1.8m）
+            buildEvergreens();
+            buildBambooFence(textures);
+
+            // ⑥ 松（池の西岸 x=-8, z=-2 に1本）
+            buildPineTree();
+
+            // 景観のアクセント：池の畔の景石
+            buildDecorativeRocks(textures);
+        }
+
+        function buildBoundaryMarkers(textures) {
+            // 西側と南側（入口を除く）に低い御影石の縁石を配置して庭の範囲をわかりやすくする
+            const curbMat = new THREE.MeshStandardMaterial({ map: textures.stoneTex, roughness: 0.85 });
+            // 西端 x = -10
+            const westCurb = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.2, 20), curbMat);
+            westCurb.position.set(-10, 0.1, 0);
+            westCurb.receiveShadow = true;
+            scene.add(westCurb);
+
+            // 北端 z = -10
+            const northCurb = new THREE.Mesh(new THREE.BoxGeometry(20, 0.2, 0.25), curbMat);
+            northCurb.position.set(0, 0.1, -10);
+            northCurb.receiveShadow = true;
+            scene.add(northCurb);
+
+            // 南端 z = 10（中央の入口 2.4m を空ける）
+            const southLeft = new THREE.Mesh(new THREE.BoxGeometry(8.8, 0.2, 0.25), curbMat);
+            southLeft.position.set(-5.6, 0.1, 10);
+            southLeft.receiveShadow = true;
+            scene.add(southLeft);
+
+            const southRight = new THREE.Mesh(new THREE.BoxGeometry(8.8, 0.2, 0.25), curbMat);
+            southRight.position.set(5.6, 0.1, 10);
+            southRight.receiveShadow = true;
+            scene.add(southRight);
+        }
+
+        function buildPondAndGravel(textures) {
+            const { x, z, rx, rz } = GARDEN_DATA.pond;
+
+            // 池の周りの砂利（楕円リング状に少し盛り上げて敷く）
+            const gravelShape = new THREE.Shape();
+            const gRx = rx + 0.85;
+            const gRz = rz + 0.85;
+            gravelShape.absellipse(0, 0, gRx, gRz, 0, Math.PI * 2, false, 0);
+
+            const holePath = new THREE.Path();
+            holePath.absellipse(0, 0, rx - 0.15, rz - 0.15, 0, Math.PI * 2, true, 0);
+            gravelShape.holes.push(holePath);
+
+            const gravelGeo = new THREE.ExtrudeGeometry(gravelShape, {
+                depth: 0.03,
+                bevelEnabled: true,
+                bevelSegments: 2,
+                steps: 1,
+                bevelSize: 0.08,
+                bevelThickness: 0.02
+            });
+            const gravelMat = new THREE.MeshStandardMaterial({
+                map: textures.gravelTex,
+                roughness: 0.9
+            });
+            const gravelMesh = new THREE.Mesh(gravelGeo, gravelMat);
+            gravelMesh.rotation.x = Math.PI / 2;
+            gravelMesh.position.set(x, 0.035, z);
+            gravelMesh.receiveShadow = true;
+            scene.add(gravelMesh);
+
+            // 池の底（深い緑〜黒の石底）
+            const bedGeo = new THREE.CylinderGeometry(1, 1, 0.02, 48);
+            bedGeo.scale(rx, 1, rz);
+            const bedMat = new THREE.MeshStandardMaterial({ color: 0x182b24, roughness: 0.9 });
+            const bedMesh = new THREE.Mesh(bedGeo, bedMat);
+            bedMesh.position.set(x, 0.015, z);
+            scene.add(bedMesh);
+
+            // 水面（横6m×縦4mの楕円）
+            const waterGeo = new THREE.CylinderGeometry(1, 1, 0.01, 48);
+            waterGeo.scale(rx, 1, rz);
+            const waterMat = new THREE.MeshStandardMaterial({
+                color: 0x265c59,
+                emissive: 0x0a2422,
+                roughness: 0.12,
+                metalness: 0.65,
+                transparent: true,
+                opacity: 0.86
+            });
+            waterMesh = new THREE.Mesh(waterGeo, waterMat);
+            waterMesh.position.set(x, 0.045, z);
+            waterMesh.receiveShadow = true;
+            scene.add(waterMesh);
+
+            // 池の護岸石（楕円周上に自然石を配置）
+            const stoneMat = new THREE.MeshStandardMaterial({ map: textures.stoneTex, roughness: 0.85 });
+            const stoneCount = 26;
+            for (let i = 0; i < stoneCount; i++) {
+                const angle = (i / stoneCount) * Math.PI * 2;
+                const sx = x + Math.cos(angle) * (rx + 0.05);
+                const sz = z + Math.sin(angle) * (rz + 0.05);
+                const sGeo = new THREE.DodecahedronGeometry(0.24 + (i % 3) * 0.06, 1);
+                sGeo.scale(1.2, 0.65, 1.0);
+                const stone = new THREE.Mesh(sGeo, stoneMat);
+                stone.position.set(sx, 0.08, sz);
+                stone.rotation.y = angle + i;
+                stone.castShadow = true;
+                stone.receiveShadow = true;
+                scene.add(stone);
+            }
+        }
+
+        function buildSteppingStones(textures) {
+            const stoneMat = new THREE.MeshStandardMaterial({
+                map: textures.stoneTex,
+                color: 0xa6a8a4,
+                roughness: 0.82
+            });
+
+            GARDEN_DATA.steppingStones.forEach((st, idx) => {
+                // 直径60cm (半径0.3m) の丸い平石
+                const geo = new THREE.CylinderGeometry(st.r * 0.96, st.r * 1.04, 0.09, 20);
+                const mesh = new THREE.Mesh(geo, stoneMat);
+                mesh.position.set(st.x, 0.045, st.z);
+                mesh.rotation.y = idx * 0.8;
+                mesh.scale.set(1.0, 1.0, 0.94 + (idx % 2) * 0.08);
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                scene.add(mesh);
+            });
+        }
+
+        function buildTsukubai(textures) {
+            const { basin, frontStone } = GARDEN_DATA.tsukubai;
+            const stoneMat = new THREE.MeshStandardMaterial({
+                map: textures.stoneTex,
+                color: 0x888b86,
+                roughness: 0.88
+            });
+
+            // 1) 丸い水鉢（外枠と窪み）
+            const group = new THREE.Group();
+            group.position.set(basin.x, 0, basin.z);
+
+            // 水鉢本体（少し無骨な円筒自然石）
+            const outerGeo = new THREE.CylinderGeometry(0.36, 0.40, 0.48, 18);
+            const outerMesh = new THREE.Mesh(outerGeo, stoneMat);
+            outerMesh.position.y = 0.24;
+            outerMesh.castShadow = true;
+            outerMesh.receiveShadow = true;
+            group.add(outerMesh);
+
+            // 上部の縁リング
+            const rimGeo = new THREE.TorusGeometry(0.28, 0.08, 10, 20);
+            const rimMesh = new THREE.Mesh(rimGeo, stoneMat);
+            rimMesh.rotation.x = Math.PI / 2;
+            rimMesh.position.y = 0.47;
+            rimMesh.castShadow = true;
+            group.add(rimMesh);
+
+            // 水鉢の中の水
+            const innerWaterGeo = new THREE.CircleGeometry(0.26, 20);
+            const innerWaterMat = new THREE.MeshStandardMaterial({
+                color: 0x2c6b66,
+                roughness: 0.1,
+                metalness: 0.5
+            });
+            const innerWater = new THREE.Mesh(innerWaterGeo, innerWaterMat);
+            innerWater.rotation.x = -Math.PI / 2;
+            innerWater.position.y = 0.45;
+            group.add(innerWater);
+
+            // 竹の筧（かけい）と柄杓
+            const bambooMat = new THREE.MeshStandardMaterial({ color: 0x5c7a38, roughness: 0.5 });
+            const post = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.72, 10), bambooMat);
+            post.position.set(0.32, 0.36, -0.25);
+            post.castShadow = true;
+            group.add(post);
+
+            const spout = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.42, 10), bambooMat);
+            spout.position.set(0.18, 0.62, -0.14);
+            spout.rotation.z = Math.PI / 2.2;
+            spout.rotation.y = 0.6;
+            spout.castShadow = true;
+            group.add(spout);
+
+            scene.add(group);
+            colliders.push({ x: basin.x, z: basin.z, r: 0.48 });
+
+            // 2) 手前の前石（まえいし）
+            const frontGeo = new THREE.BoxGeometry(frontStone.w, 0.14, frontStone.d);
+            const frontMesh = new THREE.Mesh(frontGeo, stoneMat);
+            frontMesh.position.set(frontStone.x, 0.07, frontStone.z);
+            frontMesh.rotation.y = 0.08;
+            frontMesh.castShadow = true;
+            frontMesh.receiveShadow = true;
+            scene.add(frontMesh);
+
+            // つくばい周りの小さな海（砂利）
+            const seaGeo = new THREE.CircleGeometry(0.95, 24);
+            const seaMat = new THREE.MeshStandardMaterial({ map: textures.gravelTex, roughness: 0.9 });
+            const seaMesh = new THREE.Mesh(seaGeo, seaMat);
+            seaMesh.rotation.x = -Math.PI / 2;
+            seaMesh.position.set(basin.x, 0.012, basin.z + 0.15);
+            seaMesh.receiveShadow = true;
+            scene.add(seaMesh);
+        }
+
+        function buildStoneLantern(textures) {
+            const { x, z } = GARDEN_DATA.lantern;
+            const lanternGroup = new THREE.Group();
+            lanternGroup.position.set(x, 0, z);
+
+            const stoneMat = new THREE.MeshStandardMaterial({
+                map: textures.stoneTex,
+                color: 0x999b96,
+                roughness: 0.85
+            });
+
+            // 合計高さ = 2.0m になるよう各パーツを積み上げ
+            // 1. 基礎 (0.0 -> 0.25m)
+            const base = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.38, 0.25, 6), stoneMat);
+            base.position.y = 0.125;
+            base.castShadow = true;
+            base.receiveShadow = true;
+            lanternGroup.add(base);
+
+            // 2. 竿 (0.25 -> 1.05m, 高さ0.80m)
+            const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.80, 12), stoneMat);
+            shaft.position.y = 0.65;
+            shaft.castShadow = true;
+            lanternGroup.add(shaft);
+
+            // 3. 中台 (1.05 -> 1.22m, 高さ0.17m)
+            const platform = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.18, 0.17, 6), stoneMat);
+            platform.position.y = 1.135;
+            platform.castShadow = true;
+            lanternGroup.add(platform);
+
+            // 4. 火袋 (1.22 -> 1.55m, 高さ0.33m) 暖色の灯り入り
+            const fireboxFrame = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.21, 0.33, 6), stoneMat);
+            fireboxFrame.position.y = 1.385;
+            fireboxFrame.castShadow = true;
+            lanternGroup.add(fireboxFrame);
+
+            const lightCore = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.16, 0.16, 0.22, 6),
+                new THREE.MeshBasicMaterial({ color: 0xffd27d })
+            );
+            lightCore.position.y = 1.385;
+            lanternGroup.add(lightCore);
+
+            // 5. 笠 (1.55 -> 1.82m, 高さ0.27m)
+            const roof = new THREE.Mesh(new THREE.ConeGeometry(0.46, 0.27, 6), stoneMat);
+            roof.position.y = 1.685;
+            roof.castShadow = true;
+            lanternGroup.add(roof);
+
+            // 6. 宝珠 (1.82 -> 2.00m, 高さ0.18m)
+            const finial = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.18, 10), stoneMat);
+            finial.position.y = 1.91;
+            finial.castShadow = true;
+            lanternGroup.add(finial);
+
+            // ほのかな灯りのポイントライト
+            const warmLight = new THREE.PointLight(0xffb85c, 0.6, 5);
+            warmLight.position.set(0, 1.4, 0);
+            lanternGroup.add(warmLight);
+
+            scene.add(lanternGroup);
+            colliders.push({ x, z, r: 0.45 });
+        }
+
+        function buildEvergreens() {
+            const trunkMat = new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: 0.9 });
+            const leafMat1 = new THREE.MeshStandardMaterial({ color: 0x1e4620, roughness: 0.8 });
+            const leafMat2 = new THREE.MeshStandardMaterial({ color: 0x29592b, roughness: 0.78 });
+
+            GARDEN_DATA.evergreens.forEach((tree, idx) => {
+                const group = new THREE.Group();
+                group.position.set(tree.x, 0, tree.z);
+                group.scale.setScalar(tree.scale);
+
+                // 幹
+                const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.15, 1.2, 8), trunkMat);
+                trunk.position.y = 0.6;
+                trunk.castShadow = true;
+                group.add(trunk);
+
+                // 常緑樹の葉群（刈り込み・自然樹形を複数の球体クラスターで表現）
+                const foliageParts = [
+                    { x: 0, y: 1.4, z: 0, r: 0.72, mat: leafMat1 },
+                    { x: -0.35, y: 1.25, z: 0.2, r: 0.52, mat: leafMat2 },
+                    { x: 0.35, y: 1.3, z: -0.15, r: 0.55, mat: leafMat1 },
+                    { x: 0, y: 2.05, z: 0, r: 0.58, mat: leafMat2 },
+                    { x: 0, y: 2.55, z: 0, r: 0.36, mat: leafMat1 }
+                ];
+
+                foliageParts.forEach(p => {
+                    const mesh = new THREE.Mesh(new THREE.DodecahedronGeometry(p.r, 1), p.mat);
+                    mesh.position.set(p.x, p.y, p.z);
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+                    group.add(mesh);
+                });
+
+                scene.add(group);
+                colliders.push({ x: tree.x, z: tree.z, r: 0.65 });
+            });
+        }
+
+        function buildBambooFence(textures) {
+            const { x, zStart, zEnd, height } = GARDEN_DATA.bambooFence;
+            const length = zEnd - zStart;
+            const fenceMat = new THREE.MeshStandardMaterial({
+                map: textures.bambooTex,
+                roughness: 0.65
+            });
+
+            // 竹垣パネル本体（高さ1.8m）
+            const panelGeo = new THREE.BoxGeometry(0.08, height, length);
+            const panel = new THREE.Mesh(panelGeo, fenceMat);
+            panel.position.set(x, height / 2, (zStart + zEnd) / 2);
+            panel.castShadow = true;
+            panel.receiveShadow = true;
+            scene.add(panel);
+
+            // 笠木（上の丸竹）と親柱
+            const topCapMat = new THREE.MeshStandardMaterial({ color: 0x8f7f42, roughness: 0.55 });
+            const topCap = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, length + 0.1, 12), topCapMat);
+            topCap.rotation.x = Math.PI / 2;
+            topCap.position.set(x, height + 0.02, (zStart + zEnd) / 2);
+            topCap.castShadow = true;
+            scene.add(topCap);
+
+            for (let z = zStart; z <= zEnd + 0.1; z += 1.9) {
+                const post = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, height + 0.08, 10), topCapMat);
+                post.position.set(x, (height + 0.08) / 2, z);
+                post.castShadow = true;
+                scene.add(post);
+            }
+        }
+
+        function buildPineTree() {
+            const { x, z } = GARDEN_DATA.pine;
+            const pineGroup = new THREE.Group();
+            pineGroup.position.set(x, 0, z);
+
+            // 赤松風の幹（曲線を描くようにセグメント結合）
+            const barkMat = new THREE.MeshStandardMaterial({ color: 0x5e3a28, roughness: 0.92 });
+            const curve = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(0.25, 1.0, 0.1),
+                new THREE.Vector3(-0.15, 2.1, -0.05),
+                new THREE.Vector3(0.35, 3.1, 0.15),
+                new THREE.Vector3(0.2, 3.8, 0.05)
+            ]);
+            const trunkGeo = new THREE.TubeGeometry(curve, 16, 0.16, 10, false);
+            const trunk = new THREE.Mesh(trunkGeo, barkMat);
+            trunk.castShadow = true;
+            pineGroup.add(trunk);
+
+            // 枝と段作りの松葉（雲のような平たい楕円クラスター）
+            const needleMat1 = new THREE.MeshStandardMaterial({ color: 0x1b4726, roughness: 0.82 });
+            const needleMat2 = new THREE.MeshStandardMaterial({ color: 0x265c33, roughness: 0.8 });
+
+            const pads = [
+                { bx: 0.9, by: 1.85, bz: 0.3, rx: 0.85, ry: 0.25, rz: 0.75, mat: needleMat1 },
+                { bx: -0.75, by: 2.35, bz: -0.4, rx: 0.8, ry: 0.24, rz: 0.7, mat: needleMat2 },
+                { bx: 0.85, by: 2.85, bz: -0.5, rx: 0.9, ry: 0.26, rz: 0.8, mat: needleMat1 },
+                { bx: -0.45, by: 3.3, bz: 0.65, rx: 0.75, ry: 0.24, rz: 0.7, mat: needleMat2 },
+                { bx: 0.25, by: 3.9, bz: 0.05, rx: 1.05, ry: 0.32, rz: 0.95, mat: needleMat1 }
+            ];
+
+            pads.forEach(p => {
+                // 枝
+                const branchCurve = new THREE.LineCurve3(
+                    new THREE.Vector3(0.1, p.by - 0.3, 0),
+                    new THREE.Vector3(p.bx * 0.75, p.by - 0.05, p.bz * 0.75)
+                );
+                const branch = new THREE.Mesh(new THREE.TubeGeometry(branchCurve, 4, 0.05, 6, false), barkMat);
+                branch.castShadow = true;
+                pineGroup.add(branch);
+
+                // 松葉の段
+                const padGeo = new THREE.SphereGeometry(1, 14, 10);
+                padGeo.scale(p.rx, p.ry, p.rz);
+                const pad = new THREE.Mesh(padGeo, p.mat);
+                pad.position.set(p.bx, p.by, p.bz);
+                pad.castShadow = true;
+                pad.receiveShadow = true;
+                pineGroup.add(pad);
+            });
+
+            scene.add(pineGroup);
+            colliders.push({ x, z, r: 0.55 });
+        }
+
+        function buildDecorativeRocks(textures) {
+            const rockMat = new THREE.MeshStandardMaterial({
+                map: textures.stoneTex,
+                color: 0x6f736e,
+                roughness: 0.88
+            });
+            // 池の北東側と南西側に景石（三尊石組風のアクセント）
+            const rocks = [
+                { x: -1.4, z: -4.8, sx: 0.55, sy: 0.75, sz: 0.45 },
+                { x: -0.85, z: -4.6, sx: 0.38, sy: 0.42, sz: 0.35 },
+                { x: -6.5, z: -0.9, sx: 0.5, sy: 0.48, sz: 0.42 }
+            ];
+            rocks.forEach((rk, i) => {
+                const geo = new THREE.DodecahedronGeometry(1, 1);
+                geo.scale(rk.sx, rk.sy, rk.sz);
+                const mesh = new THREE.Mesh(geo, rockMat);
+                mesh.position.set(rk.x, rk.sy * 0.55, rk.z);
+                mesh.rotation.y = i * 1.1;
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                scene.add(mesh);
+                colliders.push({ x: rk.x, z: rk.z, r: Math.max(rk.sx, rk.sz) * 0.9 });
+            });
+        }
+
+        // ==========================================
+        // 4. プレイヤー移動・カメラ操作・衝突判定
+        // ==========================================
+        const player = {
+            x: GARDEN_DATA.spawn.x,
+            y: 1.6, // 目線の高さ 1.6m
+            z: GARDEN_DATA.spawn.z,
+            yaw: 0,   // 0 rad = -Z方向（北）を向く
+            pitch: -0.05,
+            speed: 3.4, // 秒速3.4m（ゆったり歩行）
+            radius: 0.35
+        };
+
+        const keys = {};
+        let isDragging = false;
+        let prevMouse = { x: 0, y: 0 };
+
+        function resetPlayer() {
+            player.x = GARDEN_DATA.spawn.x;
+            player.z = GARDEN_DATA.spawn.z;
+            player.yaw = 0;
+            player.pitch = -0.05;
+        }
+
+        function checkCollision(nx, nz) {
+            // 1. 庭の外周（20m×20m: -9.5 〜 9.5）及び東の竹垣（x=9）制限
+            if (nx < -9.4 || nx > 8.55 || nz < -8.3 || nz > 9.6) {
+                return true;
+            }
+
+            // 2. 池（中心 x=-4, z=-3, rx=3.0, rz=2.0）の中に落ちないように制限
+            const dxPond = (nx - GARDEN_DATA.pond.x) / (GARDEN_DATA.pond.rx + 0.15);
+            const dzPond = (nz - GARDEN_DATA.pond.z) / (GARDEN_DATA.pond.rz + 0.15);
+            if (dxPond * dxPond + dzPond * dzPond < 1.0) {
+                return true;
+            }
+
+            // 3. 個別オブジェクト（つくばい、石灯籠、松、植え込み、景石）との衝突
+            for (const c of colliders) {
+                const dx = nx - c.x;
+                const dz = nz - c.z;
+                const minDist = player.radius + c.r;
+                if (dx * dx + dz * dz < minDist * minDist) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function setupControls() {
+            const startOverlay = document.getElementById('start-overlay');
+            const startBtn = document.getElementById('start-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const crosshair = document.getElementById('crosshair');
+
+            startBtn.addEventListener('click', () => {
+                startOverlay.classList.add('opacity-0', 'pointer-events-none');
+                // ポインターロックを試行（失敗してもドラッグ操作で動く）
+                try {
+                    renderer.domElement.requestPointerLock();
+                } catch (e) {}
+            });
+
+            resetBtn.addEventListener('click', () => {
+                resetPlayer();
+            });
+
+            document.addEventListener('pointerlockchange', () => {
+                if (document.pointerLockElement === renderer.domElement) {
+                    crosshair.classList.remove('hidden');
+                } else {
+                    crosshair.classList.add('hidden');
+                }
+            });
+
+            // キーボード入力
+            window.addEventListener('keydown', (e) => {
+                keys[e.code] = true;
+            });
+            window.addEventListener('keyup', (e) => {
+                keys[e.code] = false;
+            });
+
+            // マウス見回し（ポインターロック中 & ドラッグ中両対応）
+            document.addEventListener('mousemove', (e) => {
+                const sensitivity = 0.0024;
+                if (document.pointerLockElement === renderer.domElement) {
+                    player.yaw -= e.movementX * sensitivity;
+                    player.pitch -= e.movementY * sensitivity;
+                    player.pitch = Math.max(-Math.PI / 2.4, Math.min(Math.PI / 2.4, player.pitch));
+                } else if (isDragging) {
+                    const dx = e.clientX - prevMouse.x;
+                    const dy = e.clientY - prevMouse.y;
+                    player.yaw -= dx * sensitivity * 1.4;
+                    player.pitch -= dy * sensitivity * 1.4;
+                    player.pitch = Math.max(-Math.PI / 2.4, Math.min(Math.PI / 2.4, player.pitch));
+                    prevMouse = { x: e.clientX, y: e.clientY };
+                }
+            });
+
+            renderer.domElement.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouse = { x: e.clientX, y: e.clientY };
+            });
+            window.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            // タッチでの視点操作
+            let touchStart = null;
+            renderer.domElement.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            }, { passive: true });
+
+            renderer.domElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && touchStart) {
+                    const dx = e.touches[0].clientX - touchStart.x;
+                    const dy = e.touches[0].clientY - touchStart.y;
+                    player.yaw -= dx * 0.004;
+                    player.pitch -= dy * 0.004;
+                    player.pitch = Math.max(-Math.PI / 2.4, Math.min(Math.PI / 2.4, player.pitch));
+                    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            }, { passive: true });
+
+            // モバイル仮想ボタン
+            document.querySelectorAll('.touch-btn').forEach(btn => {
+                const code = btn.dataset.key;
+                btn.addEventListener('touchstart', (e) => { e.preventDefault(); keys[code] = true; });
+                btn.addEventListener('touchend', (e) => { e.preventDefault(); keys[code] = false; });
+            });
+
+            // リサイズ対応
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function updatePlayer(dt) {
+            let forward = 0;
+            let right = 0;
+
+            if (keys['KeyW'] || keys['ArrowUp']) forward += 1;
+            if (keys['KeyS'] || keys['ArrowDown']) forward -= 1;
+            if (keys['KeyD'] || keys['ArrowRight']) right += 1;
+            if (keys['KeyA'] || keys['ArrowLeft']) right -= 1;
+
+            if (forward !== 0 || right !== 0) {
+                const len = Math.hypot(forward, right);
+                forward /= len;
+                right /= len;
+
+                // yaw=0 のとき北(-Z)が正面
+                const sinY = Math.sin(player.yaw);
+                const cosY = Math.cos(player.yaw);
+
+                const vx = (-sinY * forward + cosY * right) * player.speed * dt;
+                const vz = (-cosY * forward - sinY * right) * player.speed * dt;
+
+                // X軸・Z軸個別にスライディング衝突判定
+                if (!checkCollision(player.x + vx, player.z)) {
+                    player.x += vx;
+                }
+                if (!checkCollision(player.x, player.z + vz)) {
+                    player.z += vz;
+                }
+
+                // 歩行時のわずかな上下揺れ
+                const bob = Math.sin(performance.now() * 0.009) * 0.025;
+                camera.position.set(player.x, player.y + bob, player.z);
+            } else {
+                camera.position.set(player.x, player.y, player.z);
+            }
+
+            camera.rotation.y = player.yaw;
+            camera.rotation.x = player.pitch;
+
+            updateHUD();
+        }
+
+        function updateHUD() {
+            const coordEl = document.getElementById('coord-display');
+            const dirEl = document.getElementById('dir-display');
+            coordEl.textContent = `X: ${player.x.toFixed(1)}m, Z: ${player.z.toFixed(1)}m`;
+
+            // 向き計算
+            let deg = ((-player.yaw * 180 / Math.PI) % 360 + 360) % 360;
+            let dirText = '北向き';
+            if (deg >= 337.5 || deg < 22.5) dirText = '北向き';
+            else if (deg < 67.5) dirText = '北東向き';
+            else if (deg < 112.5) dirText = '東向き';
+            else if (deg < 157.5) dirText = '南東向き';
+            else if (deg < 202.5) dirText = '南向き';
+            else if (deg < 247.5) dirText = '南西向き';
+            else if (deg < 292.5) dirText = '西向き';
+            else dirText = '北西向き';
+            dirEl.textContent = dirText;
+        }
+
+        // ==========================================
+        // 5. 右上ミニマップ描画（上から見た平面図＋現在位置点）
+        // ==========================================
+        const minimapCanvas = document.getElementById('minimap');
+        const mmCtx = minimapCanvas.getContext('2d');
+
+        // 庭座標 (-10..10) をミニマップキャンバス (0..380) に変換
+        function toMapX(x) {
+            return ((x + 10) / 20) * 340 + 20;
+        }
+        function toMapY(z) {
+            return ((z + 10) / 20) * 340 + 20;
+        }
+
+        function drawMinimap() {
+            const w = minimapCanvas.width;
+            const h = minimapCanvas.height;
+            mmCtx.clearRect(0, 0, w, h);
+
+            // 背景（苔の庭エリア）
+            mmCtx.fillStyle = '#334d28';
+            mmCtx.fillRect(20, 20, 340, 340);
+
+            // 1mグリッド線（薄い補助線）
+            mmCtx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+            mmCtx.lineWidth = 1;
+            for (let g = -10; g <= 10; g += 2) {
+                mmCtx.beginPath();
+                mmCtx.moveTo(toMapX(g), 20);
+                mmCtx.lineTo(toMapX(g), 360);
+                mmCtx.stroke();
+
+                mmCtx.beginPath();
+                mmCtx.moveTo(20, toMapY(g));
+                mmCtx.lineTo(360, toMapY(g));
+                mmCtx.stroke();
+            }
+
+            // ⑦ 池の周りの砂利
+            mmCtx.fillStyle = '#c4c2ba';
+            mmCtx.beginPath();
+            mmCtx.ellipse(
+                toMapX(GARDEN_DATA.pond.x),
+                toMapY(GARDEN_DATA.pond.z),
+                (GARDEN_DATA.pond.rx + 0.85) * 17,
+                (GARDEN_DATA.pond.rz + 0.85) * 17,
+                0, 0, Math.PI * 2
+            );
+            mmCtx.fill();
+
+            // ① 池（横6m×縦4mの楕円）
+            mmCtx.fillStyle = '#2c7873';
+            mmCtx.beginPath();
+            mmCtx.ellipse(
+                toMapX(GARDEN_DATA.pond.x),
+                toMapY(GARDEN_DATA.pond.z),
+                GARDEN_DATA.pond.rx * 17,
+                GARDEN_DATA.pond.rz * 17,
+                0, 0, Math.PI * 2
+            );
+            mmCtx.fill();
+
+            // ② 飛び石（8個）
+            mmCtx.fillStyle = '#e2e2dc';
+            GARDEN_DATA.steppingStones.forEach(st => {
+                mmCtx.beginPath();
+                mmCtx.arc(toMapX(st.x), toMapY(st.z), st.r * 17, 0, Math.PI * 2);
+                mmCtx.fill();
+            });
+
+            // ③ つくばい（前石と水鉢）
+            const tb = GARDEN_DATA.tsukubai;
+            mmCtx.fillStyle = '#9fa19c';
+            mmCtx.fillRect(
+                toMapX(tb.frontStone.x - tb.frontStone.w / 2),
+                toMapY(tb.frontStone.z - tb.frontStone.d / 2),
+                tb.frontStone.w * 17,
+                tb.frontStone.d * 17
+            );
+            mmCtx.fillStyle = '#787a75';
+            mmCtx.beginPath();
+            mmCtx.arc(toMapX(tb.basin.x), toMapY(tb.basin.z), 7, 0, Math.PI * 2);
+            mmCtx.fill();
+            mmCtx.fillStyle = '#48b5ad';
+            mmCtx.beginPath();
+            mmCtx.arc(toMapX(tb.basin.x), toMapY(tb.basin.z), 4, 0, Math.PI * 2);
+            mmCtx.fill();
+
+            // ④ 石灯籠
+            mmCtx.fillStyle = '#f59e0b';
+            mmCtx.beginPath();
+            mmCtx.arc(toMapX(GARDEN_DATA.lantern.x), toMapY(GARDEN_DATA.lantern.z), 6.5, 0, Math.PI * 2);
+            mmCtx.fill();
+
+            // ⑤ 植え込み（北 z=-9 に常緑樹6本）
+            GARDEN_DATA.evergreens.forEach(ev => {
+                mmCtx.fillStyle = '#1b3d18';
+                mmCtx.beginPath();
+                mmCtx.arc(toMapX(ev.x), toMapY(ev.z), 12 * ev.scale, 0, Math.PI * 2);
+                mmCtx.fill();
+            });
+
+            // ⑤ 竹垣（東 x=9）
+            mmCtx.strokeStyle = '#d4be6a';
+            mmCtx.lineWidth = 4;
+            mmCtx.beginPath();
+            mmCtx.moveTo(toMapX(9), toMapY(-9.5));
+            mmCtx.lineTo(toMapX(9), toMapY(9.5));
+            mmCtx.stroke();
+
+            // ⑥ 松（池の西岸 x=-8, z=-2）
+            mmCtx.fillStyle = '#14532d';
+            mmCtx.beginPath();
+            mmCtx.arc(toMapX(GARDEN_DATA.pine.x), toMapY(GARDEN_DATA.pine.z), 16, 0, Math.PI * 2);
+            mmCtx.fill();
+            mmCtx.strokeStyle = '#4ade80';
+            mmCtx.lineWidth = 1.5;
+            mmCtx.stroke();
+
+            // 庭の外枠と入口表示
+            mmCtx.strokeStyle = 'rgba(255,255,255,0.45)';
+            mmCtx.lineWidth = 2;
+            mmCtx.strokeRect(20, 20, 340, 340);
+
+            // 南の入口マーク
+            mmCtx.fillStyle = '#a7f3d0';
+            mmCtx.font = 'bold 14px sans-serif';
+            mmCtx.textAlign = 'center';
+            mmCtx.fillText('入口', toMapX(0), 374);
+
+            // 現在位置の点と視界コーン
+            const px = toMapX(player.x);
+            const py = toMapY(player.z);
+
+            // 視界の扇形（yaw=0が上方向 -Y）
+            const viewAngle = -player.yaw - Math.PI / 2;
+            mmCtx.fillStyle = 'rgba(255, 90, 90, 0.25)';
+            mmCtx.beginPath();
+            mmCtx.moveTo(px, py);
+            mmCtx.arc(px, py, 32, viewAngle - 0.45, viewAngle + 0.45);
+            mmCtx.closePath();
+            mmCtx.fill();
+
+            // 現在地の赤い点（白い縁取り）
+            mmCtx.fillStyle = '#ef4444';
+            mmCtx.beginPath();
+            mmCtx.arc(px, py, 7, 0, Math.PI * 2);
+            mmCtx.fill();
+            mmCtx.strokeStyle = '#ffffff';
+            mmCtx.lineWidth = 2.5;
+            mmCtx.stroke();
+        }
+
+        // ==========================================
+        // 6. メインアニメーションループ
+        // ==========================================
+        let lastTime = performance.now();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const now = performance.now();
+            const dt = Math.min((now - lastTime) / 1000, 0.1);
+            lastTime = now;
+
+            // 水面の微細な揺らぎ
+            if (waterMesh) {
+                waterMesh.position.y = 0.045 + Math.sin(now * 0.002) * 0.004;
+            }
+
+            updatePlayer(dt);
+            drawMinimap();
+            renderer.render(scene, camera);
+        }
+
+        window.onload = function () {
+            initScene();
+            setupControls();
+            resetPlayer();
+            animate();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>造園会社タイクーン</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{background:#16261c;color:#f3f6ee;font-family:'Segoe UI','Hiragino Sans','Yu Gothic UI','Meiryo',sans-serif;
+       font-size:15px;line-height:1.45;-webkit-user-select:none;user-select:none;touch-action:manipulation;}
+  button{font:inherit;color:inherit;border:0;cursor:pointer;touch-action:manipulation;}
+  #app{max-width:480px;margin:0 auto;min-height:100%;background:#1f3327;position:relative;padding-bottom:128px;}
+  #hud{position:sticky;top:0;z-index:5;background:#14241a;padding:6px 10px 6px;border-bottom:2px solid #3c6a48;}
+  #hud .r1{display:flex;align-items:center;gap:6px;}
+  #hDate{font-weight:bold;font-size:16px;flex:1;}
+  .ib{background:#2c4a36;border-radius:8px;min-width:42px;height:38px;font-size:18px;}
+  .ib:active{background:#3c6a48;}
+  #hud .r2{display:flex;gap:6px;margin-top:5px;}
+  .st{flex:1;background:#233a2b;border-radius:8px;padding:3px 6px;font-size:12px;color:#b9cdb9;white-space:nowrap;overflow:hidden;}
+  .st b{font-size:16px;color:#fff;margin-left:2px;}
+  .st b.neg{color:#ff9a8a;}
+  #scene{display:block;width:100%;height:auto;background:#9fd3f0;}
+  #event{font-size:13px;padding:6px 10px;background:#2b4532;color:#ffe9a8;min-height:30px;}
+  #tabs{display:flex;gap:4px;padding:6px 6px 0;}
+  #tabs button{flex:1;background:#2a4433;border-radius:10px 10px 0 0;padding:9px 0;font-size:14px;color:#b9cdb9;}
+  #tabs button.on{background:#f3f0e2;color:#1f3327;font-weight:bold;}
+  #panel{background:#f3f0e2;color:#22301f;margin:0 6px;border-radius:0 0 10px 10px;padding:8px;min-height:260px;}
+  .tip{font-size:12px;color:#5d6b55;margin:2px 2px 8px;}
+  .card{display:block;width:100%;text-align:left;background:#fff;border:2px solid #d5d2bf;border-radius:10px;padding:8px 10px;margin-bottom:7px;color:#22301f;}
+  .job.on{border-color:#2f9a4f;background:#e6f7e2;box-shadow:0 0 0 2px #2f9a4f inset;}
+  .job.lock{background:#e7e4d6;color:#8b8b7a;}
+  .jt{display:flex;align-items:center;gap:6px;}
+  .je{font-size:22px;}
+  .jn{flex:1;font-weight:bold;}
+  .jr{font-weight:bold;color:#b2600a;white-space:nowrap;}
+  .job.lock .jr{color:#8b8b7a;}
+  .jm{font-size:12.5px;color:#4d5a47;margin-top:2px;}
+  .job.lock .jm{color:#8b8b7a;}
+  .jl{font-size:12.5px;color:#a13a2a;margin-top:2px;font-weight:bold;}
+  .chk{font-size:18px;width:24px;text-align:center;}
+  .row{display:flex;align-items:center;gap:8px;}
+  .row .gx{flex:1;}
+  .sub{font-size:12.5px;color:#4d5a47;}
+  .act{background:#2f9a4f;color:#fff;border-radius:9px;padding:9px 12px;font-weight:bold;min-width:84px;min-height:42px;font-size:14px;}
+  .act:active{transform:scale(0.96);}
+  .act.off{background:#b9b7a6;color:#f3f0e2;}
+  .act.warn{background:#a8563f;}
+  .own{color:#2f7a45;font-weight:bold;font-size:13px;min-width:84px;text-align:center;}
+  h3{font-size:14px;margin:8px 2px 5px;color:#35512f;}
+  #bar{position:fixed;left:0;right:0;bottom:0;z-index:6;}
+  #bar .in{max-width:480px;margin:0 auto;background:#14241a;border-top:2px solid #3c6a48;padding:7px 10px calc(7px + env(safe-area-inset-bottom));}
+  #gauge{position:relative;height:16px;background:#33473a;border-radius:8px;overflow:hidden;}
+  #gFill{position:absolute;left:0;top:0;bottom:0;width:0;background:#57c873;transition:width .2s,background .2s;}
+  #gMark{position:absolute;left:66.66%;top:0;bottom:0;width:2px;background:#fff;}
+  #gTxt{display:flex;justify-content:space-between;font-size:12.5px;margin:3px 1px 6px;color:#cfe0cf;}
+  #gTxt .w{color:#ffb39e;font-weight:bold;}
+  #bGo{width:100%;background:#f2a531;color:#2a1c00;font-weight:bold;font-size:17px;border-radius:12px;padding:11px 0;}
+  #bGo:active{transform:scale(0.98);}
+  #note{font-size:10.5px;color:#8fa58f;text-align:center;padding:10px 8px 4px;}
+  #ov{position:fixed;inset:0;z-index:20;background:rgba(8,18,12,0.86);display:none;overflow:auto;padding:14px 10px;}
+  #ov.show{display:block;}
+  #ovIn{max-width:440px;margin:0 auto;background:#f3f0e2;color:#22301f;border-radius:14px;padding:16px 14px;animation:pop .25s ease-out;}
+  @keyframes pop{from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+  #ovIn h1{font-size:25px;text-align:center;color:#24562f;}
+  #ovIn h2{font-size:19px;text-align:center;color:#24562f;margin-bottom:6px;}
+  .lead{text-align:center;font-size:13px;color:#4d5a47;margin:4px 0 10px;}
+  .how{background:#fff;border-radius:10px;padding:9px 11px;font-size:14px;margin:10px 0;}
+  .how div{margin:3px 0;}
+  .big{display:block;width:100%;background:#2f9a4f;color:#fff;font-weight:bold;font-size:18px;border-radius:12px;padding:13px 0;margin-top:10px;}
+  .big.sec{background:#8a8875;font-size:15px;padding:10px 0;}
+  .big:active{transform:scale(0.98);}
+  .rl{display:flex;gap:6px;align-items:center;padding:4px 0;border-bottom:1px dashed #cfccb8;font-size:13.5px;}
+  .rl .n{flex:1;}
+  .rl .g{font-size:12px;white-space:nowrap;}
+  .rl .p{font-weight:bold;white-space:nowrap;min-width:54px;text-align:right;}
+  .tot{display:flex;justify-content:space-between;font-size:13px;padding:2px 0;color:#4d5a47;}
+  .tot.net{font-size:19px;font-weight:bold;color:#24562f;border-top:2px solid #24562f;margin-top:5px;padding-top:5px;}
+  .tot.net.minus{color:#a13a2a;border-color:#a13a2a;}
+  .news{background:#fff7d6;border-radius:8px;padding:6px 9px;font-size:13px;margin-top:8px;}
+  .title2{font-size:24px;font-weight:bold;text-align:center;color:#b2600a;margin:8px 0 4px;}
+  .small{font-size:11px;color:#6d7a66;text-align:center;margin-top:10px;}
+  .fly{position:fixed;z-index:30;font-weight:bold;font-size:20px;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.6);animation:fly 1.1s ease-out forwards;}
+  .fly.plus{color:#ffe27a;} .fly.minus{color:#ff9a8a;}
+  @keyframes fly{0%{transform:translateY(0) scale(.7);opacity:0;}15%{transform:translateY(-8px) scale(1.25);opacity:1;}100%{transform:translateY(-46px) scale(1);opacity:0;}}
+  .bump{animation:bump .35s;}
+  @keyframes bump{0%{transform:scale(1);}40%{transform:scale(1.35);}100%{transform:scale(1);}}
+  .shake{animation:shake .3s;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="hud">
+    <div class="r1">
+      <span id="hDate">造園会社タイクーン</span>
+      <button class="ib" id="bSnd" aria-label="音の切りかえ">🔊</button>
+      <button class="ib" id="bPause" aria-label="一時停止">⏸</button>
+    </div>
+    <div class="r2">
+      <div class="st">💰資金<b id="hCash">0</b>万</div>
+      <div class="st">⭐評判<b id="hRep">50</b></div>
+      <div class="st">👷社員<b id="hStaff">2</b>人</div>
+    </div>
+  </div>
+  <canvas id="scene" width="480" height="110"></canvas>
+  <div id="event"></div>
+  <div id="tabs">
+    <button data-tab="jobs" class="on">📋依頼</button>
+    <button data-tab="staff">👷人</button>
+    <button data-tab="tools">🛠道具</button>
+    <button data-tab="grow">📣育てる</button>
+  </div>
+  <div id="panel"></div>
+  <div id="note">※ 金額や数字はゲーム用の作り物です。実際の仕事の相場や決まりとは関係ありません。</div>
+  <div id="bar"><div class="in">
+    <div id="gauge"><div id="gFill"></div><div id="gMark"></div></div>
+    <div id="gTxt"><span id="gL"></span><span id="gR"></span></div>
+    <button id="bGo">今月を進める ▶</button>
+  </div></div>
+</div>
+<div id="ov"><div id="ovIn"></div></div>
+<audio id="bgm" preload="auto"></audio>
+
+<script>
+'use strict';
+//<<LOGIC  ここから下は画面（DOM）を使わない計算だけ。テストはこの部分だけを取り出して回す。
+const TOTAL_MONTHS = 24, LOAN_LIMIT = 200, FIXED_COST = 45, HARD_CAP = 1.5, MAX_STAFF = 8, HIRE_COST = 8;
+const SEASON_NAME = ['春','夏','秋','冬'], SEASON_ICON = ['🌸','🌻','🍁','⛄'];
+const LV = [
+  {name:'見習い',  skill:40, days:15, pay:24},
+  {name:'一人前',  skill:55, days:20, pay:33},
+  {name:'ベテラン',skill:70, days:22, pay:43},
+];
+const BOSS = {skill:60, days:14};
+const NAMES = ['ソラ','ミナト','アオイ','リク','ツムギ','カイ','ヒナタ','レン','ユズ','イツキ','サク','ナギ','コハル','トワ'];
+const TOOLS = [
+  {id:'hedge', name:'ヘッジトリマー', icon:'🪚', price:18,  desc:'生垣の依頼を受けられる。剪定の日数 −20%'},
+  {id:'cool',  name:'暑さ対策セット', icon:'🧊', price:15,  desc:'夏の「暑さ」での進みの落ちが小さくなる'},
+  {id:'rider', name:'自走式草刈機',   icon:'🚜', price:55,  desc:'広い敷地の草刈りを受けられる。草刈りの日数 −30%'},
+  {id:'dump',  name:'2tダンプ',       icon:'🚚', price:110, desc:'大きな外構に要る。すべての日数 −10%'},
+  {id:'lift',  name:'高所作業車',     icon:'🏗', price:160, desc:'高木・松の大木・街路樹を受けられる'},
+  {id:'shovel',name:'ミニショベル',   icon:'⛏', price:200, desc:'植栽工事・外構工事を受けられる。その日数 −20%'},
+];
+const TOOL_BY = {}; TOOLS.forEach(t => TOOL_BY[t.id] = t);
+const CATS = {
+  prune:{name:'剪定',      icon:'✂️', mat:0.08},
+  plant:{name:'植栽',      icon:'🌱', mat:0.35},
+  mow:  {name:'草刈り',    icon:'🌿', mat:0.08},
+  ext:  {name:'外構',      icon:'🧱', mat:0.40},
+  care: {name:'庭の手入れ',icon:'🏡', mat:0.05},
+};
+// w = 出やすさ [春,夏,秋,冬]
+const TEMPLATES = [
+  {id:'p1', cat:'prune', name:'庭木の剪定',             crew:2, days:3,  tools:[],               rev:19,  diff:1, w:[3,1,3,1]},
+  {id:'p2', cat:'prune', name:'生垣の刈り込み',         crew:2, days:3,  tools:['hedge'],        rev:22,  diff:2, w:[3,2,3,0]},
+  {id:'p3', cat:'prune', name:'高木の剪定',             crew:2, days:4,  tools:['lift'],         rev:42,  diff:4, w:[2,1,3,1]},
+  {id:'p4', cat:'prune', name:'街路樹の剪定',           crew:3, days:6,  tools:['lift'],         rev:88,  diff:4, w:[1,1,2,1], minRep:60},
+  {id:'l1', cat:'plant', name:'花壇の植えつけ',         crew:1, days:4,  tools:[],               rev:16,  diff:1, w:[3,0,2,0]},
+  {id:'l2', cat:'plant', name:'記念樹の植栽',           crew:2, days:3,  tools:[],               rev:26,  diff:2, w:[3,0,3,1]},
+  {id:'l3', cat:'plant', name:'庭の植栽工事',           crew:2, days:6,  tools:['shovel'],       rev:62,  diff:3, w:[3,0,3,1]},
+  {id:'l4', cat:'plant', name:'店舗まわりの緑化',       crew:3, days:7,  tools:['shovel'],       rev:115, diff:4, w:[2,0,2,0], minRep:60},
+  {id:'m1', cat:'mow',   name:'庭の草むしり',           crew:1, days:4,  tools:[],               rev:11,  diff:1, w:[2,4,1,0]},
+  {id:'m2', cat:'mow',   name:'空き地の草刈り',         crew:1, days:5,  tools:[],               rev:17,  diff:1, w:[2,5,2,0]},
+  {id:'m3', cat:'mow',   name:'駐車場・のり面の草刈り', crew:2, days:5,  tools:[],               rev:34,  diff:2, w:[1,5,2,0]},
+  {id:'m4', cat:'mow',   name:'広い敷地の草刈り',       crew:2, days:6,  tools:['rider'],        rev:50,  diff:2, w:[1,4,1,0]},
+  {id:'e1', cat:'ext',   name:'砂利敷き・防草シート',   crew:2, days:5,  tools:[],               rev:42,  diff:2, w:[2,1,2,1]},
+  {id:'e2', cat:'ext',   name:'ブロック・フェンス工事', crew:2, days:7,  tools:['shovel'],       rev:80,  diff:3, w:[2,1,2,1]},
+  {id:'e3', cat:'ext',   name:'駐車場の外構工事',       crew:3, days:10, tools:['shovel','dump'],rev:185, diff:5, w:[2,1,2,1], minRep:55},
+  {id:'c1', cat:'care',  name:'お庭の月まわり手入れ',   crew:1, days:5,  tools:[],               rev:16,  diff:1, w:[2,2,2,2]},
+  {id:'c2', cat:'care',  name:'松の手入れ',             crew:1, days:6,  tools:[],               rev:29,  diff:4, w:[0,0,1,5]},
+  {id:'c3', cat:'care',  name:'松の大木の手入れ',       crew:2, days:5,  tools:['lift'],         rev:54,  diff:5, w:[0,0,1,4]},
+  {id:'c4', cat:'care',  name:'冬囲い・雪つり',         crew:2, days:4,  tools:[],               rev:28,  diff:3, w:[0,0,1,4]},
+  {id:'c5', cat:'care',  name:'落ち葉そうじ',           crew:1, days:3,  tools:[],               rev:9,   diff:1, w:[0,0,3,2]},
+];
+const STORM_JOB = {id:'x1', cat:'prune', name:'倒れた木の片づけ（急ぎ）', crew:2, days:2, tools:[], rev:24, diff:2, w:[0,0,0,0]};
+// 依頼の大きさの調整（日数と売上を同じ割合でふくらませ、枠より依頼の方が多い月を作る）
+const JOB_SCALE = 1.4;
+TEMPLATES.concat([STORM_JOB]).forEach(t => { t.days = Math.round(t.days*JOB_SCALE); t.rev = Math.round(t.rev*JOB_SCALE); });
+const GRADES = [
+  {name:'大満足',   icon:'😍', pay:1.05, rep: 1.5},
+  {name:'満足',     icon:'🙂', pay:1.00, rep: 0.5},
+  {name:'ふつう',   icon:'😐', pay:1.00, rep: 0},
+  {name:'不満',     icon:'😟', pay:0.80, rep:-4},
+  {name:'クレーム', icon:'😡', pay:0.50, rep:-8},
+];
+const BASE_JOBS = [5,4,5,3];   // 春・夏・秋・冬 の依頼の数
+
+function mulberry(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function calMonth(G){ return (3 + G.m) % 12 + 1; }                 // 4月はじまり
+function yearNo(G){ return Math.floor(G.m/12) + 1; }
+function seasonOf(mon){ return (mon>=3&&mon<=5)?0 : (mon>=6&&mon<=8)?1 : (mon>=9&&mon<=11)?2 : 3; }
+function clampN(v,a,b){ return v<a?a:v>b?b:v; }
+
+function newGame(seed){
+  const G = { rnd: mulberry(seed||1), m:0, cash:150, rep:50,
+    staff:[{name:'あなた（社長）', boss:true}, {name:'ハル', lv:1, months:0}],
+    tools:{}, train:0, adLeft:0, web:false, jobs:[], cands:[], event:null, uid:1,
+    over:false, bankrupt:false, totalRev:0, totalJobs:0, usedNames:{'ハル':1} };
+  genMonth(G);
+  return G;
+}
+function heatFactor(G){ const mon=calMonth(G); if(mon===7||mon===8) return G.tools.cool?0.92:0.78; return 1; }
+function capacity(G){
+  let d=0; for(const s of G.staff) d += s.boss ? BOSS.days : LV[s.lv].days;
+  d *= heatFactor(G);
+  if(G.event && G.event.type==='rain') d *= 0.85;
+  return Math.round(d);
+}
+function teamSkill(G){
+  let t=0; for(const s of G.staff) t += s.boss ? BOSS.skill : LV[s.lv].skill;
+  return t/G.staff.length + G.train*6;
+}
+function jobDays(G,job){
+  let k=1;
+  if(job.cat==='prune' && G.tools.hedge) k*=0.8;
+  if(job.cat==='mow' && G.tools.rider) k*=0.7;
+  if((job.cat==='plant'||job.cat==='ext') && G.tools.shovel) k*=0.8;
+  if(G.tools.dump) k*=0.9;
+  return Math.max(0.5, Math.round(job.days*k*2)/2);
+}
+function jobMD(G,job){ return job.crew * jobDays(G,job); }          // 人日
+function lockReason(G,job){
+  const miss = job.tools.filter(t => !G.tools[t]).map(t => TOOL_BY[t].name);
+  if(miss.length) return miss.join('・')+' が要る';
+  if(job.crew > G.staff.length) return '人数が足りない（'+job.crew+'人）';
+  return '';
+}
+function overPenalty(ratio){ return ratio>1 ? (ratio-1)*120 : 0; }
+function gradeOf(q){ return q>=52?0 : q>=40?1 : q>=28?2 : q>=16?3 : 4; }
+function predictGrade(G,job,ratio){ return gradeOf(teamSkill(G) - job.diff*7 - overPenalty(ratio)); }
+function usedMD(G,ids){ let u=0; for(const j of G.jobs) if(ids.indexOf(j.uid)>=0 && !lockReason(G,j)) u+=jobMD(G,j); return u; }
+function priceMult(G){ return 0.8 + G.rep*0.004; }
+function canSpend(G,price){ return G.cash - price >= -LOAN_LIMIT/2; }
+
+function makeJob(G,t){
+  const rev = Math.max(2, Math.round(t.rev * (0.88 + G.rnd()*0.24) * priceMult(G)));
+  return {uid:G.uid++, tid:t.id, cat:t.cat, name:t.name, crew:t.crew, days:t.days, tools:t.tools.slice(), rev:rev, diff:t.diff};
+}
+function genMonth(G){
+  const mon = calMonth(G), s = seasonOf(mon), r = G.rnd;
+  // 今月のできごと
+  G.event = null;
+  if(mon===6 && r()<0.5) G.event = {type:'rain', text:'☔ 長雨の月。今月は仕事の枠が少し減ります。'};
+  else if((mon===9||mon===10) && r()<0.4) G.event = {type:'storm', text:'🌀 台風が通りました。急ぎの片づけの依頼が来ています。'};
+  else if(r()<0.1) G.event = {type:'intro', text:'🤝 お客さまの紹介で、依頼がひとつ増えました。'};
+  // 依頼の数
+  let n = BASE_JOBS[s];
+  if(G.adLeft>0){ n++; G.adLeft--; }
+  if(G.web) n++;
+  if(G.rep>=70) n++;
+  if(G.rep<35) n--;
+  if(G.rep<20) n--;
+  if(G.event && G.event.type==='intro') n++;
+  n = clampN(n,2,6);
+  const pool = TEMPLATES.filter(t => t.w[s]>0 && (t.minRep||0)<=G.rep);
+  const picked = [];
+  while(picked.length<n && pool.length){
+    let tot=0; for(const t of pool) tot+=t.w[s];
+    let x=r()*tot, i=0; for(; i<pool.length-1; i++){ x-=pool[i].w[s]; if(x<0) break; }
+    picked.push(pool.splice(i,1)[0]);
+  }
+  // 道具なしで受けられる依頼を、少なくとも1件は入れる
+  const easy = t => t.tools.length===0 && t.crew<=Math.min(2,G.staff.length);
+  const needEasy = Math.min(n, s===3?2:3);
+  for(let guard=0; guard<8 && picked.filter(easy).length<needEasy; guard++){
+    const e = TEMPLATES.filter(t => t.w[s]>0 && easy(t) && picked.indexOf(t)<0);
+    let k=-1; for(let i=picked.length-1;i>=0;i--){ if(!easy(picked[i])){ k=i; break; } }
+    if(!e.length || k<0) break;
+    picked[k] = e[Math.floor(r()*e.length)];
+  }
+  G.jobs = picked.map(t => makeJob(G,t));
+  if(G.event && G.event.type==='storm') G.jobs.unshift(makeJob(G,STORM_JOB));
+  // 今月の応募者
+  G.cands = [];
+  for(let i=0;i<2;i++){
+    const x=r(), vet = 0.08 + Math.max(0,G.rep-50)*0.004;
+    const lv = x<vet?2 : x<vet+0.45?1 : 0;
+    let name=null;
+    for(let k=0;k<30 && !name;k++){ const c=NAMES[Math.floor(r()*NAMES.length)]; if(!G.usedNames[c]){ name=c; } }
+    if(!name) continue;
+    G.usedNames[name]=1;
+    G.cands.push({name:name, lv:lv});
+  }
+  // 雇わなかった人の名前は次の月にまた使えるようにする
+  const keep={}; for(const st of G.staff) keep[st.name]=1; for(const c of G.cands) keep[c.name]=1; G.usedNames=keep;
+}
+
+// ---- 投資 ----
+function buyTool(G,id){ const t=TOOL_BY[id]; if(!t||G.tools[id]||!canSpend(G,t.price)) return false; G.cash-=t.price; G.tools[id]=true; return true; }
+function hire(G,i){ const c=G.cands[i]; if(!c||G.staff.length>=MAX_STAFF||!canSpend(G,HIRE_COST)) return false;
+  G.cash-=HIRE_COST; G.staff.push({name:c.name, lv:c.lv, months:0}); G.cands.splice(i,1); return true; }
+function fire(G,i){ const s=G.staff[i]; if(!s||s.boss) return false; G.cash-=LV[s.lv].pay; G.rep=clampN(G.rep-2,0,100); G.staff.splice(i,1); return true; }
+function trainCost(G){ return 30 + G.train*15; }
+function doTrain(G){ if(G.train>=5||!canSpend(G,trainCost(G))) return false; G.cash-=trainCost(G); G.train++; return true; }
+function buyFlyer(G){ if(G.adLeft>0||!canSpend(G,10)) return false; G.cash-=10; G.adLeft=3; return true; }
+function buyWeb(G){ if(G.web||!canSpend(G,50)) return false; G.cash-=50; G.web=true; return true; }
+function monthlyFixed(G){
+  let sal=0; for(const s of G.staff) if(!s.boss) sal+=LV[s.lv].pay;
+  let maint=0; for(const id in G.tools) maint+=TOOL_BY[id].price*0.015;
+  return {sal:sal, maint:Math.round(maint), fix:FIXED_COST};
+}
+
+// ---- 月を進める（ゲームの計算の本体）----
+function advanceMonth(G, ids){
+  if(G.over) return null;
+  const r=G.rnd, cap=capacity(G), skill=teamSkill(G);
+  // 受けた依頼（受けられない物・枠の150%を超える物は外す）
+  const take=[]; let used=0;
+  for(const j of G.jobs){
+    if(ids.indexOf(j.uid)<0 || lockReason(G,j)) continue;
+    const md=jobMD(G,j);
+    if((used+md)/cap > HARD_CAP+1e-9) continue;
+    used+=md; take.push(j);
+  }
+  const ratio = cap>0 ? used/cap : 0, pen = overPenalty(ratio);
+  const rep0=G.rep; let rep=G.rep, rev=0, mat=0; const lines=[];
+  for(const j of take){
+    const q = skill - j.diff*7 - pen + (r()*16-8);
+    const gi = gradeOf(q), g=GRADES[gi];
+    const pay = Math.round(j.rev*g.pay);
+    rev+=pay; mat+=j.rev*CATS[j.cat].mat;
+    rep += g.rep>0 ? g.rep*Math.min(1,(100-rep)/50) : g.rep;
+    lines.push({name:j.name, icon:CATS[j.cat].icon, gi:gi, pay:pay});
+  }
+  if(!take.length) rep-=1;
+  if(rep>50) rep-=1;                         // 評判は少しずつ薄れる
+  mat=Math.round(mat);
+  const f=monthlyFixed(G);
+  const ot=Math.round(Math.max(0,used-cap)*2.5);
+  const interest = G.cash<0 ? Math.ceil(-G.cash*0.02) : 0;
+  const nTools=Object.keys(G.tools).length;
+  const repair = (nTools>0 && r()<0.08) ? 4+Math.floor(r()*3*nTools) : 0;
+  const cost = mat+f.sal+f.fix+f.maint+ot+interest+repair;
+  const net = rev-cost;
+  G.cash += net; G.rep = clampN(Math.round(rep*10)/10,0,100);
+  G.totalRev+=rev; G.totalJobs+=take.length;
+  const news=[];
+  for(const s of G.staff){ if(s.boss) continue; s.months++;
+    if(s.lv===0 && s.months>=8){ s.lv=1; news.push('🎉 '+s.name+' が一人前になりました（給料も上がります）'); } }
+  if(repair) news.push('🔧 道具の修理代が '+repair+'万円 かかりました');
+  if(ratio>1.2) news.push('😓 無理な工程で、仕上がりが落ちました');
+  else if(ratio>1) news.push('⏰ 少し枠を超えたので、残業代がかかりました');
+  G.m++;
+  const rep1=G.rep;
+  if(G.cash < -LOAN_LIMIT){ G.over=true; G.bankrupt=true; }
+  else if(G.m>=TOTAL_MONTHS){ G.over=true; }
+  else genMonth(G);
+  return {lines:lines, rev:rev, mat:mat, sal:f.sal, fix:f.fix, maint:f.maint, ot:ot, interest:interest, repair:repair,
+          cost:cost, net:net, rep0:rep0, rep1:rep1, ratio:ratio, used:used, cap:cap, news:news,
+          bankrupt:G.bankrupt, finished:G.over};
+}
+function scoreOf(G){
+  if(G.bankrupt) return 0;
+  return Math.round(Math.max(0,G.cash)*0.25 + G.rep*4 + G.staff.length*30);
+}
+function titleOf(G){
+  if(G.bankrupt) return {t:'倒産…', d:'資金が尽きて、借入の枠も超えてしまいました。'};
+  const s=scoreOf(G);
+  if(s>=1000) return {t:'🏆 緑の名門',               d:'街じゅうの庭をまかされる会社になりました。'};
+  if(s>=800)  return {t:'🌳 地域いちばんの造園会社', d:'「あそこに頼めば安心」と言われています。'};
+  if(s>=620)  return {t:'🌿 たよれる造園会社',       d:'人も道具もそろってきました。'};
+  if(s>=460)  return {t:'🌱 町の植木屋さん',         d:'こつこつ続けて、会社を守りました。'};
+  return               {t:'🍂 ひとり親方に逆もどり', d:'なんとか2年を乗りきりました。次はもっと大きく。'};
+}
+//LOGIC>>
+
+/* =========================================================================
+   ここから下は画面。html-canvas-game の土台（ループ・状態・SFX・Store）を借りている。
+   ========================================================================= */
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('ja-JP');
+let state = 'title';                 // 'title' | 'play' | 'pause' | 'over'
+let G = null, sel = [], tab = 'jobs', showCash = 0, modal = false, lastReport = null;
+
+// ---- Store ---------------------------------------------------------------
+const Store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} },
+  best(){ try{ return JSON.parse(this.get('zouen_tycoon_best','null')); }catch(e){ return null; } },
+};
+let soundOn = Store.get('zouen_tycoon_sound','1') !== '0';
+
+// ---- SFX (WebAudio) ------------------------------------------------------
+const SFX = (function(){
+  let ac=null, master=null;
+  const midi = n => 440*Math.pow(2,(n-69)/12);
+  function tone(f,d,type,v,delay){ if(!ac) return; const t=ac.currentTime+0.01+(delay||0), o=ac.createOscillator(), g=ac.createGain();
+    o.type=type; o.frequency.value=f; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0006,t+d); o.connect(g).connect(master); o.start(t); o.stop(t+d+0.03); }
+  return {
+    ensure(){ try{ if(!ac){ const A=window.AudioContext||window.webkitAudioContext; if(!A) return;
+      ac=new A(); master=ac.createGain(); master.gain.value=soundOn?0.2:0; master.connect(ac.destination); }
+      if(ac.state==='suspended') ac.resume(); }catch(e){} },
+    apply(){ if(master) master.gain.value=soundOn?0.2:0; },
+    tap(){ tone(520,0.05,'square',0.05); },
+    on(){ tone(660,0.07,'triangle',0.09); tone(880,0.08,'triangle',0.07,0.06); },
+    off(){ tone(440,0.07,'triangle',0.07); },
+    ng(){ tone(160,0.14,'sawtooth',0.08); },
+    buy(){ tone(midi(72),0.08,'square',0.07); tone(midi(76),0.08,'square',0.07,0.07); tone(midi(79),0.14,'square',0.07,0.14); },
+    coin(n){ for(let i=0;i<Math.min(6,n||3);i++) tone(midi(84+(i%3)*4),0.07,'square',0.05,i*0.07); },
+    bad(){ tone(midi(55),0.2,'sawtooth',0.07); tone(midi(51),0.25,'sawtooth',0.07,0.15); },
+    win(){ [60,64,67,72,76].forEach((m,i)=>tone(midi(m),0.28,'square',0.09,i*0.12)); },
+    lose(){ [67,63,60,55].forEach((m,i)=>tone(midi(m),0.3,'sawtooth',0.09,i*0.15)); },
+  };
+})();
+
+// ---- BGM（<audio> で2曲を順番に）-----------------------------------------
+const BGM = (function(){
+  const list=['bgm/03_Steps_on_the_Garden_Path.mp3','bgm/04_The_Little_Red_Gate.mp3'];
+  const a=$('bgm'); let i=0, started=false, errs=0;
+  function load(){ a.src=list[i]; a.volume=0.35; }
+  function play(){ if(!started||!soundOn) return; const p=a.play(); if(p&&p.catch) p.catch(()=>{}); }
+  a.addEventListener('ended', ()=>{ errs=0; i=(i+1)%list.length; load(); play(); });
+  a.addEventListener('error', ()=>{ errs++; if(errs<=list.length){ i=(i+1)%list.length; load(); play(); } });
+  return {
+    start(){ if(!started){ started=true; load(); } play(); },
+    apply(){ if(soundOn) play(); else a.pause(); },
+    hold(v){ if(!started) return; if(v) a.pause(); else play(); },
+  };
+})();
+function setSound(v){ soundOn=v; Store.set('zouen_tycoon_sound', v?'1':'0'); $('bSnd').textContent=v?'🔊':'🔇'; SFX.apply(); BGM.apply(); }
+
+// ---- 小さな演出 ----------------------------------------------------------
+function fly(text, cls, el){
+  const r=(el||$('hCash')).getBoundingClientRect(), d=document.createElement('div');
+  d.className='fly '+cls; d.textContent=text; d.style.left=(r.left+4)+'px'; d.style.top=(r.bottom+2)+'px';
+  document.body.appendChild(d); setTimeout(()=>{ if(d.parentNode) d.parentNode.removeChild(d); },1150);
+}
+function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+function shake(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+function spend(text){ fly(text,'minus'); bump($('hCash')); }
+
+// ---- 絵（Canvas）---------------------------------------------------------
+const SC=$('scene'), sx=SC.getContext('2d'), SW=SC.width, SH=SC.height;
+let parts=[], coins=[];
+function drawScene(dt){
+  const mon = G ? calMonth(G) : 4, s = seasonOf(mon), t = performance.now()/1000;
+  const sky=[['#bfe6ff','#eaf7ff'],['#6fc3ff','#d6f1ff'],['#ffd6a0','#fff1d6'],['#c9d6e6','#eef3f8']][s];
+  const g=sx.createLinearGradient(0,0,0,SH); g.addColorStop(0,sky[0]); g.addColorStop(1,sky[1]);
+  sx.fillStyle=g; sx.fillRect(0,0,SW,SH);
+  // おひさま
+  sx.fillStyle = s===1?'#ffdf4d':s===3?'#fffbe6':'#ffe88a';
+  sx.beginPath(); sx.arc(420,26,s===1?17:13,0,6.2832); sx.fill();
+  if(s===1 && (mon===7||mon===8)){ sx.strokeStyle='rgba(255,200,60,0.7)'; sx.lineWidth=2;
+    for(let i=0;i<8;i++){ const a=i*0.785+t*0.5; sx.beginPath(); sx.moveTo(420+Math.cos(a)*21,26+Math.sin(a)*21); sx.lineTo(420+Math.cos(a)*27,26+Math.sin(a)*27); sx.stroke(); } }
+  // 地面
+  sx.fillStyle=['#8fcf6e','#5fb24c','#c9b25e','#eef2f5'][s]; sx.fillRect(0,SH-26,SW,26);
+  sx.fillStyle=['#7abf5a','#4d9c3e','#b39a4a','#dfe6ec'][s]; sx.fillRect(0,SH-9,SW,9);
+  // 木（評判が上がると増える）
+  const nTree = G ? 3+Math.floor(G.rep/14) : 5;
+  const leaf=['#f6b6cf','#2f8f3f','#e0762a','#6f8f6a'][s], leaf2=['#5fb45a','#3fa64e','#d9a32a','#89a584'][s];
+  for(let i=0;i<nTree;i++){
+    const x=24+i*(SW-170)/Math.max(1,nTree-1)*0.92, h=26+((i*37)%19), sway=Math.sin(t*1.2+i)*1.2;
+    sx.fillStyle='#7a5636'; sx.fillRect(x-3,SH-26-h*0.5,6,h*0.5);
+    sx.fillStyle=(i%2)?leaf:leaf2; sx.beginPath(); sx.arc(x+sway,SH-26-h*0.5-8,13+(i%3)*2,0,6.2832); sx.fill();
+    if(s===3){ sx.fillStyle='#fff'; sx.beginPath(); sx.arc(x+sway,SH-26-h*0.5-15,9,3.3,6.1); sx.fill(); }
+  }
+  // 会社（小屋とトラック）
+  sx.fillStyle='#f6efe0'; sx.fillRect(340,SH-62,62,36); sx.fillStyle='#b5503c';
+  sx.beginPath(); sx.moveTo(334,SH-62); sx.lineTo(371,SH-82); sx.lineTo(408,SH-62); sx.closePath(); sx.fill();
+  sx.fillStyle='#6b4a2e'; sx.fillRect(364,SH-46,14,20);
+  sx.font='22px sans-serif'; sx.textAlign='center'; sx.textBaseline='alphabetic';
+  if(G){
+    sx.fillText(G.tools.dump?'🚚':'🛻', 440, SH-12);
+    const n=G.staff.length;
+    for(let i=0;i<n;i++){ const x=150+i*26, hop = state==='play' ? Math.abs(Math.sin(t*3+i))*3 : 0; sx.fillText(i===0?'🧑‍🌾':'👷', x, SH-12-hop); }
+    let tx=20; sx.font='16px sans-serif';
+    for(const tl of TOOLS){ if(G.tools[tl.id]){ sx.fillText(tl.icon, tx, 20); tx+=22; } }
+  }
+  // 季節のひらひら
+  if(parts.length<26 && Math.random()<0.25 && s!==1){ parts.push({x:Math.random()*SW,y:-6,vx:(Math.random()-0.5)*0.5,vy:0.5+Math.random()*0.8,r:Math.random()*6.28}); }
+  const pc=['#f7a8c8',null,'#d9692a','#ffffff'][s];
+  for(const p of parts){ p.x+=p.vx*dt/16+Math.sin(t*2+p.r)*0.3; p.y+=p.vy*dt/16;
+    if(pc){ sx.fillStyle=pc; sx.beginPath(); sx.arc(p.x,p.y,s===3?2.2:2.8,0,6.2832); sx.fill(); } }
+  parts=parts.filter(p=>p.y<SH && pc);
+  // コイン
+  for(const c of coins){ c.life+=dt/1000; c.x+=c.vx*dt/16; c.y+=c.vy*dt/16; c.vy+=0.35*dt/16;
+    sx.globalAlpha=Math.max(0,1-c.life/c.dur); sx.fillStyle='#ffcf33'; sx.beginPath(); sx.arc(c.x,c.y,4.5,0,6.2832); sx.fill();
+    sx.fillStyle='#b98300'; sx.fillRect(c.x-1,c.y-2.5,2,5); sx.globalAlpha=1; }
+  coins=coins.filter(c=>c.life<c.dur);
+}
+function coinBurst(n){ for(let i=0;i<n;i++){ const a=-Math.random()*3.14; coins.push({x:371,y:SH-50,vx:Math.cos(a)*(1+Math.random()*3),vy:Math.sin(a)*(3+Math.random()*3),life:0,dur:0.7+Math.random()*0.5}); } }
+
+// ---- 画面の書きかえ ------------------------------------------------------
+function ratioNow(){ const c=capacity(G); return c>0 ? usedMD(G,sel)/c : 0; }
+function renderHud(){
+  if(!G) return;
+  const mon=calMonth(G), s=seasonOf(mon);
+  $('hDate').textContent = yearNo(G)+'年目 '+mon+'月 '+SEASON_ICON[s]+SEASON_NAME[s]+'（'+Math.min(G.m+1,TOTAL_MONTHS)+'/'+TOTAL_MONTHS+'）';
+  $('hRep').textContent = Math.round(G.rep);
+  $('hStaff').textContent = G.staff.length;
+  let ev = G.event ? G.event.text : '';
+  if(mon===7||mon===8) ev = '🥵 暑さで進みが落ちる月です（仕事の枠が小さい）。'+(ev?' '+ev:'');
+  if(!ev) ev = ['🌸 春は依頼が多い季節です。','🌻 夏は草刈りの依頼が多い季節です。','🍁 秋は依頼が多い季節です。','⛄ 冬は依頼が少なめ。松の手入れなど単価の高い仕事が出ます。'][s];
+  if(G.cash<0) ev += ' 💳 借入中（枠は '+LOAN_LIMIT+'万円。超えると倒産）';
+  $('event').textContent = ev;
+}
+function renderBar(){
+  if(!G) return;
+  const cap=capacity(G), used=usedMD(G,sel), ratio=cap>0?used/cap:0;
+  const fill=$('gFill'); fill.style.width = Math.min(100, ratio/HARD_CAP*100)+'%';
+  fill.style.background = ratio<=1?'#57c873':ratio<=1.2?'#f2c531':'#e8644a';
+  $('gL').innerHTML = '今月の枠 <b>'+used+'</b> / '+cap+' 人日' + (ratio>1?' <span class="w">⚠ 無理をしています</span>':'');
+  let rev=0; for(const j of G.jobs) if(sel.indexOf(j.uid)>=0) rev+=j.rev;
+  $('gR').textContent = '見込み売上 '+fmt(rev)+'万';
+}
+function stars(n){ return '★★★★★'.slice(0,n)+'☆☆☆☆☆'.slice(0,5-n); }
+function panelJobs(){
+  const ratio=ratioNow(); const f=monthlyFixed(G);
+  let h='<div class="tip">受ける依頼をタップ。毎月の決まった出費は 約'+fmt(f.sal+f.fix+f.maint)+'万円（給料・事務所・道具）。枠を超えて受けると品質が落ちます。</div>';
+  for(const j of G.jobs){
+    const lock=lockReason(G,j), on=sel.indexOf(j.uid)>=0, d=jobDays(G,j), md=jobMD(G,j);
+    const g=GRADES[predictGrade(G,j,on?ratio:Math.max(ratio,(usedMD(G,sel)+md)/Math.max(1,capacity(G))))];
+    const tl = j.tools.length ? j.tools.map(t=>TOOL_BY[t].icon+TOOL_BY[t].name).join('・') : 'なし';
+    h+='<button class="card job'+(on?' on':'')+(lock?' lock':'')+'" data-act="job" data-id="'+j.uid+'">'
+      +'<div class="jt"><span class="chk">'+(lock?'🔒':on?'✅':'⬜')+'</span><span class="je">'+CATS[j.cat].icon+'</span><span class="jn">'+j.name+'</span><span class="jr">'+fmt(j.rev)+'万円</span></div>'
+      +'<div class="jm">'+CATS[j.cat].name+'｜👷'+j.crew+'人 × '+d+'日 ＝ <b>'+md+'人日</b>｜むずかしさ '+stars(j.diff)+'</div>'
+      +(lock ? '<div class="jl">'+lock+'</div>' : '<div class="jm">道具：'+tl+'｜受けた時の見込み：'+g.icon+g.name+'</div>')
+      +'</button>';
+  }
+  return h;
+}
+function panelStaff(){
+  let h='<div class="tip">人が増えると枠（人日）が増え、人数の要る依頼を受けられます。給料は毎月かかります。今の腕前（品質の元）：'+Math.round(teamSkill(G))+'</div><h3>今の社員（'+G.staff.length+'／'+MAX_STAFF+'人）</h3>';
+  G.staff.forEach((s,i)=>{
+    if(s.boss) h+='<div class="card"><div class="row"><span class="je">🧑‍🌾</span><div class="gx"><b>'+s.name+'</b><div class="sub">月 '+BOSS.days+'人日｜現場と営業の両方</div></div></div></div>';
+    else { const l=LV[s.lv]; h+='<div class="card"><div class="row"><span class="je">👷</span><div class="gx"><b>'+s.name+'</b>（'+l.name+'）<div class="sub">月 '+l.days+'人日｜給料 '+l.pay+'万円／月'+(s.lv===0?'｜あと'+Math.max(0,8-s.months)+'か月で一人前':'')+'</div></div>'
+      +'<button class="act warn" data-act="fire" data-id="'+i+'">やめてもらう</button></div></div>'; }
+  });
+  h+='<h3>今月の応募（採用の費用 '+HIRE_COST+'万円）</h3>';
+  if(!G.cands.length) h+='<div class="tip">今月は応募がありません。</div>';
+  G.cands.forEach((c,i)=>{ const l=LV[c.lv], ok=G.staff.length<MAX_STAFF && canSpend(G,HIRE_COST);
+    h+='<div class="card"><div class="row"><span class="je">🙋</span><div class="gx"><b>'+c.name+'</b>（'+l.name+'）<div class="sub">月 '+l.days+'人日｜給料 '+l.pay+'万円／月｜腕前 '+l.skill+'</div></div>'
+      +'<button class="act'+(ok?'':' off')+'" data-act="hire" data-id="'+i+'">雇う</button></div></div>'; });
+  return h;
+}
+function panelTools(){
+  let h='<div class="tip">道具を持つと受けられる依頼が増え、日数が縮みます。持っている道具には毎月少しの維持費がかかります。資金が足りない時は、借入の枠の半分（'+(LOAN_LIMIT/2)+'万円）まで借りて買えます。</div>';
+  h+='<div class="card"><div class="row"><span class="je">✂️</span><div class="gx"><b>剪定ばさみ・刈払機・軽トラ</b><div class="sub">はじめから持っている</div></div><span class="own">✔ 持っている</span></div></div>';
+  for(const t of TOOLS){ const own=G.tools[t.id], ok=canSpend(G,t.price);
+    h+='<div class="card"><div class="row"><span class="je">'+t.icon+'</span><div class="gx"><b>'+t.name+'</b><div class="sub">'+t.desc+'</div></div>'
+      +(own?'<span class="own">✔ 持っている</span>':'<button class="act'+(ok?'':' off')+'" data-act="tool" data-id="'+t.id+'">'+fmt(t.price)+'万円</button>')+'</div></div>'; }
+  return h;
+}
+function panelGrow(){
+  let h='<div class="tip">研修で品質（お客さまの満足）が上がり、宣伝で依頼が増えます。</div><h3>研修</h3>';
+  const tc=trainCost(G), tmax=G.train>=5;
+  h+='<div class="card"><div class="row"><span class="je">📚</span><div class="gx"><b>技能の研修</b>（'+G.train+'／5回）<div class="sub">腕前 +6。むずかしい依頼でも満足してもらいやすくなる</div></div>'
+    +(tmax?'<span class="own">✔ 修了</span>':'<button class="act'+(canSpend(G,tc)?'':' off')+'" data-act="train">'+tc+'万円</button>')+'</div></div>';
+  h+='<h3>宣伝</h3>';
+  h+='<div class="card"><div class="row"><span class="je">📰</span><div class="gx"><b>チラシを配る</b><div class="sub">来月から3か月、依頼が1件増える'+(G.adLeft>0?'（あと'+G.adLeft+'か月）':'')+'</div></div>'
+    +(G.adLeft>0?'<span class="own">配布中</span>':'<button class="act'+(canSpend(G,10)?'':' off')+'" data-act="flyer">10万円</button>')+'</div></div>';
+  h+='<div class="card"><div class="row"><span class="je">💻</span><div class="gx"><b>ホームページを作る</b><div class="sub">来月からずっと、依頼が1件増える</div></div>'
+    +(G.web?'<span class="own">✔ 公開中</span>':'<button class="act'+(canSpend(G,50)?'':' off')+'" data-act="web">50万円</button>')+'</div></div>';
+  h+='<div class="tip">評判が70以上になると依頼がさらに1件増え、大きな仕事（街路樹・店舗の緑化など）も来るようになります。評判が下がると依頼が減ります。</div>';
+  return h;
+}
+function renderPanel(){
+  if(!G) return;
+  $('panel').innerHTML = tab==='jobs'?panelJobs():tab==='staff'?panelStaff():tab==='tools'?panelTools():panelGrow();
+  const bs=$('tabs').querySelectorAll('button'); for(let i=0;i<bs.length;i++) bs[i].className = bs[i].getAttribute('data-tab')===tab?'on':'';
+}
+function renderAll(){ renderHud(); renderPanel(); renderBar(); }
+function pruneSel(){ sel = sel.filter(id => { const j=G.jobs.find(x=>x.uid===id); return j && !lockReason(G,j); }); }
+
+// ---- 操作 ----------------------------------------------------------------
+function onPanel(e){
+  let el=e.target; while(el && el!==this && !(el.getAttribute && el.getAttribute('data-act'))) el=el.parentNode;
+  if(!el || el===this || state!=='play' || modal) return;
+  SFX.ensure();
+  const act=el.getAttribute('data-act'), id=el.getAttribute('data-id');
+  if(act==='job'){
+    const uid=+id, j=G.jobs.find(x=>x.uid===uid); if(!j) return;
+    if(lockReason(G,j)){ SFX.ng(); shake(el); return; }
+    const k=sel.indexOf(uid);
+    if(k>=0){ sel.splice(k,1); SFX.off(); }
+    else {
+      if((usedMD(G,sel)+jobMD(G,j))/Math.max(1,capacity(G)) > HARD_CAP){ SFX.ng(); shake(el); fly('これ以上は受けられない','minus',$('gauge')); return; }
+      sel.push(uid); SFX.on();
+    }
+  }
+  else if(act==='tool'){ const t=TOOL_BY[id]; if(buyTool(G,id)){ SFX.buy(); spend('−'+t.price+'万'); } else { SFX.ng(); shake(el); return; } }
+  else if(act==='hire'){ if(hire(G,+id)){ SFX.buy(); spend('−'+HIRE_COST+'万'); bump($('hStaff')); } else { SFX.ng(); shake(el); return; } }
+  else if(act==='fire'){ const s=G.staff[+id]; if(!s||s.boss) return;
+    if(el.getAttribute('data-sure')!=='1'){ el.setAttribute('data-sure','1'); el.textContent='本当に？'; SFX.tap(); return; }
+    const pay=LV[s.lv].pay; if(fire(G,+id)){ SFX.bad(); spend('−'+pay+'万'); pruneSel(); } }
+  else if(act==='train'){ const c=trainCost(G); if(doTrain(G)){ SFX.buy(); spend('−'+c+'万'); } else { SFX.ng(); shake(el); return; } }
+  else if(act==='flyer'){ if(buyFlyer(G)){ SFX.buy(); spend('−10万'); } else { SFX.ng(); shake(el); return; } }
+  else if(act==='web'){ if(buyWeb(G)){ SFX.buy(); spend('−50万'); } else { SFX.ng(); shake(el); return; } }
+  renderAll();
+}
+function showOv(html){ $('ovIn').innerHTML=html; $('ov').classList.add('show'); $('ov').scrollTop=0; }
+function hideOv(){ $('ov').classList.remove('show'); }
+
+function showTitle(){
+  state='title'; modal=false;
+  const b=Store.best();
+  showOv('<h1>🌳 造園会社タイクーン</h1><div class="lead">小さな造園会社を、2年で街いちばんに。</div>'
+    +'<div class="how"><div>① 毎月とどく依頼から、受ける物をえらぶ</div><div>② 「今月を進める」で売上と評判が決まる（受けすぎると品質ダウン）</div><div>③ かせいだお金で、人・道具・研修・宣伝に投資して会社を大きくする</div></div>'
+    +'<div class="lead">全24か月（4月はじまり）・1回 10〜15分<br>資金が尽きて借入の枠（'+LOAN_LIMIT+'万円）を超えると倒産</div>'
+    +(b?'<div class="lead">🏅 最高記録：'+b.score+'点「'+b.title+'」</div>':'')
+    +'<button class="big" id="bStart">はじめる</button>'
+    +'<div class="small">※ 金額や数字はゲーム用の作り物です。<br>PC：P＝一時停止／M＝音</div>');
+  $('bStart').onclick = startGame;
+}
+function startGame(){
+  SFX.ensure(); BGM.start();
+  G = newGame((Date.now() ^ (Math.random()*1e9)) >>> 0);
+  sel=[]; tab='jobs'; showCash=G.cash; modal=false; lastReport=null;
+  state='play'; hideOv(); renderAll(); SFX.on();
+}
+function goMonth(){
+  if(state!=='play' || modal) return;
+  SFX.ensure();
+  if(!sel.length && $('bGo').getAttribute('data-sure')!=='1'){
+    $('bGo').setAttribute('data-sure','1'); $('bGo').textContent='依頼を受けずに進める？（もう一度）'; SFX.tap(); return; }
+  resetGo();
+  const r = advanceMonth(G, sel); if(!r) return;
+  lastReport=r; sel=[]; modal=true;
+  let h='<h2>📒 今月の結果</h2>';
+  if(!r.lines.length) h+='<div class="lead">今月は仕事を受けませんでした。</div>';
+  for(const l of r.lines){ const g=GRADES[l.gi]; h+='<div class="rl"><span>'+l.icon+'</span><span class="n">'+l.name+'</span><span class="g">'+g.icon+g.name+'</span><span class="p">+'+fmt(l.pay)+'万</span></div>'; }
+  h+='<div style="margin-top:8px">'
+    +'<div class="tot"><span>売上</span><span>+'+fmt(r.rev)+'万</span></div>'
+    +'<div class="tot"><span>材料・処分の費用</span><span>−'+fmt(r.mat)+'万</span></div>'
+    +'<div class="tot"><span>給料</span><span>−'+fmt(r.sal)+'万</span></div>'
+    +'<div class="tot"><span>事務所・車などの固定費</span><span>−'+fmt(r.fix)+'万</span></div>'
+    +(r.maint?'<div class="tot"><span>道具の維持費</span><span>−'+fmt(r.maint)+'万</span></div>':'')
+    +(r.ot?'<div class="tot"><span>残業代</span><span>−'+fmt(r.ot)+'万</span></div>':'')
+    +(r.repair?'<div class="tot"><span>修理代</span><span>−'+fmt(r.repair)+'万</span></div>':'')
+    +(r.interest?'<div class="tot"><span>借入の利息</span><span>−'+fmt(r.interest)+'万</span></div>':'')
+    +'<div class="tot net'+(r.net<0?' minus':'')+'"><span>今月の損益</span><span>'+(r.net>=0?'+':'−')+fmt(Math.abs(r.net))+'万円</span></div>'
+    +'<div class="tot"><span>⭐ 評判</span><span>'+Math.round(r.rep0)+' → '+Math.round(r.rep1)+'</span></div>'
+    +'<div class="tot"><span>💰 資金</span><span>'+fmt(G.cash)+'万円</span></div></div>';
+  if(r.news.length) h+='<div class="news">'+r.news.join('<br>')+'</div>';
+  h+='<button class="big" id="bNext">'+(r.bankrupt?'…':r.finished?'会社の評価を見る':'次の月へ ▶')+'</button>';
+  showOv(h);
+  $('bNext').onclick = nextMonth;
+  if(r.net>0){ SFX.coin(Math.ceil(r.net/15)); coinBurst(Math.min(40,6+Math.round(r.net/4))); fly('+'+fmt(r.net)+'万','plus'); }
+  else { SFX.bad(); fly('−'+fmt(-r.net)+'万','minus'); }
+  bump($('hCash')); renderHud();
+}
+function resetGo(){ $('bGo').removeAttribute('data-sure'); $('bGo').textContent='今月を進める ▶'; }
+function nextMonth(){
+  modal=false; SFX.tap();
+  if(G.over){ showOver(); return; }
+  hideOv(); tab='jobs'; renderAll(); window.scrollTo(0,0);
+}
+function showOver(){
+  state='over';
+  const sc=scoreOf(G), ti=titleOf(G), b=Store.best(); let isBest=false;
+  if(!G.bankrupt && (!b || sc>b.score)){ Store.set('zouen_tycoon_best', JSON.stringify({score:sc, title:ti.t})); isBest=true; }
+  const nb=Store.best();
+  let h = G.bankrupt
+    ? '<h2>💥 '+(Math.floor((G.m-1)/12)+1)+'年目 '+(((3+G.m-1)%12)+1)+'月で倒産</h2><div class="title2">'+ti.t+'</div><div class="lead">'+ti.d+'<br>受ける量と投資の順番を変えて、もう一度。</div>'
+    : '<h2>🎊 2年間おつかれさまでした</h2><div class="lead">会社の評価</div><div class="title2">'+ti.t+'</div><div class="lead">'+ti.d+'</div>'
+      +'<div class="tot"><span>💰 資金 '+fmt(G.cash)+'万円</span><span>'+Math.round(Math.max(0,G.cash)*0.25)+'点</span></div>'
+      +'<div class="tot"><span>⭐ 評判 '+Math.round(G.rep)+'</span><span>'+Math.round(G.rep*4)+'点</span></div>'
+      +'<div class="tot"><span>👷 社員 '+G.staff.length+'人</span><span>'+G.staff.length*30+'点</span></div>'
+      +'<div class="tot net"><span>合計</span><span>'+sc+'点</span></div>'
+      +'<div class="tot"><span>2年間の売上</span><span>'+fmt(G.totalRev)+'万円（'+G.totalJobs+'件）</span></div>'
+      +(isBest?'<div class="news">🏅 最高記録を更新しました！</div>':'');
+  if(nb) h+='<div class="lead">最高記録：'+nb.score+'点「'+nb.title+'」</div>';
+  h+='<button class="big" id="bAgain">もう一度あそぶ</button><div class="small">※ 金額や数字はゲーム用の作り物です。</div>';
+  showOv(h);
+  $('bAgain').onclick = startGame;
+  if(G.bankrupt) SFX.lose(); else { SFX.win(); coinBurst(40); }
+}
+function togglePause(){
+  if(modal) return;
+  if(state==='play'){ state='pause'; BGM.hold(true);
+    showOv('<h2>⏸ 一時停止</h2><button class="big" id="bRes">つづける</button><button class="big sec" id="bQuit">タイトルへもどる（最初から）</button>');
+    $('bRes').onclick = togglePause; $('bQuit').onclick = ()=>{ BGM.hold(false); showTitle(); };
+  } else if(state==='pause'){ state='play'; BGM.hold(false); hideOv(); }
+}
+
+$('panel').addEventListener('click', onPanel);
+$('tabs').addEventListener('click', e => { const t=e.target.getAttribute && e.target.getAttribute('data-tab'); if(!t||state!=='play') return; tab=t; SFX.ensure(); SFX.tap(); resetGo(); renderPanel(); });
+$('bGo').addEventListener('click', goMonth);
+$('bSnd').addEventListener('click', () => { SFX.ensure(); setSound(!soundOn); if(soundOn) SFX.tap(); });
+$('bPause').addEventListener('click', () => { SFX.ensure(); togglePause(); });
+document.addEventListener('keydown', e => {
+  if(e.code==='KeyM'){ setSound(!soundOn); return; }
+  if(e.code==='KeyP'){ togglePause(); return; }
+});
+
+// ---- ループ --------------------------------------------------------------
+let lastT=0;
+function loop(t){
+  const dt = lastT ? Math.min(50,t-lastT) : 16; lastT=t;
+  if(G){
+    const d=G.cash-showCash;
+    showCash = Math.abs(d)<0.6 ? G.cash : showCash + d*Math.min(1,dt/180);
+    const el=$('hCash'); el.textContent=fmt(showCash); el.className = showCash<0 ? 'neg' : '';
+  }
+  if(state!=='pause') drawScene(dt);
+  requestAnimationFrame(loop);
+}
+$('bSnd').textContent = soundOn?'🔊':'🔇';
+showTitle();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
