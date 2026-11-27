@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>11月28日の成果</title>
+<style>
+  :root{ --bg:#f3f6ee; --card:#ffffff; --ink:#1f2d22; --sub:#5b6b5e; --line:#d9e2d2; --acc:#2f7d4a; --acc2:#e6f2e4; --warn:#8a5a12; --warnbg:#fff5df; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:'Hiragino Sans','Yu Gothic UI','Segoe UI',sans-serif; line-height:1.7; }
+  main{ max-width:760px; margin:0 auto; padding:20px 16px 56px; }
+  h1{ font-size:24px; margin:8px 0 2px; }
+  .lead{ color:var(--sub); font-size:14px; margin:0 0 18px; }
+  h2{ font-size:18px; margin:30px 0 10px; padding-left:10px; border-left:5px solid var(--acc); }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin:10px 0; }
+  .card h3{ margin:0 0 4px; font-size:17px; }
+  .card p{ margin:4px 0; font-size:14.5px; }
+  .tag{ display:inline-block; font-size:12px; color:var(--acc); background:var(--acc2); border-radius:999px; padding:1px 10px; margin-bottom:4px; }
+  .note{ background:var(--warnbg); color:var(--warn); border-radius:10px; padding:10px 12px; font-size:13.5px; margin:10px 0; }
+  small{ color:var(--sub); }
+  ul{ margin:6px 0; padding-left:20px; font-size:14.5px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>11月28日の成果</h1>
+  <p class="lead">Claude の「アーティファクト」（会話の中で作る、開いて使えるページ）の動画3本を AI が分析し、その型で造園の仕事に使える物を3つ作りました。</p>
+
+  <h2>作った物3つ</h2>
+  <div class="card"><span class="tag">動画1の型：データを覚える記録帳</span><h3>現場の日報帳</h3>
+    <ul>
+      <li>1件＝日付・現場名・作業した人・やった作業・困り事・疲れ具合（1〜5）・メモ</li>
+      <li>「日報を残す」を押すと、ページの外の保存場所に残り、次に開いた人にも出る</li>
+      <li>同じ現場で2日続けて困り事があると、「困り事が続いた」の印と知らせの帯が出る</li>
+    </ul>
+    <p><b>確かめた事</b>：例の3件を AI が書き込み、あとから読み返せた。「見るだけの人」は読めるが書けない（決まりどおり）。</p></div>
+
+  <div class="card"><span class="tag">動画2の型：資料をつなぐ</span><h3>勉強会の段取り書（文書）</h3>
+    <p>前の日に作ったホワイトボードの付せん35個を AI が読んで、ねらい・7つの段取り・担当の表・予算の表・まだ決めていない事の文書に書き直しました。</p>
+    <p><b>分かった事</b>：ボード・表・文書は<b>自動ではつながらない</b>。表の数字を変えても文書は変わらないので、「反映して」と頼んだら AI が全部読み直して直す、という決まりが要る。</p></div>
+
+  <div class="card"><span class="tag">動画3の型：データのページ</span><h3>造園の月別作業件数</h3>
+    <ul>
+      <li>4月〜11月の剪定・草刈り・植栽の件数（作り物）から、積み上げの棒グラフと月ごとの表</li>
+      <li>「今月の合計と先月比」と、草刈りや剪定の山の月の一文を、数字から自動で書く</li>
+    </ul>
+    <p><b>分かった事</b>：数字は表の式や出どころに持たせ、AI が手で書かない作り。前の日の「足し算は表にさせる」と同じ考え。</p></div>
+
+  <h2>まだ確かめていない事</h2>
+  <div class="card"><ul>
+    <li>3つとも、画面での見え方とボタンの動き（AI の道具からはアプリの画面を撮れないため）</li>
+    <li>ページの中から Claude に質問する機能、グラフの形の切り替え、更新ボタン</li>
+  </ul></div>
+
+  <div class="note">作った3つは本人だけが開ける場所にあるため、このページには画面とアドレスを載せていません。名前・現場名・件数・金額は、すべて練習用の作り物です。</div>
+
+  <p class="lead" style="margin-top:28px"><a href="../20261127/">← 11月27日の成果</a>　／　<a href="../20261125-ai-benkyo-nagare.html">AIに「これを勉強して」と頼む流れ</a></p>
+</main>
+</body>
+</html>
