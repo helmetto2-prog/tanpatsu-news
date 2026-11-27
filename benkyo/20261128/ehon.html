@@ -131,9 +131,11 @@
 
     /* 本文テキスト行（1行ずつ少しずつ出るアニメーション） */
     .story-line {
-      font-size: clamp(1.05rem, 3.2vw, 1.55rem);
+      font-size: clamp(0.92rem, 3.8vw, 1.55rem);
       line-height: 1.75;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
       color: #4a3b32;
       margin: 2px 0;
       opacity: 0;
@@ -208,6 +210,7 @@
       font-size: clamp(1rem, 2.8vw, 1.25rem);
       font-weight: bold;
       letter-spacing: 0.05em;
+      white-space: nowrap;
       cursor: pointer;
       box-shadow: 0 4px 0 #5b9154, 0 6px 12px rgba(0,0,0,0.1);
       transition: transform 0.12s ease, background-color 0.2s ease, opacity 0.2s ease;
@@ -243,6 +246,52 @@
       padding: 8px 20px;
       border-radius: 999px;
       letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* スマホ縦画面（幅480px以下）のレイアウト調整 */
+    @media (max-width: 480px) {
+      #book-wrapper {
+        padding: 8px 10px;
+      }
+      #illustration-area {
+        flex: 0 0 auto;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        padding: 8px 8px 0 8px;
+      }
+      #illustration-area svg {
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+      #text-area {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 12px 10px 14px 10px;
+      }
+      .story-line {
+        font-size: clamp(0.84rem, 3.85vw, 1.05rem);
+        letter-spacing: 0.01em;
+        line-height: 1.8;
+      }
+      .cover-title {
+        font-size: clamp(1.15rem, 5.2vw, 1.45rem);
+      }
+      #nav-bar {
+        gap: 6px;
+        padding-top: 8px;
+      }
+      .nav-btn {
+        min-width: 0;
+        padding: 9px 13px;
+        font-size: 0.88rem;
+        gap: 4px;
+      }
+      #page-indicator {
+        padding: 7px 12px;
+        font-size: 0.88rem;
+        letter-spacing: 0.04em;
+      }
     }
 
     /* スマホ横向きなど高さが低い画面への配慮 */
@@ -310,7 +359,8 @@
       50% { transform: scaleX(0.45); }
     }
     .anim-wing {
-      transform-box: fill-box; transform-origin: center; /* まとん追記：羽の中心で羽ばたく */
+      transform-box: fill-box;
+      transform-origin: center;
       animation: wing-flap 0.55s ease-in-out infinite;
     }
 
@@ -417,6 +467,15 @@
     }
     .anim-petal {
       animation: petal-drift 5.5s ease-in-out infinite;
+    }
+  </style>
+  <style>
+    /* まとん追記（2026-11-28）：狭い縦画面では、絵の枠を絵と同じ 16:9 にして、絵と文をくっつけて、カードの真ん中にまとめる */
+    @media (max-width: 480px), (orientation: portrait) and (max-width: 600px) {
+      #illustration-area { flex: 0 0 auto; aspect-ratio: 16 / 9; }
+      #page-card { justify-content: center; }
+      #text-area { flex: 0 0 auto; min-height: 0; padding-top: 22px; }
+      .cover-title { font-size: 1.2rem; letter-spacing: 0.03em; white-space: nowrap; }
     }
   </style>
 </head>
@@ -1052,6 +1111,7 @@
       // 1. 絵エリアのリセットとふわっと表示
       illustrationArea.classList.remove('visible');
       illustrationArea.innerHTML = page.svg;
+      updateSvgAspectRatio();
 
       // 次のフレームでクラスを付与してトランジション発火
       requestAnimationFrame(() => {
@@ -1083,7 +1143,8 @@
         page.lines.forEach((lineText, lineIdx) => {
           const p = document.createElement('p');
           p.className = 'story-line';
-          p.textContent = lineText;
+          // 読点（、）の後ろで自然に改行できるよう <wbr> を挿入
+          p.innerHTML = lineText.replace(/、/g, '、<wbr>');
           if (page.isEnding && lineIdx === page.lines.length - 1) {
             p.style.fontWeight = 'bold';
             p.style.color = '#6e4e37';
@@ -1103,6 +1164,19 @@
       prevBtn.disabled = (index === 0);
       nextBtn.disabled = (index === totalPages - 1);
     }
+
+    /**
+     * 画面の向き・幅に応じてSVGの preserveAspectRatio を切り替える関数
+     * 狭い縦画面では左右が切れないよう xMidYMid meet にする
+     */
+    function updateSvgAspectRatio() {
+      const svgEl = illustrationArea.querySelector('svg');
+      if (!svgEl) return;
+      const isNarrowPortrait = window.innerWidth <= 480 || (window.innerHeight > window.innerWidth && window.innerWidth <= 600);
+      svgEl.setAttribute('preserveAspectRatio', isNarrowPortrait ? 'xMidYMid meet' : 'xMidYMid slice');
+    }
+
+    window.addEventListener('resize', updateSvgAspectRatio);
 
     /**
      * 前のページへ
