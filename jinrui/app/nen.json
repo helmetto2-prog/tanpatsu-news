@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-27 00:53",
-  "latest": 48,
+  "updated": "2026-11-28 00:50",
+  "latest": 49,
   "years": [
     {
       "y": 1,
@@ -571,8 +571,8 @@
       "img": "../img/y0044.jpg",
       "koe": "../koe/y0044.mp3",
       "anime": "../annai/jinrui_y0044_720p.mp4",
-      "animeReady": false,
-      "poster": null
+      "animeReady": true,
+      "poster": "../annai/poster_y0044.jpg"
     },
     {
       "y": 45,
@@ -623,6 +623,19 @@
       "img": "../img/y0048.jpg",
       "koe": "../koe/y0048.mp3",
       "anime": "../annai/jinrui_y0048_720p.mp4",
+      "animeReady": false,
+      "poster": null
+    },
+    {
+      "y": 49,
+      "title": "49年目　スエグツの年",
+      "name": "スエグツの年",
+      "headline": "カワネの年寄りがナカビへ。ツチブルイのあと、ミルがひとり立ち",
+      "date": "",
+      "page": "../nen/49/",
+      "img": null,
+      "koe": "../koe/y0049.mp3",
+      "anime": "../annai/jinrui_y0049_720p.mp4",
       "animeReady": false,
       "poster": null
     }
