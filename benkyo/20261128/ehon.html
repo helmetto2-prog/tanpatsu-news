@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>どんぐりのコロと、にわの いちねん</title>
+  <style>
+    /* ==========================================================================
+       ベーススタイル & リセット（外部フォント・外部CSS不使用）
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #f6f1e3; /* やさしい生成り色の背景 */
+      font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", "Yu Gothic", "Meiryo", sans-serif;
+      color: #4a3b32;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ==========================================================================
+       絵本全体のコンテナ（レスポンシブ・はみ出し防止）
+       ========================================================================== */
+    #book-wrapper {
+      width: 100%;
+      height: 100%;
+      max-width: 960px;
+      max-height: 760px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 16px;
+      position: relative;
+    }
+
+    /* 絵本のページカード（角丸・影付き） */
+    #page-card {
+      flex: 1;
+      width: 100%;
+      min-height: 0; /* flex子要素のはみ出し防止 */
+      background-color: #fffdf9;
+      border-radius: 28px;
+      box-shadow: 0 10px 28px rgba(92, 73, 56, 0.14), inset 0 0 0 4px #efe5d1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 絵（SVG）を表示するエリア */
+    #illustration-area {
+      flex: 1 1 62%;
+      width: 100%;
+      min-height: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 12px 0 12px;
+      position: relative;
+      /* ページを開いた時に絵がふわっと出る */
+      opacity: 0;
+      transform: scale(0.97);
+      transition: opacity 0.85s ease-out, transform 0.85s ease-out;
+    }
+
+    #illustration-area.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #illustration-area svg {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.04);
+    }
+
+    /* 文を表示するエリア */
+    #text-area {
+      flex: 0 0 auto;
+      min-height: 34%;
+      width: 100%;
+      padding: 14px 20px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    /* 表紙タイトル用スタイル */
+    .cover-title {
+      font-size: clamp(1.35rem, 4.2vw, 2.1rem);
+      font-weight: bold;
+      color: #5c3d28;
+      letter-spacing: 0.08em;
+      line-height: 1.45;
+      margin-bottom: 6px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .cover-sub {
+      font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+      color: #8c6d53;
+      letter-spacing: 0.06em;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.7s ease-out 0.35s, transform 0.7s ease-out 0.35s;
+    }
+
+    .cover-title.show, .cover-sub.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 本文テキスト行（1行ずつ少しずつ出るアニメーション） */
+    .story-line {
+      font-size: clamp(1.05rem, 3.2vw, 1.55rem);
+      line-height: 1.75;
+      letter-spacing: 0.06em;
+      color: #4a3b32;
+      margin: 2px 0;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .story-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 読み上げボタン（カード右上またはテキスト横に配置） */
+    #speech-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      background-color: #fff6d6;
+      color: #6b4c35;
+      border: 2px solid #e6cfa3;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(107, 76, 53, 0.12);
+      transition: transform 0.15s ease, background-color 0.2s ease;
+    }
+
+    #speech-btn:hover {
+      background-color: #ffedb3;
+    }
+
+    #speech-btn:active {
+      transform: scale(0.95);
+    }
+
+    #speech-btn.speaking {
+      background-color: #ffd97d;
+      border-color: #e0a82e;
+      animation: pulse-btn 1.4s infinite ease-in-out;
+    }
+
+    @keyframes pulse-btn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* ==========================================================================
+       下部ナビゲーションバー（「まえへ」「ページ数」「つぎへ」）
+       ========================================================================== */
+    #nav-bar {
+      flex: 0 0 auto;
+      width: 100%;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background-color: #7eb876;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #5b9154, 0 6px 12px rgba(0,0,0,0.1);
+      transition: transform 0.12s ease, background-color 0.2s ease, opacity 0.2s ease;
+      min-width: 112px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background-color: #70ab68;
+    }
+
+    .nav-btn:active:not(:disabled) {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #5b9154;
+    }
+
+    .nav-btn:disabled {
+      background-color: #d6cfc2;
+      color: #f7f4ed;
+      box-shadow: 0 4px 0 #bdb5a6;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+
+    #page-indicator {
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      font-weight: bold;
+      color: #7a6352;
+      background-color: #ede4d3;
+      padding: 8px 20px;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+    }
+
+    /* スマホ横向きなど高さが低い画面への配慮 */
+    @media (max-height: 520px) {
+      #book-wrapper {
+        padding: 6px 12px;
+      }
+      #page-card {
+        flex-direction: row;
+        border-radius: 20px;
+      }
+      #illustration-area {
+        flex: 1 1 55%;
+        padding: 10px;
+      }
+      #text-area {
+        flex: 1 1 45%;
+        min-height: 100%;
+        padding: 44px 16px 12px 8px;
+      }
+      #nav-bar {
+        padding-top: 8px;
+      }
+      .nav-btn {
+        padding: 8px 18px;
+      }
+    }
+
+    /* ==========================================================================
+       SVG内のゆっくりした優しいCSSアニメーション定義
+       ========================================================================== */
+    /* 1. ゆらゆら揺れる（木漏れ日・葉っぱ・草・花・芽） */
+    @keyframes gentle-sway {
+      0%, 100% { transform: rotate(-2.5deg); }
+      50% { transform: rotate(2.5deg); }
+    }
+    .anim-sway {
+      transform-origin: center bottom;
+      animation: gentle-sway 4.5s ease-in-out infinite;
+    }
+
+    @keyframes gentle-sway-slow {
+      0%, 100% { transform: rotate(-1.5deg); }
+      50% { transform: rotate(1.5deg); }
+    }
+    .anim-sway-slow {
+      transform-origin: top center;
+      animation: gentle-sway-slow 5.5s ease-in-out infinite;
+    }
+
+    /* 2. ふわふわ浮く・ちょうちょ・雲 */
+    @keyframes float-butterfly {
+      0%   { transform: translate(0px, 0px) rotate(-4deg); }
+      25%  { transform: translate(18px, -14px) rotate(5deg); }
+      50%  { transform: translate(36px, -4px) rotate(-2deg); }
+      75%  { transform: translate(16px, 10px) rotate(4deg); }
+      100% { transform: translate(0px, 0px) rotate(-4deg); }
+    }
+    .anim-butterfly {
+      animation: float-butterfly 7s ease-in-out infinite;
+    }
+
+    @keyframes wing-flap {
+      0%, 100% { transform: scaleX(1); }
+      50% { transform: scaleX(0.45); }
+    }
+    .anim-wing {
+      transform-box: fill-box; transform-origin: center; /* まとん追記：羽の中心で羽ばたく */
+      animation: wing-flap 0.55s ease-in-out infinite;
+    }
+
+    @keyframes cloud-drift {
+      0%, 100% { transform: translateX(-8px); }
+      50% { transform: translateX(12px); }
+    }
+    .anim-cloud {
+      animation: cloud-drift 9s ease-in-out infinite;
+    }
+
+    /* 3. コロがゆっくりころがる・ゆれる */
+    @keyframes koro-roll {
+      0%   { transform: translateX(-28px) rotate(-18deg); }
+      50%  { transform: translateX(28px) rotate(18deg); }
+      100% { transform: translateX(-28px) rotate(-18deg); }
+    }
+    .anim-koro-roll {
+      transform-origin: center;
+      animation: koro-roll 6s ease-in-out infinite;
+    }
+
+    @keyframes koro-breathe {
+      0%, 100% { transform: scale(1, 1); }
+      50% { transform: scale(1.03, 0.97); }
+    }
+    .anim-breathe {
+      transform-origin: center bottom;
+      animation: koro-breathe 3.5s ease-in-out infinite;
+    }
+
+    /* 4. 光のきらめき・おひさま */
+    @keyframes sun-glow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    .anim-sun {
+      transform-origin: center;
+      animation: sun-glow 5s ease-in-out infinite;
+    }
+
+    /* 5. 雨がしとしとふる */
+    @keyframes rain-fall {
+      0%   { transform: translate(-6px, -25px); opacity: 0; }
+      20%  { opacity: 0.75; }
+      80%  { opacity: 0.75; }
+      100% { transform: translate(-18px, 65px); opacity: 0; }
+    }
+    .anim-rain-1 { animation: rain-fall 2.6s linear infinite; }
+    .anim-rain-2 { animation: rain-fall 2.6s linear 0.9s infinite; }
+    .anim-rain-3 { animation: rain-fall 2.6s linear 1.7s infinite; }
+
+    /* 6. せみの声・夏の風 */
+    @keyframes sound-wave {
+      0%, 100% { opacity: 0.2; transform: scale(0.92); }
+      50% { opacity: 0.9; transform: scale(1.06); }
+    }
+    .anim-wave {
+      transform-origin: center;
+      animation: sound-wave 2.4s ease-in-out infinite;
+    }
+
+    /* 7. 落ち葉がひらひら舞う */
+    @keyframes leaf-flutter {
+      0%   { transform: translate(0px, -15px) rotate(-12deg); opacity: 0; }
+      15%  { opacity: 1; }
+      50%  { transform: translate(22px, 35px) rotate(18deg); }
+      85%  { opacity: 1; }
+      100% { transform: translate(-10px, 85px) rotate(-15deg); opacity: 0; }
+    }
+    .anim-leaf-1 { animation: leaf-flutter 6.5s ease-in-out infinite; }
+    .anim-leaf-2 { animation: leaf-flutter 7.5s ease-in-out 2.2s infinite; }
+    .anim-leaf-3 { animation: leaf-flutter 6.8s ease-in-out 4.1s infinite; }
+
+    /* 8. 雪がふわふわふる */
+    @keyframes snow-fall {
+      0%   { transform: translate(0px, -15px); opacity: 0; }
+      15%  { opacity: 0.95; }
+      50%  { transform: translate(12px, 55px); }
+      85%  { opacity: 0.95; }
+      100% { transform: translate(-8px, 125px); opacity: 0; }
+    }
+    .anim-snow-1 { animation: snow-fall 6s ease-in-out infinite; }
+    .anim-snow-2 { animation: snow-fall 7s ease-in-out 1.8s infinite; }
+    .anim-snow-3 { animation: snow-fall 6.5s ease-in-out 3.5s infinite; }
+    .anim-snow-4 { animation: snow-fall 7.5s ease-in-out 4.8s infinite; }
+
+    /* 9. 芽がゆっくり伸びる */
+    @keyframes sprout-grow {
+      0%   { transform: scaleY(0.45) scaleX(0.85); }
+      60%  { transform: scaleY(1.03) scaleX(1.02); }
+      100% { transform: scaleY(1) scaleX(1); }
+    }
+    .anim-sprout {
+      transform-origin: 400px 310px;
+      animation: sprout-grow 3.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* 10. 花びらがひらひら舞う（表紙・おしまい） */
+    @keyframes petal-drift {
+      0%   { transform: translate(0px, 0px) rotate(0deg); }
+      50%  { transform: translate(20px, 18px) rotate(25deg); }
+      100% { transform: translate(0px, 0px) rotate(0deg); }
+    }
+    .anim-petal {
+      animation: petal-drift 5.5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="book-wrapper">
+    <!-- 絵本の1ページカード -->
+    <main id="page-card" aria-live="polite">
+      <!-- よみあげボタン（Web Speech API対応時のみ表示） -->
+      <button id="speech-btn" type="button" aria-label="このページをよみあげる" style="display: none;">
+        <span id="speech-icon">🔊</span>
+        <span id="speech-label">よみあげ</span>
+      </button>
+
+      <!-- 絵のエリア（SVG描画） -->
+      <div id="illustration-area"></div>
+
+      <!-- 文のエリア -->
+      <div id="text-area"></div>
+    </main>
+
+    <!-- 下部ナビゲーション -->
+    <nav id="nav-bar" aria-label="ページめくり">
+      <button id="prev-btn" class="nav-btn" type="button">◀ まえへ</button>
+      <div id="page-indicator">1 / 11</div>
+      <button id="next-btn" class="nav-btn" type="button">つぎへ ▶</button>
+    </nav>
+  </div>
+
+  <script>
+    /**
+     * 共通SVGパーツ（どんぐりのコロ）を生成するヘルパー関数
+     * @param {number} cx - 中心X座標
+     * @param {number} cy - 中心Y座標
+     * @param {number} scale - 大きさ倍率
+     * @param {string} mood - 表情 ('smile' | 'sleep' | 'happy' | 'curious')
+     * @param {boolean} withSprout - 芽が出ているか
+     */
+    function createKoroSVG(cx, cy, scale = 1, mood = 'smile', withSprout = false) {
+      let eyes = '';
+      if (mood === 'smile') {
+        eyes = `
+          <circle cx="-13" cy="-2" r="3.5" fill="#4a3222"/>
+          <circle cx="13" cy="-2" r="3.5" fill="#4a3222"/>
+          <circle cx="-14" cy="-3.2" r="1.2" fill="#ffffff"/>
+          <circle cx="12" cy="-3.2" r="1.2" fill="#ffffff"/>
+          <path d="M -6 6 Q 0 12 6 6" fill="none" stroke="#4a3222" stroke-width="2.6" stroke-linecap="round"/>
+        `;
+      } else if (mood === 'sleep') {
+        eyes = `
+          <path d="M -18 -2 Q -13 3 -8 -2" fill="none" stroke="#4a3222" stroke-width="2.6" stroke-linecap="round"/>
+          <path d="M 8 -2 Q 13 3 18 -2" fill="none" stroke="#4a3222" stroke-width="2.6" stroke-linecap="round"/>
+          <circle cx="0" cy="8" r="3" fill="#e58a7b"/>
+        `;
+      } else if (mood === 'happy') {
+        eyes = `
+          <path d="M -18 -1 Q -13 -7 -8 -1" fill="none" stroke="#4a3222" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M 8 -1 Q 13 -7 18 -1" fill="none" stroke="#4a3222" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M -7 5 Q 0 14 7 5 Z" fill="#e57373"/>
+        `;
+      } else if (mood === 'curious') {
+        eyes = `
+          <circle cx="-13" cy="-3" r="3.8" fill="#4a3222"/>
+          <circle cx="13" cy="-3" r="3.8" fill="#4a3222"/>
+          <circle cx="-14" cy="-4.2" r="1.3" fill="#ffffff"/>
+          <circle cx="12" cy="-4.2" r="1.3" fill="#ffffff"/>
+          <ellipse cx="0" cy="7" rx="3.5" ry="4" fill="#d97b6c"/>
+        `;
+      }
+
+      const sproutPart = withSprout ? `
+        <g transform="translate(0, -34)">
+          <path d="M 0 0 Q -2 -18 0 -28" fill="none" stroke="#68b357" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M 0 -20 Q -16 -32 -22 -20 Q -12 -12 0 -20 Z" fill="#82cf6e"/>
+          <path d="M 0 -23 Q 16 -35 22 -23 Q 12 -15 0 -23 Z" fill="#9be084"/>
+        </g>
+      ` : '';
+
+      return `
+        <g transform="translate(${cx}, ${cy}) scale(${scale})">
+          ${sproutPart}
+          <!-- どんぐりの実（体） -->
+          <path d="M -28 -8 C -30 18, -16 36, 0 40 C 16 36, 30 18, 28 -8 Z" fill="#c98549" stroke="#8f5829" stroke-width="2.5"/>
+          <!-- おなかのハイライト -->
+          <ellipse cx="-14" cy="12" rx="4" ry="10" transform="rotate(-12 -14 12)" fill="#e3a871" opacity="0.6"/>
+          <!-- どんぐりのぼうし（殻斗） -->
+          <path d="M -31 -8 C -32 -26, 32 -26, 31 -8 C 20 -3, -20 -3, -31 -8 Z" fill="#8c5832" stroke="#633c20" stroke-width="2.5"/>
+          <!-- ぼうしのあみめ模様 -->
+          <path d="M -20 -18 L -12 -8 M -8 -21 L 0 -8 M 4 -21 L 12 -8 M 16 -18 L 22 -9" stroke="#633c20" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+          <path d="M 20 -18 L 12 -8 M 8 -21 L 0 -8 M -4 -21 L -12 -8 M -16 -18 L -22 -9" stroke="#633c20" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+          <!-- ぼうしのてっぺんのヘタ -->
+          <path d="M -3 -22 L -4 -31 Q 0 -33 4 -31 L 3 -22 Z" fill="#633c20"/>
+          <!-- ほっぺ -->
+          <ellipse cx="-19" cy="4" rx="5" ry="3" fill="#f29b8f" opacity="0.75"/>
+          <ellipse cx="19" cy="4" rx="5" ry="3" fill="#f29b8f" opacity="0.75"/>
+          <!-- 表情 -->
+          ${eyes}
+        </g>
+      `;
+    }
+
+    /**
+     * 全11ページのストーリー＆SVGデータ定義
+     */
+    const STORY_PAGES = [
+      // 1. 表紙
+      {
+        isCover: true,
+        title: "どんぐりのコロと、にわの いちねん",
+        subtitle: "はる・なつ・あき・ふゆ の おはなし",
+        speechText: "どんぐりのコロと、にわの いちねん。はる、なつ、あき、ふゆ の おはなし。",
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="sky-cover" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fff5d6"/>
+                <stop offset="100%" stop-color="#e3f4d7"/>
+              </linearGradient>
+            </defs>
+            <rect width="800" height="450" fill="url(#sky-cover)"/>
+            <!-- やわらかいおひさま -->
+            <circle cx="670" cy="95" r="52" fill="#ffe17d" class="anim-sun"/>
+            <!-- ふわふわの雲 -->
+            <g class="anim-cloud" fill="#ffffff" opacity="0.9">
+              <circle cx="150" cy="90" r="28"/><circle cx="180" cy="85" r="34"/><circle cx="212" cy="92" r="25"/>
+            </g>
+            <!-- 緑の丘 -->
+            <path d="M -20 330 Q 220 270 440 320 T 820 300 L 820 460 L -20 460 Z" fill="#b7e092"/>
+            <path d="M -20 365 Q 350 320 820 375 L 820 460 L -20 460 Z" fill="#9cd173"/>
+            <!-- 四季をあらわす小さな花びら・葉っぱ -->
+            <g class="anim-petal">
+              <ellipse cx="230" cy="180" rx="8" ry="5" fill="#ffb7c5" transform="rotate(25 230 180)"/>
+              <ellipse cx="560" cy="160" rx="9" ry="5" fill="#f7a35c" transform="rotate(-20 560 160)"/>
+              <circle cx="310" cy="130" r="5" fill="#ffffff" opacity="0.9"/>
+              <circle cx="500" cy="210" r="4.5" fill="#ffffff" opacity="0.9"/>
+            </g>
+            <!-- ちいさな草花 -->
+            <g transform="translate(240, 345)">
+              <g class="anim-sway">
+                <path d="M 0 0 Q -3 -18 0 -30" stroke="#68b357" stroke-width="3.5" fill="none"/>
+                <circle cx="0" cy="-32" r="8" fill="#ff9eb5"/><circle cx="0" cy="-32" r="3.5" fill="#ffe17d"/>
+              </g>
+            </g>
+            <g transform="translate(560, 340)">
+              <g class="anim-sway">
+                <path d="M 0 0 Q 3 -18 0 -28" stroke="#68b357" stroke-width="3.5" fill="none"/>
+                <circle cx="0" cy="-30" r="8" fill="#fff078"/><circle cx="0" cy="-30" r="3.5" fill="#f7a35c"/>
+              </g>
+            </g>
+            <!-- 主人公コロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 305, 1.45, 'happy', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 2. 本文1（春・はじまり）
+      {
+        lines: [
+          "はるの にわに、どんぐりの コロが います。",
+          "ぽかぽか おひさまが、あたたかいね。",
+          "しろい ちょうちょが、ひらひら やってきました。"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#e8f7ff"/>
+            <!-- おひさま -->
+            <circle cx="130" cy="95" r="48" fill="#ffd966" class="anim-sun"/>
+            <!-- 庭の木の幹 -->
+            <path d="M 40 450 L 65 180 L 130 180 L 155 450 Z" fill="#9c7252"/>
+            <ellipse cx="110" cy="130" rx="140" ry="95" fill="#95d47a" class="anim-sway-slow"/>
+            <!-- 春の地面 -->
+            <path d="M -20 340 Q 400 300 820 350 L 820 460 L -20 460 Z" fill="#a8de83"/>
+            <!-- たんぽぽ -->
+            <g transform="translate(270, 355)">
+              <g class="anim-sway">
+                <path d="M 0 0 L 0 -32" stroke="#5ea84d" stroke-width="4"/>
+                <circle cx="0" cy="-36" r="11" fill="#ffd93d"/>
+              </g>
+            </g>
+            <g transform="translate(540, 360)">
+              <g class="anim-sway">
+                <path d="M 0 0 L 0 -28" stroke="#5ea84d" stroke-width="4"/>
+                <circle cx="0" cy="-32" r="10" fill="#ffd93d"/>
+              </g>
+            </g>
+            <!-- ちょうちょが飛ぶアニメーション -->
+            <g transform="translate(470, 210)">
+              <g class="anim-butterfly">
+                <g class="anim-wing">
+                  <ellipse cx="-10" cy="-6" rx="12" ry="9" fill="#ffffff" stroke="#d9e6f2" stroke-width="1.5"/>
+                  <ellipse cx="10" cy="-6" rx="12" ry="9" fill="#ffffff" stroke="#d9e6f2" stroke-width="1.5"/>
+                  <ellipse cx="-8" cy="6" rx="9" ry="7" fill="#fff9e6" stroke="#d9e6f2" stroke-width="1.5"/>
+                  <ellipse cx="8" cy="6" rx="9" ry="7" fill="#fff9e6" stroke="#d9e6f2" stroke-width="1.5"/>
+                </g>
+                <rect x="-2" y="-10" width="4" height="20" rx="2" fill="#7a6352"/>
+              </g>
+            </g>
+            <!-- コロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(390, 315, 1.3, 'smile', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 3. 本文2（春・ころがる）
+      {
+        lines: [
+          "やさしい かぜが ふいて、コロは ころころ。",
+          "「わあ、くさの じゅうたんが ふわふわ！」",
+          "ちょうちょと いっしょに、おさんぽです。"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#e6f7ed"/>
+            <g class="anim-cloud" fill="#ffffff" opacity="0.85">
+              <circle cx="520" cy="85" r="26"/><circle cx="555" cy="80" r="32"/><circle cx="590" cy="88" r="24"/>
+            </g>
+            <!-- なだらかな草の丘 -->
+            <path d="M -20 310 Q 400 280 820 330 L 820 460 L -20 460 Z" fill="#9ed977"/>
+            <path d="M -20 365 Q 380 340 820 380 L 820 460 L -20 460 Z" fill="#89c963"/>
+            <!-- 揺れるクローバー -->
+            <g transform="translate(200, 360)">
+              <g class="anim-sway">
+                <circle cx="-6" cy="-14" r="6" fill="#63b048"/><circle cx="6" cy="-14" r="6" fill="#63b048"/><circle cx="0" cy="-22" r="6" fill="#63b048"/>
+              </g>
+            </g>
+            <g transform="translate(610, 365)">
+              <g class="anim-sway">
+                <circle cx="-6" cy="-14" r="6" fill="#63b048"/><circle cx="6" cy="-14" r="6" fill="#63b048"/><circle cx="0" cy="-22" r="6" fill="#63b048"/>
+              </g>
+            </g>
+            <!-- コロがころころ転がるアニメーション -->
+            <g class="anim-koro-roll">
+              ${createKoroSVG(390, 305, 1.25, 'happy', false)}
+            </g>
+            <!-- ちょうちょ -->
+            <g transform="translate(320, 195)">
+              <g class="anim-butterfly">
+                <g class="anim-wing">
+                  <ellipse cx="-9" cy="-5" rx="11" ry="8" fill="#fff5ba"/>
+                  <ellipse cx="9" cy="-5" rx="11" ry="8" fill="#fff5ba"/>
+                </g>
+                <rect x="-1.5" y="-8" width="3" height="16" rx="1.5" fill="#7a6352"/>
+              </g>
+            </g>
+          </svg>
+        `
+      },
+      // 4. 本文3（つゆ・雨）
+      {
+        lines: [
+          "つゆが やってきて、あめが しとしと。",
+          "おおきな はっぱの したで、あまやどり。",
+          "「あめの おとって、なんだか たのしいな。」"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#dcebf2"/>
+            <!-- やさしい雨雲 -->
+            <g fill="#b9ced9">
+              <circle cx="230" cy="70" r="42"/><circle cx="280" cy="65" r="50"/><circle cx="335" cy="72" r="40"/>
+              <circle cx="520" cy="80" r="38"/><circle cx="565" cy="75" r="46"/><circle cx="615" cy="82" r="36"/>
+            </g>
+            <!-- しとしと降る雨粒 -->
+            <g stroke="#7db7d9" stroke-width="3.5" stroke-linecap="round">
+              <line x1="220" y1="130" x2="212" y2="152" class="anim-rain-1"/>
+              <line x1="310" y1="150" x2="302" y2="172" class="anim-rain-2"/>
+              <line x1="490" y1="135" x2="482" y2="157" class="anim-rain-3"/>
+              <line x1="580" y1="155" x2="572" y2="177" class="anim-rain-1"/>
+              <line x1="650" y1="140" x2="642" y2="162" class="anim-rain-2"/>
+              <line x1="160" y1="160" x2="152" y2="182" class="anim-rain-3"/>
+            </g>
+            <!-- 地面 -->
+            <path d="M -20 340 Q 400 320 820 345 L 820 460 L -20 460 Z" fill="#89c478"/>
+            <!-- あじさい -->
+            <g transform="translate(570, 320)">
+              <g class="anim-sway">
+                <circle cx="0" cy="-22" r="26" fill="#9fc5f8"/>
+                <circle cx="-12" cy="-28" r="10" fill="#b4a7d6"/>
+                <circle cx="12" cy="-24" r="10" fill="#a4c2f4"/>
+                <circle cx="0" cy="-12" r="10" fill="#b4a7d6"/>
+              </g>
+            </g>
+            <!-- 大きな葉っぱの傘 -->
+            <g transform="translate(360, 355)">
+              <g class="anim-sway">
+                <path d="M -45 0 Q -55 -95 -10 -145" fill="none" stroke="#539647" stroke-width="7" stroke-linecap="round"/>
+                <path d="M -85 -135 Q 10 -185 105 -125 Q 15 -95 -85 -135 Z" fill="#6ab85c"/>
+              </g>
+            </g>
+            <!-- 葉っぱの下で雨宿りするコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(375, 315, 1.25, 'curious', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 5. 本文4（夏・木陰）
+      {
+        lines: [
+          "なつに なると、おひさまが ぴかぴか。",
+          "みどりの きの したは、すずしい こかげ。",
+          "「ミーン ミーン」 せみの こえが きこえます。"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#cceeff"/>
+            <!-- 元気なおひさま -->
+            <circle cx="670" cy="85" r="54" fill="#ffcc33" class="anim-sun"/>
+            <!-- 大きな夏木の幹と葉っぱ -->
+            <path d="M 150 450 L 185 170 L 265 170 L 300 450 Z" fill="#8c6244"/>
+            <g class="anim-sway-slow">
+              <circle cx="160" cy="135" r="95" fill="#5cb85c"/>
+              <circle cx="275" cy="125" r="105" fill="#4ca64c"/>
+              <circle cx="380" cy="150" r="85" fill="#68c468"/>
+            </g>
+            <!-- 地面と木陰 -->
+            <path d="M -20 340 Q 400 325 820 345 L 820 460 L -20 460 Z" fill="#92d46e"/>
+            <ellipse cx="320" cy="365" rx="180" ry="30" fill="#6eb352" opacity="0.65"/>
+            <!-- せみの声の波紋 -->
+            <g transform="translate(225, 225)">
+              <g class="anim-wave">
+                <circle cx="0" cy="0" r="18" fill="none" stroke="#ffffff" stroke-width="3"/>
+                <circle cx="0" cy="0" r="30" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.7"/>
+              </g>
+            </g>
+            <!-- ひまわり -->
+            <g transform="translate(610, 345)">
+              <g class="anim-sway">
+                <path d="M 0 0 L 0 -55" stroke="#539647" stroke-width="5"/>
+                <circle cx="0" cy="-62" r="22" fill="#ffd633"/>
+                <circle cx="0" cy="-62" r="11" fill="#7a4b2a"/>
+              </g>
+            </g>
+            <!-- 木陰ですずむコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(345, 320, 1.25, 'happy', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 6. 本文5（秋・落ち葉）
+      {
+        lines: [
+          "あきに なると、かぜが ひんやり。",
+          "あかや きいろの はっぱが、ひらひら まいます。",
+          "「わあ、きれいな いろに なったね。」"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#fff0db"/>
+            <!-- 秋の地面 -->
+            <path d="M -20 340 Q 400 320 820 345 L 820 460 L -20 460 Z" fill="#d9b37c"/>
+            <!-- 紅葉した木の枝 -->
+            <path d="M 0 120 Q 180 140 280 90" fill="none" stroke="#8c6244" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="110" cy="95" r="65" fill="#f08a4b" opacity="0.9"/>
+            <circle cx="210" cy="80" r="55" fill="#f5b841" opacity="0.9"/>
+            <!-- ひらひら舞う落ち葉 -->
+            <g class="anim-leaf-1">
+              <path d="M 240 160 Q 255 150 265 165 Q 250 175 240 160 Z" fill="#e86f3a"/>
+            </g>
+            <g class="anim-leaf-2">
+              <path d="M 480 140 Q 498 130 508 145 Q 492 156 480 140 Z" fill="#f5b841"/>
+            </g>
+            <g class="anim-leaf-3">
+              <path d="M 590 190 Q 606 180 616 195 Q 600 206 590 190 Z" fill="#e05a47"/>
+            </g>
+            <!-- 地面の落ち葉たち -->
+            <ellipse cx="260" cy="368" rx="14" ry="7" fill="#e86f3a" transform="rotate(-10 260 368)"/>
+            <ellipse cx="520" cy="372" rx="15" ry="7" fill="#f5b841" transform="rotate(15 520 372)"/>
+            <!-- 見上げるコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 320, 1.25, 'curious', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 7. 本文6（晩秋・おふとん）
+      {
+        lines: [
+          "ふかふかの おちばの なかに、もぐりこみました。",
+          "「おちばの おふとん、ぽかぽか いいきもち。」",
+          "コロは すやすや ねむくなりました。"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#fae6cf"/>
+            <!-- 夕暮れのおひさま -->
+            <circle cx="640" cy="140" r="46" fill="#ffbe76" opacity="0.85"/>
+            <!-- 地面 -->
+            <path d="M -20 340 Q 400 325 820 345 L 820 460 L -20 460 Z" fill="#cfa46e"/>
+            <!-- 落ち葉のおふとん（後ろ側） -->
+            <ellipse cx="400" cy="345" rx="125" ry="42" fill="#d97236"/>
+            <!-- すやすや眠るコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 325, 1.25, 'sleep', false)}
+            </g>
+            <!-- 落ち葉のおふとん（前側で体半分を包む） -->
+            <path d="M 285 352 Q 345 322 400 338 Q 455 322 515 352 Q 460 385 400 382 Q 340 385 285 352 Z" fill="#eb8b46"/>
+            <path d="M 320 362 Q 400 338 480 362 Q 435 390 365 390 Z" fill="#f5ad49"/>
+            <!-- ゆらゆら寝息（Zzz） -->
+            <g class="anim-sway-slow" fill="#8c6244" font-weight="bold" font-size="22" opacity="0.7">
+              <text x="455" y="275">z</text>
+              <text x="475" y="255" font-size="26">z</text>
+            </g>
+          </svg>
+        `
+      },
+      // 8. 本文7（冬・雪）
+      {
+        lines: [
+          "ふゆが やってきて、ゆきが ふわふわ。",
+          "にわは まっしろな せかいに なりました。",
+          "つちの なかで、コロは ぐっすり ねむっています。"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#e3eff7"/>
+            <!-- ふわふわ降る雪 -->
+            <g fill="#ffffff">
+              <circle cx="180" cy="80" r="6" class="anim-snow-1"/>
+              <circle cx="310" cy="60" r="7" class="anim-snow-2"/>
+              <circle cx="490" cy="75" r="6" class="anim-snow-3"/>
+              <circle cx="620" cy="55" r="7" class="anim-snow-4"/>
+              <circle cx="240" cy="140" r="5" class="anim-snow-3"/>
+              <circle cx="550" cy="130" r="5.5" class="anim-snow-1"/>
+            </g>
+            <!-- 雪の積もった地面と土の中の断面 -->
+            <path d="M -20 275 Q 400 255 820 275 L 820 460 L -20 460 Z" fill="#a8805c"/>
+            <path d="M -20 270 Q 400 250 820 270 L 820 295 Q 400 275 -20 295 Z" fill="#ffffff"/>
+            <!-- 土の中のあたたかい部屋 -->
+            <ellipse cx="400" cy="360" rx="95" ry="58" fill="#8c6544"/>
+            <!-- 土の中で眠るコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 358, 1.15, 'sleep', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 9. 本文8（早春・雪どけ）
+      {
+        lines: [
+          "ながい ふゆが おわり、ゆきが とけました。",
+          "ぽかぽか おひさまの ひかりが、とどきます。",
+          "「むにゃむにゃ…… もう はるかな？」"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#eef8ff"/>
+            <!-- あたたかいおひさまの光 -->
+            <circle cx="640" cy="85" r="52" fill="#ffe17d" class="anim-sun"/>
+            <polygon points="600,120 340,280 460,280" fill="#fff3b8" opacity="0.45"/>
+            <!-- 地面と土の中 -->
+            <path d="M -20 280 Q 400 265 820 280 L 820 460 L -20 460 Z" fill="#a8805c"/>
+            <!-- 少しだけ残った雪どけの雪 -->
+            <ellipse cx="180" cy="276" rx="75" ry="12" fill="#ffffff" opacity="0.9"/>
+            <ellipse cx="630" cy="278" rx="65" ry="10" fill="#ffffff" opacity="0.9"/>
+            <!-- 土の中の部屋 -->
+            <ellipse cx="400" cy="360" rx="95" ry="58" fill="#8c6544"/>
+            <!-- 目を覚ましたコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 358, 1.15, 'curious', false)}
+            </g>
+          </svg>
+        `
+      },
+      // 10. 本文9（春・小さな芽が出る）
+      {
+        lines: [
+          "つちの なかから、みどりの めが にょきっ！",
+          "コロは ちいさな ふたばを だしました。",
+          "「やったあ！ おひさまが まぶしいな。」"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <rect width="800" height="450" fill="#e6f7ff"/>
+            <!-- 輝くおひさま -->
+            <circle cx="650" cy="85" r="54" fill="#ffd966" class="anim-sun"/>
+            <!-- 土の中の断面 -->
+            <path d="M -20 315 Q 400 290 820 315 L 820 460 L -20 460 Z" fill="#a8805c"/>
+            <!-- 地面の草の層 -->
+            <path d="M -20 310 Q 400 285 820 310 L 820 326 Q 400 301 -20 326 Z" fill="#a2de7c"/>
+            <!-- もりあがった土（割れ目） -->
+            <ellipse cx="400" cy="316" rx="58" ry="13" fill="#8c6544"/>
+            <!-- 土の中で喜ぶコロ（ぼうしのてっぺんが地面すれすれ） -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 355, 1.2, 'happy', false)}
+            </g>
+            <!-- コロの頭（y=318付近）からつながって地面の上へ伸びる緑のふたば -->
+            <g class="anim-sprout">
+              <path d="M 400 318 Q 396 268 400 225" fill="none" stroke="#62b051" stroke-width="9" stroke-linecap="round"/>
+              <path d="M 400 245 Q 355 210 335 240 Q 360 268 400 245 Z" fill="#7ed46a"/>
+              <path d="M 400 238 Q 445 202 465 232 Q 440 262 400 238 Z" fill="#95e381"/>
+            </g>
+          </svg>
+        `
+      },
+      // 11. おしまいのページ
+      {
+        isEnding: true,
+        lines: [
+          "また あたらしい はるが やってきました。",
+          "コロの めは、これから どんどん おおきくなります。",
+          "おしまい"
+        ],
+        svg: `
+          <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="sky-end" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e3f6ff"/>
+                <stop offset="100%" stop-color="#fff8de"/>
+              </linearGradient>
+            </defs>
+            <rect width="800" height="450" fill="url(#sky-end)"/>
+            <!-- やさしい虹 -->
+            <path d="M 140 340 A 260 220 0 0 1 660 340" fill="none" stroke="#ffb3ba" stroke-width="12" opacity="0.55"/>
+            <path d="M 152 340 A 248 208 0 0 1 648 340" fill="none" stroke="#ffdfba" stroke-width="12" opacity="0.55"/>
+            <path d="M 164 340 A 236 196 0 0 1 636 340" fill="none" stroke="#ffffba" stroke-width="12" opacity="0.55"/>
+            <path d="M 176 340 A 224 184 0 0 1 624 340" fill="none" stroke="#baffc9" stroke-width="12" opacity="0.55"/>
+            <!-- 春の丘 -->
+            <path d="M -20 335 Q 400 295 820 335 L 820 460 L -20 460 Z" fill="#9ee079"/>
+            <!-- ちょうちょ -->
+            <g transform="translate(530, 200)">
+              <g class="anim-butterfly">
+                <g class="anim-wing">
+                  <ellipse cx="-10" cy="-6" rx="12" ry="9" fill="#ffffff"/>
+                  <ellipse cx="10" cy="-6" rx="12" ry="9" fill="#ffffff"/>
+                </g>
+                <rect x="-2" y="-10" width="4" height="20" rx="2" fill="#7a6352"/>
+              </g>
+            </g>
+            <!-- 元気に芽を出したコロ -->
+            <g class="anim-breathe">
+              ${createKoroSVG(400, 315, 1.35, 'happy', true)}
+            </g>
+          </svg>
+        `
+      }
+    ];
+
+    // ==========================================================================
+    // 状態管理とDOM要素の取得
+    // ==========================================================================
+    let currentPageIndex = 0;
+    const totalPages = STORY_PAGES.length;
+
+    const illustrationArea = document.getElementById('illustration-area');
+    const textArea = document.getElementById('text-area');
+    const pageIndicator = document.getElementById('page-indicator');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const speechBtn = document.getElementById('speech-btn');
+    const speechLabel = document.getElementById('speech-label');
+    const pageCard = document.getElementById('page-card');
+
+    // Web Speech API のチェック（使える場合のみボタンを表示）
+    const speechSupported = ('speechSynthesis' in window) && ('SpeechSynthesisUtterance' in window);
+    if (speechSupported) {
+      speechBtn.style.display = 'flex';
+    }
+
+    /**
+     * 読み上げを停止する関数
+     */
+    function stopSpeech() {
+      if (!speechSupported) return;
+      try {
+        window.speechSynthesis.cancel();
+      } catch (e) {
+        // エラー無視
+      }
+      speechBtn.classList.remove('speaking');
+      speechLabel.textContent = 'よみあげ';
+    }
+
+    /**
+     * 現在のページを読み上げる関数
+     */
+    function speakCurrentPage() {
+      if (!speechSupported) return;
+
+      // すでに読み上げ中なら停止する
+      if (speechBtn.classList.contains('speaking')) {
+        stopSpeech();
+        return;
+      }
+
+      stopSpeech();
+
+      const page = STORY_PAGES[currentPageIndex];
+      const textToSpeak = page.speechText ? page.speechText : page.lines.join(' ');
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.88;  // 子ども向けに少しゆっくり
+      utterance.pitch = 1.1;  // やさしい声の高さ
+
+      // 日本語音声があれば選択
+      const voices = window.speechSynthesis.getVoices();
+      const jpVoice = voices.find(v => v.lang.includes('ja'));
+      if (jpVoice) {
+        utterance.voice = jpVoice;
+      }
+
+      utterance.onstart = () => {
+        speechBtn.classList.add('speaking');
+        speechLabel.textContent = 'とめる';
+      };
+
+      utterance.onend = () => {
+        speechBtn.classList.remove('speaking');
+        speechLabel.textContent = 'よみあげ';
+      };
+
+      utterance.onerror = () => {
+        speechBtn.classList.remove('speaking');
+        speechLabel.textContent = 'よみあげ';
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /**
+     * 指定したページを描画する関数
+     * @param {number} index - ページ番号（0始まり）
+     */
+    function renderPage(index) {
+      stopSpeech();
+      currentPageIndex = index;
+      const page = STORY_PAGES[index];
+
+      // 1. 絵エリアのリセットとふわっと表示
+      illustrationArea.classList.remove('visible');
+      illustrationArea.innerHTML = page.svg;
+
+      // 次のフレームでクラスを付与してトランジション発火
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          illustrationArea.classList.add('visible');
+        });
+      });
+
+      // 2. 文エリアの構築（1行ずつ時間差で少しずつ表示）
+      textArea.innerHTML = '';
+
+      if (page.isCover) {
+        const titleEl = document.createElement('h1');
+        titleEl.className = 'cover-title';
+        titleEl.textContent = page.title;
+
+        const subEl = document.createElement('p');
+        subEl.className = 'cover-sub';
+        subEl.textContent = page.subtitle;
+
+        textArea.appendChild(titleEl);
+        textArea.appendChild(subEl);
+
+        setTimeout(() => {
+          titleEl.classList.add('show');
+          subEl.classList.add('show');
+        }, 180);
+      } else {
+        page.lines.forEach((lineText, lineIdx) => {
+          const p = document.createElement('p');
+          p.className = 'story-line';
+          p.textContent = lineText;
+          if (page.isEnding && lineIdx === page.lines.length - 1) {
+            p.style.fontWeight = 'bold';
+            p.style.color = '#6e4e37';
+            p.style.marginTop = '8px';
+          }
+          textArea.appendChild(p);
+
+          // 1行ごとに少しずつ遅らせてふわっと表示
+          setTimeout(() => {
+            p.classList.add('show');
+          }, 260 + lineIdx * 420);
+        });
+      }
+
+      // 3. ページ数とボタン状態の更新
+      pageIndicator.textContent = `${index + 1} / ${totalPages}`;
+      prevBtn.disabled = (index === 0);
+      nextBtn.disabled = (index === totalPages - 1);
+    }
+
+    /**
+     * 前のページへ
+     */
+    function goPrevPage() {
+      if (currentPageIndex > 0) {
+        renderPage(currentPageIndex - 1);
+      }
+    }
+
+    /**
+     * 次のページへ
+     */
+    function goNextPage() {
+      if (currentPageIndex < totalPages - 1) {
+        renderPage(currentPageIndex + 1);
+      }
+    }
+
+    // ==========================================================================
+    // イベントリスナー（ボタン・キーボード・スマホスワイプ）
+    // ==========================================================================
+    prevBtn.addEventListener('click', goPrevPage);
+    nextBtn.addEventListener('click', goNextPage);
+    speechBtn.addEventListener('click', speakCurrentPage);
+
+    // 左右矢印キー操作
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        goPrevPage();
+      } else if (e.key === 'ArrowRight') {
+        goNextPage();
+      }
+    });
+
+    // スマホ・タブレットの左右スワイプ操作
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    pageCard.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    pageCard.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length === 1) {
+        const diffX = e.changedTouches[0].clientX - touchStartX;
+        const diffY = e.changedTouches[0].clientY - touchStartY;
+
+        // 縦スクロール誤爆を防ぎつつ、40px以上の横スワイプでページめくり
+        if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX < 0) {
+            goNextPage(); // 左へスワイプ → 次のページ
+          } else {
+            goPrevPage(); // 右へスワイプ → 前のページ
+          }
+        }
+      }
+    }, { passive: true });
+
+    // 音声リストの事前読み込み（一部ブラウザ対策）
+    if (speechSupported && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
+    // 初期ページ（表紙）の描画
+    renderPage(0);
+  </script>
+</body>
+</html>

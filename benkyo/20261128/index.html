@@ -20,6 +20,7 @@
   .note{ background:var(--warnbg); color:var(--warn); border-radius:10px; padding:10px 12px; font-size:13.5px; margin:10px 0; }
   small{ color:var(--sub); }
   ul{ margin:6px 0; padding-left:20px; font-size:14.5px; }
+  a.btn{ display:block; text-align:center; background:var(--acc); color:#fff; text-decoration:none; font-weight:bold; border-radius:10px; padding:12px; margin-top:10px; font-size:16px; }
   img.wide{ width:100%; border-radius:10px; border:1px solid var(--line); display:block; margin:8px 0; }
 </style>
 </head>
@@ -58,6 +59,14 @@
       <li>「今月の合計と先月比」と、草刈りや剪定の山の月の一文を、数字から自動で書く</li>
     </ul>
     <p><b>分かった事</b>：数字は表の式や出どころに持たせ、AI が手で書かない作り。前の日の「足し算は表にさせる」と同じ考え。</p></div>
+
+  <h2>Gemini で動く絵本（全11ページ）</h2>
+  <div class="card"><span class="tag">Gemini の Canvas で1つの HTML</span><h3>どんぐりのコロと、にわの いちねん</h3>
+    <a href="img/ehon.jpg"><img class="wide" src="img/ehon.jpg" alt="動く絵本の11ページの一覧"></a>
+    <p>どんぐりのコロが、庭の春・夏・秋・冬をすごして芽を出すまでのお話。雲・ちょうちょ・雨・落ち葉・雪が動きます。</p>
+    <p><b>分かった事</b>：1回目は13か所で絵が左上へ飛んで見えなかった。原因を書いて Gemini に直させると直った（ちょうちょの羽だけは手で1行直した）。</p>
+    <a class="btn" href="ehon.html">動く絵本を開く</a>
+    <small>スマホの縦の画面では、ボタンの字が2行に折れます。「よみあげ」の音は、まだ確かめていません。</small></div>
 
   <h2>まだ確かめていない事</h2>
   <div class="card"><ul>
